@@ -31,7 +31,8 @@
 
 <script type="text/babel">
 const { useState, useEffect, useCallback, useMemo, useRef } = React;
-const { ResponsiveContainer, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip: RTooltip, Legend, LineChart, Line, ComposedChart } = Recharts;
+const _R = Recharts.Recharts || Recharts;
+const { ResponsiveContainer, AreaChart, Area, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip: RTooltip, Legend, LineChart, Line, ComposedChart } = _R;
 
 // ===================================================================
 // MORTALITY DATA (embedded from text files - editable in data/ folder)
@@ -447,7 +448,7 @@ function FeeVsClaimChart({ claimStats, feeStats }) {
           <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={80} />
           <RTooltip formatter={v => formatCurrency(v)} />
           <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-            {data.map((d, i) => <Recharts.Cell key={i} fill={d.fill} />)}
+            {data.map((d, i) => <Cell key={i} fill={d.fill} />)}
           </Bar>
         </BarChart>
       </ResponsiveContainer>
