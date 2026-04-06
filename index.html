@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VA GMWB Present Value Calculator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+  <script src="https://unpkg.com/recharts@2.10.3/umd/Recharts.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8fafc; }
+    .input-group label { display: block; font-size: 0.75rem; font-weight: 600; color: #475569; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .input-group input, .input-group select { width: 100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.875rem; background: white; }
+    .input-group input:focus, .input-group select:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,0.15); }
+    .section-header { font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; padding: 8px 0 4px; border-bottom: 1px solid #e2e8f0; margin-bottom: 8px; }
+    .metric-card { background: white; border-radius: 10px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .tooltip-trigger { cursor: help; border-bottom: 1px dotted #94a3b8; }
+    .tooltip-box { display: none; position: absolute; z-index: 50; background: #1e293b; color: white; padding: 8px 12px; border-radius: 6px; font-size: 0.75rem; max-width: 280px; line-height: 1.4; }
+    .tooltip-trigger:hover + .tooltip-box, .tooltip-box:hover { display: block; }
+    .progress-bar { height: 4px; background: #e2e8f0; border-radius: 2px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: #3b82f6; transition: width 0.3s; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useCallback, useMemo, useRef } = React;
+const { ResponsiveContainer, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip: RTooltip, Legend, LineChart, Line, ComposedChart } = Recharts;
+
+// ===================================================================
+// MORTALITY DATA (embedded from text files - editable in data/ folder)
+// ===================================================================
+
+const MORTALITY_BASE = {
+  male: {40:0.00120,41:0.00125,42:0.00131,43:0.001375,44:0.001445,45:0.00152,46:0.001605,47:0.001695,48:0.001795,49:0.001905,50:0.002025,51:0.00216,52:0.002305,53:0.002465,54:0.00264,55:0.002835,56:0.00305,57:0.003285,58:0.003545,59:0.003835,60:0.004155,61:0.00451,62:0.004905,63:0.005345,64:0.005835,65:0.006375,66:0.006975,67:0.007645,68:0.008395,69:0.00923,70:0.01016,71:0.0112,72:0.012375,73:0.013705,74:0.015215,75:0.016935,76:0.01889,77:0.021115,78:0.02365,79:0.02654,80:0.029835,81:0.033585,82:0.03785,83:0.042705,84:0.048235,85:0.05453,86:0.061685,87:0.0698,88:0.07897,89:0.08931,90:0.10095,91:0.11303,92:0.1257,93:0.13913,94:0.15349,95:0.16896,96:0.18572,97:0.20386,98:0.22348,99:0.24468,100:0.26756,101:0.29222,102:0.31878,103:0.34736,104:0.37809,105:0.4111,106:0.44652,107:0.48449,108:0.52516,109:0.56868,110:0.61522,111:0.66496,112:0.71807,113:0.77474,114:0.83517,115:0.89955,116:0.96808,117:1,118:1,119:1,120:1},
+  female: {40:0.00075,41:0.00079,42:0.000835,43:0.000885,44:0.00094,45:0.001,46:0.00107,47:0.001145,48:0.001225,49:0.001315,50:0.00141,51:0.001515,52:0.001625,53:0.001745,54:0.001875,55:0.002015,56:0.00217,57:0.002335,58:0.002515,59:0.00271,60:0.00292,61:0.00315,62:0.003405,63:0.00369,64:0.00401,65:0.00437,66:0.004775,67:0.005235,68:0.005755,69:0.006345,70:0.00701,71:0.007765,72:0.00862,73:0.009595,74:0.010715,75:0.012,76:0.013485,77:0.015205,78:0.0172,79:0.01952,80:0.022205,81:0.025315,82:0.02892,83:0.033095,84:0.03793,85:0.043515,86:0.04995,87:0.05734,88:0.0658,89:0.075445,90:0.08641,91:0.098835,92:0.11287,93:0.128675,94:0.14643,95:0.16631,96:0.1885,97:0.21309,98:0.24027,99:0.27023,100:0.30318,101:0.33933,102:0.37889,103:0.42207,104:0.469,105:0.51991,106:0.57503,107:0.6346,108:0.69885,109:0.76803,110:0.84239,111:0.92218,112:1,113:1,114:1,115:1,116:1,117:1,118:1,119:1,120:1}
+};
+
+const MORTALITY_IMPROVEMENT = {
+  male: {40:0.0165,41:0.0163,42:0.0161,43:0.0159,44:0.0157,45:0.0155,46:0.0153,47:0.0151,48:0.0149,49:0.0147,50:0.0145,51:0.0143,52:0.0141,53:0.0139,54:0.0137,55:0.0135,56:0.0133,57:0.0131,58:0.0129,59:0.0127,60:0.0125,61:0.0122,62:0.0119,63:0.0116,64:0.0113,65:0.011,66:0.0107,67:0.0104,68:0.0101,69:0.0098,70:0.0095,71:0.0091,72:0.0087,73:0.0083,74:0.0079,75:0.0075,76:0.0071,77:0.0067,78:0.0063,79:0.0059,80:0.0055,81:0.0051,82:0.0047,83:0.0043,84:0.0039,85:0.0035,86:0.0031,87:0.0027,88:0.0023,89:0.0019,90:0.0015,91:0.0011,92:0.0007,93:0.0003,94:0,95:0,96:0,97:0,98:0,99:0,100:0,101:0,102:0,103:0,104:0,105:0,106:0,107:0,108:0,109:0,110:0,111:0,112:0,113:0,114:0,115:0,116:0,117:0,118:0,119:0,120:0},
+  female: {40:0.0145,41:0.0143,42:0.0141,43:0.0139,44:0.0137,45:0.0135,46:0.0133,47:0.0131,48:0.0129,49:0.0127,50:0.0125,51:0.0123,52:0.0121,53:0.0119,54:0.0117,55:0.0115,56:0.0113,57:0.0111,58:0.0109,59:0.0107,60:0.0105,61:0.0102,62:0.0099,63:0.0096,64:0.0093,65:0.009,66:0.0087,67:0.0084,68:0.0081,69:0.0078,70:0.0075,71:0.0071,72:0.0067,73:0.0063,74:0.0059,75:0.0055,76:0.0051,77:0.0047,78:0.0043,79:0.0039,80:0.0035,81:0.0031,82:0.0027,83:0.0023,84:0.0019,85:0.0015,86:0.0011,87:0.0007,88:0.0003,89:0,90:0,91:0,92:0,93:0,94:0,95:0,96:0,97:0,98:0,99:0,100:0,101:0,102:0,103:0,104:0,105:0,106:0,107:0,108:0,109:0,110:0,111:0,112:0,113:0,114:0,115:0,116:0,117:0,118:0,119:0,120:0}
+};
+
+// ===================================================================
+// CALCULATION ENGINE
+// ===================================================================
+
+/**
+ * Get projected qx for a given age, gender, and projection year
+ * Applies mortality improvement from base year 2012 and multiplier of 1.0
+ * @param {number} age
+ * @param {string} gender - 'male' or 'female'
+ * @param {number} calendarYear
+ * @param {number} multiplier - mortality multiplier (default 1.0)
+ * @returns {number} projected qx, capped at 1.0
+ */
+function getQx(age, gender, calendarYear, multiplier = 1.0) {
+  const clampedAge = Math.min(Math.max(Math.round(age), 40), 120);
+  const baseQx = MORTALITY_BASE[gender][clampedAge] || 1.0;
+  const improvement = MORTALITY_IMPROVEMENT[gender][clampedAge] || 0;
+  const yearsFromBase = Math.max(0, calendarYear - 2012);
+  const projectedQx = baseQx * Math.pow(1 - improvement, yearsFromBase) * multiplier;
+  return Math.min(projectedQx, 1.0);
+}
+
+/**
+ * Compute cumulative survival probabilities (tPx) from current age to max age
+ * @param {number} currentAge
+ * @param {string} gender
+ * @param {number} baseCalendarYear - calendar year at t=0
+ * @param {number} maxAge
+ * @param {number} multiplier
+ * @returns {Float64Array} survivalProbs[t] = probability alive at time t (0-indexed, t=0 is 1.0)
+ */
+function computeSurvivalProbs(currentAge, gender, baseCalendarYear, maxAge, multiplier = 1.0) {
+  const n = maxAge - currentAge + 1;
+  const probs = new Float64Array(n);
+  probs[0] = 1.0;
+  for (let t = 1; t < n; t++) {
+    const age = currentAge + t - 1;
+    const year = baseCalendarYear + t - 1;
+    const qx = getQx(age, gender, year, multiplier);
+    probs[t] = probs[t - 1] * (1 - qx);
+  }
+  return probs;
+}
+
+/**
+ * Compute persistency factors (survival * (1 - lapse)^t)
+ * @param {Float64Array} survivalProbs
+ * @param {number} lapseRate - annual lapse rate
+ * @returns {Float64Array}
+ */
+function computePersistency(survivalProbs, lapseRate) {
+  const n = survivalProbs.length;
+  const persist = new Float64Array(n);
+  persist[0] = 1.0;
+  for (let t = 1; t < n; t++) {
+    persist[t] = survivalProbs[t] * Math.pow(1 - lapseRate, t);
+  }
+  return persist;
+}
+
+/**
+ * Compute discount factors v^t
+ * @param {number} rate - annual discount rate
+ * @param {number} n - number of periods
+ * @returns {Float64Array}
+ */
+function computeDiscountFactors(rate, n) {
+  const factors = new Float64Array(n);
+  for (let t = 0; t < n; t++) {
+    factors[t] = Math.pow(1 / (1 + rate), t);
+  }
+  return factors;
+}
+
+/**
+ * Seeded pseudo-random number generator (Mulberry32)
+ */
+function mulberry32(seed) {
+  return function() {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+/**
+ * Box-Muller transform for normal random variates
+ */
+function boxMuller(rng) {
+  const u1 = rng();
+  const u2 = rng();
+  return Math.sqrt(-2 * Math.log(u1 + 1e-15)) * Math.cos(2 * Math.PI * u2);
+}
+
+/**
+ * Run a single GMWB projection scenario
+ * @returns {Object} scenario results
+ */
+function runScenario(params, rng, persistency, discountFactors) {
+  const {
+    accountValue: initAV, benefitBase: initBB,
+    withdrawalRate, riderFee, meFee,
+    rollupRate, stepUp, mu, sigma,
+    projectionYears, frequency, benefitUtilization
+  } = params;
+
+  const periodsPerYear = frequency === 'monthly' ? 12 : 1;
+  const dt = 1 / periodsPerYear;
+  const totalPeriods = projectionYears * periodsPerYear;
+  const drift = (mu - 0.5 * sigma * sigma) * dt;
+  const vol = sigma * Math.sqrt(dt);
+
+  let av = initAV;
+  let bb = initBB;
+
+  let totalClaimPV = 0;
+  let totalFeePV = 0;
+  const avPath = new Float64Array(projectionYears + 1);
+  avPath[0] = av;
+
+  let periodInYear = 0;
+
+  for (let p = 1; p <= totalPeriods; p++) {
+    const t = p * dt; // time in years
+    const yearIdx = Math.min(Math.floor(t), projectionYears);
+
+    // 1. Investment return (GBM)
+    const z = boxMuller(rng);
+    const returnFactor = Math.exp(drift + vol * z);
+    av *= returnFactor;
+
+    // 2. Deduct fees
+    const riderFeePeriod = riderFee * bb * dt;
+    const baseFeePeriod = meFee * av * dt;
+    av = Math.max(0, av - riderFeePeriod - baseFeePeriod);
+
+    // 3. Withdrawal
+    const gaw = bb * withdrawalRate * dt * benefitUtilization;
+    const actualWithdrawal = Math.min(gaw, av);
+    const avBeforeWithdrawal = av;
+    av = Math.max(0, av - actualWithdrawal);
+
+    // 4. GMWB claim (shortfall when AV can't cover full GAW)
+    let claim = 0;
+    if (avBeforeWithdrawal < gaw) {
+      claim = gaw - avBeforeWithdrawal;
+    }
+
+    // 5. Benefit base updates (at anniversary)
+    periodInYear++;
+    if (periodInYear >= periodsPerYear) {
+      periodInYear = 0;
+      if (rollupRate > 0) {
+        bb = bb * (1 + rollupRate);
+      }
+      if (stepUp && av > bb) {
+        bb = av;
+      }
+      // Record annual AV snapshot
+      if (yearIdx <= projectionYears) {
+        avPath[yearIdx] = av;
+      }
+    }
+
+    // 6. PV calculations using annual indices
+    const annualIdx = Math.min(yearIdx, persistency.length - 1);
+    const persistFactor = annualIdx < persistency.length ? persistency[annualIdx] : 0;
+    const discFactor = annualIdx < discountFactors.length ? discountFactors[annualIdx] : 0;
+
+    totalClaimPV += claim * persistFactor * discFactor;
+    totalFeePV += riderFeePeriod * persistFactor * discFactor;
+  }
+
+  // Fill any remaining annual snapshots
+  for (let y = 1; y <= projectionYears; y++) {
+    if (avPath[y] === 0 && y > 0 && avPath[y - 1] > 0) {
+      // Already zero, that's fine
+    }
+  }
+  // For annual frequency, make sure last period's AV is captured
+  if (frequency === 'annual') {
+    for (let y = 1; y <= projectionYears; y++) {
+      if (avPath[y] === 0 && y === projectionYears) break;
+    }
+  }
+
+  return { claimPV: totalClaimPV, feePV: totalFeePV, netCost: totalClaimPV - totalFeePV, avPath };
+}
+
+/**
+ * Run full Monte Carlo simulation
+ * @returns {Object} aggregated results
+ */
+function runSimulation(params, onProgress) {
+  const {
+    currentAge, gender, maxAge, discountRate, lapseRate,
+    numScenarios, seed, mortMultiplier
+  } = params;
+  const baseYear = 2026;
+  const projectionYears = maxAge - currentAge;
+  const survivalProbs = computeSurvivalProbs(currentAge, gender, baseYear, maxAge, mortMultiplier);
+  const persistency = computePersistency(survivalProbs, lapseRate);
+  const discountFactors = computeDiscountFactors(discountRate, projectionYears + 1);
+
+  const scenarioParams = { ...params, projectionYears };
+
+  const claims = new Float64Array(numScenarios);
+  const fees = new Float64Array(numScenarios);
+  const nets = new Float64Array(numScenarios);
+  // Store AV paths for percentile bands
+  const avPaths = [];
+
+  const rng = mulberry32(seed || 42);
+
+  for (let i = 0; i < numScenarios; i++) {
+    const result = runScenario(scenarioParams, rng, persistency, discountFactors);
+    claims[i] = result.claimPV;
+    fees[i] = result.feePV;
+    nets[i] = result.netCost;
+    avPaths.push(result.avPath);
+
+    if (onProgress && i % Math.max(1, Math.floor(numScenarios / 20)) === 0) {
+      onProgress((i + 1) / numScenarios);
+    }
+  }
+  if (onProgress) onProgress(1);
+
+  // Compute statistics
+  const stats = (arr) => {
+    const sorted = Float64Array.from(arr).sort();
+    const n = sorted.length;
+    const mean = sorted.reduce((s, v) => s + v, 0) / n;
+    const variance = sorted.reduce((s, v) => s + (v - mean) ** 2, 0) / n;
+    return {
+      mean,
+      stdDev: Math.sqrt(variance),
+      median: sorted[Math.floor(n * 0.5)],
+      p5: sorted[Math.floor(n * 0.05)],
+      p25: sorted[Math.floor(n * 0.25)],
+      p75: sorted[Math.floor(n * 0.75)],
+      p95: sorted[Math.floor(n * 0.95)],
+    };
+  };
+
+  // Compute AV path percentiles
+  const avBands = [];
+  for (let y = 0; y <= projectionYears; y++) {
+    const vals = avPaths.map(p => p[y]).sort((a, b) => a - b);
+    const n = vals.length;
+    avBands.push({
+      year: y,
+      age: currentAge + y,
+      mean: vals.reduce((s, v) => s + v, 0) / n,
+      p5: vals[Math.floor(n * 0.05)],
+      p25: vals[Math.floor(n * 0.25)],
+      median: vals[Math.floor(n * 0.5)],
+      p75: vals[Math.floor(n * 0.75)],
+      p95: vals[Math.floor(n * 0.95)],
+    });
+  }
+
+  // Histogram bins for claims
+  const claimStats = stats(claims);
+  const binCount = 30;
+  const claimMin = claimStats.p5 * 0.8;
+  const claimMax = claimStats.p95 * 1.2 || 1;
+  const binWidth = (claimMax - claimMin) / binCount;
+  const histogram = Array.from({ length: binCount }, (_, i) => ({
+    binStart: claimMin + i * binWidth,
+    binEnd: claimMin + (i + 1) * binWidth,
+    label: `$${((claimMin + (i + 0.5) * binWidth) / 1000).toFixed(0)}K`,
+    count: 0,
+  }));
+  for (const c of claims) {
+    const idx = Math.min(binCount - 1, Math.max(0, Math.floor((c - claimMin) / binWidth)));
+    histogram[idx].count++;
+  }
+
+  return {
+    claimStats: stats(claims),
+    feeStats: stats(fees),
+    netStats: stats(nets),
+    avBands,
+    histogram,
+    survivalProbs: Array.from(survivalProbs),
+    persistency: Array.from(persistency),
+    numScenarios,
+    projectionYears,
+  };
+}
+
+// ===================================================================
+// UI COMPONENTS
+// ===================================================================
+
+function formatCurrency(val) {
+  if (Math.abs(val) >= 1e6) return `$${(val / 1e6).toFixed(2)}M`;
+  if (Math.abs(val) >= 1e3) return `$${(val / 1e3).toFixed(1)}K`;
+  return `$${val.toFixed(0)}`;
+}
+
+function formatPct(val) { return `${(val * 100).toFixed(1)}%`; }
+
+function InputField({ label, tooltip, value, onChange, type = 'number', step, min, max, options, suffix }) {
+  return (
+    <div className="input-group mb-3 relative">
+      <label>
+        <span className="tooltip-trigger">{label}</span>
+        {tooltip && <div className="tooltip-box">{tooltip}</div>}
+        {suffix && <span className="text-gray-400 font-normal ml-1">({suffix})</span>}
+      </label>
+      {options ? (
+        <select value={value} onChange={e => onChange(e.target.value)}>
+          {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+        </select>
+      ) : (
+        <input type={type} value={value} step={step} min={min} max={max}
+          onChange={e => onChange(type === 'number' ? parseFloat(e.target.value) || 0 : e.target.value)} />
+      )}
+    </div>
+  );
+}
+
+function MetricCard({ title, value, subtitle, color = '#3b82f6' }) {
+  return (
+    <div className="metric-card">
+      <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">{title}</div>
+      <div className="text-2xl font-bold" style={{ color }}>{value}</div>
+      {subtitle && <div className="text-xs text-gray-500 mt-1">{subtitle}</div>}
+    </div>
+  );
+}
+
+function AVFanChart({ data }) {
+  if (!data || data.length === 0) return null;
+  return (
+    <div className="metric-card">
+      <div className="text-sm font-semibold text-gray-700 mb-3">Account Value Projection (Fan Chart)</div>
+      <ResponsiveContainer width="100%" height={320}>
+        <ComposedChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+          <XAxis dataKey="age" label={{ value: 'Age', position: 'insideBottom', offset: -2, style: { fontSize: 11 } }} tick={{ fontSize: 11 }} />
+          <YAxis tickFormatter={v => `$${(v/1000).toFixed(0)}K`} tick={{ fontSize: 11 }} />
+          <RTooltip formatter={(v) => formatCurrency(v)} labelFormatter={l => `Age ${l}`} />
+          <Area type="monotone" dataKey="p95" stroke="#93c5fd" strokeWidth={0} fill="#dbeafe" fillOpacity={0.5} name="95th %ile" />
+          <Area type="monotone" dataKey="p75" stroke="#60a5fa" strokeWidth={0} fill="#93c5fd" fillOpacity={0.5} name="75th %ile" />
+          <Area type="monotone" dataKey="p25" stroke="#60a5fa" strokeWidth={0} fill="#eff6ff" fillOpacity={0.8} name="25th %ile" />
+          <Area type="monotone" dataKey="p5"  stroke="#93c5fd" strokeWidth={0} fill="#f8fafc"  fillOpacity={1.0} name="5th %ile" />
+          <Line type="monotone" dataKey="mean" stroke="#2563eb" strokeWidth={2} dot={false} name="Mean" />
+          <Line type="monotone" dataKey="median" stroke="#f59e0b" strokeWidth={1.5} strokeDasharray="4 4" dot={false} name="Median" />
+          <Legend wrapperStyle={{ fontSize: 11 }} />
+        </ComposedChart>
+      </ResponsiveContainer>
+      <div className="text-xs text-gray-400 mt-1">Shaded bands: 5th-25th and 75th-95th percentiles across all scenarios</div>
+    </div>
+  );
+}
+
+function ClaimHistogram({ data }) {
+  if (!data || data.length === 0) return null;
+  return (
+    <div className="metric-card">
+      <div className="text-sm font-semibold text-gray-700 mb-3">PV(Claims) Distribution</div>
+      <ResponsiveContainer width="100%" height={280}>
+        <BarChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+          <XAxis dataKey="label" tick={{ fontSize: 10 }} interval={Math.floor(data.length / 8)} />
+          <YAxis label={{ value: 'Scenarios', angle: -90, position: 'insideLeft', style: { fontSize: 11 } }} tick={{ fontSize: 11 }} />
+          <RTooltip formatter={(v, name, props) => [v, 'Count']} labelFormatter={(l, payload) => {
+            if (payload && payload[0]) {
+              const d = payload[0].payload;
+              return `${formatCurrency(d.binStart)} – ${formatCurrency(d.binEnd)}`;
+            }
+            return l;
+          }} />
+          <Bar dataKey="count" fill="#6366f1" radius={[2, 2, 0, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+function FeeVsClaimChart({ claimStats, feeStats }) {
+  if (!claimStats || !feeStats) return null;
+  const data = [
+    { name: 'PV(Rider Fees)', value: feeStats.mean, fill: '#22c55e' },
+    { name: 'PV(Claims)', value: claimStats.mean, fill: '#ef4444' },
+    { name: 'Net Cost', value: claimStats.mean - feeStats.mean, fill: claimStats.mean > feeStats.mean ? '#ef4444' : '#22c55e' },
+  ];
+  return (
+    <div className="metric-card">
+      <div className="text-sm font-semibold text-gray-700 mb-3">Fee Income vs. Claim Cost (Mean)</div>
+      <ResponsiveContainer width="100%" height={200}>
+        <BarChart data={data} layout="vertical" margin={{ top: 5, right: 20, bottom: 5, left: 80 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+          <XAxis type="number" tickFormatter={v => formatCurrency(v)} tick={{ fontSize: 11 }} />
+          <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={80} />
+          <RTooltip formatter={v => formatCurrency(v)} />
+          <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+            {data.map((d, i) => <Recharts.Cell key={i} fill={d.fill} />)}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+function ProjectionTable({ avBands, survivalProbs, persistency }) {
+  if (!avBands || avBands.length === 0) return null;
+  return (
+    <div className="metric-card overflow-auto" style={{ maxHeight: 400 }}>
+      <div className="text-sm font-semibold text-gray-700 mb-3">Projection Summary (by Year)</div>
+      <table className="w-full text-xs">
+        <thead>
+          <tr className="text-gray-500 border-b">
+            <th className="py-1 text-left">Year</th>
+            <th className="py-1 text-left">Age</th>
+            <th className="py-1 text-right">Mean AV</th>
+            <th className="py-1 text-right">5th %ile</th>
+            <th className="py-1 text-right">95th %ile</th>
+            <th className="py-1 text-right">Survival</th>
+            <th className="py-1 text-right">In-Force</th>
+          </tr>
+        </thead>
+        <tbody>
+          {avBands.filter((_, i) => i % (avBands.length > 40 ? 5 : 1) === 0 || i === avBands.length - 1).map((row, i) => (
+            <tr key={i} className="border-b border-gray-100">
+              <td className="py-1">{row.year}</td>
+              <td className="py-1">{row.age}</td>
+              <td className="py-1 text-right font-mono">{formatCurrency(row.mean)}</td>
+              <td className="py-1 text-right font-mono">{formatCurrency(row.p5)}</td>
+              <td className="py-1 text-right font-mono">{formatCurrency(row.p95)}</td>
+              <td className="py-1 text-right font-mono">{row.year < survivalProbs.length ? formatPct(survivalProbs[row.year]) : '—'}</td>
+              <td className="py-1 text-right font-mono">{row.year < persistency.length ? formatPct(persistency[row.year]) : '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ===================================================================
+// MAIN APP
+// ===================================================================
+
+function App() {
+  // Policyholder
+  const [currentAge, setCurrentAge] = useState(65);
+  const [gender, setGender] = useState('male');
+  const [maxAge, setMaxAge] = useState(100);
+
+  // Contract
+  const [accountValue, setAccountValue] = useState(500000);
+  const [benefitBase, setBenefitBase] = useState(500000);
+  const [withdrawalRate, setWithdrawalRate] = useState(0.05);
+  const [riderFee, setRiderFee] = useState(0.01);
+  const [meFee, setMeFee] = useState(0.014);
+  const [rollupRate, setRollupRate] = useState(0);
+  const [stepUp, setStepUp] = useState(false);
+
+  // Economic
+  const [mu, setMu] = useState(0.07);
+  const [sigma, setSigma] = useState(0.18);
+  const [discountRate, setDiscountRate] = useState(0.04);
+  const [frequency, setFrequency] = useState('annual');
+
+  // Behavioral
+  const [lapseRate, setLapseRate] = useState(0.03);
+  const [benefitUtilization, setBenefitUtilization] = useState(1.0);
+  const [mortMultiplier, setMortMultiplier] = useState(1.0);
+
+  // Simulation
+  const [numScenarios, setNumScenarios] = useState(1000);
+  const [seed, setSeed] = useState(42);
+
+  // Results
+  const [results, setResults] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [running, setRunning] = useState(false);
+  const [activeTab, setActiveTab] = useState('charts');
+
+  const run = useCallback(() => {
+    setRunning(true);
+    setProgress(0);
+    // Use setTimeout to let UI update before heavy computation
+    setTimeout(() => {
+      const res = runSimulation({
+        currentAge, gender, maxAge,
+        accountValue, benefitBase,
+        withdrawalRate, riderFee, meFee,
+        rollupRate, stepUp, mu, sigma,
+        discountRate, frequency, lapseRate,
+        benefitUtilization, mortMultiplier,
+        numScenarios, seed,
+      }, (p) => setProgress(p));
+      setResults(res);
+      setRunning(false);
+    }, 50);
+  }, [currentAge, gender, maxAge, accountValue, benefitBase, withdrawalRate, riderFee, meFee, rollupRate, stepUp, mu, sigma, discountRate, frequency, lapseRate, benefitUtilization, mortMultiplier, numScenarios, seed]);
+
+  // Auto-run on mount
+  useEffect(() => { run(); }, []);
+
+  const exportCSV = () => {
+    if (!results) return;
+    const rows = [['Year','Age','Mean_AV','P5_AV','P25_AV','Median_AV','P75_AV','P95_AV','Survival','InForce']];
+    results.avBands.forEach((r, i) => {
+      rows.push([r.year, r.age, r.mean.toFixed(2), r.p5.toFixed(2), r.p25.toFixed(2), r.median.toFixed(2), r.p75.toFixed(2), r.p95.toFixed(2),
+        i < results.survivalProbs.length ? results.survivalProbs[i].toFixed(6) : '',
+        i < results.persistency.length ? results.persistency[i].toFixed(6) : '']);
+    });
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'gmwb_projection.csv'; a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <div className="flex min-h-screen">
+      {/* LEFT SIDEBAR — INPUTS */}
+      <div className="w-72 bg-white border-r border-gray-200 p-4 overflow-y-auto flex-shrink-0" style={{ maxHeight: '100vh' }}>
+        <div className="mb-4">
+          <h1 className="text-lg font-bold text-gray-800">VA GMWB Calculator</h1>
+          <p className="text-xs text-gray-400">Present value of guaranteed withdrawal benefits</p>
+        </div>
+
+        <div className="section-header">Policyholder</div>
+        <InputField label="Current Age" value={currentAge} onChange={setCurrentAge} min={40} max={90} tooltip="Age of the annuitant at valuation date" />
+        <InputField label="Gender" value={gender} onChange={setGender} options={[{value:'male',label:'Male'},{value:'female',label:'Female'}]} tooltip="Affects mortality rates from the base table" />
+        <InputField label="Max Projection Age" value={maxAge} onChange={setMaxAge} min={90} max={120} tooltip="End of projection (omega). Typical: 100-120" />
+
+        <div className="section-header">Contract</div>
+        <InputField label="Account Value" value={accountValue} onChange={setAccountValue} min={10000} max={10000000} step={10000} suffix="$" tooltip="Current market value of the variable annuity subaccounts" />
+        <InputField label="Benefit Base" value={benefitBase} onChange={setBenefitBase} min={10000} max={10000000} step={10000} suffix="$" tooltip="Notional amount for calculating guaranteed withdrawals. May differ from AV due to prior performance or roll-ups" />
+        <InputField label="Withdrawal Rate" value={withdrawalRate} onChange={setWithdrawalRate} min={0.01} max={0.10} step={0.005} suffix="of BB" tooltip="Annual withdrawal as % of benefit base. Typical: 4-6% depending on age at first withdrawal" />
+        <InputField label="Rider Fee" value={riderFee} onChange={setRiderFee} min={0} max={0.03} step={0.0025} suffix="of BB" tooltip="Annual GMWB rider charge, typically assessed as % of benefit base and deducted from account value" />
+        <InputField label="M&E + Admin Fee" value={meFee} onChange={setMeFee} min={0} max={0.03} step={0.001} suffix="of AV" tooltip="Mortality & expense risk charge plus admin fee, deducted from AV. Typical: 1.25-1.50%" />
+        <InputField label="Roll-up Rate" value={rollupRate} onChange={setRollupRate} min={0} max={0.08} step={0.005} tooltip="Annual increase to benefit base (compound). 0 = no roll-up" />
+        <div className="input-group mb-3">
+          <label>Step-up (Ratchet)</label>
+          <div className="flex items-center gap-2">
+            <input type="checkbox" checked={stepUp} onChange={e => setStepUp(e.target.checked)} className="w-4 h-4" />
+            <span className="text-xs text-gray-500">{stepUp ? 'On — BB ratchets to AV at anniversary if AV > BB' : 'Off'}</span>
+          </div>
+        </div>
+
+        <div className="section-header">Economic</div>
+        <InputField label="Expected Return (μ)" value={mu} onChange={setMu} min={-0.05} max={0.20} step={0.005} tooltip="Gross expected annual return on subaccounts before fees" />
+        <InputField label="Volatility (σ)" value={sigma} onChange={setSigma} min={0.05} max={0.50} step={0.01} tooltip="Annual standard deviation of subaccount returns" />
+        <InputField label="Discount Rate" value={discountRate} onChange={setDiscountRate} min={0} max={0.10} step={0.005} tooltip="Risk-free rate for present value discounting" />
+        <InputField label="Frequency" value={frequency} onChange={setFrequency} options={[{value:'annual',label:'Annual'},{value:'monthly',label:'Monthly'}]} tooltip="Projection time step. Monthly is more accurate but slower" />
+
+        <div className="section-header">Behavioral</div>
+        <InputField label="Lapse Rate" value={lapseRate} onChange={setLapseRate} min={0} max={0.20} step={0.005} tooltip="Annual probability the policyholder surrenders/lapses. Reduces in-force population" />
+        <InputField label="Benefit Utilization" value={benefitUtilization} onChange={setBenefitUtilization} min={0.5} max={1.0} step={0.05} tooltip="Fraction of policyholders who actually take withdrawals. 1.0 = all exercise the guarantee" />
+        <InputField label="Mortality Multiplier" value={mortMultiplier} onChange={setMortMultiplier} min={0.5} max={2.0} step={0.05} tooltip="Adjustment to base mortality. <1 = lighter mortality (annuitants live longer), >1 = heavier mortality" />
+
+        <div className="section-header">Simulation</div>
+        <InputField label="Scenarios" value={numScenarios} onChange={setNumScenarios} min={100} max={10000} step={100} tooltip="Number of Monte Carlo paths. More = smoother results but slower" />
+        <InputField label="Random Seed" value={seed} onChange={setSeed} min={1} max={999999} tooltip="Seed for reproducible results" />
+
+        <button onClick={run} disabled={running}
+          className="w-full mt-4 py-2 px-4 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 disabled:opacity-50 transition">
+          {running ? 'Running...' : 'Run Simulation'}
+        </button>
+
+        {running && (
+          <div className="mt-2">
+            <div className="progress-bar"><div className="progress-bar-fill" style={{ width: `${progress * 100}%` }} /></div>
+            <div className="text-xs text-gray-400 text-center mt-1">{(progress * 100).toFixed(0)}%</div>
+          </div>
+        )}
+
+        {results && (
+          <button onClick={exportCSV} className="w-full mt-2 py-2 px-4 bg-gray-100 text-gray-600 text-xs font-semibold rounded-lg hover:bg-gray-200 transition">
+            Export CSV
+          </button>
+        )}
+      </div>
+
+      {/* MAIN AREA */}
+      <div className="flex-1 p-6 overflow-y-auto" style={{ maxHeight: '100vh' }}>
+        {results ? (
+          <>
+            {/* Summary Metrics */}
+            <div className="grid grid-cols-4 gap-4 mb-6">
+              <MetricCard title="PV(Claims)" value={formatCurrency(results.claimStats.mean)} subtitle={`Median: ${formatCurrency(results.claimStats.median)}`} color="#ef4444" />
+              <MetricCard title="PV(Rider Fees)" value={formatCurrency(results.feeStats.mean)} subtitle={`Median: ${formatCurrency(results.feeStats.median)}`} color="#22c55e" />
+              <MetricCard title="Net Cost" value={formatCurrency(results.netStats.mean)} subtitle={`95th: ${formatCurrency(results.netStats.p95)}`} color={results.netStats.mean > 0 ? '#ef4444' : '#22c55e'} />
+              <MetricCard title="Scenarios" value={results.numScenarios.toLocaleString()} subtitle={`${results.projectionYears} year projection`} color="#6366f1" />
+            </div>
+
+            {/* Tabs */}
+            <div className="flex gap-1 mb-4 border-b border-gray-200">
+              {['charts', 'table', 'details'].map(tab => (
+                <button key={tab} onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-2 text-sm font-medium rounded-t-lg transition ${activeTab === tab ? 'bg-white text-blue-600 border border-gray-200 border-b-white -mb-px' : 'text-gray-500 hover:text-gray-700'}`}>
+                  {tab === 'charts' ? 'Charts' : tab === 'table' ? 'Projection Table' : 'Statistics'}
+                </button>
+              ))}
+            </div>
+
+            {activeTab === 'charts' && (
+              <div className="space-y-4">
+                <AVFanChart data={results.avBands} />
+                <div className="grid grid-cols-2 gap-4">
+                  <ClaimHistogram data={results.histogram} />
+                  <FeeVsClaimChart claimStats={results.claimStats} feeStats={results.feeStats} />
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'table' && (
+              <ProjectionTable avBands={results.avBands} survivalProbs={results.survivalProbs} persistency={results.persistency} />
+            )}
+
+            {activeTab === 'details' && (
+              <div className="grid grid-cols-3 gap-4">
+                <div className="metric-card">
+                  <div className="text-sm font-semibold text-gray-700 mb-2">PV(Claims) Statistics</div>
+                  <table className="w-full text-xs">
+                    <tbody>
+                      {Object.entries(results.claimStats).map(([k, v]) => (
+                        <tr key={k} className="border-b border-gray-50">
+                          <td className="py-1 text-gray-500">{k}</td>
+                          <td className="py-1 text-right font-mono">{formatCurrency(v)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="metric-card">
+                  <div className="text-sm font-semibold text-gray-700 mb-2">PV(Fees) Statistics</div>
+                  <table className="w-full text-xs">
+                    <tbody>
+                      {Object.entries(results.feeStats).map(([k, v]) => (
+                        <tr key={k} className="border-b border-gray-50">
+                          <td className="py-1 text-gray-500">{k}</td>
+                          <td className="py-1 text-right font-mono">{formatCurrency(v)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="metric-card">
+                  <div className="text-sm font-semibold text-gray-700 mb-2">Net Cost Statistics</div>
+                  <table className="w-full text-xs">
+                    <tbody>
+                      {Object.entries(results.netStats).map(([k, v]) => (
+                        <tr key={k} className="border-b border-gray-50">
+                          <td className="py-1 text-gray-500">{k}</td>
+                          <td className="py-1 text-right font-mono">{formatCurrency(v)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="metric-card col-span-3">
+                  <div className="text-sm font-semibold text-gray-700 mb-2">What does this mean?</div>
+                  <p className="text-xs text-gray-600 leading-relaxed">
+                    The <strong>PV(Claims)</strong> represents the expected present value of all payments the insurer must make to cover guaranteed withdrawals when the account value is depleted. The <strong>PV(Rider Fees)</strong> is the expected present value of rider fee income collected over the life of the contract.
+                    {results.netStats.mean > 0 ?
+                      ` The net cost is positive (${formatCurrency(results.netStats.mean)}), meaning the guarantee costs more to fund than the fees collected — the rider is "in the money" from the policyholder's perspective on average across ${results.numScenarios} scenarios.` :
+                      ` The net cost is negative (${formatCurrency(results.netStats.mean)}), meaning fees collected exceed expected claim costs — the rider is profitable for the insurer on average across ${results.numScenarios} scenarios.`
+                    }
+                    {' '}The 95th percentile net cost of {formatCurrency(results.netStats.p95)} represents a stress scenario — there is a 5% chance the net cost will exceed this amount.
+                  </p>
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="flex items-center justify-center h-full text-gray-400">
+            Click "Run Simulation" to generate results
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
