@@ -9,13 +9,17 @@ function fmt(v) {
   return `${sign}$${abs.toFixed(0)}`;
 }
 
-export default function FeeVsClaimChart({ claimStats, feeStats }) {
+export default function FeeVsClaimChart({ claimStats, feeStats, gmdbStats }) {
   if (!claimStats || !feeStats) return null;
 
-  const netMean = claimStats.mean - feeStats.mean;
+  const hasGmdb = gmdbStats?.mean > 0;
+  const totalClaims = claimStats.mean + (hasGmdb ? gmdbStats.mean : 0);
+  const netMean = totalClaims - feeStats.mean;
+
   const data = [
     { name: 'PV(Rider Fees)', value: feeStats.mean, fill: '#22c55e' },
-    { name: 'PV(Claims)', value: claimStats.mean, fill: '#ef4444' },
+    { name: 'PV(GMWB)', value: claimStats.mean, fill: '#ef4444' },
+    ...(hasGmdb ? [{ name: 'PV(GMDB)', value: gmdbStats.mean, fill: '#f97316' }] : []),
     { name: 'Net Cost', value: netMean, fill: netMean > 0 ? '#ef4444' : '#22c55e' },
   ];
 
@@ -39,8 +43,8 @@ export default function FeeVsClaimChart({ claimStats, feeStats }) {
       </ResponsiveContainer>
       <p className="text-xs text-slate-400 mt-1">
         {netMean > 0
-          ? `Net cost is positive: the guarantee costs more than it earns in rider fees on average (${fmt(netMean)}).`
-          : `Net cost is negative: fee income exceeds expected claim costs on average (${fmt(netMean)}).`}
+          ? `Net cost is positive: guarantee costs exceed rider fee income on average (${fmt(netMean)}).`
+          : `Net cost is negative: rider fee income exceeds expected claim costs on average (${fmt(netMean)}).`}
       </p>
     </div>
   );

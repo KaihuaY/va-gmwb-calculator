@@ -10,56 +10,54 @@ function fmt(v) {
 
 function pct(v) {
   if (v === undefined || v === null) return '—';
-  return `${(v * 100).toFixed(2)}%`;
+  return `${(v * 100).toFixed(1)}%`;
 }
 
 export default function ProjectionTable({ results, onExport }) {
   if (!results) return null;
   const { av_bands, survival_probs, persistency } = results;
 
-  // Sample rows: every year up to 35, then every 5 years
   const rows = av_bands.filter((_, i) => i <= 35 || i % 5 === 0 || i === av_bands.length - 1);
 
   return (
-    <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-      <div className="flex items-center justify-between mb-3">
-        <div className="text-sm font-semibold text-slate-700">Projection Summary (by Year)</div>
+    <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-slate-50">
+        <div>
+          <div className="text-base font-bold text-slate-800">Year-by-Year Projection</div>
+          <div className="text-sm text-slate-500 mt-0.5">Account value percentiles and survival statistics</div>
+        </div>
         <button
           onClick={onExport}
-          className="text-xs px-3 py-1 bg-slate-100 text-slate-600 rounded-md hover:bg-slate-200 transition-colors"
+          className="text-sm font-semibold px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 transition-colors shadow-sm"
         >
           Export CSV
         </button>
       </div>
-      <div className="overflow-x-auto" style={{ maxHeight: 440 }}>
-        <table className="w-full text-xs">
-          <thead className="sticky top-0 bg-white">
-            <tr className="text-slate-500 border-b border-slate-200">
-              <th className="py-1.5 text-left font-semibold">Yr</th>
-              <th className="py-1.5 text-left font-semibold">Age</th>
-              <th className="py-1.5 text-right font-semibold">Mean AV</th>
-              <th className="py-1.5 text-right font-semibold">5th %ile</th>
-              <th className="py-1.5 text-right font-semibold">Median</th>
-              <th className="py-1.5 text-right font-semibold">95th %ile</th>
-              <th className="py-1.5 text-right font-semibold">Survival</th>
-              <th className="py-1.5 text-right font-semibold">In-Force</th>
+      <div className="overflow-x-auto" style={{ maxHeight: 480 }}>
+        <table className="w-full text-sm">
+          <thead className="sticky top-0 bg-slate-50 border-b border-slate-200 z-10">
+            <tr className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left">Year</th>
+              <th className="px-4 py-3 text-left">Age</th>
+              <th className="px-4 py-3 text-right">Mean AV</th>
+              <th className="px-4 py-3 text-right">5th %ile</th>
+              <th className="px-4 py-3 text-right">Median</th>
+              <th className="px-4 py-3 text-right">95th %ile</th>
+              <th className="px-4 py-3 text-right">Survival</th>
+              <th className="px-4 py-3 text-right">In-Force</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-slate-50">
             {rows.map((row, i) => (
-              <tr key={i} className="border-b border-slate-50 hover:bg-slate-50">
-                <td className="py-1 text-slate-600">{row.year}</td>
-                <td className="py-1 text-slate-600">{row.age}</td>
-                <td className="py-1 text-right font-mono text-slate-800">{fmt(row.mean)}</td>
-                <td className="py-1 text-right font-mono text-red-500">{fmt(row.p5)}</td>
-                <td className="py-1 text-right font-mono text-slate-800">{fmt(row.median)}</td>
-                <td className="py-1 text-right font-mono text-green-600">{fmt(row.p95)}</td>
-                <td className="py-1 text-right font-mono text-slate-600">
-                  {row.year < survival_probs.length ? pct(survival_probs[row.year]) : '—'}
-                </td>
-                <td className="py-1 text-right font-mono text-slate-600">
-                  {row.year < persistency.length ? pct(persistency[row.year]) : '—'}
-                </td>
+              <tr key={i} className="hover:bg-blue-50/40 transition-colors">
+                <td className="px-4 py-3 font-semibold text-slate-700 tabular-nums">{row.year}</td>
+                <td className="px-4 py-3 font-semibold text-slate-700 tabular-nums">{row.age}</td>
+                <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-800">{fmt(row.mean)}</td>
+                <td className="px-4 py-3 text-right font-mono tabular-nums text-red-500">{fmt(row.p5)}</td>
+                <td className="px-4 py-3 text-right font-mono tabular-nums font-semibold text-slate-900">{fmt(row.median)}</td>
+                <td className="px-4 py-3 text-right font-mono tabular-nums text-green-600">{fmt(row.p95)}</td>
+                <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-500">{row.year < survival_probs.length ? pct(survival_probs[row.year]) : '—'}</td>
+                <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-500">{row.year < persistency.length ? pct(persistency[row.year]) : '—'}</td>
               </tr>
             ))}
           </tbody>

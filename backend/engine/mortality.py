@@ -98,6 +98,39 @@ def compute_survival_probs(
     return probs
 
 
+def adjust_lapse_for_itm(
+    base_lapse: float,
+    bb: float,
+    av: float,
+    sensitivity: float,
+    min_multiplier: float,
+) -> float:
+    """
+    Compute a dynamic lapse rate for one period based on the ITM (in-the-money) ratio.
+
+    ITM = benefit_base / account_value.
+    Policyholders lapse less when the guarantee is in-the-money (ITM > 1) and
+    more when it is out-of-the-money (ITM < 1).
+
+    Formula:
+        mult = max(min_multiplier, 1 - sensitivity × (ITM - 1))
+        adjusted_lapse = base_lapse × mult
+
+    Args:
+        base_lapse: Base annual lapse rate.
+        bb: Current benefit base.
+        av: Current account value.
+        sensitivity: Rate of lapse reduction per unit of ITM above 1.
+        min_multiplier: Floor multiplier (e.g. 0.1 → lapse ≥ 10% of base rate).
+
+    Returns:
+        Adjusted annual lapse rate for this period.
+    """
+    itm = bb / max(av, 1.0)
+    mult = max(min_multiplier, 1.0 - sensitivity * (itm - 1.0))
+    return base_lapse * mult
+
+
 def compute_persistency(survival_probs: list[float], lapse_rate: float) -> list[float]:
     """
     Compute persistency factors: probability a policy is still in force at time t.

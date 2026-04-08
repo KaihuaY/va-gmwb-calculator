@@ -38,26 +38,42 @@ class SimulateRequest(BaseModel):
     current_age: int = Field(65, ge=40, le=90)
     gender: str = Field("male", pattern="^(male|female)$")
     max_age: int = Field(100, ge=90, le=120)
-    mortality_table: str = Field("2012iam", pattern="^(2012iam|annuity2000)$")
-    mort_multiplier: float = Field(1.0, ge=0.5, le=2.0)
 
     # Contract
     account_value: float = Field(500_000, ge=10_000, le=10_000_000)
+    gmwb_enabled: bool = True
     benefit_base: float = Field(500_000, ge=10_000, le=10_000_000)
+    election_age: int = Field(65, ge=40, le=100)
     withdrawal_rate: float = Field(0.05, ge=0.01, le=0.10)
     rider_fee: float = Field(0.01, ge=0.0, le=0.03)
+    gmdb_enabled: bool = False
+    gmdb_benefit_base: float = Field(500_000, ge=10_000, le=10_000_000)
+    gmdb_rider_fee: float = Field(0.005, ge=0.0, le=0.03)
+    gmdb_rollup_rate: float = Field(0.0, ge=0.0, le=0.08)
+    gmdb_step_up: bool = False
     me_fee: float = Field(0.014, ge=0.0, le=0.03)
     rollup_rate: float = Field(0.0, ge=0.0, le=0.08)
     step_up: bool = False
 
     # Economic
     mu: float = Field(0.07, ge=-0.05, le=0.20)
-    sigma: float = Field(0.18, ge=0.05, le=0.50)
+    sigma: float = Field(0.18, ge=0.0, le=0.50)
     discount_rate: float = Field(0.04, ge=0.0, le=0.10)
     frequency: str = Field("annual", pattern="^(annual|monthly)$")
+    fixed_account_pct: float = Field(0.0, ge=0.0, le=1.0)
+    fixed_account_rate: float = Field(0.03, ge=0.0, le=0.10)
 
-    # Behavioral
+    # Mortality
+    mortality_table: str = Field("2012iam", pattern="^(2012iam|annuity2000)$")
+    mort_multiplier: float = Field(1.0, ge=0.5, le=2.0)
+
+    # Lapse
     lapse_rate: float = Field(0.03, ge=0.0, le=0.20)
+    dynamic_lapse: bool = False
+    lapse_sensitivity: float = Field(0.5, ge=0.0, le=2.0)
+    lapse_min_multiplier: float = Field(0.1, ge=0.0, le=1.0)
+
+    # Policyholder Behavior
     benefit_utilization: float = Field(1.0, ge=0.5, le=1.0)
 
     # Simulation
@@ -105,12 +121,15 @@ def sensitivity(req: SensitivityRequest):
         ("sigma",               "Volatility (σ)"),
         ("discount_rate",       "Discount Rate"),
         ("withdrawal_rate",     "Withdrawal Rate"),
-        ("rider_fee",           "Rider Fee"),
+        ("rider_fee",           "GMWB Rider Fee"),
         ("me_fee",              "M&E Fee"),
         ("lapse_rate",          "Lapse Rate"),
+        ("lapse_sensitivity",   "Lapse Sensitivity"),
         ("benefit_utilization", "Benefit Utilization"),
         ("mort_multiplier",     "Mortality Multiplier"),
         ("rollup_rate",         "Roll-up Rate"),
+        ("gmdb_rider_fee",      "GMDB Rider Fee"),
+        ("fixed_account_rate",  "Fixed SA Rate"),
     ]
 
     base_params = SimulationParams(**req.base.model_dump())
