@@ -17,10 +17,10 @@ export default function FeeVsClaimChart({ claimStats, feeStats, gmdbStats }) {
   const netMean = totalClaims - feeStats.mean;
 
   const data = [
-    { name: 'PV(Rider Fees)', value: feeStats.mean, fill: '#22c55e' },
-    { name: 'PV(GMWB)', value: claimStats.mean, fill: '#ef4444' },
-    ...(hasGmdb ? [{ name: 'PV(GMDB)', value: gmdbStats.mean, fill: '#f97316' }] : []),
-    { name: 'Net Cost', value: netMean, fill: netMean > 0 ? '#ef4444' : '#22c55e' },
+    { name: 'PV(Rider Fees)', value: feeStats.mean, fill: '#64748b' },
+    { name: 'PV(GMWB)', value: claimStats.mean, fill: '#dc2626' },
+    ...(hasGmdb ? [{ name: 'PV(GMDB)', value: gmdbStats.mean, fill: '#ea580c' }] : []),
+    { name: 'Net Cost', value: netMean, fill: netMean > 0 ? '#dc2626' : '#059669' },
   ];
 
   return (

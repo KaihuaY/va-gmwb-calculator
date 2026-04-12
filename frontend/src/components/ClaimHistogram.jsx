@@ -37,7 +37,7 @@ export default function ClaimHistogram({ data }) {
               return '';
             }}
           />
-          <Bar dataKey="count" fill="#6366f1" radius={[2, 2, 0, 0]} />
+          <Bar dataKey="count" fill="#ef4444" radius={[2, 2, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

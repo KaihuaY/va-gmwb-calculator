@@ -4,10 +4,28 @@ Core GMWB projection engine: single-scenario and full Monte Carlo simulation.
 Projection logic per time step t (annual or sub-annual):
   1. Apply GBM investment return to AV
   2. Deduct rider fee (% of BB) and M&E fee (% of AV)
-  3. Compute guaranteed annual withdrawal (GAW = BB × withdrawal_rate × dt × utilization)
+  3. Compute guaranteed annual withdrawal (GAW = BB × wd_rate_locked × dt × utilization)
   4. Pay withdrawal (min of GAW and AV); recognize GMWB claim if AV < GAW
   5. At each anniversary: apply roll-up to BB; ratchet BB to AV if step-up enabled
   6. Accumulate PV(claims) and PV(fees) weighted by persistency and discount factors
+
+Age-banded withdrawal rate — lock-in semantics
+-----------------------------------------------
+Real VA contracts publish an age-banded rate schedule, e.g.:
+  • 5.0 % if you start withdrawals before age 70
+  • 7.0 % if you start withdrawals at age 70 or later
+
+The rate that applies when the policyholder **elects to start withdrawals** (at
+election_age) is locked in for the life of the contract.  It does NOT float up
+to the next band as the policyholder ages through it.
+
+Example:
+  bands = [{min_age: 65, rate: 0.05}, {min_age: 70, rate: 0.07}]
+  election_age = 67  →  locked-in rate = 5 % (67 ≥ 65, but 67 < 70)
+  election_age = 72  →  locked-in rate = 7 % (72 ≥ 70)
+
+Implementation: wd_rate_locked is resolved once from election_age before the
+scenario loop and reused for every period in the withdrawal phase.
 """
 
 from dataclasses import dataclass
@@ -32,11 +50,12 @@ class SimulationParams:
     gmwb_enabled: bool = True              # Guaranteed Minimum Withdrawal Benefit rider
     benefit_base: float = 500_000.0        # GMWB benefit base (BB)
     election_age: int = 65                 # age at first withdrawal; < current_age treated as current_age
-    withdrawal_rate: float = 0.05
+    withdrawal_rate: float = 0.05          # used when withdrawal_rate_bands is None
+    withdrawal_rate_bands: Optional[list] = None  # e.g. [{"min_age": 60, "rate": 0.05}, ...]
     rider_fee: float = 0.01                # GMWB rider fee (% of GMWB BB per year)
     gmdb_enabled: bool = False             # Guaranteed Minimum Death Benefit rider
     gmdb_benefit_base: float = 500_000.0   # GMDB benefit base (often = AV at issue)
-    gmdb_rider_fee: float = 0.005          # GMDB rider fee (% of GMDB BB per year)
+    gmdb_rider_fee: float = 0.005          # GMDB rider fee (% of AV per year — industry norm)
     gmdb_rollup_rate: float = 0.0          # Annual GMDB BB growth (applies every anniversary)
     gmdb_step_up: bool = False             # GMDB BB ratchets to AV at each anniversary
     me_fee: float = 0.014
@@ -99,6 +118,20 @@ def _run_all_scenarios(
     total_periods = projection_years * periods_per_year
     accum_years = max(0, params.election_age - params.current_age)
 
+    # Resolve the withdrawal rate once from election_age (lock-in semantics).
+    # When age-banded rates are used, the band that covers election_age determines
+    # the rate for the entire withdrawal phase — it never floats up to a higher
+    # band as the policyholder ages through it.
+    if params.withdrawal_rate_bands:
+        sorted_wd_bands = sorted(params.withdrawal_rate_bands, key=lambda b: b['min_age'])
+        wd_rate_locked = params.withdrawal_rate  # fallback if no band covers election_age
+        for band in sorted_wd_bands:
+            if params.election_age >= band['min_age']:
+                wd_rate_locked = band['rate']
+    else:
+        sorted_wd_bands = None
+        wd_rate_locked = params.withdrawal_rate
+
     claims_arr = np.zeros(n)
     fees_arr = np.zeros(n)
     gmdb_arr = np.zeros(n)
@@ -150,7 +183,7 @@ def _run_all_scenarios(
 
             # 2. Fees: rider fee(s) + M&E
             gmwb_rider_fee_p = params.rider_fee * bb * dt if params.gmwb_enabled else 0.0
-            gmdb_rider_fee_p = params.gmdb_rider_fee * gmdb_bb * dt if params.gmdb_enabled else 0.0
+            gmdb_rider_fee_p = params.gmdb_rider_fee * av * dt if params.gmdb_enabled else 0.0  # charged on AV
             base_fee_p = params.me_fee * av * dt
             av = max(0.0, av - gmwb_rider_fee_p - gmdb_rider_fee_p - base_fee_p)
 
@@ -159,7 +192,8 @@ def _run_all_scenarios(
                 gaw = 0.0
                 claim = 0.0
             else:
-                gaw = bb * params.withdrawal_rate * dt * params.benefit_utilization
+                # Use the rate locked in at election_age (resolved once before the loop)
+                gaw = bb * wd_rate_locked * dt * params.benefit_utilization
                 av_before = av
                 actual_withdrawal = min(gaw, av)
                 av = max(0.0, av - actual_withdrawal)
@@ -191,8 +225,10 @@ def _run_all_scenarios(
             total_claim_pv += claim * persist_f * disc_f
             total_fee_pv += (gmwb_rider_fee_p + gmdb_rider_fee_p) * persist_f * disc_f
 
-            # 6. GMDB: max(0, GMDB_BB - AV) paid at death, weighted by prob of dying in period
-            if params.gmdb_enabled:
+            # 6. GMDB: max(0, GMDB_BB - AV) paid at death, weighted by prob of dying in period.
+            # The GMDB terminates once AV is depleted (av == 0): at that point the contract
+            # is in GMWB forced-payout mode and the death benefit no longer applies.
+            if params.gmdb_enabled and av > 0:
                 prev_idx = max(0, annual_idx - 1)
                 q_annual = max(0.0, survival_probs[prev_idx] - survival_probs[annual_idx])
                 prob_dying_period = q_annual * dt * running_lapse_factor
@@ -268,6 +304,39 @@ def run_simulation(params: SimulationParams) -> dict:
             })
         return bands
 
+    # ── Shortfall analysis ────────────────────────────���───────────────────────
+    # shortfall_stats is only populated when GMWB is enabled.
+    # A "shortfall scenario" is any path where the AV hit $0 while the
+    # policyholder was still alive — i.e., the guarantee was actually invoked.
+    # claims_arr[i] > 0  ⟺  that scenario had at least one period of insurer
+    # payment, which is exactly when AV was exhausted during the withdrawal phase.
+    shortfall_stats = None
+    if params.gmwb_enabled:
+        accum_years = max(0, params.election_age - params.current_age)
+        shortfall_mask = claims > 0
+        shortfall_prob = float(np.mean(shortfall_mask))
+
+        median_depletion_age = None
+        if shortfall_mask.any():
+            # Slice av_paths to the withdrawal phase only (vectorised)
+            wd_avs = av_paths[shortfall_mask, accum_years:]   # (n_shortfall, wd_cols)
+            if wd_avs.shape[1] > 0:
+                # argmax on boolean array returns the index of the first True
+                first_zero_rel = np.argmax(wd_avs == 0, axis=1)
+                # Confirm those entries are actually 0 (argmax returns 0 when no True found)
+                confirmed = wd_avs[np.arange(len(first_zero_rel)), first_zero_rel] == 0
+                if confirmed.any():
+                    depletion_ages = (
+                        params.current_age + accum_years + first_zero_rel[confirmed]
+                    )
+                    median_depletion_age = int(np.median(depletion_ages))
+
+        shortfall_stats = {
+            "prob": shortfall_prob,
+            "count": int(np.sum(shortfall_mask)),
+            "median_depletion_age": median_depletion_age,
+        }
+
     return {
         "claim_stats": compute_stats(claims),
         "gmdb_stats": compute_stats(gmdb_claims),
@@ -281,4 +350,5 @@ def run_simulation(params: SimulationParams) -> dict:
         "persistency": persistency,
         "num_scenarios": params.num_scenarios,
         "projection_years": projection_years,
+        "shortfall_stats": shortfall_stats,
     }

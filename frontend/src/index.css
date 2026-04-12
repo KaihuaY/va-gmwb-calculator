@@ -11,3 +11,39 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ============================================================
+   PRINT STYLES — triggered by window.print() via "Print Summary"
+   ============================================================ */
+@media print {
+  /* Hide interactive chrome */
+  [data-print-hide] { display: none !important; }
+
+  /* Show print-only elements (hidden at screen time) */
+  [data-print-only] { display: block !important; }
+
+  /* Override flex/grid layout so content flows naturally on paper */
+  [data-print-layout] {
+    flex-direction: column !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  [data-print-main] {
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+  [data-print-scroll] {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Charts: no page-break inside */
+  .recharts-wrapper { page-break-inside: avoid; break-inside: avoid; }
+
+  /* Clean base */
+  body { background: white !important; font-size: 11pt; color: #1e293b; }
+
+  @page { size: A4 portrait; margin: 18mm 15mm 22mm; }
+}

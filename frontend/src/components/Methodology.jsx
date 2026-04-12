@@ -48,6 +48,15 @@ export default function Methodology() {
         </p>
       </div>
 
+      <div className="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-800 leading-relaxed">
+        <strong>Disclaimer:</strong> This calculator is provided by AnnuityVoice for educational and
+        informational purposes only. It does not constitute financial, investment, insurance, or actuarial
+        advice. Output is based on a simplified stochastic model with user-supplied assumptions; actual
+        contract values will differ based on your specific policy terms, insurer pricing, and market
+        conditions. For financial professional use — consult a licensed advisor or actuary before making
+        annuity decisions. Past model outputs are not a guarantee of future results.
+      </div>
+
       <Section title="1. What is a GMWB?">
         <p>
           A <strong>Guaranteed Minimum Withdrawal Benefit (GMWB)</strong> is a rider attached to a variable

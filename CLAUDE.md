@@ -182,7 +182,10 @@ ActuarialModel/
 │       ├── projection.py            # SimulationParams dataclass + Monte Carlo runner
 │       ├── mortality.py             # Survival probs, persistency, adjust_lapse_for_itm()
 │       ├── stochastic.py            # GBM return generation (NumPy)
-│       └── utils.py                 # Discount factors, compute_stats(), compute_histogram()
+│       ├── utils.py                 # Discount factors, compute_stats(), compute_histogram()
+│       ├── auth.py                  # OTP generation + SES/SMTP/console email dispatch
+│       ├── otp_store.py             # SQLite OTP table (create/verify/rate-limit)
+│       └── session_store.py         # SQLite session persistence for analytics
 ├── frontend/
 │   ├── index.html                   # GitHub Pages MVP (standalone, CDN deps, JS engine)
 │   ├── test_page.mjs                # Playwright headless test for index.html
@@ -198,8 +201,14 @@ ActuarialModel/
 │   │       ├── FeeVsClaimChart.jsx  # Fee vs GMWB vs GMDB vs Net bar chart
 │   │       ├── ProjectionTable.jsx  # Year-by-year table + CSV export
 │   │       ├── SensitivityChart.jsx # Tornado chart
-│   │       └── Methodology.jsx      # Educational content + math
+│   │       ├── Methodology.jsx      # Educational content + math
+│       ├── AdvancedGateModal.jsx # OTP email verification gate (Step 1: email, Step 2: code)
+│       ├── SnapshotComparison.jsx # Side-by-side scenario comparison with delta badges
+│       └── OptimalAgeChart.jsx  # Optimal election age sweep chart
+│   ├── pages/
+│   │   └── LandingPage.jsx      # AnnuityVoice marketing page (/, React Router)
 │   └── vite.config.js
+├── backend/.env.example             # SMTP/SES env var documentation (copy to .env)
 └── infra/                           # AWS deployment scripts (not yet active)
 ```
 
@@ -221,9 +230,22 @@ ActuarialModel/
 - Projection table with CSV export
 - AV fan chart, claim histogram, fee vs. claim chart
 - Pre-push Playwright test for `index.html` MVP
+- AnnuityVoice landing page (React Router, `/` + `/calculator` routes)
+- Share / permalink (base64 URL hash), session persistence (localStorage)
+- Product presets (Jackson, Equitable, TIAA, Nationwide, Lincoln)
+- Scenario snapshots + side-by-side comparison (up to 3 runs)
+- Smart Insight Cards, SPIA comparison, print-ready CSS
+- Mobile bottom-sheet input panel
+- **Email OTP verification gate** — Advanced mode requires a verified email
+  - `POST /auth/send-otp` — rate-limited (3/10 min), stores in SQLite, sends via SES or SMTP
+  - `POST /auth/verify-otp` — timing-safe 6-digit check, single-use, 10-min expiry
+  - Transport config: `SES_REGION` → AWS SES; `SMTP_HOST` → SMTP; neither → console (dev)
+  - `va_calc_verified_email` localStorage key set only on OTP success
+  - See `backend/engine/auth.py`, `backend/engine/otp_store.py`, `backend/.env.example`
 
 ### Pending / Future
 - **AWS deployment**: Lambda + S3/CloudFront not yet provisioned (infra/ scripts exist but no env vars)
+- **Email transport in prod**: configure `SES_REGION` + verify `FROM_EMAIL` in AWS SES before deploying
 - **index.html JS sync**: dynamic lapse, election age, GMDB not in standalone MVP; sync when Lambda is live
 - **GMAB rider**: accumulation guarantee (return of premium at maturity)
 - **GMIB rider**: income benefit (most complex — annuitisation guarantee)
@@ -234,6 +256,49 @@ ActuarialModel/
 - **PDF report export**
 - **Custom mortality table**: allow user to paste qx values
 - **Real-world calibration**: fit μ/σ to historical index data
+
+---
+
+## Email OTP Authentication
+
+Advanced mode is gated behind a verified email address. The flow is:
+
+1. User clicks "Advanced" → `AdvancedGateModal` opens (Step 1: email + role form)
+2. Frontend calls `POST /auth/send-otp { email }` → 6-digit code stored in SQLite + sent by email
+3. Modal transitions to Step 2: code entry form with 60-second resend countdown
+4. Frontend calls `POST /auth/verify-otp { email, code }` → backend validates, marks code used
+5. On success: `va_calc_verified_email` + `va_calc_email` written to `localStorage`, Advanced mode unlocked
+
+**localStorage keys:**
+| Key | Meaning |
+|-----|---------|
+| `va_calc_verified_email` | OTP-verified email — gates Advanced mode |
+| `va_calc_email` | Legacy key (also set on verify); used by `saveParams` / `recordSession` |
+| `va_calc_role` | User role (optional, set on unlock) |
+| `va_calc_saved_params` | Last-used params (only saved when `va_calc_email` is present) |
+
+**Rate limiting:** 3 send requests per email per 10-minute window. OTP expires in 10 minutes, single-use.
+
+**Dev workflow without a real email server:**
+```bash
+# No env vars needed — OTP prints to the uvicorn console:
+# [AnnuityVoice OTP — DEV MODE] To: you@example.com | Code: 847291
+python -m uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+**Configuring email transport (copy backend/.env.example → backend/.env):**
+```bash
+# Option A — AWS SES (production)
+SES_REGION=us-east-1
+FROM_EMAIL=noreply@annuityvoice.com
+
+# Option B — SMTP (works with Gmail App Passwords, Mailgun, etc.)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=you@gmail.com
+SMTP_PASS=your-app-password
+FROM_EMAIL=you@gmail.com
+```
 
 ---
 
