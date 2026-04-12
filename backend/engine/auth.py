@@ -69,7 +69,7 @@ def verify_otp_safe(user_input: str, stored_code: str) -> bool:
 def _send_via_ses(to: str, subject: str, body: str, region: str) -> None:
     try:
         import boto3  # type: ignore
-        from_email = os.getenv("FROM_EMAIL", "noreply@annuityvoice.com")
+        from_email = os.getenv("FROM_EMAIL", "kai@annuityvoice.com")
         ses = boto3.client("ses", region_name=region)
         ses.send_email(
             Source=from_email,
@@ -89,7 +89,7 @@ def _send_via_smtp(to: str, subject: str, body: str) -> None:
         port = int(os.getenv("SMTP_PORT", "587"))
         user = os.getenv("SMTP_USER", "")
         password = os.getenv("SMTP_PASS", "")
-        from_email = os.getenv("FROM_EMAIL") or user or "noreply@annuityvoice.com"
+        from_email = os.getenv("FROM_EMAIL") or user or "kai@annuityvoice.com"
 
         msg = MIMEMultipart("alternative")
         msg["Subject"] = subject

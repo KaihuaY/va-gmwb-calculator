@@ -15,7 +15,7 @@ set -euo pipefail
 
 FUNCTION_NAME="${LAMBDA_FUNCTION_NAME:-va-gmwb-api}"
 ROLE_ARN="${LAMBDA_ROLE_ARN:?Set LAMBDA_ROLE_ARN to your Lambda execution role ARN}"
-REGION="${AWS_DEFAULT_REGION:-us-east-1}"
+REGION="${AWS_DEFAULT_REGION:-us-east-2}"
 
 echo "==> Creating Lambda function: $FUNCTION_NAME"
 

@@ -41,7 +41,7 @@ function Nav() {
             Calculator
           </Link>
           <a
-            href="mailto:contact@annuityvoice.com"
+            href="mailto:kai@annuityvoice.com"
             className="px-4 py-2 bg-[#0078D7] text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
           >
             Request Access
@@ -65,7 +65,7 @@ function Nav() {
           <a href="#how-it-works" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-slate-600">How it Works</a>
           <a href="#faq" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-slate-600">FAQ</a>
           <Link to="/calculator" className="block text-sm font-semibold text-[#0078D7]">Calculator →</Link>
-          <a href="mailto:contact@annuityvoice.com" className="block px-4 py-2 bg-[#0078D7] text-white text-sm font-semibold rounded-lg text-center">Request Access</a>
+          <a href="mailto:kai@annuityvoice.com" className="block px-4 py-2 bg-[#0078D7] text-white text-sm font-semibold rounded-lg text-center">Request Access</a>
         </div>
       )}
     </nav>
@@ -120,7 +120,7 @@ function Hero() {
               </svg>
             </Link>
             <a
-              href="mailto:contact@annuityvoice.com"
+              href="mailto:kai@annuityvoice.com"
               className="inline-flex items-center justify-center px-6 py-3.5 bg-white text-[#0f1f3d] font-bold rounded-xl border-2 border-[#0f1f3d]/10 hover:border-[#0078D7] hover:text-[#0078D7] transition-all"
             >
               Request Free Analysis
@@ -461,7 +461,7 @@ function FreeAnalysisCTA() {
           We'll analyze it and show you the hidden opportunity or risk — no cost, no commitment.
         </p>
         <a
-          href="mailto:contact@annuityvoice.com?subject=Free Policy Analysis Request"
+          href="mailto:kai@annuityvoice.com?subject=Free Policy Analysis Request"
           className="inline-flex items-center gap-2 px-8 py-4 bg-[#0078D7] text-white font-bold rounded-xl hover:bg-blue-600 transition-all shadow-lg shadow-blue-900/40 hover:-translate-y-0.5"
         >
           Request Free Analysis
@@ -495,7 +495,7 @@ function Footer() {
           <div className="flex items-center gap-5 text-sm">
             <a href="#faq" className="text-slate-400 hover:text-white transition-colors">FAQ</a>
             <Link to="/calculator" className="text-slate-400 hover:text-white transition-colors">Calculator</Link>
-            <a href="mailto:contact@annuityvoice.com" className="text-slate-400 hover:text-white transition-colors">Contact</a>
+            <a href="mailto:kai@annuityvoice.com" className="text-slate-400 hover:text-white transition-colors">Contact</a>
           </div>
         </div>
 
