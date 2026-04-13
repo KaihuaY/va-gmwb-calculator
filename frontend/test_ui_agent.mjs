@@ -19,6 +19,11 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BASE_URL = process.argv.find(a => a.startsWith('--url='))?.split('=')[1] ?? 'http://localhost:5173/calculator';
+// API base for direct (Node.js-level) endpoint tests — bypasses the browser.
+// Auto-derived: localhost frontend → localhost:8000 backend.
+// Override with --api=https://your-lambda-url for production runs.
+const _apiArg = process.argv.find(a => a.startsWith('--api='))?.split('=')[1];
+const API_BASE = _apiArg ?? (BASE_URL.startsWith('http://localhost') ? 'http://localhost:8000' : null);
 const SCREENSHOTS = process.argv.includes('--screenshots');
 const SCREENSHOT_DIR = path.join(__dirname, '..', 'test-screenshots');
 
@@ -568,6 +573,101 @@ async function scenario_inputClear() {
   await screenshot('10-input-clear');
 }
 
+async function scenario_otpSendFlow() {
+  console.log('\n[Scenario 11] OTP — /auth/send-otp API returns 200 and modal UI flow');
+
+  // ── Test 1: Direct API call (Node.js fetch, not browser context) ──────────
+  // Critical regression test: otp_store.py must write to /tmp on Lambda, not
+  // the read-only /var/task.  Any sqlite3.OperationalError → 500 here.
+  if (API_BASE) {
+    try {
+      const res = await fetch(`${API_BASE}/auth/send-otp`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email: 'otp-test@playwright.local' }),
+      });
+      if (res.status === 200) {
+        pass('OTP API: /auth/send-otp returns 200', 'DB write succeeded (writable path confirmed)');
+      } else if (res.status === 429) {
+        // Rate limit means the endpoint is healthy — DB write succeeded on a prior call
+        pass('OTP API: /auth/send-otp returns 429 (rate limited — endpoint is healthy)', `status ${res.status}`);
+      } else {
+        const body = await res.text().catch(() => '');
+        fail('OTP API: unexpected status — endpoint broken', `HTTP ${res.status}: ${body.slice(0, 200)}`);
+      }
+    } catch (err) {
+      fail('OTP API: network error — backend may not be running', err.message);
+    }
+  } else {
+    warn('OTP API: skipping direct test — pass --api=<url> for production runs');
+  }
+
+  // ── Test 2: UI flow — modal appears, email entry, send triggers step 2 ────
+  await page.goto(BASE_URL, { waitUntil: 'networkidle', timeout: 30000 });
+  await page.waitForTimeout(300);
+
+  // The init script seeds va_calc_email which also bypasses the gate.
+  // Remove both keys so isAdvancedUnlocked() → false when Advanced is clicked.
+  await page.evaluate(() => {
+    localStorage.removeItem('va_calc_verified_email');
+    localStorage.removeItem('va_calc_email');
+  });
+
+  await page.locator('button', { hasText: 'Advanced' }).first().click();
+  await page.waitForTimeout(600);
+
+  const modalText = await page.evaluate(() => document.body.innerText);
+  const modalOpen =
+    modalText.includes('Verify') ||
+    modalText.includes('verification') ||
+    (modalText.includes('email') && modalText.includes('Send'));
+
+  if (!modalOpen) {
+    warn('OTP gate modal did not appear — check isAdvancedUnlocked() logic');
+  } else {
+    pass('OTP gate modal opens when Advanced clicked without verified email');
+
+    const emailInput = page.locator('input[type="email"]').first();
+    if (await emailInput.count() === 0) {
+      fail('OTP modal: email input not found');
+    } else {
+      await emailInput.fill('ui-test@playwright.local');
+
+      const sendBtn = page.locator('button').filter({ hasText: /send.*code|get.*code/i }).first();
+      if (await sendBtn.count() === 0) {
+        fail('OTP modal: send code button not found');
+      } else {
+        await sendBtn.click();
+        await page.waitForTimeout(2000); // wait for round-trip to backend
+
+        const afterText = await page.evaluate(() => document.body.innerText);
+        const step2 =
+          afterText.includes('Enter') &&
+          (afterText.includes('6-digit') || afterText.includes('code') || afterText.includes('digit'));
+        const hasError = /something went wrong|failed|error occurred|500/i.test(afterText);
+
+        if (step2 && !hasError) {
+          pass('OTP send succeeded — code entry step 2 shown');
+        } else if (hasError) {
+          fail('OTP send failed — error shown in modal', afterText.slice(0, 150));
+        } else {
+          warn('OTP send state unclear after click', afterText.slice(0, 150));
+        }
+      }
+    }
+  }
+
+  await screenshot('11-otp-send');
+
+  // Dismiss and restore session so subsequent tests (if any) still work
+  await page.keyboard.press('Escape').catch(() => {});
+  await page.evaluate(() => {
+    localStorage.setItem('va_calc_email', 'test@playwright.com');
+    localStorage.setItem('va_calc_verified_email', 'test@playwright.com');
+    localStorage.setItem('va_sidebar_open', '1');
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Main runner
 // ---------------------------------------------------------------------------
@@ -628,6 +728,7 @@ async function main() {
     scenario_standardModeClarity,
     scenario_tooltipRendering,
     scenario_inputClear,
+    scenario_otpSendFlow,
   ];
 
   for (const scenario of scenarios) {

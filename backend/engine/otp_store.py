@@ -17,6 +17,7 @@ Policy:
 """
 
 import datetime
+import os
 import sqlite3
 from pathlib import Path
 
@@ -26,8 +27,12 @@ OTP_EXPIRY_MINUTES = 10
 RATE_LIMIT_WINDOW_MINUTES = 10
 RATE_LIMIT_MAX = 3
 
-# Reuse the same SQLite file as session_store
-DB_PATH = Path(__file__).parent.parent / "data" / "sessions.db"
+# On AWS Lambda /var/task is read-only; use /tmp for writable ephemeral storage.
+# Falls back to data/ locally (same file as session_store for convenience).
+if os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+    DB_PATH = Path("/tmp/sessions.db")
+else:
+    DB_PATH = Path(__file__).parent.parent / "data" / "sessions.db"
 
 
 def _conn() -> sqlite3.Connection:
