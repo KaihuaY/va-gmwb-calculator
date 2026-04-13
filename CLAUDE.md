@@ -1,25 +1,26 @@
-# VA Rider Calculator
+# AnnuityVoice
 
-## Project Overview
+> **Live at [annuityvoice.com](https://annuityvoice.com)**
 
-An interactive actuarial present value calculator for **variable annuity guarantee riders** (GMWB and GMDB implemented; GMAB, GMIB planned). Designed for practicing actuaries and students learning how VA guarantees work.
+An interactive actuarial present value calculator for **variable annuity guarantee riders** (GMWB and GMDB live; GMAB, GMIB planned). Two modes: a clean **Standard** view for advisors and clients, and a full **Advanced** view for actuaries and analysts.
 
-**App title**: VA Rider Calculator
 **Tech stack**:
-- **Backend**: Python (FastAPI, NumPy) — Monte Carlo engine, mortality tables, sensitivity analysis
-- **Frontend**: React + Vite, Tailwind CSS, Recharts
-- **GitHub Pages MVP**: standalone `index.html` with embedded JS engine (not yet synced with Python backend — sync when Lambda deployed)
+- **Backend**: Python (FastAPI, NumPy) — Monte Carlo engine, mortality tables, sensitivity analysis — deployed on AWS Lambda (arm64)
+- **Frontend**: React + Vite, Tailwind CSS, Recharts — deployed on S3 + CloudFront, custom domain via Route 53
+- **GitHub Pages MVP**: standalone `index.html` with embedded JS engine (not yet synced with Python backend features)
 
-**Deployment targets**:
-- Production: FastAPI on AWS Lambda (Function URL) + React on S3/CloudFront
-- MVP/demo: `index.html` on GitHub Pages (static, no backend required)
+**Deployment**:
+- Production: `https://annuityvoice.com` (Lambda Function URL + CloudFront + ACM)
+- Dev: `start.bat` → uvicorn :8000 + Vite :5173 (Vite proxies `/api` → localhost)
+- Monthly cost: ~$0.50 (Route 53 hosted zone only; Lambda + CloudFront within free tier at current traffic)
 
 ---
 
 ## Audience
 
-- **Practicing actuaries** — precise, auditable calculations; projection details; sensitivity analysis
-- **General/educational** — students, financial professionals learning how VA guarantees work; tooltips, plain-English explanations, sensible defaults
+- **RIAs / financial advisors** — run "Product A vs. Product B" comparisons for client meetings; share permalink; print one-pager; use presets for Jackson, Equitable, TIAA, Nationwide, Lincoln
+- **Practicing actuaries** — full Monte Carlo with sensitivity tornado, projection table, dynamic lapse, mortality tables, CSV export
+- **Students / educators** — plain-English insight cards, methodology tab with math, sensible defaults, health selector abstraction over mortality multiplier
 
 ---
 
@@ -214,48 +215,103 @@ ActuarialModel/
 
 ---
 
-## Implemented vs. Planned Features
+## What's Shipped ✓
 
-### Done ✓
-- GMWB rider (Monte Carlo, accumulation + withdrawal phases, roll-up, step-up)
-- GMDB rider (death benefit shortfall, mortality-weighted PV)
-- Election age / deferral period (accumulation phase with roll-up before election)
-- Dynamic lapse (ITM-adjusted: lapse decreases as BB/AV rises)
-- Sensitivity analysis / tornado chart (±10% shift, 11 parameters)
-- 2012 IAM Basic (Scale G2) + Annuity 2000 mortality tables
-- Annual and monthly projection frequency
-- Resizable left sidebar (drag handle, 220–520px)
-- 4-tab input panel (Policyholder / Assumptions / Economic / Simulation)
-- Percentage display for all rate inputs (not raw decimals)
-- Projection table with CSV export
-- AV fan chart, claim histogram, fee vs. claim chart
-- Pre-push Playwright test for `index.html` MVP
-- AnnuityVoice landing page (React Router, `/` + `/calculator` routes)
-- Share / permalink (base64 URL hash), session persistence (localStorage)
-- Product presets (Jackson, Equitable, TIAA, Nationwide, Lincoln)
-- Scenario snapshots + side-by-side comparison (up to 3 runs)
-- Smart Insight Cards, SPIA comparison, print-ready CSS
-- Mobile bottom-sheet input panel
-- **Email OTP verification gate** — Advanced mode requires a verified email
-  - `POST /auth/send-otp` — rate-limited (3/10 min), stores in SQLite, sends via SES or SMTP
-  - `POST /auth/verify-otp` — timing-safe 6-digit check, single-use, 10-min expiry
-  - Transport config: `SES_REGION` → AWS SES; `SMTP_HOST` → SMTP; neither → console (dev)
-  - `va_calc_verified_email` localStorage key set only on OTP success
-  - See `backend/engine/auth.py`, `backend/engine/otp_store.py`, `backend/.env.example`
+**Engine**
+- GMWB rider — Monte Carlo, accumulation + withdrawal phases, roll-up, step-up, age-banded rates
+- GMDB rider — death benefit shortfall, mortality-weighted PV
+- Dynamic lapse (ITM-adjusted), benefit utilization, fixed account allocation
+- 2012 IAM Basic (Scale G2) + Annuity 2000 mortality tables; annual + monthly frequency
+- Sensitivity analysis / tornado chart (±10% shift, 13 parameters)
+- Optimal election age sweep (`/optimal_election_age`)
 
-### Pending / Future
-- **AWS deployment**: Lambda + S3/CloudFront not yet provisioned (infra/ scripts exist but no env vars)
-- **Email transport in prod**: configure `SES_REGION` + verify `FROM_EMAIL` in AWS SES before deploying
-- **index.html JS sync**: dynamic lapse, election age, GMDB not in standalone MVP; sync when Lambda is live
-- **GMAB rider**: accumulation guarantee (return of premium at maturity)
-- **GMIB rider**: income benefit (most complex — annuitisation guarantee)
-- **Risk-neutral valuation**: fair value / GAAP reserving (replace real-world GBM with risk-neutral measure)
-- **Stochastic interest rates**: Hull-White or similar
-- **Multi-asset class**: equity + bond allocation with rebalancing
-- **Greek sensitivities**: delta, rho, vega of the guarantee
-- **PDF report export**
-- **Custom mortality table**: allow user to paste qx values
-- **Real-world calibration**: fit μ/σ to historical index data
+**UI / UX**
+- Standard mode — compact StatStrip metrics, health selector, insight cards, SPIA comparison
+- Advanced mode — full MetricCards, all parameters exposed, OTP-gated
+- Sidebar collapsed by default on desktop; mobile bottom-sheet drawer
+- Resizable sidebar (drag handle, 220–520px); sidebar open/closed persists in localStorage
+- 5 product presets (Jackson, Equitable, TIAA, Nationwide, Lincoln)
+- Scenario snapshots + side-by-side comparison (up to 3 runs) with delta badges
+- Share / permalink (base64 URL hash); session persistence (localStorage)
+- Print-ready CSS (`window.print()` one-pager with logo, params, charts, disclaimer)
+- AV fan chart, claim histogram, fee vs. claim chart, projection table (CSV export)
+- AnnuityVoice landing page (`/`) + calculator (`/calculator`), React Router
+
+**Infrastructure**
+- Deployed: Lambda arm64 + S3 + CloudFront + Route 53 + ACM
+- Email OTP gate for Advanced mode (SES / SMTP / console fallback in dev)
+- Session analytics — every run recorded to SQLite (`backend/query_sessions.py` for queries)
+- Playwright UI test suite (`frontend/test_ui_agent.mjs`) with 10 scenarios
+
+---
+
+## Roadmap
+
+Grouped by impact area. Items within each group are loosely priority-ordered.
+
+### Advisor workflow (highest RIA stickiness)
+- **Branded PDF report** — "Download Summary" button generates a client-ready PDF with logo, inputs, charts, and the print disclaimer. More polished than browser print; advisors can email it directly.
+- **Client email delivery** — after print/export, offer "Email this to my client" (pre-fills advisor's email from localStorage; client gets a read-only link + PDF attachment)
+- **More product presets** — add Brighthouse, Prudential, Allianz, North American, Protective. Each preset is one JSON object; low effort, high search value.
+- **Comparison notes field** — free-text note per snapshot ("Client preferred B because lower fee") saved to sessionStorage alongside the comparison panel
+- **"What does this mean?" plain-English mode** — toggle in Standard mode that rewrites metric labels and chart axis titles into client-friendly language ("Guaranteed income value" vs "PV(GMWB)")
+
+### Growth / discoverability
+- **SEO landing pages** — static pages for "Jackson National GMWB calculator", "Equitable SCS analyzer", etc. Each pre-loads the relevant preset via URL hash. Google indexes the content; advisor Googles the product name and finds the tool.
+- **Embed widget** — `<iframe>` snippet that insurance-focused blogs and RIA sites can drop in. Read-only Standard mode, branded "Powered by AnnuityVoice".
+- **Case study blog posts** — "How to evaluate a variable annuity before recommending it" with screenshots of the tool walkthrough. Publish on the AnnuityVoice site; share on advisor forums.
+- **Live example CTA on landing page** — hero tertiary link "→ See Jackson National modeled" pre-loads Jackson preset so visitors land in the calculator with results already shown (share hash already works, just needs the constant + link wired up)
+
+### Actuary / power user
+- **GMAB rider** — accumulation guarantee (return of premium at maturity); straightforward addition alongside GMDB
+- **Risk-neutral valuation mode** — replace real-world GBM drift with risk-neutral measure (μ = r); useful for GAAP reserving and fair-value pricing alongside the existing real-world view
+- **Custom mortality table** — paste qx values into a text box; useful for pricing substandard lives or validating proprietary tables
+- **Greek sensitivities** — delta, rho, vega of the guarantee value; natural extension of the existing tornado chart
+- **Real-world calibration** — fit μ/σ to a ticker's historical returns (SPY, AGG, etc.); replaces manual economic assumption entry
+
+### Technical maintenance
+- **index.html JS sync** — the GitHub Pages standalone MVP is missing dynamic lapse, GMDB, election age deferral, and age-banded rates; sync when there's a forcing function (e.g. before a conference demo that needs offline mode)
+- **GMIB rider** — income benefit / annuitisation guarantee; most complex rider, deferred until GMAB is done
+- **Stochastic interest rates** — Hull-White or Vasicek; prerequisite for risk-neutral mode
+- **Multi-asset class** — equity + bond allocation with rebalancing; prerequisite for fixed-indexed annuity modeling
+
+---
+
+## Reaching RIAs
+
+RIAs are the highest-value early adopters: they already understand annuity mechanics, they have clients to show the tool to, and they share tools within tight professional networks. Getting 10 enthusiastic RIAs is worth more than 1,000 passive page views.
+
+### Where RIAs congregate
+
+| Channel | Notes |
+|---------|-------|
+| **Kitces.com** | Most-read RIA blog; Michael Kitces has a "tools" section and an active community forum. A guest post or tool submission is the highest-leverage single action. |
+| **XYPN Network** | Community of fee-only, younger RIAs (mostly CFPs). Very active Slack and annual conference. Members actively share practice-management tools. |
+| **NAPFA community** | National Association of Personal Financial Advisors — fee-only RIAs. Forums, regional groups, and an annual conference. |
+| **r/financialplanning** | Active subreddit; advisors and consumers. A "I built a free VA analyzer" post with a GIF demo tends to do well. |
+| **Twitter / X — #RIA, #CFP, #annuity** | Fintech-adjacent advisors are active here. Short thread showing a Jackson vs. Equitable comparison screenshot + link. |
+| **LinkedIn** | Target: CFP, ChFC, RIA, insurance-licensed advisors. Direct connection + personalized note works better than a broadcast post. |
+| **FPA (Financial Planning Association)** | Local chapters hold monthly meetings; a 10-minute tool demo at a chapter meeting is very effective. |
+
+### Outreach approach that works
+
+1. **Lead with a specific scenario, not features** — "I modeled a 65-year-old comparing Jackson Elite vs. Equitable SCS with a 5% roll-up. Here's what the numbers say." Link to the pre-loaded share URL. Advisors click because it's *their* problem, not because it's a cool tool.
+
+2. **Share a real comparison** — Run Jackson vs. Equitable with default assumptions, take a screenshot of the Snapshot Comparison panel, post it with "first tool I've found that does side-by-side VA rider PV in 30 seconds." Advisors share peer-validated content.
+
+3. **Write a methodology note** — A 500-word blog post titled "How we calculate the present value of a GMWB guarantee" with the math. Actuaries and sophisticated advisors will share it because it's rare to see this explained clearly outside of a textbook.
+
+4. **NAPFA/FPA chapter demo** — Contact a local chapter program director. Offer a 15-minute "Evaluating VA guarantees with Monte Carlo" presentation. Bring printed one-pagers using the print feature. This creates word-of-mouth in a high-trust setting.
+
+5. **Kitces "Weekend Reading" submission** — Michael Kitces has a standing call for tool submissions in his weekly roundup. Email a one-paragraph description + screenshot + URL to the editorial team. Getting listed there reaches ~100K advisors in one shot.
+
+6. **SOA / CAS forums and LinkedIn groups** — Actuaries will validate the math and share with colleagues. A post in the SOA LinkedIn group or a comment in the EA/FSA exam study communities ("here's a tool that runs the GMWB projection interactively") reaches a technical audience that amplifies credibility.
+
+### What to say
+
+> *"AnnuityVoice is a free Monte Carlo calculator for VA guarantee riders — GMWB and GMDB. You enter the contract terms (benefit base, roll-up, rider fee, election age) and it runs 1,000 scenarios with real mortality tables to show the actuarial present value of the guarantee and the fees, side by side. Presets for Jackson, Equitable, TIAA, Nationwide, and Lincoln. Standard mode is clean enough to use in a client meeting; Advanced mode has the full actuarial machinery."*
+
+Keep it under 60 words, lead with the output (PV comparison), not the technology (Monte Carlo).
 
 ---
 
@@ -304,6 +360,22 @@ FROM_EMAIL=you@gmail.com
 
 ## Development Workflow
 
+### Running locally
+
+```bash
+# Quickest: double-click start.bat (repo root)
+# Starts uvicorn first, waits 4 s, then starts Vite — avoids the "not responding" banner
+
+# Or manually:
+# Backend (from backend/)
+python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+# Frontend (from frontend/)
+npm run dev        # → http://localhost:5173
+# Vite proxies /api → localhost:8000 (see vite.config.js)
+# .env.production is NOT loaded in dev; that file only applies to npm run build
+```
+
 ### Rule: Always test `index.html` locally before pushing to GitHub
 
 The GitHub Pages MVP must pass a Playwright headless test before every push. A git pre-push hook enforces this.
@@ -315,14 +387,12 @@ node frontend/test_page.mjs
 
 **Automated enforcement**: `.git/hooks/pre-push` runs the test on every `git push`.
 
-### Running locally
+### Full UI test suite (Vite + uvicorn must be running)
 
 ```bash
-# Backend (from backend/)
-python -m uvicorn main:app --host 0.0.0.0 --port 8000
-
-# Frontend (from frontend/)
-npm run dev        # → http://localhost:5173
+node frontend/test_ui_agent.mjs
+# 10 scenarios — app load, default sim, health selector, DB-only, advanced mode,
+# banded rates, section order, standard mode clarity, tooltip, input clear/retype
 ```
 
 ### Claude Code Skills for This Project

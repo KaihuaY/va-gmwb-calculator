@@ -83,7 +83,7 @@ function clamp(v, min, max) {
   return v;
 }
 
-function NumberInput({ value, onChange, min, max, step, commas = false }) {
+function NumberInput({ value, onChange, min, max, step, commas = false, className: extraClass }) {
   const [localVal, setLocalVal] = useState(null); // null = display prop value
 
   if (commas) {
@@ -104,27 +104,31 @@ function NumberInput({ value, onChange, min, max, step, commas = false }) {
           const parsed = parseFloat(e.target.value.replace(/,/g, ''));
           if (!isNaN(parsed)) onChange(parsed); // allow mid-type; clamp on blur
         }}
-        className={inputClass}
+        className={extraClass ?? inputClass}
       />
     );
   }
 
+  const editing = localVal !== null;
   return (
     <input
       type="number"
-      value={value}
+      value={editing ? localVal : value}
       min={min}
       max={max}
       step={step}
+      onFocus={() => setLocalVal(String(value))}
       onChange={e => {
+        setLocalVal(e.target.value);
         const parsed = parseFloat(e.target.value);
-        if (!isNaN(parsed)) onChange(parsed); // allow mid-type
+        if (!isNaN(parsed)) onChange(parsed); // allow mid-type; clamp on blur
       }}
-      onBlur={e => {
-        const parsed = parseFloat(e.target.value);
+      onBlur={() => {
+        const parsed = parseFloat(localVal ?? '');
+        setLocalVal(null);
         if (!isNaN(parsed)) onChange(clamp(parsed, min, max));
       }}
-      className={inputClass}
+      className={extraClass ?? inputClass}
     />
   );
 }
@@ -144,24 +148,29 @@ function SelectInput({ value, onChange, options }) {
 }
 
 function PercentInput({ value, onChange, min, max, step, decimals = 2 }) {
+  const [localVal, setLocalVal] = useState(null); // null = display prop value
   // value is stored as decimal (0.05 = 5%); min/max are in display % (5, 10)
   const toDisplay = v => parseFloat((v * 100).toFixed(decimals));
   const fromDisplay = v => clamp(v, min, max) / 100;
 
+  const editing = localVal !== null;
   return (
     <div className="relative">
       <input
         type="number"
-        value={toDisplay(value)}
+        value={editing ? localVal : toDisplay(value)}
         min={min}
         max={max}
         step={step}
+        onFocus={() => setLocalVal(String(toDisplay(value)))}
         onChange={e => {
+          setLocalVal(e.target.value);
           const parsed = parseFloat(e.target.value);
           if (!isNaN(parsed)) onChange(parsed / 100); // allow mid-type; clamp on blur
         }}
-        onBlur={e => {
-          const parsed = parseFloat(e.target.value);
+        onBlur={() => {
+          const parsed = parseFloat(localVal ?? '');
+          setLocalVal(null);
           if (!isNaN(parsed)) onChange(fromDisplay(parsed));
         }}
         className={inputClass + " pr-9"}
@@ -272,20 +281,12 @@ function BandedRatesEditor({ bands, onChangeBands, currentAge = 0 }) {
         {sorted.map((band, idx) => (
           <div key={idx} className="flex items-center gap-2">
             <div className="w-16">
-              <input
-                type="number"
+              <NumberInput
                 value={band.min_age}
+                onChange={v => updateBand(idx, 'min_age', Math.round(v))}
                 min={currentAge}
                 max={100}
                 step={1}
-                onChange={e => {
-                  const v = parseInt(e.target.value, 10);
-                  if (!isNaN(v)) updateBand(idx, 'min_age', v);
-                }}
-                onBlur={e => {
-                  const v = Math.max(currentAge, Math.min(100, parseInt(e.target.value, 10) || currentAge));
-                  updateBand(idx, 'min_age', v);
-                }}
                 className={inputClass + " text-center px-2"}
               />
             </div>

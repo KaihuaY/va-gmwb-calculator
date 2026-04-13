@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function MetricCard({ title, value, subtitle, accentColor }) {
   return (
@@ -9,6 +9,54 @@ function MetricCard({ title, value, subtitle, accentColor }) {
         <div className="text-3xl font-black tabular-nums leading-none" style={{ color: accentColor }}>{value}</div>
         {subtitle && <div className="text-sm text-slate-500 mt-2 leading-snug">{subtitle}</div>}
       </div>
+    </div>
+  );
+}
+
+// Compact horizontal stat strip — replaces large MetricCard grid in standard mode
+function StatStrip({ items }) {
+  return (
+    <div className="flex flex-wrap bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden mb-3">
+      {items.map((item, i) => (
+        <div
+          key={item.label}
+          className={`flex-1 min-w-[110px] px-4 py-3 ${i > 0 ? 'border-l border-slate-100' : ''}`}
+        >
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.label}</div>
+          <div className="text-xl font-black tabular-nums leading-none mt-1" style={{ color: item.color }}>{item.value}</div>
+          {item.sub && <div className="text-[10px] text-slate-400 mt-1">{item.sub}</div>}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Collapsible "How to read this" explanation
+function HowToReadThis({ netMean, num_scenarios }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="mt-3">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors"
+      >
+        <svg className={`w-3 h-3 transition-transform ${open ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+        How to read these numbers
+      </button>
+      {open && (
+        <div className="mt-2 rounded-lg bg-slate-50 border border-slate-200 px-4 py-3 text-xs text-slate-600 leading-relaxed">
+          <strong className="text-slate-700">How to read this:</strong>{' '}
+          <strong>Guarantee Value</strong> is the present value of insurance payments you would receive
+          when your account balance runs out — averaged across {num_scenarios.toLocaleString()} simulated
+          market scenarios. <strong>Total Fees</strong> are M&amp;E and rider fees paid over your lifetime.{' '}
+          {netMean > 0
+            ? <><strong className="text-emerald-700">Net Benefit is positive</strong>, meaning on average the guarantee pays back more than you pay in fees — the rider is expected to deliver value.</>
+            : <><strong className="text-red-700">Net Benefit is negative</strong>, meaning fees are expected to exceed guarantee payouts on average. This is common — the guarantee's value lies in the <em>protection against bad outcomes</em>, not the average case. See the shortfall risk above.</>
+          }
+        </div>
+      )}
     </div>
   );
 }
@@ -117,6 +165,7 @@ function computeSPIAFactor(survivalProbs, discountRate) {
 }
 
 function SPIAComparison({ results, runParams }) {
+  const [open, setOpen] = useState(false);
   if (!results?.survival_probs?.length || !runParams) return null;
   const factor = computeSPIAFactor(results.survival_probs, runParams.discount_rate);
   if (factor <= 0) return null;
@@ -125,7 +174,6 @@ function SPIAComparison({ results, runParams }) {
   const spiaAnnual = av / factor;
   const spiaRate = (1 / factor) * 100;
 
-  // Estimated benefit base at election (apply simple roll-up approximation)
   const deferralYears = Math.max(0, (runParams.election_age || runParams.current_age) - runParams.current_age);
   const rolledUpBB = (runParams.benefit_base || av) * Math.pow(1 + (runParams.rollup_rate || 0), deferralYears);
   const gaw = rolledUpBB * (runParams.withdrawal_rate || 0.05);
@@ -134,27 +182,39 @@ function SPIAComparison({ results, runParams }) {
   const spiaIsBetter = spiaAnnual > gaw;
 
   return (
-    <div className="mt-3 rounded-lg border border-slate-200 bg-white px-4 py-3">
-      <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">SPIA Comparison</div>
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <div className="text-xs text-slate-500 mb-0.5">SPIA equivalent payout</div>
-          <div className="text-lg font-black tabular-nums text-slate-800">{fmt(spiaAnnual)}<span className="text-sm font-semibold text-slate-500">/yr</span></div>
-          <div className="text-xs text-slate-500">{spiaRate.toFixed(1)}% of premium · no deferral</div>
+    <div className="mt-3">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-slate-500 hover:text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-200 transition-colors"
+      >
+        <span>SPIA Comparison</span>
+        <svg className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className="mt-2 rounded-lg border border-slate-200 bg-white px-4 py-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <div className="text-xs text-slate-500 mb-0.5">SPIA equivalent payout</div>
+              <div className="text-lg font-black tabular-nums text-slate-800">{fmt(spiaAnnual)}<span className="text-sm font-semibold text-slate-500">/yr</span></div>
+              <div className="text-xs text-slate-500">{spiaRate.toFixed(1)}% of premium · no deferral</div>
+            </div>
+            <div>
+              <div className="text-xs text-slate-500 mb-0.5">Your guaranteed withdrawal</div>
+              <div className="text-lg font-black tabular-nums text-slate-800">{fmt(gaw)}<span className="text-sm font-semibold text-slate-500">/yr</span></div>
+              <div className="text-xs text-slate-500">{gawRate.toFixed(1)}% of premium · starts age {runParams.election_age}</div>
+            </div>
+          </div>
+          <div className="mt-2 text-xs text-slate-500 leading-relaxed border-t border-slate-100 pt-2">
+            {spiaIsBetter
+              ? <>A <strong>SPIA</strong> (Single Premium Immediate Annuity) would pay <strong className="text-slate-700">{fmt(spiaAnnual - gaw)} more per year</strong> for the same premium — but offers no market upside or death benefit.</>
+              : <>Your VA guarantee pays <strong className="text-slate-700">{fmt(gaw - spiaAnnual)} more per year</strong> than a comparable SPIA — reflecting the rollup benefit from the {deferralYears}-year deferral period.</>
+            }
+            {' '}SPIA rates are actuarial estimates; market quotes vary by insurer and include profit margins (~10–15% lower).
+          </div>
         </div>
-        <div>
-          <div className="text-xs text-slate-500 mb-0.5">Your guaranteed withdrawal</div>
-          <div className="text-lg font-black tabular-nums text-slate-800">{fmt(gaw)}<span className="text-sm font-semibold text-slate-500">/yr</span></div>
-          <div className="text-xs text-slate-500">{gawRate.toFixed(1)}% of premium · starts age {runParams.election_age}</div>
-        </div>
-      </div>
-      <div className="mt-2 text-xs text-slate-500 leading-relaxed border-t border-slate-100 pt-2">
-        {spiaIsBetter
-          ? <>A <strong>SPIA</strong> (Single Premium Immediate Annuity) would pay <strong className="text-slate-700">{fmt(spiaAnnual - gaw)} more per year</strong> for the same premium — but offers no market upside or death benefit.</>
-          : <>Your VA guarantee pays <strong className="text-slate-700">{fmt(gaw - spiaAnnual)} more per year</strong> than a comparable SPIA — reflecting the rollup benefit from the {deferralYears}-year deferral period.</>
-        }
-        {' '}SPIA rates are actuarial estimates; market quotes vary by insurer and include profit margins (~10–15% lower).
-      </div>
+      )}
     </div>
   );
 }
@@ -163,6 +223,7 @@ function SPIAComparison({ results, runParams }) {
 // Smart Insight Cards — triggered conditions turn numbers into action items
 // ---------------------------------------------------------------------------
 function InsightCards({ results, runParams }) {
+  const [open, setOpen] = useState(false);
   if (!results || !runParams) return null;
 
   const { shortfall_stats, net_stats } = results;
@@ -222,16 +283,32 @@ function InsightCards({ results, runParams }) {
   };
 
   return (
-    <div className="mt-3 space-y-2">
-      {insights.map((ins, i) => {
-        const c = colorMap[ins.color];
-        return (
-          <div key={i} className={`rounded-lg border ${c.border} ${c.bg} px-4 py-3 flex items-start gap-3`}>
-            <span className={`text-base flex-shrink-0 mt-0.5 ${c.icon}`}>{ins.icon}</span>
-            <p className={`text-xs leading-relaxed ${c.text}`}>{ins.text}</p>
-          </div>
-        );
-      })}
+    <div className="mt-3">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-slate-500 hover:text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-200 transition-colors"
+      >
+        <span className="flex items-center gap-2">
+          Insights
+          <span className="px-1.5 py-0.5 bg-slate-200 text-slate-600 rounded text-[10px] font-bold">{insights.length}</span>
+        </span>
+        <svg className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className="mt-2 space-y-2">
+          {insights.map((ins, i) => {
+            const c = colorMap[ins.color];
+            return (
+              <div key={i} className={`rounded-lg border ${c.border} ${c.bg} px-4 py-3 flex items-start gap-3`}>
+                <span className={`text-base flex-shrink-0 mt-0.5 ${c.icon}`}>{ins.icon}</span>
+                <p className={`text-xs leading-relaxed ${c.text}`}>{ins.text}</p>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -278,44 +355,22 @@ export default function ResultsSummary({ results, running, progress, viewMode = 
   const hasGmdb = gmdbEnabled && gmdb_stats?.mean > 0;
 
   if (viewMode === 'standard') {
-    const netSubtitle = netMean > 0
-      ? 'Expected guarantee payouts exceed fees paid'
-      : 'Fees paid exceed expected guarantee payouts';
-
-    const guaranteeCards = [];
+    const stripItems = [];
     if (hasGmwb) {
-      guaranteeCards.push(
-        <MetricCard key="gmwb" title="Guarantee Value"
-          value={fmt(claim_stats.mean)} subtitle={`Median ${fmt(claim_stats.median)}`}
-          accentColor="#dc2626" />
-      );
+      stripItems.push({ label: 'Guarantee Value', value: fmt(claim_stats.mean), sub: `Median ${fmt(claim_stats.median)}`, color: '#dc2626' });
     }
     if (hasGmdb) {
-      guaranteeCards.push(
-        <MetricCard key="gmdb" title="Death Benefit Value"
-          value={fmt(gmdb_stats.mean)} subtitle={`Median ${fmt(gmdb_stats.median)}`}
-          accentColor="#ea580c" />
-      );
+      stripItems.push({ label: 'Death Benefit', value: fmt(gmdb_stats.mean), sub: `Median ${fmt(gmdb_stats.median)}`, color: '#ea580c' });
     }
-    if (guaranteeCards.length === 0) {
-      guaranteeCards.push(
-        <MetricCard key="none" title="Guarantee Value" value="—"
-          subtitle="No rider selected" accentColor="#94a3b8" />
-      );
+    if (!hasGmwb && !hasGmdb) {
+      stripItems.push({ label: 'Guarantee Value', value: '—', sub: 'No rider selected', color: '#94a3b8' });
     }
-
-    const totalCols = guaranteeCards.length + 2;
-    const colsClass = totalCols >= 4 ? 'grid-cols-2 lg:grid-cols-4' : 'grid-cols-2 lg:grid-cols-3';
+    stripItems.push({ label: 'Total Fees', value: fmt(fee_stats.mean), sub: `Median ${fmt(fee_stats.median)}`, color: '#475569' });
+    stripItems.push({ label: 'Net Benefit', value: fmt(netMean), sub: netMean > 0 ? 'Payouts > fees' : 'Fees > payouts', color: netColor });
 
     return (
       <div className="mb-6">
-        <div className={`grid ${colsClass} gap-4`}>
-          {guaranteeCards}
-          <MetricCard title="Total Fees" value={fmt(fee_stats.mean)}
-            subtitle={`Median ${fmt(fee_stats.median)}`} accentColor="#475569" />
-          <MetricCard title="Net Benefit to You" value={fmt(netMean)}
-            subtitle={netSubtitle} accentColor={netColor} />
-        </div>
+        <StatStrip items={stripItems} />
         {shortfall_stats && hasGmwb && (
           <ShortfallCallout
             shortfall_stats={shortfall_stats}
@@ -324,18 +379,7 @@ export default function ResultsSummary({ results, running, progress, viewMode = 
           />
         )}
 
-        {/* Plain-English interpretation */}
-        <div className="mt-3 rounded-lg bg-slate-50 border border-slate-200 px-4 py-3 text-xs text-slate-600 leading-relaxed">
-          <strong className="text-slate-700">How to read this:</strong>{' '}
-          <strong>Guarantee Value</strong> is the present value of insurance payments you would receive
-          when your account balance runs out — averaged across {num_scenarios.toLocaleString()} simulated
-          market scenarios. <strong>Total Fees</strong> are M&amp;E and rider fees paid over your lifetime.{' '}
-          {netMean > 0
-            ? <><strong className="text-emerald-700">Net Benefit is positive</strong>, meaning on average the guarantee pays back more than you pay in fees — the rider is expected to deliver value.</>
-            : <><strong className="text-red-700">Net Benefit is negative</strong>, meaning fees are expected to exceed guarantee payouts on average. This is common — the guarantee's value lies in the <em>protection against bad outcomes</em>, not the average case. See the shortfall risk statistic below.</>
-          }
-        </div>
-
+        <HowToReadThis netMean={netMean} num_scenarios={num_scenarios} />
         <SPIAComparison results={results} runParams={runParams} />
         <InsightCards results={results} runParams={runParams} />
 

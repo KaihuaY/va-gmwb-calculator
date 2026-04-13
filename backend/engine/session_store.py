@@ -32,11 +32,20 @@ Schema (sessions table):
 """
 
 import json
+import os
 import sqlite3
 import datetime
 from pathlib import Path
 
-DB_PATH = Path(__file__).parent.parent / "data" / "sessions.db"
+# On AWS Lambda, /var/task/ (the deployment package) is read-only.
+# Use /tmp for writable ephemeral storage; fall back to the local data/ dir in dev.
+# Note: /tmp on Lambda is ephemeral — it resets on cold starts (typically after
+# ~15 min of inactivity). Data persists within a warm container window.
+# For durable production storage, export to S3 (see query_sessions.py).
+if os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+    DB_PATH = Path("/tmp/sessions.db")
+else:
+    DB_PATH = Path(__file__).parent.parent / "data" / "sessions.db"
 
 
 def _get_conn() -> sqlite3.Connection:

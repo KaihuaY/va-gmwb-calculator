@@ -10,7 +10,6 @@ Endpoints:
 
 from typing import Optional, Any, List
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from engine.projection import SimulationParams, run_simulation
@@ -21,14 +20,9 @@ app = FastAPI(
     description="Actuarial present value calculator for Guaranteed Minimum Withdrawal Benefits",
     version="1.0.0",
 )
-
-# CORS — update AllowedOrigins to your CloudFront domain in production
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],          # tighten to your domain after deployment
-    allow_methods=["GET", "POST"],
-    allow_headers=["*"],
-)
+# CORS is handled entirely by the Lambda Function URL config (AllowOrigins: ["*"]).
+# Do NOT add FastAPI CORSMiddleware here — it would create duplicate
+# Access-Control-Allow-Origin headers, which browsers reject.
 
 
 # ---------------------------------------------------------------------------

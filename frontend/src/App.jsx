@@ -37,18 +37,28 @@ function BackendOfflineBanner({ onRetry }) {
     const t = setTimeout(() => setCountdown(c => c - 1), 1000);
     return () => clearTimeout(t);
   }, [countdown, onRetry]);
+
+  const isDev = import.meta.env.DEV;
+  const hint = isDev
+    ? 'Local backend not responding. Make sure uvicorn is running on port 8000.'
+    : 'The server may be cold-starting (AWS Lambda can take 5–15 s).';
+
   return (
     <div className="mb-4 rounded-lg bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-800">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="font-semibold mb-0.5">Backend is starting up…</div>
+          <div className="font-semibold mb-0.5">Backend not responding…</div>
           <div className="text-xs text-amber-700">
-            The server may be cold-starting (AWS Lambda can take 5–15 s). Retrying in{' '}
-            <strong>{countdown}s</strong> — or{' '}
+            {hint} Retrying in <strong>{countdown}s</strong> — or{' '}
             <button onClick={onRetry} className="underline font-semibold hover:text-amber-900">
               retry now
             </button>.
           </div>
+          {isDev && (
+            <div className="mt-1.5 text-xs text-amber-600 font-mono">
+              cd backend &amp;&amp; python -m uvicorn main:app --port 8000
+            </div>
+          )}
         </div>
         <button onClick={onRetry} className="flex-shrink-0 px-3 py-1 bg-amber-600 text-white text-xs font-semibold rounded-md hover:bg-amber-700 transition-colors">
           Retry
@@ -421,8 +431,11 @@ export default function App() {
   // Falls back to the old key so existing sessions aren't broken.
   const isAdvancedUnlocked = () => !!localStorage.getItem('va_calc_verified_email') || !!localStorage.getItem('va_calc_email');
 
-  // Resizable sidebar
+  // Resizable sidebar + collapse state (default: collapsed for a clean first-view)
   const [sidebarWidth, setSidebarWidth] = useState(360);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(
+    () => localStorage.getItem('va_sidebar_open') !== '1'
+  );
   const resizing = useRef(false);
   const dragStart = useRef({ x: 0, width: 0 });
 
@@ -432,6 +445,11 @@ export default function App() {
     const timer = setTimeout(() => setSessionToast(false), 3000);
     return () => clearTimeout(timer);
   }, [sessionToast]);
+
+  // Persist sidebar open/collapsed state
+  useEffect(() => {
+    localStorage.setItem('va_sidebar_open', sidebarCollapsed ? '0' : '1');
+  }, [sidebarCollapsed]);
 
   const startResize = useCallback((e) => {
     resizing.current = true;
@@ -636,7 +654,7 @@ export default function App() {
       {/* SIDEBAR — desktop: flex item. Mobile: fixed bottom-sheet overlay */}
       <div
         data-print-hide
-        style={{ width: typeof window !== 'undefined' && window.innerWidth >= 768 ? sidebarWidth : undefined }}
+        style={{ width: window.innerWidth >= 768 ? (sidebarCollapsed ? 0 : sidebarWidth) : undefined }}
         className={`
           fixed bottom-0 left-0 right-0 z-50
           md:relative md:bottom-auto md:left-auto md:right-auto md:z-auto
@@ -656,6 +674,19 @@ export default function App() {
             <div className="w-8 h-1 bg-slate-600 rounded-full" />
             <span className="text-slate-500 text-sm">▼</span>
           </div>
+        </div>
+        {/* Desktop sidebar header with collapse button */}
+        <div className="hidden md:flex flex-shrink-0 items-center justify-between px-4 py-2 border-b border-slate-700">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Inputs</span>
+          <button
+            onClick={() => setSidebarCollapsed(true)}
+            title="Collapse inputs panel"
+            className="p-1 rounded text-slate-500 hover:text-white hover:bg-slate-700 transition-colors"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
         </div>
         <div className="flex-1 overflow-y-auto p-4 md:p-5">
           <InputPanel
@@ -686,6 +717,20 @@ export default function App() {
       {/* MAIN CONTENT — full width on mobile (sidebar is overlay), flex-1 on desktop */}
       <div data-print-main className="flex-1 flex flex-col overflow-hidden min-h-0">
         <div data-print-scroll className="flex-1 overflow-y-auto p-4 md:p-6">
+          {/* Desktop: expand sidebar button — shown when sidebar is collapsed */}
+          {sidebarCollapsed && (
+            <div className="hidden md:flex items-center gap-2 mb-4">
+              <button
+                onClick={() => setSidebarCollapsed(false)}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-semibold rounded-lg hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                Edit Inputs
+              </button>
+            </div>
+          )}
           {/* Session-restored toast — auto-dismisses after 3 s */}
           {sessionToast && (
             <div className="mb-4 rounded-lg bg-blue-50 border border-blue-200 px-4 py-2.5 text-sm text-blue-700 flex items-center justify-between">

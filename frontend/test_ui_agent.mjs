@@ -66,15 +66,20 @@ async function waitForResults(timeout = 45000) {
   await waitForIdle(timeout);
 }
 
-/** Read the displayed text of the first metric card matching a title keyword */
+/** Read the displayed text of the first metric card matching a title keyword.
+ *  Works for both old MetricCards (text-3xl) and the compact StatStrip (tabular-nums). */
 async function getMetricValue(titleKeyword) {
   return page.evaluate((kw) => {
-    const cards = document.querySelectorAll('[class*="rounded-xl"]');
-    for (const card of cards) {
-      const titleEl = card.querySelector('[class*="uppercase"]');
-      if (titleEl && titleEl.textContent.toLowerCase().includes(kw.toLowerCase())) {
-        const valueEl = card.querySelector('[class*="text-3xl"]');
-        return valueEl ? valueEl.textContent.trim() : null;
+    // Search every uppercase label element for the keyword, then return its sibling value
+    const labels = document.querySelectorAll('[class*="uppercase"]');
+    for (const label of labels) {
+      if (label.textContent.toLowerCase().includes(kw.toLowerCase())) {
+        const parent = label.parentElement;
+        if (!parent) continue;
+        // StatStrip value uses tabular-nums; advanced MetricCards use text-3xl
+        const valueEl = parent.querySelector('[class*="tabular-nums"]')
+                     || parent.querySelector('[class*="text-3xl"]');
+        if (valueEl) return valueEl.textContent.trim();
       }
     }
     return null;
@@ -513,6 +518,56 @@ async function scenario_tooltipRendering() {
   await screenshot('09-tooltip');
 }
 
+async function scenario_inputClear() {
+  console.log('\n[Scenario 10] Number input — full deletion and re-entry');
+  await page.goto(BASE_URL, { waitUntil: 'networkidle', timeout: 30000 });
+  await page.waitForTimeout(500);
+
+  // Ensure sidebar is open (desktop: click "Edit Inputs" pill if sidebar is collapsed)
+  const editBtn = page.locator('button').filter({ hasText: /Edit Inputs/ });
+  if (await editBtn.count() > 0 && await editBtn.isVisible()) {
+    await editBtn.click();
+    await page.waitForTimeout(300);
+  }
+
+  const numInputs = page.locator('input[type="number"]');
+
+  // ── Test 1: integer input (age field, default 65) ─────────────────────────
+  const ageInput = numInputs.first();
+  await ageInput.click({ clickCount: 3 });
+  await ageInput.press('Control+A');
+  for (let i = 0; i < 3; i++) await ageInput.press('Backspace');
+  await page.waitForTimeout(100);
+  await ageInput.type('72');
+  await ageInput.press('Tab');
+  await page.waitForTimeout(200);
+
+  const ageVal = await ageInput.inputValue();
+  ageVal === '72'
+    ? pass('Integer input: delete all digits then retype commits new value', `"${ageVal}"`)
+    : fail('Integer input: field snapped back instead of accepting new value', `Got "${ageVal}" expected "72"`);
+
+  // ── Test 2: percent input (withdrawal rate, default 5%) ───────────────────
+  // The second type=number input in standard mode is the withdrawal rate PercentInput
+  const pctInput = numInputs.nth(1);
+  const origPct = await pctInput.inputValue();
+
+  await pctInput.click({ clickCount: 3 });
+  await pctInput.press('Control+A');
+  for (let i = 0; i < 5; i++) await pctInput.press('Backspace');
+  await page.waitForTimeout(100);
+  await pctInput.type('6');
+  await pctInput.press('Tab');
+  await page.waitForTimeout(200);
+
+  const newPct = await pctInput.inputValue();
+  newPct === '6'
+    ? pass('Percent input: delete all digits then retype commits new value', `"${newPct}"`)
+    : fail('Percent input: field snapped back instead of accepting new value', `Got "${newPct}" (was "${origPct}")`);
+
+  await screenshot('10-input-clear');
+}
+
 // ---------------------------------------------------------------------------
 // Main runner
 // ---------------------------------------------------------------------------
@@ -549,6 +604,8 @@ async function main() {
   //   - EmailCaptureModal: shown after first standard run if 'va_calc_email' absent
   await page.addInitScript(() => {
     localStorage.setItem('va_calc_email', 'test@playwright.com');
+    // Keep sidebar open so input fields are always accessible in tests
+    localStorage.setItem('va_sidebar_open', '1');
     // Clear saved params before every navigation so session persistence
     // doesn't bleed state between test scenarios (e.g. scenario 4 sets
     // gmwb_enabled=false and scenario 5 would then restore that state).
@@ -570,6 +627,7 @@ async function main() {
     scenario_sectionOrder,
     scenario_standardModeClarity,
     scenario_tooltipRendering,
+    scenario_inputClear,
   ];
 
   for (const scenario of scenarios) {
