@@ -263,6 +263,8 @@ Grouped by impact area. Items within each group are loosely priority-ordered.
 - **Live example CTA on landing page** — hero tertiary link "→ See Jackson National modeled" pre-loads Jackson preset so visitors land in the calculator with results already shown (share hash already works, just needs the constant + link wired up)
 
 ### Actuary / power user
+- **Review mortality assumptions** — audit the 2012 IAM Basic (Scale G2) and Annuity 2000 tables for appropriateness: confirm improvement factors are applied correctly, consider adding a more recent table (e.g. 2019 CSO or SOA PRI-2012), and verify the mortality multiplier interacts correctly with both tables
+- **Review lapse assumptions** — audit base lapse rate, dynamic lapse ITM-adjustment, and lapse floor against industry data (LIMRA, SOA experience studies); consider policy-year grading (surrender charges typically cause lapse rates to spike at free-partial-withdrawal anniversary) and validate the dynamic lapse formula behaves sensibly at extreme ITM ratios
 - **GMAB rider** — accumulation guarantee (return of premium at maturity); straightforward addition alongside GMDB
 - **Risk-neutral valuation mode** — replace real-world GBM drift with risk-neutral measure (μ = r); useful for GAAP reserving and fair-value pricing alongside the existing real-world view
 - **Custom mortality table** — paste qx values into a text box; useful for pricing substandard lives or validating proprietary tables
