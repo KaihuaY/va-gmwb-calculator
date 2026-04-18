@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 
 function MetricCard({ title, value, subtitle, accentColor }) {
   return (
-    <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100">
-      <div className="h-1.5" style={{ backgroundColor: accentColor }} />
+    <div className="bg-white rounded-xl shadow-sm border border-slate-100" style={{ borderLeft: `4px solid ${accentColor}` }}>
       <div className="p-5">
         <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">{title}</div>
-        <div className="text-3xl font-black tabular-nums leading-none" style={{ color: accentColor }}>{value}</div>
+        <div className="text-3xl font-black tabular-nums tracking-tight leading-none" style={{ color: accentColor }}>{value}</div>
         {subtitle && <div className="text-sm text-slate-500 mt-2 leading-snug">{subtitle}</div>}
       </div>
     </div>
@@ -16,15 +15,15 @@ function MetricCard({ title, value, subtitle, accentColor }) {
 // Compact horizontal stat strip — replaces large MetricCard grid in standard mode
 function StatStrip({ items }) {
   return (
-    <div className="flex flex-wrap bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden mb-3">
+    <div className="flex flex-wrap bg-white rounded-xl border border-slate-200 shadow-md shadow-slate-200/60 overflow-hidden mb-3">
       {items.map((item, i) => (
         <div
           key={item.label}
           className={`flex-1 min-w-[110px] px-4 py-3 ${i > 0 ? 'border-l border-slate-100' : ''}`}
         >
-          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.label}</div>
-          <div className="text-xl font-black tabular-nums leading-none mt-1" style={{ color: item.color }}>{item.value}</div>
-          {item.sub && <div className="text-[10px] text-slate-400 mt-1">{item.sub}</div>}
+          <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">{item.label}</div>
+          <div className={`${item.primary ? 'text-2xl' : 'text-xl'} font-black tabular-nums tracking-tight leading-none mt-1`} style={{ color: item.color }}>{item.value}</div>
+          {item.sub && <div className="text-xs text-slate-400 mt-1">{item.sub}</div>}
         </div>
       ))}
     </div>
@@ -357,16 +356,16 @@ export default function ResultsSummary({ results, running, progress, viewMode = 
   if (viewMode === 'standard') {
     const stripItems = [];
     if (hasGmwb) {
-      stripItems.push({ label: 'Guarantee Value', value: fmt(claim_stats.mean), sub: `Median ${fmt(claim_stats.median)}`, color: '#dc2626' });
+      stripItems.push({ label: 'Guarantee Value', value: fmt(claim_stats.mean), sub: `Median ${fmt(claim_stats.median)}`, color: '#dc2626', primary: true });
     }
     if (hasGmdb) {
-      stripItems.push({ label: 'Death Benefit', value: fmt(gmdb_stats.mean), sub: `Median ${fmt(gmdb_stats.median)}`, color: '#ea580c' });
+      stripItems.push({ label: 'Death Benefit', value: fmt(gmdb_stats.mean), sub: `Median ${fmt(gmdb_stats.median)}`, color: '#ea580c', primary: true });
     }
     if (!hasGmwb && !hasGmdb) {
       stripItems.push({ label: 'Guarantee Value', value: '—', sub: 'No rider selected', color: '#94a3b8' });
     }
     stripItems.push({ label: 'Total Fees', value: fmt(fee_stats.mean), sub: `Median ${fmt(fee_stats.median)}`, color: '#475569' });
-    stripItems.push({ label: 'Net Benefit', value: fmt(netMean), sub: netMean > 0 ? 'Payouts > fees' : 'Fees > payouts', color: netColor });
+    stripItems.push({ label: 'Net Benefit', value: fmt(netMean), sub: netMean > 0 ? 'Payouts > fees' : 'Fees > payouts', color: netColor, primary: true });
 
     return (
       <div className="mb-6">

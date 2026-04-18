@@ -7,7 +7,7 @@ import { JACKSON_SHARE_HASH } from '../App';
 // ---------------------------------------------------------------------------
 // Primary bg:     #F6F5F5  (off-white)
 // Dark section:   #0f1f3d  (deep navy, refined from #33313B)
-// Accent blue:    #0078D7
+// Accent blue:    #0052CC
 // Hero gradient:  45deg, #FFE3E3 → #D6DFFF
 // Text:           #1a1a2e  /  #4b5563
 
@@ -21,28 +21,28 @@ function Nav() {
       <div className="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-[#0078D7] flex items-center justify-center flex-shrink-0">
+          <div className="w-8 h-8 rounded-lg bg-[#0052CC] flex items-center justify-center flex-shrink-0">
             <span className="text-white font-black text-sm">AV</span>
           </div>
           <span className="text-lg font-bold text-[#0f1f3d] tracking-tight">
-            Annuity<span className="text-[#0078D7]">Voice</span>
+            Annuity<span className="text-[#0052CC]">Voice</span>
           </span>
         </Link>
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-6">
-          <a href="#how-it-works" className="text-sm font-medium text-slate-600 hover:text-[#0078D7] transition-colors">How it Works</a>
-          <a href="#scenarios" className="text-sm font-medium text-slate-600 hover:text-[#0078D7] transition-colors">What We Find</a>
-          <a href="#faq" className="text-sm font-medium text-slate-600 hover:text-[#0078D7] transition-colors">FAQ</a>
+          <a href="#how-it-works" className="text-sm font-medium text-slate-600 hover:text-[#0052CC] transition-colors">How it Works</a>
+          <a href="#scenarios" className="text-sm font-medium text-slate-600 hover:text-[#0052CC] transition-colors">What We Find</a>
+          <a href="#faq" className="text-sm font-medium text-slate-600 hover:text-[#0052CC] transition-colors">FAQ</a>
           <Link
             to="/calculator"
-            className="text-sm font-semibold text-[#0078D7] hover:text-blue-700 transition-colors"
+            className="text-sm font-semibold text-[#0052CC] hover:text-blue-700 transition-colors"
           >
             Calculator
           </Link>
           <a
             href="mailto:kai@annuityvoice.com"
-            className="px-4 py-2 bg-[#0078D7] text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-4 py-2 bg-[#0052CC] text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
           >
             Request Access
           </a>
@@ -64,8 +64,8 @@ function Nav() {
           <a href="#scenarios" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-slate-600">What We Find</a>
           <a href="#how-it-works" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-slate-600">How it Works</a>
           <a href="#faq" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-slate-600">FAQ</a>
-          <Link to="/calculator" className="block text-sm font-semibold text-[#0078D7]">Calculator →</Link>
-          <a href="mailto:kai@annuityvoice.com" className="block px-4 py-2 bg-[#0078D7] text-white text-sm font-semibold rounded-lg text-center">Request Access</a>
+          <Link to="/calculator" className="block text-sm font-semibold text-[#0052CC]">Calculator →</Link>
+          <a href="mailto:kai@annuityvoice.com" className="block px-4 py-2 bg-[#0052CC] text-white text-sm font-semibold rounded-lg text-center">Request Access</a>
         </div>
       )}
     </nav>
@@ -84,23 +84,23 @@ function Hero() {
       {/* Subtle geometric decoration */}
       <div className="absolute top-0 right-0 w-96 h-96 opacity-20 pointer-events-none">
         <svg viewBox="0 0 400 400" fill="none">
-          <circle cx="300" cy="100" r="200" stroke="#0078D7" strokeWidth="1" />
-          <circle cx="300" cy="100" r="140" stroke="#0078D7" strokeWidth="1" />
-          <circle cx="300" cy="100" r="80" stroke="#0078D7" strokeWidth="1" />
+          <circle cx="300" cy="100" r="200" stroke="#0052CC" strokeWidth="1" />
+          <circle cx="300" cy="100" r="140" stroke="#0052CC" strokeWidth="1" />
+          <circle cx="300" cy="100" r="80" stroke="#0052CC" strokeWidth="1" />
         </svg>
       </div>
 
       <div className="max-w-6xl mx-auto relative">
         <div className="max-w-2xl">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 border border-blue-200 text-xs font-semibold text-[#0078D7] mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#0078D7] animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 border border-blue-200 text-xs font-semibold text-[#0052CC] mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0052CC] animate-pulse" />
             Built for RIAs · Founded by Actuaries
           </div>
 
           <h1 className="text-4xl md:text-5xl font-black text-[#0f1f3d] leading-tight tracking-tight mb-5">
             Optimize Your Clients'<br />
-            <span className="text-[#0078D7]">Legacy Annuities</span>
+            <span className="text-[#0052CC]">Legacy Annuities</span>
           </h1>
 
           <p className="text-lg text-slate-600 leading-relaxed mb-8 max-w-xl">
@@ -112,7 +112,7 @@ function Hero() {
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
               to="/calculator"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#0078D7] text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 hover:shadow-blue-300 hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#0052CC] text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 hover:shadow-blue-300 hover:-translate-y-0.5"
             >
               <span>Launch Free Calculator</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -121,7 +121,7 @@ function Hero() {
             </Link>
             <a
               href="mailto:kai@annuityvoice.com"
-              className="inline-flex items-center justify-center px-6 py-3.5 bg-white text-[#0f1f3d] font-bold rounded-xl border-2 border-[#0f1f3d]/10 hover:border-[#0078D7] hover:text-[#0078D7] transition-all"
+              className="inline-flex items-center justify-center px-6 py-3.5 bg-white text-[#0f1f3d] font-bold rounded-xl border-2 border-[#0f1f3d]/10 hover:border-[#0052CC] hover:text-[#0052CC] transition-all"
             >
               Request Free Analysis
             </a>
@@ -129,7 +129,7 @@ function Hero() {
           {/* Tertiary CTA — pre-loads Jackson National example */}
           <Link
             to={`/calculator${JACKSON_SHARE_HASH}`}
-            className="inline-flex items-center gap-1.5 text-sm text-slate-600 hover:text-[#0078D7] transition-colors mt-1"
+            className="inline-flex items-center gap-1.5 text-sm text-slate-600 hover:text-[#0052CC] transition-colors mt-1"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
@@ -147,7 +147,7 @@ function Hero() {
             { stat: '5', label: 'Optimization Scenarios', sub: 'Systematically checked for every policy' },
           ].map(({ stat, label, sub }) => (
             <div key={label} className="bg-white/80 backdrop-blur rounded-xl p-4 border border-white shadow-sm">
-              <div className="text-2xl font-black text-[#0078D7] tabular-nums">{stat}</div>
+              <div className="text-2xl font-black text-[#0052CC] tabular-nums">{stat}</div>
               <div className="text-sm font-bold text-[#0f1f3d] mt-0.5">{label}</div>
               <div className="text-xs text-slate-500 mt-0.5 leading-tight">{sub}</div>
             </div>
@@ -219,7 +219,7 @@ function Scenarios() {
     <section id="scenarios" className="py-20 px-5 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <div className="inline-block px-3 py-1 rounded-full bg-blue-50 text-[#0078D7] text-xs font-bold uppercase tracking-widest mb-3">
+          <div className="inline-block px-3 py-1 rounded-full bg-blue-50 text-[#0052CC] text-xs font-bold uppercase tracking-widest mb-3">
             What We Find
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-[#0f1f3d] mb-4">
@@ -237,12 +237,12 @@ function Scenarios() {
               key={s.number}
               className={`relative rounded-2xl border p-6 transition-all hover:-translate-y-1 hover:shadow-md ${
                 i === 4
-                  ? 'md:col-span-2 lg:col-span-1 border-[#0078D7]/30 bg-blue-50/40'
+                  ? 'md:col-span-2 lg:col-span-1 border-[#0052CC]/30 bg-blue-50/40'
                   : 'border-slate-200 bg-[#F6F5F5]/60 hover:border-blue-200'
               }`}
             >
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-[#0078D7]/10 text-[#0078D7] flex items-center justify-center">
+                <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-[#0052CC]/10 text-[#0052CC] flex items-center justify-center">
                   {s.icon}
                 </div>
                 <div className="min-w-0">
@@ -303,7 +303,7 @@ function HowItWorks() {
                 <div className="hidden md:block absolute top-8 left-[calc(100%+0px)] w-full h-px bg-blue-500/20 z-10" />
               )}
               <div className="bg-white/5 border border-white/10 rounded-2xl p-6 h-full">
-                <div className="w-12 h-12 rounded-xl bg-[#0078D7] text-white font-black text-lg flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-xl bg-[#0052CC] text-white font-black text-lg flex items-center justify-center mb-4">
                   {s.n}
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">{s.title}</h3>
@@ -414,7 +414,7 @@ function FAQ() {
     <section id="faq" className="py-20 px-5 bg-white">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
-          <div className="inline-block px-3 py-1 rounded-full bg-blue-50 text-[#0078D7] text-xs font-bold uppercase tracking-widest mb-3">
+          <div className="inline-block px-3 py-1 rounded-full bg-blue-50 text-[#0052CC] text-xs font-bold uppercase tracking-widest mb-3">
             FAQ
           </div>
           <h2 className="text-3xl font-black text-[#0f1f3d]">Common questions</h2>
@@ -462,7 +462,7 @@ function FreeAnalysisCTA() {
         </p>
         <a
           href="mailto:kai@annuityvoice.com?subject=Free Policy Analysis Request"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-[#0078D7] text-white font-bold rounded-xl hover:bg-blue-600 transition-all shadow-lg shadow-blue-900/40 hover:-translate-y-0.5"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-[#0052CC] text-white font-bold rounded-xl hover:bg-blue-600 transition-all shadow-lg shadow-blue-900/40 hover:-translate-y-0.5"
         >
           Request Free Analysis
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -484,11 +484,11 @@ function Footer() {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-6">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-[#0078D7] flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-[#0052CC] flex items-center justify-center">
               <span className="text-white font-black text-xs">AV</span>
             </div>
             <span className="text-base font-bold text-white tracking-tight">
-              Annuity<span className="text-[#0078D7]">Voice</span>
+              Annuity<span className="text-[#0052CC]">Voice</span>
             </span>
           </div>
 
@@ -525,10 +525,10 @@ export default function LandingPage() {
     <div className="min-h-screen font-sans" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
       <Nav />
       <Hero />
+      <TrustStrip />
       <Scenarios />
       <HowItWorks />
       <CalculatorCTA />
-      <TrustStrip />
       <FAQ />
       <FreeAnalysisCTA />
       <Footer />

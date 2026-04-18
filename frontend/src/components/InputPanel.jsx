@@ -44,11 +44,11 @@ function Tooltip({ text }) {
   return (
     <span
       ref={iconRef}
-      className="ml-1.5 cursor-help text-slate-600 hover:text-slate-400 text-base leading-none select-none"
+      className="ml-1.5 cursor-help text-slate-600 hover:text-slate-400 inline-flex items-center select-none"
       onMouseEnter={show}
       onMouseLeave={() => setVisible(false)}
     >
-      ⓘ
+      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
       {visible && createPortal(
         <div
           style={{ position: 'fixed', top: pos.top, left: pos.left, zIndex: 9999, width: 288 }}
@@ -217,7 +217,7 @@ function HealthSelector({ value, onChange }) {
             key={l.id}
             type="button"
             onClick={() => onChange(l.mult)}
-            className={`flex-1 py-2 text-xs font-semibold rounded-md border transition-colors ${
+            className={`flex-1 py-2 text-xs font-semibold rounded-md border transition active:scale-[0.98] ${
               active?.id === l.id
                 ? 'bg-blue-600 text-white border-blue-600'
                 : 'bg-slate-700 text-slate-300 border-slate-600 hover:border-blue-400 hover:text-white'
@@ -823,7 +823,7 @@ export default function InputPanel({ params, setParam, onRun, onSensitivity, onO
         <button
           onClick={() => onRun()}
           disabled={running}
-          className="w-full py-3 px-4 bg-blue-600 text-white text-base font-bold rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+          className="w-full py-3 px-4 bg-blue-600 text-white text-base font-bold rounded-lg hover:bg-blue-700 disabled:opacity-50 transition active:scale-[0.98]"
         >
           {running ? 'Running…' : 'Run Simulation'}
         </button>
