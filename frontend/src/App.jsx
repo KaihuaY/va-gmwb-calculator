@@ -108,8 +108,8 @@ const DEFAULT_PARAMS = {
 };
 
 // ---------------------------------------------------------------------------
-// Real-world product presets — top 5 VA issuers by 2024 LIMRA sales
-// Parameters sourced from public prospectuses and industry disclosures.
+// Real-world product presets — top VA/RILA issuers by 2024 LIMRA sales
+// Parameters sourced from public prospectuses, SEC filings, and industry disclosures.
 // ---------------------------------------------------------------------------
 const PRODUCT_PRESETS = [
   {
@@ -189,6 +189,26 @@ const PRODUCT_PRESETS = [
       rollup_rate: 0.06,       // 6% simple roll-up during 10-yr deferral
       step_up: true,
       mu: 0.06, sigma: 0.20,
+      gmwb_enabled: true, gmdb_enabled: false,
+    },
+  },
+  {
+    id: 'allianz',
+    label: 'Allianz — Index Advantage Income ADV (RILA)',
+    // Source: SEC EDGAR filing May 2024 (edgar.sec.gov/data/836346/000083634624000102)
+    // WD rate confirmed: 5.70% @age55 → 7.50% @age73; rider fee 0.70% confirmed.
+    // Product fee (M&E equivalent) estimated at 1.25% — verify against current prospectus.
+    // No benefit-base roll-up; Allianz uses annual income-percentage step-ups instead.
+    description: 'RILA · 6.5% WD at 65 · 0.70% rider fee · annual step-up · no roll-up · SEC filing sourced',
+    params: {
+      ...DEFAULT_PARAMS,
+      current_age: 58, election_age: 65,
+      withdrawal_rate: 0.065,  // 6.5% at age 65 (interpolated: 5.70%@55 → 7.50%@73, +0.10%/yr)
+      rider_fee: 0.007,        // 0.70% of benefit base — confirmed from SEC filing
+      me_fee: 0.0125,          // 1.25% product/admin fee (RILA structure, no traditional M&E)
+      rollup_rate: 0.0,        // No benefit-base roll-up (income % steps up on deferral, not modeled)
+      step_up: true,           // Annual ratchet to higher of income base or account value
+      mu: 0.065, sigma: 0.18,
       gmwb_enabled: true, gmdb_enabled: false,
     },
   },
