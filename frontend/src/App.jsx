@@ -111,7 +111,7 @@ const DEFAULT_PARAMS = {
 // Real-world product presets — top VA/RILA issuers by 2024 LIMRA sales
 // Parameters sourced from public prospectuses, SEC filings, and industry disclosures.
 // ---------------------------------------------------------------------------
-const PRODUCT_PRESETS = [
+export const PRODUCT_PRESETS = [
   {
     id: 'jackson',
     label: 'Jackson National — LifeGuard Freedom Flex',
@@ -217,7 +217,7 @@ const PRODUCT_PRESETS = [
 // ---------------------------------------------------------------------------
 // Share / permalink helpers — encode params into URL hash
 // ---------------------------------------------------------------------------
-function encodeParamsToHash(params) {
+export function encodeParamsToHash(params) {
   try {
     const json = JSON.stringify(params);
     return '#p=' + btoa(json);
@@ -852,9 +852,9 @@ export default function App() {
                   className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-md transition-colors"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  Print
+                  Export PDF
                 </button>
               )}
             </div>

@@ -123,9 +123,15 @@ function Hero() {
               href="mailto:kai@annuityvoice.com"
               className="inline-flex items-center justify-center px-6 py-3.5 bg-white text-[#0f1f3d] font-bold rounded-xl border-2 border-[#0f1f3d]/10 hover:border-[#0052CC] hover:text-[#0052CC] transition-all"
             >
-              Request Free Analysis
+              Advisor? Get White-Label Reports
             </a>
           </div>
+          <p className="text-sm text-slate-500 mt-2">
+            Policyholder checking your own contract?{' '}
+            <Link to="/calculator" className="text-[#0052CC] hover:underline font-medium">
+              The calculator works for you too →
+            </Link>
+          </p>
           {/* Tertiary CTA — pre-loads Jackson National example */}
           <Link
             to={`/calculator${JACKSON_SHARE_HASH}`}
@@ -482,7 +488,7 @@ function Footer() {
   return (
     <footer className="bg-[#0a1628] py-10 px-5">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-6">
+        <div className="flex flex-col md:flex-row items-start justify-between gap-8 mb-6">
           <div className="flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-lg bg-[#0052CC] flex items-center justify-center">
               <span className="text-white font-black text-xs">AV</span>
@@ -492,10 +498,22 @@ function Footer() {
             </span>
           </div>
 
-          <div className="flex items-center gap-5 text-sm">
-            <a href="#faq" className="text-slate-400 hover:text-white transition-colors">FAQ</a>
-            <Link to="/calculator" className="text-slate-400 hover:text-white transition-colors">Calculator</Link>
-            <a href="mailto:kai@annuityvoice.com" className="text-slate-400 hover:text-white transition-colors">Contact</a>
+          <div className="flex flex-col sm:flex-row gap-8 text-sm">
+            <div className="flex flex-col gap-2">
+              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Site</span>
+              <a href="#faq" className="text-slate-400 hover:text-white transition-colors">FAQ</a>
+              <Link to="/calculator" className="text-slate-400 hover:text-white transition-colors">Calculator</Link>
+              <a href="mailto:kai@annuityvoice.com" className="text-slate-400 hover:text-white transition-colors">Contact</a>
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Product Calculators</span>
+              <Link to="/jackson-national-gmwb-calculator" className="text-slate-400 hover:text-white transition-colors">Jackson National</Link>
+              <Link to="/equitable-gmwb-calculator" className="text-slate-400 hover:text-white transition-colors">Equitable</Link>
+              <Link to="/tiaa-cref-glwb-calculator" className="text-slate-400 hover:text-white transition-colors">TIAA</Link>
+              <Link to="/nationwide-lifetime-income-calculator" className="text-slate-400 hover:text-white transition-colors">Nationwide</Link>
+              <Link to="/lincoln-choiceplus-gmwb-calculator" className="text-slate-400 hover:text-white transition-colors">Lincoln</Link>
+              <Link to="/allianz-index-advantage-income-calculator" className="text-slate-400 hover:text-white transition-colors">Allianz</Link>
+            </div>
           </div>
         </div>
 
