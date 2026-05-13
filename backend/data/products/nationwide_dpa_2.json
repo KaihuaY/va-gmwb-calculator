@@ -1,0 +1,95 @@
+{
+  "slug": "nationwide_dpa_2",
+  "name": "Defined Protection Annuity 2.0",
+  "carrier": "Nationwide",
+  "product_type": "rila",
+  "first_offered": "2024-05-01",
+  "data_provenance": "prospectus_v1",
+  "base": {
+    "base_av_default": 250000,
+    "me_fee_annual": 0.011,
+    "surrender_schedule": [
+      0.07,
+      0.07,
+      0.06,
+      0.05,
+      0.04,
+      0.03
+    ],
+    "free_withdrawal_pct": 0.07,
+    "nursing_home_waiver": true,
+    "terminal_illness_waiver": true,
+    "disability_waiver": false
+  },
+  "segments_available": [
+    {
+      "term_years": 1,
+      "index": "sp500",
+      "crediting_method": "cap",
+      "protection_type": "buffer",
+      "protection_level": 0.1,
+      "cap_rate": 0.09
+    },
+    {
+      "term_years": 6,
+      "index": "sp500",
+      "crediting_method": "participation",
+      "protection_type": "buffer",
+      "protection_level": 0.2,
+      "participation_rate": 0.7
+    }
+  ],
+  "default_allocation_pcts": [
+    0.5,
+    0.5
+  ],
+  "rider": {
+    "type": "none"
+  },
+  "insurer": {
+    "am_best": "A+",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.14
+  },
+  "behavioral_data": {
+    "initial_cap": 0.09,
+    "current_cap": 0.09,
+    "cap_history": [
+      {
+        "date": "2024-05-01",
+        "cap": 0.09
+      }
+    ],
+    "illustration_actual_delta": 0.05,
+    "naic_complaints_index": 0.4,
+    "regulatory_fines_5yr": 0
+  },
+  "has_gmdb": false,
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "n4_prospectus",
+      "url": "https://www.sec.gov/Archives/edgar/data/205695/000119312524133855/d802096d424b3.htm",
+      "retrieved": "2026-05-12",
+      "note": "Nationwide Defined Protection Annuity 2.0 prospectus (file 333-275629), CIK 205695 (Nationwide Life Insurance Company). Three protection levels available (100%, 95%, 90%) with corresponding buffer mechanics; six-year CDSC period."
+    },
+    {
+      "type": "carrier_product_page",
+      "url": "https://www.nationwide.com/personal/investing/annuities/registered-index-linked/types/defined-protection-2",
+      "retrieved": "2026-05-12",
+      "note": "Nationwide Defined Protection 2.0 official product page. Single-purchase-payment deferred annuity with growth potential and selectable downside protection. Surrender charges and MVA apply during first six contract years; no CDSCs apply after Year 6."
+    },
+    {
+      "type": "carrier_rate_sheet",
+      "url": "https://financial.nationwide.com/media/pdf/VAM-3842AO.pdf",
+      "retrieved": "2026-05-12",
+      "note": "Nationwide Defined Protection 2.0 rate sheet (indicative). Product fee structure varies by contract issue date (1.10% disclosed for older Defender; DPA 2.0 base contract design uses participation-rate-driven crediting for 6-yr 20% buffer."
+    },
+    {
+      "type": "am_best",
+      "url": "https://news.ambest.com/PR/PressContent.aspx?refnum=36903&altsrc=2",
+      "retrieved": "2026-05-12",
+      "note": "Nationwide Life Insurance Company AM Best FSR A+ (Superior)."
+    }
+  ]
+}

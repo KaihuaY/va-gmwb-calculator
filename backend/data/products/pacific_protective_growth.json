@@ -1,0 +1,95 @@
+{
+  "slug": "pacific_protective_growth",
+  "name": "Pacific Protective Growth",
+  "carrier": "Pacific Life",
+  "product_type": "rila",
+  "first_offered": "2024-12-17",
+  "data_provenance": "prospectus_v1",
+  "base": {
+    "base_av_default": 250000,
+    "me_fee_annual": 0.0,
+    "surrender_schedule": [
+      0.07,
+      0.07,
+      0.06,
+      0.05,
+      0.04,
+      0.03
+    ],
+    "free_withdrawal_pct": 0.1,
+    "nursing_home_waiver": true,
+    "terminal_illness_waiver": true,
+    "disability_waiver": false
+  },
+  "segments_available": [
+    {
+      "term_years": 1,
+      "index": "sp500",
+      "crediting_method": "cap",
+      "protection_type": "buffer",
+      "protection_level": 0.1,
+      "cap_rate": 0.105
+    },
+    {
+      "term_years": 6,
+      "index": "sp500",
+      "crediting_method": "participation",
+      "protection_type": "buffer",
+      "protection_level": 0.2,
+      "participation_rate": 0.85
+    }
+  ],
+  "default_allocation_pcts": [
+    0.5,
+    0.5
+  ],
+  "rider": {
+    "type": "none"
+  },
+  "insurer": {
+    "am_best": "A+",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.13
+  },
+  "behavioral_data": {
+    "initial_cap": 0.105,
+    "current_cap": 0.105,
+    "cap_history": [
+      {
+        "date": "2024-12-17",
+        "cap": 0.105
+      }
+    ],
+    "illustration_actual_delta": 0.05,
+    "naic_complaints_index": 0.4,
+    "regulatory_fines_5yr": 0
+  },
+  "has_gmdb": false,
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "carrier_press_release",
+      "url": "https://www.pacificlife.com/press-releases/pacific-life-launches-new-registered-index-linked-annuity.html",
+      "retrieved": "2026-05-12",
+      "note": "Pacific Life entered RILA market with Pacific Protective Growth (launched implementation date 2024-12-16/17). Issued by Pacific Life Insurance Company. NEW PRODUCT — first Pacific Life RILA; their previously-marketed Pacific Index Advisory / Index Foundation products are FIA, not RILA."
+    },
+    {
+      "type": "product_review",
+      "url": "https://annuityrateshq.com/reviews/pacific-life-protective-growth-rila",
+      "retrieved": "2026-05-12",
+      "note": "Surrender charge schedule 7/7/6/5/4/3 over 6 years; 10% free withdrawal annually; no annual contract or admin fees; includes nursing home / hospital confinement waiver (30+ consecutive days) and terminal illness waiver (life expectancy < 1 year). Current cap and participation rates are indicative public estimates pending broker-portal rate sheet access."
+    },
+    {
+      "type": "implementation_notice",
+      "url": "https://www.annuities.pacificlife.com/content/dam/paclife/rsd/annuities/public/pdfs/news/pacific-protective-growth-rila-notice.pdf",
+      "retrieved": "2026-05-12",
+      "note": "Pacific Life Pacific Protective Growth RILA implementation date 12/16/24 official notice."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.pacificlife.com/who-we-are/financial-strength.html",
+      "retrieved": "2026-05-12",
+      "note": "Pacific Life Insurance Company AM Best FSR A+ (Superior). Second-highest of 16 possible ratings."
+    }
+  ]
+}

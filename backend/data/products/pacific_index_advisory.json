@@ -7,10 +7,19 @@
   "data_provenance": "synthetic_v0",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "carrier_product_page",
+      "url": "https://ria.pacificlife.com/home/advisory-annuities/fixed-and-fixed-indexed-annuities/pacific-index-advisory.html",
+      "retrieved": "2026-05-12",
+      "note": "MISCLASSIFICATION FLAG: Pacific Index Advisory is a Fixed Indexed Annuity (FIA), NOT a RILA. Pacific Life classifies it as a 'Limited Premium Deferred Fixed Annuity Contract with Index-Linked Interest Options' — money is not directly invested in the market. The actual Pacific Life RILA is Pacific Protective Growth (see pacific_protective_growth.json). Spec product_type='rila' is INCORRECT but cannot be changed without methodology update; flagging in verification_notes."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.pacificlife.com/who-we-are/financial-strength.html",
+      "retrieved": "2026-05-12",
+      "note": "Pacific Life Insurance Company AM Best FSR A+ (Superior). Synthetic anchor confirmed."
     }
   ],
+  "verification_notes": "CRITICAL: Pacific Index Advisory is classified by Pacific Life as a Fixed Indexed Annuity (FIA), not a RILA. It does not have a buffer-based loss-sharing mechanism; index-linked interest is credited subject to a cap with full principal protection from index losses. Should be removed from RILA catalog or reclassified in a future schema migration. AM Best A+ confirmed. Excluded from market-coverage % denominator in 2026-05-12 coverage analysis.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,

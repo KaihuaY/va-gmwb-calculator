@@ -4,13 +4,34 @@
   "carrier": "Prudential",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "carrier_product_page",
+      "url": "https://www.prudential.com/advisors/annuities/annuity-strategies/flexguard-indexed-variable-annuity",
+      "retrieved": "2026-05-12",
+      "note": "Prudential FlexGuard indexed variable annuity (RILA). Multiple index crediting strategies: cap rate (three variants) and uncapped accelerated growth (two variants). Issued by Pruco Life Insurance Company / Prudential Annuities Life Assurance Corp."
+    },
+    {
+      "type": "carrier_press_release",
+      "url": "https://news.prudential.com/us-en/latest-news/prudential-news/2025/q4/Prudential-launches-FlexGuard-2-0-with-new-investment-allocation-options-to-help-customers-protect-their-life-s-work,-furthering-commitment-to-the-registered-index-linked-annuity-space",
+      "retrieved": "2026-05-12",
+      "note": "Prudential launched FlexGuard 2.0 in Q4 2025 with new investment allocation options. Original FlexGuard (this product) remains in-force; spec covers the original FlexGuard base contract."
+    },
+    {
+      "type": "rate_center",
+      "url": "https://www.prudential.com/personal/annuities/flexguard-rate-center",
+      "retrieved": "2026-05-12",
+      "note": "Prudential FlexGuard rate center (current rates and caps). Cap, buffer, and term structure confirmed; current cap rates within publicly posted range used in synthetic anchor."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.prudential.com/links/about/financial-strength-ratings",
+      "retrieved": "2026-05-12",
+      "note": "Pruco Life Insurance Company / Prudential Annuities Life Assurance Corp. AM Best FSR A+ (Superior). Synthetic anchor 'A+' confirmed."
     }
   ],
+  "verification_notes": "AM Best A+ confirmed; product structure (cap rate + uncapped strategies, 1/3/6-yr terms, 10/15/20 buffer) verified against carrier product page; surrender schedule and exact current cap rates within posted public ranges — not modified from synthetic.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,

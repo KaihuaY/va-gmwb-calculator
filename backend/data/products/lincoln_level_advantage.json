@@ -4,13 +4,34 @@
   "carrier": "Lincoln",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "n4_prospectus",
+      "url": "https://www.sec.gov/Archives/edgar/data/1048606/000110465918032922/a18-8480_1n4a.htm",
+      "retrieved": "2026-05-12",
+      "note": "Lincoln Level Advantage original N-4 registration (CIK 1048606, Lincoln National Life Insurance Company). Predecessor to Level Advantage 2 / Level Advantage II."
+    },
+    {
+      "type": "carrier_product_page",
+      "url": "https://www.lincolnfinancial.com/public/microsite/leveladvantage",
+      "retrieved": "2026-05-12",
+      "note": "Lincoln Level Advantage indexed variable annuity (RILA). Commission-bearing B-share with 6-year surrender schedule. Crediting strategies linked to seven indexes/ETFs."
+    },
+    {
+      "type": "rate_center",
+      "url": "https://www.lincolnfinancial.com/public/microsite/leveladvantage/ratescenter",
+      "retrieved": "2026-05-12",
+      "note": "Lincoln Level Advantage rate sheet center. Cap rate 1-yr S&P 500 with 10% buffer within posted public range; rates reset on the 1st of each month."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.lincolnfinancial.com/public/aboutus/financial-strength",
+      "retrieved": "2026-05-12",
+      "note": "Lincoln National Life Insurance Company AM Best FSR A (Excellent). Synthetic spec anchored 'A+' — should be downgraded to 'A' for accuracy."
     }
   ],
+  "verification_notes": "AM Best should be A (synthetic was A+ — downgraded to match disclosed FSR); surrender schedule 8/7/6/5/4/3 confirmed for B-share; cap rates within public range pending broker portal access.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,
@@ -53,7 +74,7 @@
     "type": "none"
   },
   "insurer": {
-    "am_best": "A+",
+    "am_best": "A",
     "pe_owned": false,
     "level_3_pct_2024": 0.16
   },

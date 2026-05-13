@@ -3,7 +3,7 @@
   "product_name": "Defined Protection Annuity",
   "carrier": "Nationwide",
   "methodology_version": "v1.3.0",
-  "product_spec_hash": "f4f6383af4fa4885bda338f8a37136dfb1d0f399fb1126810692fbedd33e6410",
+  "product_spec_hash": "05a8050215df73888a13e4a76b93e30af4ade1266e5234089c45bc5de6423f15",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,

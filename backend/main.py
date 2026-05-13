@@ -13,7 +13,9 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from engine.projection import SimulationParams, run_simulation
-from engine.historical import run_historical, list_available_window
+from engine.historical import (
+    run_historical, list_available_window, compute_regime_backtest_path,
+)
 from engine.session_store import save_session
 from engine.ratings_store import (
     list_published_ratings, load_rating, load_product_spec, load_methodology,
@@ -476,6 +478,23 @@ def methodology_get(version: str = "v1"):
         return load_methodology(version)
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail=f"Methodology {version} not found")
+
+
+@app.get("/ratings/{slug}/backtest/{regime_key}")
+def ratings_regime_backtest(slug: str, regime_key: str):
+    """
+    Replay one published product through one historical regime with a normalized
+    starting AV ($100). Deterministic single path — NOT a Monte Carlo, and NOT
+    a composite-rating input (see methodology.scenario_backtest).
+    """
+    spec = load_product_spec(slug)
+    if spec is None:
+        raise HTTPException(status_code=404, detail=f"No product spec for '{slug}'")
+    meth = load_methodology()
+    try:
+        return compute_regime_backtest_path(spec, meth, regime_key, starting_av=100.0)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 @app.post("/record")

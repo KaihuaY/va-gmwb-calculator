@@ -1,0 +1,94 @@
+{
+  "slug": "aspida_dreampath",
+  "name": "DreamPath",
+  "carrier": "Aspida",
+  "product_type": "rila",
+  "first_offered": "2025-10-27",
+  "data_provenance": "synthetic_v0",
+  "base": {
+    "base_av_default": 250000,
+    "me_fee_annual": 0.0,
+    "surrender_schedule": [
+      0.09,
+      0.08,
+      0.07,
+      0.06,
+      0.05,
+      0.04,
+      0.03
+    ],
+    "free_withdrawal_pct": 0.1,
+    "nursing_home_waiver": true,
+    "terminal_illness_waiver": true,
+    "disability_waiver": false
+  },
+  "segments_available": [
+    {
+      "term_years": 1,
+      "index": "sp500",
+      "crediting_method": "cap",
+      "protection_type": "buffer",
+      "protection_level": 0.1,
+      "cap_rate": 0.13
+    },
+    {
+      "term_years": 6,
+      "index": "sp500",
+      "crediting_method": "participation",
+      "protection_type": "buffer",
+      "protection_level": 0.2,
+      "participation_rate": 0.95
+    }
+  ],
+  "default_allocation_pcts": [
+    0.5,
+    0.5
+  ],
+  "rider": {
+    "type": "none"
+  },
+  "insurer": {
+    "am_best": "A-",
+    "pe_owned": true,
+    "level_3_pct_2024": 0.3
+  },
+  "behavioral_data": {
+    "initial_cap": 0.13,
+    "current_cap": 0.13,
+    "cap_history": [
+      {
+        "date": "2025-10-27",
+        "cap": 0.13
+      }
+    ],
+    "illustration_actual_delta": 0.05,
+    "naic_complaints_index": 0.5,
+    "regulatory_fines_5yr": 0
+  },
+  "has_gmdb": false,
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "carrier_press_release",
+      "url": "https://www.globenewswire.com/news-release/2025/10/27/3174519/0/en/Aspida-Life-Insurance-Company-Launches-RILA.html",
+      "retrieved": "2026-05-12",
+      "note": "Aspida Life Insurance Company launched DreamPath RILA on October 27, 2025. Aspida Holdings Ltd has total assets > $25.8B as of June 30, 2025. Includes proprietary Performance Lock feature ('freeze' market participation when satisfied with gains) and Apple Wallet integration. Aspida is a PE-affiliated platform (Ares Management)."
+    },
+    {
+      "type": "carrier_product_page",
+      "url": "https://aspida.com/products/registeredindexlinkedannuities",
+      "retrieved": "2026-05-12",
+      "note": "Aspida RILA product page; multiple buffer levels offered with cap, participation, and trigger crediting methods."
+    },
+    {
+      "type": "synthetic_v0_anchor",
+      "note": "Surrender schedule, cap rate, participation rate, M&E fee are public-range estimates pending Aspida's first publicly accessible rate sheet (product is < 6 months old as of scoring date)."
+    },
+    {
+      "type": "am_best",
+      "url": "https://aspida.com/about/financial-strength",
+      "retrieved": "2026-05-12",
+      "note": "Aspida Life Insurance Company AM Best FSR A- (Excellent). Aspida is owned by Ares Management — pe_owned=true."
+    }
+  ]
+}

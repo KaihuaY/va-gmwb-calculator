@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "snapshot:ratings": "node scripts/generate-ratings-snapshot.mjs",
-    "build:ssg": "npm run snapshot:ratings && vite build && node scripts/prerender.mjs"
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "build:ssg": "npm run snapshot:ratings && npm run sitemap && vite build && node scripts/prerender.mjs"
   },
   "dependencies": {
     "axios": "^1.7.7",

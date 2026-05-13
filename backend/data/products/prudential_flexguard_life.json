@@ -7,10 +7,19 @@
   "data_provenance": "synthetic_v0",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "carrier_product_page",
+      "url": "https://www.prudential.com/advisors/annuities/registered-index-linked-annuity",
+      "retrieved": "2026-05-12",
+      "note": "Prudential RILA product page. FlexGuard Life is the life-insurance-rider variant of the FlexGuard suite (not a separate RILA in LIMRA reporting). Note: FlexGuard Life is more accurately classified as an indexed variable universal life product; retained in RILA catalog for completeness but flagged."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.prudential.com/links/about/financial-strength-ratings",
+      "retrieved": "2026-05-12",
+      "note": "Pruco Life Insurance Company AM Best FSR A+ (Superior). Synthetic anchor confirmed."
     }
   ],
+  "verification_notes": "AM Best verified; product classification flagged — FlexGuard Life is closer to an indexed variable universal life product than a pure RILA, but retained in catalog with synthetic_v0 since the underlying index-linked accumulation mechanics share the same model. Removed from market-coverage % denominator in coverage analysis. Cap rate and surrender schedule not verified from prospectus.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0125,

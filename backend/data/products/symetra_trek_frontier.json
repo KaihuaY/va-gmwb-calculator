@@ -1,0 +1,99 @@
+{
+  "slug": "symetra_trek_frontier",
+  "name": "Trek Frontier",
+  "carrier": "Symetra",
+  "product_type": "rila",
+  "first_offered": "2021-06-01",
+  "data_provenance": "prospectus_v1",
+  "base": {
+    "base_av_default": 250000,
+    "me_fee_annual": 0.0,
+    "surrender_schedule": [
+      0.08,
+      0.07,
+      0.06,
+      0.05,
+      0.04,
+      0.03
+    ],
+    "free_withdrawal_pct": 0.1,
+    "nursing_home_waiver": true,
+    "terminal_illness_waiver": true,
+    "disability_waiver": false
+  },
+  "segments_available": [
+    {
+      "term_years": 1,
+      "index": "sp500",
+      "crediting_method": "cap",
+      "protection_type": "buffer",
+      "protection_level": 0.1,
+      "cap_rate": 0.1
+    },
+    {
+      "term_years": 6,
+      "index": "sp500",
+      "crediting_method": "participation",
+      "protection_type": "buffer",
+      "protection_level": 0.2,
+      "participation_rate": 0.85
+    }
+  ],
+  "default_allocation_pcts": [
+    0.5,
+    0.5
+  ],
+  "rider": {
+    "type": "none"
+  },
+  "insurer": {
+    "am_best": "A",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.18
+  },
+  "behavioral_data": {
+    "initial_cap": 0.1,
+    "current_cap": 0.1,
+    "cap_history": [
+      {
+        "date": "2024-01-01",
+        "cap": 0.095
+      },
+      {
+        "date": "2025-09-01",
+        "cap": 0.1
+      }
+    ],
+    "illustration_actual_delta": 0.05,
+    "naic_complaints_index": 0.5,
+    "regulatory_fines_5yr": 0
+  },
+  "has_gmdb": false,
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "carrier_product_page",
+      "url": "https://www.symetra.com/our-products/individuals/annuities/IndexLinkedAnnuity/",
+      "retrieved": "2026-05-12",
+      "note": "Symetra Trek Frontier RILA — buffer-based variant of the Trek RILA suite. Issued by Symetra Life Insurance Company. Trek suite (Trek, Trek Plus, Trek Frontier) launched 2021."
+    },
+    {
+      "type": "product_review",
+      "url": "https://annuityrateshq.com/annuity-reviews/symetra-trek-frontier-registered-index-linked-annuity-rila-review",
+      "retrieved": "2026-05-12",
+      "note": "Trek Frontier offers 1-year and 6-year terms with cap, participation, or trigger crediting methods; 10% free withdrawal; 6-year surrender schedule typical of Trek suite."
+    },
+    {
+      "type": "carrier_resources",
+      "url": "https://www.symetra.com/our-products/individuals/annuities/IndexLinkedAnnuity/RILAresources/",
+      "retrieved": "2026-05-12",
+      "note": "Trek suite consumer resources, including rate sheet PDFs and prospectus."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.symetra.com/about-symetra/ratings/",
+      "retrieved": "2026-05-12",
+      "note": "Symetra Life Insurance Company AM Best FSR A (Excellent). Symetra owned by Sumitomo Life since 2016 (not PE)."
+    }
+  ]
+}

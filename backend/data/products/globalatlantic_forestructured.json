@@ -7,10 +7,19 @@
   "data_provenance": "synthetic_v0",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "carrier_product_page",
+      "url": "https://www.globalatlantic.com/individuals/annuities/forestructured-growth",
+      "retrieved": "2026-05-12",
+      "note": "Global Atlantic ForeStructured Growth RILA. Issued by Forethought Life Insurance Company. Global Atlantic is owned by KKR (PE-owned confirmed)."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.globalatlantic.com/about/financial-strength",
+      "retrieved": "2026-05-12",
+      "note": "Forethought Life Insurance Company AM Best FSR A (Excellent). Synthetic anchor 'A' confirmed."
     }
   ],
+  "verification_notes": "AM Best 'A' and KKR PE ownership confirmed; surrender schedule, cap rate, 6-yr participation rate not yet pulled from rate sheet — retained at synthetic_v0.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,

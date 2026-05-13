@@ -1,0 +1,81 @@
+{
+  "slug": "midland_oak_elite_adv",
+  "name": "Oak Elite ADV",
+  "carrier": "Midland National",
+  "product_type": "rila",
+  "first_offered": "2024-01-01",
+  "data_provenance": "synthetic_v0",
+  "base": {
+    "base_av_default": 250000,
+    "me_fee_annual": 0.0,
+    "surrender_schedule": [],
+    "free_withdrawal_pct": 0.1,
+    "nursing_home_waiver": true,
+    "terminal_illness_waiver": true,
+    "disability_waiver": false
+  },
+  "segments_available": [
+    {
+      "term_years": 1,
+      "index": "sp500",
+      "crediting_method": "cap",
+      "protection_type": "buffer",
+      "protection_level": 0.1,
+      "cap_rate": 0.11
+    },
+    {
+      "term_years": 6,
+      "index": "sp500",
+      "crediting_method": "participation",
+      "protection_type": "buffer",
+      "protection_level": 0.2,
+      "participation_rate": 0.9
+    }
+  ],
+  "default_allocation_pcts": [
+    0.5,
+    0.5
+  ],
+  "rider": {
+    "type": "none"
+  },
+  "insurer": {
+    "am_best": "A+",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.18
+  },
+  "behavioral_data": {
+    "initial_cap": 0.11,
+    "current_cap": 0.11,
+    "cap_history": [],
+    "illustration_actual_delta": 0.05,
+    "naic_complaints_index": 0.4,
+    "regulatory_fines_5yr": 0
+  },
+  "has_gmdb": false,
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "carrier_product_page",
+      "url": "https://www.midlandnational.com/oakeliteadv",
+      "retrieved": "2026-05-12",
+      "note": "Midland National Oak Elite ADV registered index-linked variable annuity. Issued by Midland National Life Insurance Company (Sammons Financial Group). RIA/fee-based distribution channel (no surrender schedule in the ADV share class). Indicative rate sheet updates weekly."
+    },
+    {
+      "type": "carrier_press_release",
+      "url": "https://www.businesswire.com/news/home/20250507580071/en/Midland-National-and-Dimensional-Fund-Advisors-Announce-Collaboration-to-Deliver-New-ETF-based-Custom-Index-Annuity-Solutions-for-Advisors-and-Their-Clients",
+      "retrieved": "2026-05-12",
+      "note": "Midland Advisory / Dimensional Fund Advisors collaboration announced May 2025: custom index RILA solution using Dimensional active ETFs (Dimensional US Equity Core Plus Index). Oak Elite ADV is the RIA-channel RILA wrapper."
+    },
+    {
+      "type": "synthetic_v0_anchor",
+      "note": "Cap rate (1-yr S&P 500 PTP with 10% buffer) and 6-yr participation rate are public-range estimates pending broker-portal rate sheet access. Surrender schedule is empty consistent with the ADV (fee-based RIA) share class — Midland confirms there is no surrender period on the advisory variant."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.midlandnational.com/financial-strength",
+      "retrieved": "2026-05-12",
+      "note": "Midland National Life Insurance Company AM Best FSR A+ (Superior)."
+    }
+  ]
+}

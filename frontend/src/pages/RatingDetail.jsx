@@ -27,6 +27,38 @@ import SignatureBlock from '../components/SignatureBlock';
 import SubscoreBar from '../components/SubscoreBar';
 import LensTabs from '../components/LensTabs';
 import ProductFeatureCard from '../components/ProductFeatureCard';
+import RegimeBacktestPanel from '../components/RegimeBacktestPanel';
+import Glossary, { GLOSSARY_TERMS } from '../components/Glossary';
+
+// Sort longest-first so e.g. "free-withdrawal corridor" matches before
+// "buffer". Build a single case-insensitive regex with word boundaries
+// (allowing for & in M&E and hyphens in compound terms).
+const GLOSSARY_KEYS = Object.keys(GLOSSARY_TERMS).sort((a, b) => b.length - a.length);
+const GLOSSARY_REGEX = new RegExp(
+  '\\b(' + GLOSSARY_KEYS.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')\\b',
+  'gi',
+);
+
+/**
+ * Walks plain narrative text and wraps any known acronym in <Glossary>. Returns
+ * an array of React nodes safe to render inline.
+ */
+function glossifyText(text) {
+  if (!text) return text;
+  const parts = [];
+  let lastIdx = 0;
+  let m;
+  GLOSSARY_REGEX.lastIndex = 0;
+  while ((m = GLOSSARY_REGEX.exec(text)) !== null) {
+    if (m.index > lastIdx) parts.push(text.slice(lastIdx, m.index));
+    parts.push(
+      <Glossary key={`g-${m.index}`} term={m[0]}>{m[0]}</Glossary>,
+    );
+    lastIdx = m.index + m[0].length;
+  }
+  if (lastIdx < text.length) parts.push(text.slice(lastIdx));
+  return parts;
+}
 
 function gradeColor(g) {
   if (!g) return '#6b7280';
@@ -155,11 +187,23 @@ export default function RatingDetail() {
         <ProductFeatureCard product={product} lens={lens} />
       </section>
 
-      {/* 5. Narrative */}
+      {/* 4b. Historical regime backtest — interactive what-if. NOT scored. */}
+      <section style={sectionStyle}>
+        <h2 style={h2Style}>How this contract would have performed in past markets</h2>
+        <p style={{ fontSize: 13.5, color: '#4b5563', margin: '0 0 14px', lineHeight: 1.55 }}>
+          Deterministic replay of this contract against actual S&amp;P 500 monthly
+          returns, with the starting account value normalized to $100. This is a
+          what-if scenario — it does <strong>not</strong> enter the composite
+          rating score.
+        </p>
+        <RegimeBacktestPanel slug={slug} />
+      </section>
+
+      {/* 5. Narrative — acronyms get an inline glossary tooltip */}
       <section style={sectionStyle} data-testid="narrative">
         <h2 style={h2Style}>Why this grade</h2>
         <p style={{ fontSize: 15, lineHeight: 1.65, color: '#1f2937' }}>
-          {rating.narrative}
+          {glossifyText(rating.narrative)}
         </p>
       </section>
 

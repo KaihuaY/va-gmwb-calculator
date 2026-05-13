@@ -159,3 +159,19 @@ export async function getRating(slug) {
 export async function getMethodology() {
   return getJsonSnapshotFirst('/methodology.json', '/methodology');
 }
+
+/**
+ * Replay one published product against one historical regime, normalized to a
+ * starting AV of $100. Deterministic (no Monte Carlo), and NOT a composite
+ * rating input — strictly a user-facing what-if scenario.
+ *
+ * @param {string} slug        product slug, e.g. "equitable_scs_income"
+ * @param {string} regimeKey   methodology regime key, e.g. "post_gfc_bull_2010_2021"
+ * @returns {Promise<Object>}  { av_path, terminal_av, terminal_av_multiple,
+ *                               max_drawdown_pct, max_drawdown_month,
+ *                               fees_paid_total, fee_drag_annualized_pct, … }
+ */
+export async function getRegimeBacktest(slug, regimeKey) {
+  const { data } = await client.get(`/ratings/${slug}/backtest/${regimeKey}`);
+  return data;
+}

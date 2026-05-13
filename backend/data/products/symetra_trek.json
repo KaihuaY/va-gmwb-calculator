@@ -4,13 +4,28 @@
   "carrier": "Symetra",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "carrier_product_page",
+      "url": "https://www.symetra.com/our-products/individuals/annuities/IndexLinkedAnnuity/",
+      "retrieved": "2026-05-12",
+      "note": "Symetra Trek RILA. Issued by Symetra Life Insurance Company (Sumitomo Life subsidiary, not PE). Three crediting methods (cap, participation, trigger) and three interest-term lengths (1-yr, 2-yr, 6-yr)."
+    },
+    {
+      "type": "carrier_press_release",
+      "url": "https://www.businesswire.com/news/home/20210602005755/en/Symetra-Launches-Two-New-Registered-Index-linked-Annuities",
+      "retrieved": "2026-05-12",
+      "note": "Symetra launched the Trek RILA suite June 2021. First-offered date confirmed."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.symetra.com/about-symetra/ratings/",
+      "retrieved": "2026-05-12",
+      "note": "Symetra Life Insurance Company AM Best FSR A (Excellent). Synthetic anchor 'A' confirmed. pe_owned=false (Sumitomo Life parent)."
     }
   ],
+  "verification_notes": "AM Best A confirmed (Sumitomo Life parent, not PE); product family confirmed via carrier press release; 1-yr 10% buffer cap 0.08 retained as conservative public-range estimate pending broker-portal rate sheet. Surrender schedule 7/6/5/4/3 retained from synthetic as it sits within the Trek suite's typical 5-yr schedule per published broker materials.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,

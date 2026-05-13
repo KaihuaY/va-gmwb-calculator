@@ -3,7 +3,7 @@
   "product_name": "Level Advantage",
   "carrier": "Lincoln",
   "methodology_version": "v1.3.0",
-  "product_spec_hash": "d0e0e15f70b5f7937960baa5706a3ede826f05f82df818edda1fdc99e3776a71",
+  "product_spec_hash": "f4d36d0dcbc41d2d0878f90c890428831de4aa2b78dd3079c9a4fec4aa5898de",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -33,15 +33,15 @@
       "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
     },
     "ic": {
-      "score": 90,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 16%."
+      "score": 83,
+      "rationale": "AM Best A; not PE-owned; Level 3 assets 16%."
     },
     "bf": {
       "score": 90.0,
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "composite": 89.0,
+  "composite": 87.6,
   "letter_grade": "A-",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
@@ -59,7 +59,7 @@
     "step_up": false,
     "has_glwb": false,
     "headline_cap": 0.085,
-    "am_best": "A+",
+    "am_best": "A",
     "pe_owned": false,
     "level_3_pct_2024": 0.16,
     "cap_cut_count_5yr": 0,
@@ -138,7 +138,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Lincoln's Level Advantage earns a composite score of 89.0, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (90), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Lincoln's Level Advantage earns a composite score of 87.6, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

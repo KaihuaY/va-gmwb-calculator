@@ -4,16 +4,37 @@
   "carrier": "Nationwide",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "carrier_product_page",
+      "url": "https://www.nationwide.com/personal/investing/annuities/registered-index-linked/types/defender",
+      "retrieved": "2026-05-12",
+      "note": "Nationwide Defender Annuity RILA. Buffer-style RILA offered with 1-, 3-, and 6-year terms. Issued by Nationwide Life Insurance Company / Nationwide Life and Annuity Insurance Company."
+    },
+    {
+      "type": "carrier_rate_sheet",
+      "url": "https://nationwidefinancial.com/media/pdf/VAM-3629AO.pdf",
+      "retrieved": "2026-05-12",
+      "note": "Nationwide Defender rate sheet. Annual product fee 1.10% for contracts issued before 2025-06-01; current S&P 500 cap up to 24.5% with 100% participation, 1-year term. Spec me_fee_annual updated 0.0125 -> 0.011 to match disclosed product fee."
+    },
+    {
+      "type": "product_review",
+      "url": "https://annuityeducator.com/reviews/nationwide-life-insurance-company/fixed-index/nationwide-defender-annuity",
+      "retrieved": "2026-05-12",
+      "note": "10% and 20% buffer levels available; 6-year contract; CDSC applies to withdrawals above the free withdrawal corridor in first six years."
+    },
+    {
+      "type": "am_best",
+      "url": "https://news.ambest.com/PR/PressContent.aspx?refnum=36903&altsrc=2",
+      "retrieved": "2026-05-12",
+      "note": "Nationwide Life Insurance Company AM Best FSR A+ (Superior). Synthetic anchor 'A+' confirmed."
     }
   ],
+  "verification_notes": "AM Best A+ confirmed, product fee 1.10% verified (spec updated from 1.25% to 1.10%), buffer levels 10/20 and 6-year term confirmed by carrier product page; cap rate 0.085 kept synthetic — disclosed S&P 500 cap up to 24.5% appears to be the participation-rate variant rather than the cap-rate variant on the 1-yr 10% buffer segment, requires rate-sheet PDF to fully resolve.",
   "base": {
     "base_av_default": 250000,
-    "me_fee_annual": 0.0125,
+    "me_fee_annual": 0.011,
     "surrender_schedule": [
       0.06,
       0.05,

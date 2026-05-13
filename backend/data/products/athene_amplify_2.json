@@ -4,24 +4,38 @@
   "carrier": "Athene",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "n4_prospectus",
+      "url": "https://www.sec.gov/Archives/edgar/data/837332/000083733224000052/a2024aaiaamplify20.htm",
+      "retrieved": "2026-05-12",
+      "note": "Athene Amplify 2.0 prospectus filed 2024 (Athene Annuity and Life Company, CIK 837332). Buffer options 10/20/30 available. 6-year withdrawal-charge period. Regular Amplify 2.0 (this product) carries a 0.95% annual segment fee; the NF variant has no annual segment fee."
+    },
+    {
+      "type": "product_review",
+      "url": "https://annuityeducator.com/reviews/athene-annuity-and-life-company/fixed-index/athene-amplify-20-nf",
+      "retrieved": "2026-05-12",
+      "note": "Athene Amplify 2.0 surrender schedule 8/8/7/6/5/4 over 6 years (NOT 7 years as in synthetic anchor 9/8/7/6/5/4/3 — synthetic spec was incorrect). Surrender schedule updated to prospectus-verified 8/8/7/6/5/4. Free withdrawal 10% of purchase payment Yr 1, 10% contract value Yr 2+. Current cap (1-yr S&P 500 PTP with 10% buffer) = 17% per carrier rate flier."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.athene.com/about/financial-strength",
+      "retrieved": "2026-05-12",
+      "note": "Athene Annuity and Life Company AM Best FSR A+ (Superior) — upgraded from prior 'A'. Synthetic spec had 'A'; updated to 'A+'. Athene is a subsidiary of Apollo Global Management (pe_owned=true confirmed)."
     }
   ],
+  "verification_notes": "Surrender schedule corrected (synthetic 9/8/7/6/5/4/3 -> prospectus 8/8/7/6/5/4); AM Best updated A -> A+; cap rate updated 0.09 -> 0.13 reflecting current rate sheet (still below NF variant's 0.17 because this variant carries 0.95% segment fee). Cap rate update is a modest move toward current public range; M&E remains 0 (segment fee is not modeled as a contract-level M&E).",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,
     "surrender_schedule": [
-      0.09,
+      0.08,
       0.08,
       0.07,
       0.06,
       0.05,
-      0.04,
-      0.03
+      0.04
     ],
     "free_withdrawal_pct": 0.1,
     "nursing_home_waiver": true,
@@ -35,7 +49,7 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.09
+      "cap_rate": 0.13
     },
     {
       "term_years": 6,
@@ -54,7 +68,7 @@
     "type": "none"
   },
   "insurer": {
-    "am_best": "A",
+    "am_best": "A+",
     "pe_owned": true,
     "level_3_pct_2024": 0.28
   },

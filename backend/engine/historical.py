@@ -14,6 +14,8 @@ import json
 from pathlib import Path
 from typing import Optional
 
+import numpy as np
+
 from .projection import SimulationParams
 from .mortality import compute_survival_probs, adjust_lapse_for_itm
 from .utils import compute_discount_factors
@@ -227,4 +229,226 @@ def run_historical(params: SimulationParams, start_month: str) -> dict:
         "projection_years": n_years,
         "n_periods": n_periods,
         "history_truncated": n_periods < total_periods,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Regime backtest — interactive what-if (NOT a composite input)
+# ---------------------------------------------------------------------------
+
+def _advance_month(year: int, month: int, delta: int) -> tuple[int, int]:
+    """Return the (year, month) `delta` months after (year, month)."""
+    idx = (year * 12 + (month - 1)) + delta
+    return idx // 12, (idx % 12) + 1
+
+
+def _slice_monthly(start_month: str, total_months: int) -> tuple[list[tuple[str, float]], bool]:
+    """Return up to `total_months` (label, monthly_return) pairs starting at start_month.
+
+    Returns the slice and a flag indicating whether the history ran out.
+    """
+    monthly = _load_monthly_returns()
+    idx = next((i for i, (mo, _) in enumerate(monthly) if mo >= start_month), None)
+    if idx is None:
+        raise ValueError(f"start_month {start_month!r} is after the available history")
+    slice_ = monthly[idx : idx + total_months]
+    return slice_, len(slice_) < total_months
+
+
+def compute_regime_backtest_path(
+    product_spec: dict,
+    methodology: dict,
+    regime_key: str,
+    starting_av: float = 100.0,
+) -> dict:
+    """
+    Deterministically replay `product_spec` against actual S&P 500 monthly returns
+    for the named regime, with the starting account value normalized to
+    `starting_av` (default $100). Returns the AV trajectory and summary stats.
+
+    The annual crediting math is delegated to `project_rila_path` (the same
+    routine the rating engine already uses), which credits each year via the
+    annualized cap / buffer mechanic. Within each year, the AV is interpolated
+    monthly by scaling the in-year drawdown / recovery shape from the actual
+    monthly S&P 500 returns onto the year's reconciled AV endpoints. The
+    monthly path therefore reflects real intra-year drawdowns (load-bearing
+    for the max-drawdown figure) while the year-end AV values agree exactly
+    with what `compute_regime_outcomes` would compute for the same regime.
+
+    Resolution note: per-period RILA crediting is annual (consistent with
+    `project_rila_path`). The monthly path is a deterministic interpolation
+    of the annual reconciled AV between year boundaries, NOT independent
+    per-month crediting. This keeps byte-reproducibility intact and matches
+    the rating engine's annual-credit assumption documented in `rila.py`.
+
+    All outputs are deterministic functions of (product_spec, methodology,
+    regime_key, starting_av) — no random number generation.
+    """
+    # Local imports to avoid circulars at module load
+    from .rating import product_spec_to_rila
+    from .rila import project_rila_path
+
+    regimes_meta = methodology.get("regimes", [])
+    regime = next((r for r in regimes_meta if r["key"] == regime_key), None)
+    if regime is None:
+        raise ValueError(f"unknown regime key: {regime_key!r}")
+
+    scenario = methodology["scoring_scenario"]
+    age = scenario["age"]
+    election_age = scenario["election_age"]
+    requested_years = int(regime["years"])
+    start_month = regime["start_month"]
+
+    # Aggregate to annual factors for the RILA crediting engine
+    annual_factors, year_start_labels = _resolve_returns(
+        start_month=start_month,
+        total_periods=requested_years,
+        periods_per_year=1,
+    )
+    actual_years = len(annual_factors)
+    history_truncated = actual_years < requested_years
+
+    # Mortality / discount machinery (gender-neutral; matches compute_regime_outcomes)
+    survival = compute_survival_probs(
+        current_age=age,
+        gender="male",
+        base_calendar_year=2026,
+        max_age=age + max(1, actual_years),
+        multiplier=1.0,
+        table_name=scenario["mortality_table"],
+    )
+    discount = compute_discount_factors(scenario["discount_rate"], max(1, actual_years) + 1)
+
+    rila = product_spec_to_rila(product_spec, float(starting_av))
+
+    if actual_years == 0:
+        # Degenerate window — should not happen for the 5 named regimes
+        return {
+            "regime_key": regime_key,
+            "regime_display_name": regime["display_name"],
+            "start_month": start_month,
+            "years": 0,
+            "starting_av": round(float(starting_av), 2),
+            "av_path": [{"month": start_month, "av": round(float(starting_av), 2)}],
+            "terminal_av": round(float(starting_av), 2),
+            "terminal_av_multiple": 1.0,
+            "max_drawdown_pct": 0.0,
+            "max_drawdown_month": start_month,
+            "fees_paid_total": 0.0,
+            "fee_drag_annualized_pct": 0.0,
+            "history_truncated": True,
+        }
+
+    result = project_rila_path(
+        rila,
+        np.array(annual_factors, dtype=float),
+        actual_years,
+        glwb_election_age=election_age,
+        current_age=age,
+        survival_probs=survival,
+        discount_factors=discount,
+    )
+    annual_av_path = list(result["av_path"])  # length actual_years + 1
+
+    # Monthly slice for the regime window (used for intra-year interpolation only).
+    # If the monthly history truncates within the requested window, we walk only
+    # the months actually available.
+    total_months_target = actual_years * 12
+    monthly_pairs, _truncated_monthly = _slice_monthly(start_month, total_months_target)
+
+    # Build the monthly AV path. The first point is the starting AV; each year
+    # is then walked month-by-month, scaling the year's monthly cumulative
+    # return shape so that the year-end AV exactly matches annual_av_path[y+1].
+    sy, sm = (int(start_month[:4]), int(start_month[5:7]))
+    av_path: list[dict] = [{"month": f"{sy:04d}-{sm:02d}", "av": round(float(starting_av), 2)}]
+
+    cursor = 0  # index into monthly_pairs
+    for y in range(actual_years):
+        av_start_y = float(annual_av_path[y])
+        av_end_y = float(annual_av_path[y + 1])
+        # Cumulative factors within this year from the actual monthly series.
+        # If history ran out partway, we still want a chart point per month
+        # using the cumulative factor seen so far.
+        cum = 1.0
+        year_slice = monthly_pairs[cursor : cursor + 12]
+        if not year_slice:
+            break
+        cum_factors: list[float] = []
+        for _, r in year_slice:
+            cum *= 1.0 + float(r)
+            cum_factors.append(cum)
+        year_total_factor = cum_factors[-1] if cum_factors else 1.0
+
+        # Annual reconciliation: project_rila_path applies credited return,
+        # fees, and (if elected) GLWB withdrawals once per year. The combined
+        # impact on AV over the year is
+        #     av_end_y - av_start_y * year_total_factor
+        # i.e. the leakage relative to the raw market return. We spread that
+        # leakage linearly across the 12 months so each monthly AV sits on the
+        # actual market path minus a pro-rata share of the year's cash-outflow.
+        leakage_year = av_end_y - av_start_y * year_total_factor
+        for k, (label, _r) in enumerate(year_slice):
+            f_k = cum_factors[k]
+            # Pro-rata leakage allocation by (k+1)/12 — equal monthly share.
+            share = (k + 1) / len(year_slice)
+            av_m = av_start_y * f_k + leakage_year * share
+            # AV cannot be negative
+            if av_m < 0.0:
+                av_m = 0.0
+            # Stamp month one period AFTER the year_start label (so first point of
+            # the loop is start_month + 1 month; last is start_month + 12 months).
+            ay, am = _advance_month(sy, sm, y * 12 + k + 1)
+            av_path.append({"month": f"{ay:04d}-{am:02d}", "av": round(av_m, 4)})
+
+        cursor += len(year_slice)
+        if len(year_slice) < 12:
+            # History ran out inside this year; do not continue further years.
+            history_truncated = True
+            actual_years_effective = y + (len(year_slice) / 12.0)
+            break
+    else:
+        actual_years_effective = float(actual_years)
+
+    # Summary stats — computed off the monthly path so drawdowns reflect
+    # intra-year troughs.
+    av_values = [pt["av"] for pt in av_path]
+    terminal_av = float(av_values[-1])
+
+    # Max drawdown across the path (peak-to-trough), as a positive fraction
+    peak = av_values[0]
+    max_dd = 0.0
+    max_dd_idx = 0
+    for i, v in enumerate(av_values):
+        if v > peak:
+            peak = v
+        dd = (peak - v) / peak if peak > 0 else 0.0
+        if dd > max_dd:
+            max_dd = dd
+            max_dd_idx = i
+    max_dd = max(0.0, min(1.0, max_dd))
+    max_dd_month = av_path[max_dd_idx]["month"]
+
+    fees_paid_total = float(result.get("fees_paid_pv", 0.0))
+    if actual_years_effective > 0 and starting_av > 0:
+        # PV-of-fees divided by starting AV, annualised
+        fee_drag = fees_paid_total / float(starting_av) / actual_years_effective
+    else:
+        fee_drag = 0.0
+
+    terminal_multiple = terminal_av / float(starting_av) if starting_av > 0 else 0.0
+
+    return {
+        "regime_key": regime_key,
+        "regime_display_name": regime["display_name"],
+        "start_month": start_month,
+        "years": actual_years,
+        "starting_av": round(float(starting_av), 2),
+        "av_path": av_path,
+        "terminal_av": round(terminal_av, 2),
+        "terminal_av_multiple": round(terminal_multiple, 4),
+        "max_drawdown_pct": round(max_dd, 4),
+        "max_drawdown_month": max_dd_month,
+        "fees_paid_total": round(fees_paid_total, 2),
+        "fee_drag_annualized_pct": round(fee_drag, 4),
+        "history_truncated": history_truncated,
     }

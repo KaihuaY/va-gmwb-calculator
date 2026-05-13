@@ -3,7 +3,7 @@
   "product_name": "Index Advantage+",
   "carrier": "Allianz",
   "methodology_version": "v1.3.0",
-  "product_spec_hash": "a7e8a799e6c3b9cfb8cb25da0e3415d6000e4e5a3ab5d746bb911298d82b9184",
+  "product_spec_hash": "85bfbe2e054fddba8d0df0a369e6d36aadcc5d8277fe4e97132181c8c61a5847",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -29,8 +29,8 @@
       "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.83x. Buffer PV $71,035; floor PV $0; cost-base PV $85,167. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+      "score": 70.0,
+      "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
     },
     "ic": {
       "score": 90,
@@ -41,15 +41,15 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "composite": 65.5,
-  "letter_grade": "C+",
+  "composite": 64.5,
+  "letter_grade": "C",
   "feature_snapshot": {
     "me_fee_annual": 0.0125,
     "rider_fee_annual": 0.0,
     "rollup_rate": 0.0,
     "withdrawal_rate_65": 0.0,
     "surrender_years": 6,
-    "surrender_max_pct": 0.06,
+    "surrender_max_pct": 0.07,
     "free_withdrawal_pct": 0.1,
     "waivers": [
       "nursing-home",
@@ -138,7 +138,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Allianz's Index Advantage+ earns a composite score of 65.5, which maps to a letter grade of C+ under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (31), Guarantee Value (42). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Allianz's Index Advantage+ earns a composite score of 64.5, which maps to a letter grade of C under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (31), Guarantee Value (42). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (31).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

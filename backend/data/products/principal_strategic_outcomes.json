@@ -1,0 +1,93 @@
+{
+  "slug": "principal_strategic_outcomes",
+  "name": "Principal Strategic Outcomes",
+  "carrier": "Principal",
+  "product_type": "rila",
+  "first_offered": "2022-09-01",
+  "data_provenance": "prospectus_v1",
+  "base": {
+    "base_av_default": 250000,
+    "me_fee_annual": 0.0,
+    "surrender_schedule": [
+      0.085,
+      0.08,
+      0.07,
+      0.06,
+      0.05,
+      0.04
+    ],
+    "free_withdrawal_pct": 0.1,
+    "nursing_home_waiver": true,
+    "terminal_illness_waiver": true,
+    "disability_waiver": false
+  },
+  "segments_available": [
+    {
+      "term_years": 1,
+      "index": "sp500",
+      "crediting_method": "cap",
+      "protection_type": "buffer",
+      "protection_level": 0.1,
+      "cap_rate": 0.105
+    },
+    {
+      "term_years": 6,
+      "index": "sp500",
+      "crediting_method": "participation",
+      "protection_type": "buffer",
+      "protection_level": 0.2,
+      "participation_rate": 0.85
+    }
+  ],
+  "default_allocation_pcts": [
+    0.5,
+    0.5
+  ],
+  "rider": {
+    "type": "none"
+  },
+  "insurer": {
+    "am_best": "A+",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.16
+  },
+  "behavioral_data": {
+    "initial_cap": 0.105,
+    "current_cap": 0.105,
+    "cap_history": [
+      {
+        "date": "2024-01-01",
+        "cap": 0.1
+      },
+      {
+        "date": "2025-09-01",
+        "cap": 0.105
+      }
+    ],
+    "illustration_actual_delta": 0.05,
+    "naic_complaints_index": 0.4,
+    "regulatory_fines_5yr": 0
+  },
+  "has_gmdb": false,
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "carrier_product_page",
+      "url": "https://www.principal.com/individuals/invest-retire/annuities/principal-strategic-outcomes",
+      "retrieved": "2026-05-12",
+      "note": "Principal Strategic Outcomes RILA; offered under Contract SF 1027 with Riders/Endorsements SF 1028-SF 1032, SF 1053. Issued by Principal Life Insurance Company."
+    },
+    {
+      "type": "carrier_product_enhancement",
+      "url": "https://www.principal.com/finpro/financial-professional-news/exciting-enhancements-our-principal-rila-annuity-products",
+      "retrieved": "2026-05-12",
+      "note": "20% buffer options added to select segments in recent enhancement cycle. Cap rate strategy described in prospectus: 'cap rate limits the positive index change, if any, that may be credited to the annuity for a given segment term.'"
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.principal.com/about-us/financial-information/financial-strength-ratings",
+      "retrieved": "2026-05-12",
+      "note": "Principal Life Insurance Company AM Best FSR A+ (Superior)."
+    }
+  ]
+}

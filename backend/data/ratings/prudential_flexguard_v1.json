@@ -3,7 +3,7 @@
   "product_name": "FlexGuard",
   "carrier": "Prudential",
   "methodology_version": "v1.3.0",
-  "product_spec_hash": "c054d115e1b82f1abf30a1c7094c9e14f62469a9a3e497441db49b13e2a6506d",
+  "product_spec_hash": "456a1ea6d629728e3fb1bcf8863948d1ece6351f2556f1215127bfbb899b0cc4",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,

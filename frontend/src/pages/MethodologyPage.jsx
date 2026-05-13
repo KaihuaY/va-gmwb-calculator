@@ -8,6 +8,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getMethodology } from '../api/client';
+import Glossary, { GlossaryList } from '../components/Glossary';
 
 const SUBSCORE_ORDER = ['tco', 'gv', 'sf', 'ic', 'bf'];
 const SUBSCORE_FULL = {
@@ -49,7 +50,20 @@ export default function MethodologyPage() {
           letter grade. The scoring scenario is locked — every product is
           tested against the same hypothetical policyholder, premium, and
           economic assumptions, so differences in grade reflect genuine
-          differences in the product, not the input.
+          differences in the product, not the input. Scoring is run through a{' '}
+          <Glossary term="Monte Carlo">Monte Carlo</Glossary> simulation with{' '}
+          5,000 paths against a blended-gender mortality cohort built from the{' '}
+          2012 IAM table projected forward with{' '}
+          <Glossary term="Scale G2">Scale G2</Glossary>. Sub-scores cover the{' '}
+          <Glossary term="M&E">M&E</Glossary> fee, the value of any{' '}
+          <Glossary term="GLWB">GLWB</Glossary> or{' '}
+          <Glossary term="GMDB">GMDB</Glossary> rider, any{' '}
+          <Glossary term="buffer">buffer</Glossary> or{' '}
+          <Glossary term="floor">floor</Glossary> protection, the{' '}
+          <Glossary term="surrender period">surrender period</Glossary> and{' '}
+          <Glossary term="free-withdrawal corridor">free-withdrawal corridor</Glossary>,
+          and the carrier's <Glossary term="AM Best">AM Best</Glossary> credit
+          rating.
         </p>
       </section>
 
@@ -122,6 +136,15 @@ export default function MethodologyPage() {
           to the product spec produces a new hash and re-rate.
         </p>
         {m.notes && <p style={p}><em>{m.notes}</em></p>}
+      </section>
+
+      <section style={section}>
+        <h2 style={h2}>Glossary</h2>
+        <p style={p}>
+          Hover any underlined acronym elsewhere on the site to see the
+          definition inline. The full list is reproduced here for reference.
+        </p>
+        <GlossaryList />
       </section>
 
       <footer style={footer}>

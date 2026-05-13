@@ -3,7 +3,7 @@
   "product_name": "SCS Income",
   "carrier": "Equitable",
   "methodology_version": "v1.3.0",
-  "product_spec_hash": "a1164d8d849c944d240d6cb85ab9d0601b00442a004c6e62027fa15c0ba10f1f",
+  "product_spec_hash": "dfe48c7a2fae6ba5e8d28c4e24e1870f452ed932add63534b53affce9c591f67",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,

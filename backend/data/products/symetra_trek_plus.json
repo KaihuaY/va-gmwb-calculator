@@ -7,10 +7,25 @@
   "data_provenance": "synthetic_v0",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "carrier_press_release",
+      "url": "https://www.businesswire.com/news/home/20240617787624/en/Symetra-Enhances-Trek-Plus-RILA-with-New-Crediting-Strategies",
+      "retrieved": "2026-05-12",
+      "note": "Symetra Trek Plus RILA enhanced June 2024 with new crediting strategies. Available with 1-, 2-, and 6-year interest terms; up to 15% of contract value OR 100% of accumulated interest available without surrender charges. Issued by Symetra Life Insurance Company."
+    },
+    {
+      "type": "carrier_product_page",
+      "url": "https://www.symetra.com/our-products/individuals/annuities/IndexLinkedAnnuity/trek-plus/",
+      "retrieved": "2026-05-12",
+      "note": "Symetra Trek Plus product page; downside-protection options (buffer, floor) over 1- or 6-year interest terms."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.symetra.com/about-symetra/ratings/",
+      "retrieved": "2026-05-12",
+      "note": "Symetra Life Insurance Company AM Best FSR A (Excellent). Synthetic anchor 'A' confirmed."
     }
   ],
+  "verification_notes": "Two critical fields verified (AM Best, free withdrawal mechanism). Cap rate, surrender schedule percentages, and 6-yr participation rate not yet pulled from rate sheet — retained at synthetic_v0.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,

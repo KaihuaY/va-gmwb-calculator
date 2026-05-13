@@ -3,7 +3,7 @@
   "product_name": "Structured Index Advantage",
   "carrier": "Transamerica",
   "methodology_version": "v1.3.0",
-  "product_spec_hash": "139b098de63021c5b2a22b0790ee5a58e30f308f27c38533aae274a9c08b6475",
+  "product_spec_hash": "15de0f0934d16c5718685fbdcef5e04533b02eb18e03be0587248ca551052b4a",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -12,25 +12,25 @@
     "gender": "blend"
   },
   "monte_carlo": {
-    "fees_pv_mean": 36705.45,
+    "fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
-    "av_end_p5": 127231.94,
-    "av_end_p50": 265749.15,
-    "av_end_p95": 513704.78
+    "av_end_p5": 185559.43,
+    "av_end_p50": 387577.68,
+    "av_end_p95": 749204.67
   },
   "sub_scores": {
     "tco": {
-      "score": 55.8,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
+      "score": 100.0,
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 63.3,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+      "score": 100.0,
+      "rationale": "Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100."
     },
     "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+      "score": 70.0,
+      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness, disability."
     },
     "ic": {
       "score": 83,
@@ -41,21 +41,22 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
     }
   },
-  "composite": 73.0,
-  "letter_grade": "B-",
+  "composite": 88.2,
+  "letter_grade": "A-",
   "feature_snapshot": {
-    "me_fee_annual": 0.0125,
+    "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
     "rollup_rate": 0.0,
     "withdrawal_rate_65": 0.0,
     "surrender_years": 6,
-    "surrender_max_pct": 0.06,
+    "surrender_max_pct": 0.08,
     "free_withdrawal_pct": 0.1,
     "waivers": [
       "nursing-home",
-      "terminal-illness"
+      "terminal-illness",
+      "disability"
     ],
-    "waiver_count": 2,
+    "waiver_count": 3,
     "step_up": false,
     "has_glwb": false,
     "headline_cap": 0.08,
@@ -72,9 +73,9 @@
       "start_month": "1985-02",
       "end_month": "2000-01",
       "years": 15,
-      "av_end": 505538.7,
+      "av_end": 610517.11,
       "av_min": 250000.0,
-      "fees_pv": 47204.49,
+      "fees_pv": 0.0,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
@@ -86,13 +87,13 @@
       "start_month": "2000-01",
       "end_month": "2009-12",
       "years": 10,
-      "av_end": 160951.92,
-      "av_min": 151490.82,
-      "fees_pv": 20198.71,
+      "av_end": 182526.16,
+      "av_min": 169649.42,
+      "fees_pv": 0.0,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 9.6,
+      "regime_score": 15.3,
       "history_truncated": false
     },
     "gfc_2008_2010": {
@@ -100,13 +101,13 @@
       "start_month": "2008-01",
       "end_month": "2010-12",
       "years": 3,
-      "av_end": 188849.26,
-      "av_min": 167505.73,
-      "fees_pv": 6199.38,
+      "av_end": 196111.91,
+      "av_min": 169626.05,
+      "fees_pv": 0.0,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 17.0,
+      "regime_score": 19.0,
       "history_truncated": false
     },
     "post_gfc_bull_2010_2021": {
@@ -114,13 +115,13 @@
       "start_month": "2010-01",
       "end_month": "2021-12",
       "years": 12,
-      "av_end": 405293.09,
+      "av_end": 471328.77,
       "av_min": 250000.0,
-      "fees_pv": 36641.07,
+      "fees_pv": 0.0,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 74.7,
+      "regime_score": 92.4,
       "history_truncated": false
     },
     "rate_hike_2022_2024": {
@@ -128,18 +129,18 @@
       "start_month": "2022-01",
       "end_month": "2024-12",
       "years": 3,
-      "av_end": 241824.75,
-      "av_min": 214517.79,
-      "fees_pv": 7938.84,
+      "av_end": 251124.7,
+      "av_min": 217233.21,
+      "fees_pv": 0.0,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 31.2,
+      "regime_score": 33.6,
       "history_truncated": false
     }
   },
-  "narrative": "Transamerica's Structured Index Advantage earns a composite score of 73.0, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (83), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
-  "verdict": "Consistent carrier behavior (88) offset by high fee drag (56).",
+  "narrative": "Transamerica's Structured Index Advantage earns a composite score of 88.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (88). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (70).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
   "signed_at": "2026-05-12T00:00:00Z",

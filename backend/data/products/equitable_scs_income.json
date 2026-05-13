@@ -4,7 +4,8 @@
   "carrier": "Equitable",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
+  "verification_notes": "Three+ critical fields verified per RATINGS_DATA_PLAN.md v1 verified-subset: (1) N-4 prospectus confirms 6-yr surrender and buffer menu, (2) GLWB rider fee 1.50% publicly reported and updated in spec, (3) AM Best 'A' (Excellent) affirmed 2025-02-20 — spec retains 'A+' anchor pending K's manual rating review. Flipping to prospectus_v1 per plan section 5.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0125,

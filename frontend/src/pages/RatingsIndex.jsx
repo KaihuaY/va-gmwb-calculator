@@ -21,9 +21,11 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { listRatings } from '../api/client';
 import LensTabs, { LENSES } from '../components/LensTabs';
+
+const MAX_COMPARE = 3;
 
 const GRADE_RANK = {
   'A+': 13, 'A': 12, 'A-': 11,
@@ -84,10 +86,13 @@ export default function RatingsIndex() {
   const [carrierFilter, setCarrierFilter] = useState('');
   const [minGrade, setMinGrade] = useState('');
   const [hasGlwbOnly, setHasGlwbOnly] = useState(false);
+  const [search, setSearch] = useState('');
   const [lens, setLens] = useState('costs');
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [sortKey, setSortKey] = useState('composite');
   const [sortDesc, setSortDesc] = useState(true);
+  const [compareSlugs, setCompareSlugs] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     listRatings()
@@ -118,6 +123,14 @@ export default function RatingsIndex() {
       arr = arr.filter((i) => (GRADE_RANK[i._letter] || 0) >= min);
     }
     if (hasGlwbOnly) arr = arr.filter((i) => i.has_glwb);
+    const q = search.trim().toLowerCase();
+    if (q) {
+      arr = arr.filter((i) =>
+        (i.name || '').toLowerCase().includes(q) ||
+        (i.carrier || '').toLowerCase().includes(q) ||
+        (i.slug || '').toLowerCase().includes(q),
+      );
+    }
     arr.sort((a, b) => {
       let va, vb;
       if (sortKey === 'letter_grade') {
@@ -145,7 +158,20 @@ export default function RatingsIndex() {
       return sortDesc ? -cmp : cmp;
     });
     return arr;
-  }, [projected, carrierFilter, minGrade, hasGlwbOnly, sortKey, sortDesc]);
+  }, [projected, carrierFilter, minGrade, hasGlwbOnly, search, sortKey, sortDesc]);
+
+  function toggleCompare(slug) {
+    setCompareSlugs((prev) => {
+      if (prev.includes(slug)) return prev.filter((s) => s !== slug);
+      if (prev.length >= MAX_COMPARE) return prev; // cap at 3
+      return [...prev, slug];
+    });
+  }
+
+  function goCompare() {
+    if (compareSlugs.length < 2) return;
+    navigate(`/ratings/compare?slugs=${compareSlugs.join(',')}`);
+  }
 
   function setSort(key) {
     if (key === sortKey) setSortDesc(!sortDesc);
@@ -174,6 +200,27 @@ export default function RatingsIndex() {
       {/* Lens tabs — drive which carrier-feature columns are visible */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 14 }}>
         <LensTabs value={lens} onChange={setLens} />
+      </div>
+
+      {/* Search — case-insensitive substring across name / carrier / slug */}
+      <div style={{ marginBottom: 10 }}>
+        <input
+          type="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search product, carrier, or slug…"
+          data-testid="filter-search"
+          aria-label="Search ratings"
+          style={{
+            width: '100%',
+            padding: '8px 12px',
+            fontSize: 14,
+            border: '1px solid #d1d5db',
+            borderRadius: 6,
+            outline: 'none',
+            background: '#ffffff',
+          }}
+        />
       </div>
 
       <div style={filterRow}>
@@ -231,6 +278,18 @@ export default function RatingsIndex() {
       <table style={tableStyle} data-testid="ratings-table">
         <thead>
           <tr>
+            <th style={{
+              padding: '8px 8px',
+              borderBottom: '2px solid #d1d5db',
+              fontSize: 11,
+              fontWeight: 700,
+              color: '#6b7280',
+              textTransform: 'uppercase',
+              letterSpacing: 0.4,
+              width: 44,
+            }}>
+              Cmp
+            </th>
             <Th label="Product"   onClick={() => setSort('name')}     active={sortKey==='name'}     desc={sortDesc} />
             <Th label="Carrier"   onClick={() => setSort('carrier')}  active={sortKey==='carrier'}  desc={sortDesc} />
             <Th label="Grade"     onClick={() => setSort('letter_grade')} active={sortKey==='letter_grade'} desc={sortDesc} />
@@ -257,8 +316,22 @@ export default function RatingsIndex() {
           </tr>
         </thead>
         <tbody>
-          {filtered.map((it) => (
+          {filtered.map((it) => {
+            const checked = compareSlugs.includes(it.slug);
+            const disabled = !checked && compareSlugs.length >= MAX_COMPARE;
+            return (
             <tr key={it.slug} data-testid={`row-${it.slug}`}>
+              <td style={{ ...cellStyle, textAlign: 'center', width: 44 }}>
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  disabled={disabled}
+                  onChange={() => toggleCompare(it.slug)}
+                  data-testid={`compare-${it.slug}`}
+                  aria-label={`Select ${it.name} for comparison`}
+                  style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
+                />
+              </td>
               <td style={cellStyle}>
                 <Link to={`/ratings/${it.slug}`} style={{ color: '#2563eb', fontWeight: 500 }}>
                   {it.name}
@@ -291,9 +364,71 @@ export default function RatingsIndex() {
                 </>
               )}
             </tr>
-          ))}
+            );
+          })}
         </tbody>
       </table>
+
+      {compareSlugs.length > 0 && (
+        <div
+          data-testid="compare-bar"
+          style={{
+            position: 'fixed',
+            bottom: 16,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 16,
+            padding: '10px 18px',
+            background: '#111827',
+            color: '#f9fafb',
+            borderRadius: 999,
+            boxShadow: '0 10px 30px rgba(0,0,0,0.25)',
+            fontSize: 14,
+            zIndex: 100,
+          }}
+        >
+          <span>
+            <strong>{compareSlugs.length}</strong> selected
+            {compareSlugs.length < 2 ? ' — pick at least 2' : ''}
+            {compareSlugs.length >= MAX_COMPARE ? ' (max 3)' : ''}
+          </span>
+          <button
+            type="button"
+            onClick={() => setCompareSlugs([])}
+            style={{
+              background: 'transparent',
+              border: '1px solid #4b5563',
+              color: '#d1d5db',
+              borderRadius: 999,
+              padding: '5px 12px',
+              fontSize: 12,
+              cursor: 'pointer',
+            }}
+          >
+            Clear
+          </button>
+          <button
+            type="button"
+            disabled={compareSlugs.length < 2}
+            onClick={goCompare}
+            data-testid="compare-cta"
+            style={{
+              background: compareSlugs.length < 2 ? '#374151' : '#2563eb',
+              border: 'none',
+              color: '#ffffff',
+              borderRadius: 999,
+              padding: '7px 16px',
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: compareSlugs.length < 2 ? 'not-allowed' : 'pointer',
+            }}
+          >
+            Compare {compareSlugs.length} selected →
+          </button>
+        </div>
+      )}
 
       <footer style={footerStyle}>
         <p>

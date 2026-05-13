@@ -7,10 +7,25 @@
   "data_provenance": "synthetic_v0",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "carrier_product_page",
+      "url": "https://www.prudential.com/advisors/annuities/annuity-strategies/flexguard-income-indexed-variable-annuity",
+      "retrieved": "2026-05-12",
+      "note": "Prudential FlexGuard Income indexed variable annuity (RILA with optional GLWB income rider). Issued by Pruco Life Insurance Company / Prudential Annuities Life Assurance Corp."
+    },
+    {
+      "type": "carrier_rate_sheet",
+      "url": "https://prudential.scene7.com/is/content/prudential/FlexGuardIncomeRateSheet",
+      "retrieved": "2026-05-12",
+      "note": "FlexGuard Income Core rate sheet. Confirms RILA-with-income-rider structure; cap rate and rider fee within publicly posted range."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.prudential.com/links/about/financial-strength-ratings",
+      "retrieved": "2026-05-12",
+      "note": "Pruco Life Insurance Company AM Best FSR A+ (Superior). Synthetic anchor confirmed."
     }
   ],
+  "verification_notes": "AM Best verified, product structure (RILA + GLWB rider with rollup and step-up) verified, rate sheet exists publicly. Specific cap rate and rider_fee_annual not pulled from broker portal — retained at synthetic_v0.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,

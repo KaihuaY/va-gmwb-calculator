@@ -4,13 +4,28 @@
   "carrier": "Nationwide",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "n4_prospectus_predecessor",
+      "url": "https://www.sec.gov/Archives/edgar/data/205695/000119312525074510/d928200ds1.htm",
+      "retrieved": "2026-05-12",
+      "note": "Nationwide Defined Protection Annuity S-1 filing (CIK 205695, Nationwide Life Insurance Company). DPA 1.0 (this product) and DPA 2.0 both share the same underlying registrant; this spec covers the original DPA which remains in-force; new DPA 2.0 product captured in nationwide_dpa_2.json."
+    },
+    {
+      "type": "carrier_product_page",
+      "url": "https://www.nationwide.com/personal/investing/annuities/registered-index-linked/",
+      "retrieved": "2026-05-12",
+      "note": "Nationwide RILA product family page. Defined Protection Annuity is the protection-level-selectable RILA variant (100%/95%/90% level options)."
+    },
+    {
+      "type": "am_best",
+      "url": "https://news.ambest.com/PR/PressContent.aspx?refnum=36903&altsrc=2",
+      "retrieved": "2026-05-12",
+      "note": "Nationwide Life Insurance Company AM Best FSR A+ (Superior). Synthetic anchor confirmed."
     }
   ],
+  "verification_notes": "AM Best A+ confirmed; underlying carrier (Nationwide Life Insurance Company) and product family confirmed via SEC + carrier site; surrender schedule and exact cap rate retained at synthetic — DPA 1.0 is now legacy as DPA 2.0 is the actively-sold variant (see nationwide_dpa_2).",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0125,

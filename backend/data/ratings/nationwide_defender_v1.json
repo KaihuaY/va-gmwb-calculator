@@ -3,7 +3,7 @@
   "product_name": "Defender",
   "carrier": "Nationwide",
   "methodology_version": "v1.3.0",
-  "product_spec_hash": "df5773d039b75d34163324b046bffe1b39292129a621d15297fd9a6d11b0ecdf",
+  "product_spec_hash": "bcf118de8cd799f5d56c9b3d377253499bc539f67a2d5910f557fb5e42dcfd95",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -12,21 +12,21 @@
     "gender": "blend"
   },
   "monte_carlo": {
-    "fees_pv_mean": 38100.39,
+    "fees_pv_mean": 34006.13,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
-    "av_end_p5": 139313.16,
-    "av_end_p50": 293432.47,
-    "av_end_p95": 570402.4
+    "av_end_p5": 145803.43,
+    "av_end_p50": 307102.81,
+    "av_end_p95": 596976.12
   },
   "sub_scores": {
     "tco": {
-      "score": 55.8,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
+      "score": 61.1,
+      "rationale": "Annualised fee + cap-spread drag: 1.10%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 65.1,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+      "score": 73.9,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.48x. Buffer PV $71,035; floor PV $0; cost-base PV $48,043. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 75.0,
@@ -41,10 +41,10 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "composite": 76.2,
+  "composite": 79.0,
   "letter_grade": "B",
   "feature_snapshot": {
-    "me_fee_annual": 0.0125,
+    "me_fee_annual": 0.011,
     "rider_fee_annual": 0.0,
     "rollup_rate": 0.0,
     "withdrawal_rate_65": 0.0,
@@ -72,9 +72,9 @@
       "start_month": "1985-02",
       "end_month": "2000-01",
       "years": 15,
-      "av_end": 537545.34,
+      "av_end": 549924.3,
       "av_min": 250000.0,
-      "fees_pv": 48784.26,
+      "fees_pv": 43394.02,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
@@ -86,13 +86,13 @@
       "start_month": "2000-01",
       "end_month": "2009-12",
       "years": 10,
-      "av_end": 167499.33,
-      "av_min": 156889.85,
-      "fees_pv": 20633.13,
+      "av_end": 170061.09,
+      "av_min": 159047.75,
+      "fees_pv": 18266.77,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 11.3,
+      "regime_score": 12.0,
       "history_truncated": false
     },
     "gfc_2008_2010": {
@@ -100,13 +100,13 @@
       "start_month": "2008-01",
       "end_month": "2010-12",
       "years": 3,
-      "av_end": 192116.11,
-      "av_min": 168713.51,
-      "fees_pv": 6275.67,
+      "av_end": 192992.91,
+      "av_min": 168969.79,
+      "fees_pv": 5531.11,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 17.9,
+      "regime_score": 18.1,
       "history_truncated": false
     },
     "post_gfc_bull_2010_2021": {
@@ -114,13 +114,13 @@
       "start_month": "2010-01",
       "end_month": "2021-12",
       "years": 12,
-      "av_end": 426043.22,
+      "av_end": 433874.28,
       "av_min": 250000.0,
-      "fees_pv": 37562.42,
+      "fees_pv": 33330.82,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 80.3,
+      "regime_score": 82.4,
       "history_truncated": false
     },
     "rate_hike_2022_2024": {
@@ -128,18 +128,18 @@
       "start_month": "2022-01",
       "end_month": "2024-12",
       "years": 3,
-      "av_end": 245628.1,
-      "av_min": 215725.58,
-      "fees_pv": 8024.04,
+      "av_end": 246749.12,
+      "av_min": 216053.26,
+      "fees_pv": 7072.04,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 32.2,
+      "regime_score": 32.5,
       "history_truncated": false
     }
   },
-  "narrative": "Nationwide's Defender earns a composite score of 76.2, which maps to a letter grade of B under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (95), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
-  "verdict": "Strong insurer credit (95) offset by high fee drag (56).",
+  "narrative": "Nationwide's Defender earns a composite score of 79.0, which maps to a letter grade of B under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (95), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Mostly solid; strongest in strong insurer credit (95), softest in high fee drag (61).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
   "signed_at": "2026-05-12T00:00:00Z",

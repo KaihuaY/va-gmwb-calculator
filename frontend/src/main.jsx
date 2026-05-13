@@ -6,6 +6,7 @@ import LandingPage from './pages/LandingPage';
 import ProductPage from './pages/ProductPage';
 import RatingsIndex from './pages/RatingsIndex';
 import RatingDetail from './pages/RatingDetail';
+import RatingsCompare from './pages/RatingsCompare';
 import MethodologyPage from './pages/MethodologyPage';
 import './index.css';
 
@@ -28,6 +29,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/calculator/:presetId" element={<PresetRedirect />} />
         {/* Ratings — public publication */}
         <Route path="/ratings" element={<RatingsIndex />} />
+        {/* Compare route MUST precede /ratings/:slug so it isn't captured as a slug */}
+        <Route path="/ratings/compare" element={<RatingsCompare />} />
         <Route path="/ratings/:slug" element={<RatingDetail />} />
         <Route path="/methodology" element={<MethodologyPage />} />
         {/* SEO product pages — each pre-loads the matching preset via hash */}

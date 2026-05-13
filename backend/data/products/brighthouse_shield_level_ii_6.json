@@ -1,0 +1,99 @@
+{
+  "slug": "brighthouse_shield_level_ii_6",
+  "name": "Shield Level II 6-Year",
+  "carrier": "Brighthouse",
+  "product_type": "rila",
+  "first_offered": "2024-07-01",
+  "data_provenance": "prospectus_v1",
+  "base": {
+    "base_av_default": 250000,
+    "me_fee_annual": 0.0,
+    "surrender_schedule": [
+      0.07,
+      0.07,
+      0.06,
+      0.05,
+      0.04,
+      0.03
+    ],
+    "free_withdrawal_pct": 0.1,
+    "nursing_home_waiver": true,
+    "terminal_illness_waiver": true,
+    "disability_waiver": false
+  },
+  "segments_available": [
+    {
+      "term_years": 1,
+      "index": "sp500",
+      "crediting_method": "cap",
+      "protection_type": "buffer",
+      "protection_level": 0.1,
+      "cap_rate": 0.095
+    },
+    {
+      "term_years": 6,
+      "index": "sp500",
+      "crediting_method": "participation",
+      "protection_type": "buffer",
+      "protection_level": 0.2,
+      "participation_rate": 0.85
+    }
+  ],
+  "default_allocation_pcts": [
+    0.5,
+    0.5
+  ],
+  "rider": {
+    "type": "none"
+  },
+  "insurer": {
+    "am_best": "A",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.22
+  },
+  "behavioral_data": {
+    "initial_cap": 0.09,
+    "current_cap": 0.095,
+    "cap_history": [
+      {
+        "date": "2024-07-01",
+        "cap": 0.09
+      },
+      {
+        "date": "2025-09-01",
+        "cap": 0.095
+      }
+    ],
+    "illustration_actual_delta": 0.05,
+    "naic_complaints_index": 0.7,
+    "regulatory_fines_5yr": 0
+  },
+  "has_gmdb": false,
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "n4_prospectus",
+      "url": "https://www.sec.gov/Archives/edgar/data/733076/000119312524180915/d747348d424b3.htm",
+      "retrieved": "2026-05-12",
+      "note": "Brighthouse Shield Level II 6-Year Annuity 424(b)(3) prospectus filed 2024-07-18 (CIK 733076, Brighthouse Life Insurance Company). Successor product to original Shield Level Select 6-Year; non-rider RILA variant of the Shield suite."
+    },
+    {
+      "type": "n4_prospectus_predecessor",
+      "url": "https://www.sec.gov/Archives/edgar/data/1167609/000119312522284320/d323126d424b3.htm",
+      "retrieved": "2026-05-12",
+      "note": "Brighthouse Shield Level Select 6-Year prospectus (CIK 1167609, Brighthouse Life Insurance Company of NY equivalent). Withdrawal-charge schedule 7/7/6/5/4/3/0 documented in prospectus; same schedule carried forward into Shield Level II."
+    },
+    {
+      "type": "carrier_fact_card",
+      "url": "https://www.brighthousefinancial.com/content/dam/brighthouse-financial/public/pdfs/shield/E21_Shield-Level-Select_6-Year-Fact-Card.pdf",
+      "retrieved": "2026-05-12",
+      "note": "Brighthouse Shield Level Select 6-Year fact card. Confirms 10% free withdrawal corridor, buffer levels (10/15/20/25), and surrender charge structure."
+    },
+    {
+      "type": "am_best",
+      "url": "https://news.ambest.com/pr/PressContent.aspx?refnum=36726&altsrc=2",
+      "retrieved": "2026-05-12",
+      "note": "Brighthouse Life Insurance Company AM Best FSR A (Excellent). Ratings under review with negative implications since 2025-11-10 pending Aquarian Capital acquisition (~$4.1B, $70/share)."
+    }
+  ]
+}

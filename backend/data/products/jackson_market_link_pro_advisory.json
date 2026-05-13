@@ -4,13 +4,28 @@
   "carrier": "Jackson",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "carrier_product_page",
+      "url": "https://www.jackson.com/annuities/registered-index-linked-annuities/market-link-pro-suite.html",
+      "retrieved": "2026-05-12",
+      "note": "Jackson Market Link Pro Suite (Market Link Pro, Market Link Pro II, Market Link Pro Advisory, Market Link Pro III). Advisory variant is the fee-based RIA distribution channel (no commission, no surrender schedule). Issued by Jackson National Life Insurance Company."
+    },
+    {
+      "type": "carrier_product_pdf",
+      "url": "https://www.jackson.com/pdf/jmr108653a.pdf",
+      "retrieved": "2026-05-12",
+      "note": "Jackson Market Link Pro Advisory III brochure (current generation). 1-, 3-, and 6-year terms; cap and trigger crediting; buffer (first loss) and floor (tail risk) protection options. Empty surrender_schedule confirmed for advisory variant."
+    },
+    {
+      "type": "am_best",
+      "url": "https://news.ambest.com/pr/PressContent.aspx?refnum=36903&altsrc=2",
+      "retrieved": "2026-05-12",
+      "note": "Jackson National Life Insurance Company AM Best FSR A (Excellent), affirmed Dec 18, 2025. Long-term Issuer Credit Rating upgraded to 'a+' from 'a' Dec 2025. Synthetic 'A' confirmed."
     }
   ],
+  "verification_notes": "AM Best A confirmed; advisory share class (no surrender) confirmed; cap and term structure verified against carrier PDF. Specific cap rate 0.105 (1-yr 10% buffer) and 0.60 (6-yr 15% buffer) retained — within publicly posted range. Note flagship Market Link Pro (non-advisory) was previously flipped to prospectus_v1 with 6-yr participation 80% rather than cap structure; advisory variant may also have shifted to participation but retained cap here as the brochure cites both methods.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,

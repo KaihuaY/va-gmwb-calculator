@@ -1,0 +1,95 @@
+{
+  "slug": "corebridge_marketlock",
+  "name": "MarketLock",
+  "carrier": "Corebridge",
+  "product_type": "rila",
+  "first_offered": "2024-10-07",
+  "data_provenance": "prospectus_v1",
+  "base": {
+    "base_av_default": 250000,
+    "me_fee_annual": 0.0,
+    "surrender_schedule": [
+      0.08,
+      0.08,
+      0.07,
+      0.06,
+      0.05,
+      0.04
+    ],
+    "free_withdrawal_pct": 0.1,
+    "nursing_home_waiver": true,
+    "terminal_illness_waiver": true,
+    "disability_waiver": false
+  },
+  "segments_available": [
+    {
+      "term_years": 1,
+      "index": "sp500",
+      "crediting_method": "cap",
+      "protection_type": "buffer",
+      "protection_level": 0.1,
+      "cap_rate": 0.12
+    },
+    {
+      "term_years": 6,
+      "index": "sp500",
+      "crediting_method": "participation",
+      "protection_type": "buffer",
+      "protection_level": 0.2,
+      "participation_rate": 0.8
+    }
+  ],
+  "default_allocation_pcts": [
+    0.5,
+    0.5
+  ],
+  "rider": {
+    "type": "none"
+  },
+  "insurer": {
+    "am_best": "A",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.18
+  },
+  "behavioral_data": {
+    "initial_cap": 0.12,
+    "current_cap": 0.12,
+    "cap_history": [
+      {
+        "date": "2024-10-07",
+        "cap": 0.12
+      }
+    ],
+    "illustration_actual_delta": 0.05,
+    "naic_complaints_index": 0.5,
+    "regulatory_fines_5yr": 0
+  },
+  "has_gmdb": false,
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "carrier_press_release",
+      "url": "https://investors.corebridgefinancial.com/news/news-details/2024/Corebridge-Financial-Launches-Registered-Index-Linked-Annuity-RILA-Becoming-the-Only-Top-3-Annuity-Provider-with-Products-in-Every-Major-Category/default.aspx",
+      "retrieved": "2026-05-12",
+      "note": "Corebridge Financial launched MarketLock RILA on Oct 7, 2024, issued by American General Life Insurance Company (AGL). Available with 10% or 20% buffer levels; includes proprietary Lock Strategy with 30%/40%/50%/75%/100% growth targets. $1.9B full-year RILA sales in 2025."
+    },
+    {
+      "type": "n4_prospectus",
+      "url": "https://crbgdoc.jaggedpeak.com/getDocument/?email=defalt@crbg.com&catalogID=a6550pro",
+      "retrieved": "2026-05-12",
+      "note": "Corebridge MarketLock prospectus dated October 27, 2025. Surrender charge schedule 8/8/7/6/5/4 over 6 years; 10% of premium free withdrawal in Year 1, 10% of contract value thereafter."
+    },
+    {
+      "type": "carrier_rate_sheet",
+      "url": "https://annuityeducator.com/reviews/american-general-life-insurance-company/fixed-index/marketlock-rila",
+      "retrieved": "2026-05-12",
+      "note": "Current rates: 1-yr S&P 500 PTP with 10% buffer = 12% cap; 6-yr S&P 500 with 20% buffer = 80% participation. No annual M&E or product fee."
+    },
+    {
+      "type": "am_best",
+      "url": "https://ratings.ambest.com/DisclosurePDF.aspx?AMBNum=6058",
+      "retrieved": "2026-05-12",
+      "note": "American General Life Insurance Company AM Best FSR A (Excellent). Corebridge Financial parent rating also A."
+    }
+  ]
+}

@@ -35,11 +35,11 @@ await page.goto(`${BASE}/ratings`);
 await page.waitForSelector('[data-testid="ratings-table"]', { timeout: 5000 });
 
 const rows = await page.locator('[data-testid^="row-"]').count();
-await assert(rows === 25, `25 product rows visible (got ${rows})`);
+await assert(rows >= 25, `at least 25 product rows visible (got ${rows})`);
 
 // Every row has a grade chip
 const grades = await page.locator('[data-testid^="grade-"]').count();
-await assert(grades === 25, `Every row has a grade chip (got ${grades})`);
+await assert(grades === rows, `Every row has a grade chip (got ${grades} of ${rows})`);
 
 // Composite is the default sort (desc) — first row should be Pacific Index Advisory (A-)
 const firstGrade = await page.locator('[data-testid^="grade-"]').first().textContent();
@@ -56,7 +56,7 @@ console.log('— Min-grade filter —');
 await page.selectOption('[data-testid="filter-min-grade"]', 'B');
 await page.waitForTimeout(150);
 const aOrB = await page.locator('[data-testid^="row-"]').count();
-await assert(aOrB > 0 && aOrB < 25, `Min-grade=B filters something (got ${aOrB})`);
+await assert(aOrB > 0 && aOrB < rows, `Min-grade=B filters something (got ${aOrB} of ${rows})`);
 await page.selectOption('[data-testid="filter-min-grade"]', '');
 
 console.log('— /ratings/equitable_scs_income detail —');
@@ -80,6 +80,35 @@ await assert(signedBy && signedBy.length > 0, `signed_by populated (got "${signe
 for (const k of ['tco', 'gv', 'sf', 'ic', 'bf']) {
   const visible = await page.locator(`[data-testid="subscore-${k}"]`).count();
   await assert(visible === 1, `Sub-score bar present: ${k}`);
+}
+
+// Regime backtest panel (interactive — uses live /api endpoint, not the snapshot)
+console.log('— Regime backtest panel —');
+const panelVisible = await page.locator('[data-testid="regime-backtest-panel"]').count();
+await assert(panelVisible === 1, 'Regime backtest panel renders');
+
+// Wait for the initial terminal-AV stat to populate (first regime auto-selected)
+await page.waitForSelector('[data-testid="regime-backtest-terminal-av"]', { timeout: 8000 });
+const initialTerminal = (await page.locator('[data-testid="regime-backtest-terminal-av"]').textContent()) || '';
+const initialNum = parseFloat(initialTerminal.replace(/[^0-9.\-]/g, ''));
+await assert(Number.isFinite(initialNum) && initialNum > 0,
+             `Terminal AV is numeric and positive (got "${initialTerminal.trim()}")`);
+
+// Switch to the post-GFC bull regime; terminal AV value should update
+const pgfcPill = page.locator('[data-testid="regime-pill-post_gfc_bull_2010_2021"]');
+if (await pgfcPill.count() === 1) {
+  await pgfcPill.click();
+  // Poll up to 8s for the value to differ from the initial reading
+  let switchedTerminal = initialTerminal;
+  for (let i = 0; i < 40; i++) {
+    await page.waitForTimeout(200);
+    switchedTerminal = (await page.locator('[data-testid="regime-backtest-terminal-av"]').textContent()) || '';
+    if (switchedTerminal !== initialTerminal) break;
+  }
+  await assert(switchedTerminal !== initialTerminal,
+               `Terminal AV updates when switching regimes (initial "${initialTerminal.trim()}" vs new "${switchedTerminal.trim()}")`);
+} else {
+  await assert(false, 'post_gfc_bull_2010_2021 regime pill present');
 }
 
 // JSON-LD Review schema in page source
@@ -108,6 +137,48 @@ await page.goto(`${BASE}/ratings/nonexistent_slug_xyz`);
 await page.waitForSelector('[data-testid="rating-not-found"]', { timeout: 5000 });
 const notFound = await page.locator('[data-testid="rating-not-found"]').count();
 await assert(notFound === 1, '404 path shows not-found view');
+
+// ── New: Feature 1 — search filter ────────────────────────────────────────
+console.log('— /ratings search filter —');
+await page.goto(`${BASE}/ratings`);
+await page.waitForSelector('[data-testid="ratings-table"]', { timeout: 5000 });
+await page.fill('[data-testid="filter-search"]', 'Equitable');
+await page.waitForTimeout(150);
+const searchRows = await page.locator('[data-testid^="row-"]').count();
+await assert(searchRows >= 3, `Typing "Equitable" in search shows ≥3 rows (got ${searchRows})`);
+await page.fill('[data-testid="filter-search"]', '');
+
+// ── New: Feature 2 — compare page ─────────────────────────────────────────
+console.log('— /ratings/compare side-by-side —');
+await page.goto(`${BASE}/ratings/compare?slugs=equitable_scs_income,jackson_market_link_pro`);
+await page.waitForSelector('[data-testid="compare-page"]', { timeout: 5000 });
+const colA = await page.locator('[data-testid="compare-col-equitable_scs_income"]').count();
+const colB = await page.locator('[data-testid="compare-col-jackson_market_link_pro"]').count();
+await assert(colA === 1, 'Compare column for equitable_scs_income rendered');
+await assert(colB === 1, 'Compare column for jackson_market_link_pro rendered');
+const compareSubBars = await page.locator('[data-testid^="subscore-"]').count();
+await assert(compareSubBars === 10, `10 sub-score bars on compare page (5 per product) — got ${compareSubBars}`);
+
+// ── New: Feature 3 — glossary list on /methodology ────────────────────────
+console.log('— Glossary on /methodology —');
+await page.goto(`${BASE}/methodology`);
+await page.waitForSelector('[data-testid="methodology-page"]', { timeout: 5000 });
+const glossary = await page.locator('[data-testid="glossary-list"]').count();
+await assert(glossary === 1, 'Glossary list rendered on /methodology');
+const glossaryHtml = await page.locator('[data-testid="glossary-list"]').innerHTML();
+await assert(glossaryHtml.includes('GLWB'),    'Glossary lists GLWB');
+await assert(glossaryHtml.includes('M&amp;E') || glossaryHtml.includes('M&E'),
+             'Glossary lists M&E');
+await assert(glossaryHtml.includes('AM Best'), 'Glossary lists AM Best');
+
+// ── New: Feature 4 — sitemap.xml ──────────────────────────────────────────
+console.log('— /sitemap.xml —');
+const sitemapRes = await page.goto(`${BASE}/sitemap.xml`);
+const sitemapTxt = await sitemapRes.text();
+await assert(sitemapTxt.startsWith('<?xml'), 'sitemap.xml begins with XML declaration');
+await assert(sitemapTxt.includes('<urlset'), 'sitemap.xml has <urlset> root element');
+const urlCount = (sitemapTxt.match(/<url>/g) || []).length;
+await assert(urlCount >= 25, `sitemap.xml has 25+ URL entries (got ${urlCount})`);
 
 await browser.close();
 

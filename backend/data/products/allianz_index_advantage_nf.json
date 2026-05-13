@@ -4,23 +4,38 @@
   "carrier": "Allianz",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "n4_prospectus",
+      "url": "https://www.sec.gov/Archives/edgar/data/836346/000008001920000009/indadvnf485b.htm",
+      "retrieved": "2026-05-12",
+      "note": "Allianz Index Advantage NF Variable Annuity 485B filing (CIK 836346, Allianz Life Insurance Company of North America). NF = No Fee variant (no annual product fee). Predecessor to Index Advantage+ NF."
+    },
+    {
+      "type": "carrier_product_page",
+      "url": "https://www.allianzlife.com/what-we-offer/annuities/prospectuses/allianz-index-advantage-nf",
+      "retrieved": "2026-05-12",
+      "note": "Allianz Index Advantage NF official prospectus page. 6-year B-share surrender charge starts at 7% in years 1-2 with 1% reduction per year. Spec surrender schedule 6/5/4/3/2/1 updated to 7/7/6/5/4/3 to match public broker-tier surrender description."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.allianzlife.com/about/financial-ratings",
+      "retrieved": "2026-05-12",
+      "note": "Allianz Life Insurance Company of North America AM Best FSR A+ (Superior). Synthetic anchor confirmed."
     }
   ],
+  "verification_notes": "AM Best A+ confirmed; surrender schedule corrected to 7/7/6/5/4/3 per disclosed B-share structure; no annual product fee confirmed (me_fee_annual=0 retained). Specific cap rate / participation rate not pulled from current rate sheet — public-range estimates retained.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,
     "surrender_schedule": [
+      0.07,
+      0.07,
       0.06,
       0.05,
       0.04,
-      0.03,
-      0.02,
-      0.01
+      0.03
     ],
     "free_withdrawal_pct": 0.1,
     "nursing_home_waiver": true,

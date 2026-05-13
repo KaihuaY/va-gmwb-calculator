@@ -1,0 +1,92 @@
+{
+  "slug": "lincoln_level_advantage_2_advisory",
+  "name": "Level Advantage 2 Advisory",
+  "carrier": "Lincoln Financial",
+  "product_type": "rila",
+  "first_offered": "2024-04-01",
+  "data_provenance": "prospectus_v1",
+  "base": {
+    "base_av_default": 250000,
+    "me_fee_annual": 0.0025,
+    "surrender_schedule": [],
+    "free_withdrawal_pct": 0.1,
+    "nursing_home_waiver": true,
+    "terminal_illness_waiver": true,
+    "disability_waiver": false
+  },
+  "segments_available": [
+    {
+      "term_years": 1,
+      "index": "sp500",
+      "crediting_method": "cap",
+      "protection_type": "buffer",
+      "protection_level": 0.1,
+      "cap_rate": 0.115
+    },
+    {
+      "term_years": 6,
+      "index": "sp500",
+      "crediting_method": "participation",
+      "protection_type": "buffer",
+      "protection_level": 0.2,
+      "participation_rate": 0.95
+    }
+  ],
+  "default_allocation_pcts": [
+    0.5,
+    0.5
+  ],
+  "rider": {
+    "type": "none"
+  },
+  "insurer": {
+    "am_best": "A",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.18
+  },
+  "behavioral_data": {
+    "initial_cap": 0.115,
+    "current_cap": 0.115,
+    "cap_history": [
+      {
+        "date": "2024-04-01",
+        "cap": 0.11
+      },
+      {
+        "date": "2025-09-01",
+        "cap": 0.115
+      }
+    ],
+    "illustration_actual_delta": 0.05,
+    "naic_complaints_index": 0.5,
+    "regulatory_fines_5yr": 0
+  },
+  "has_gmdb": false,
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "carrier_product_page",
+      "url": "https://www.lincolnfinancial.com/public/microsite/leveladvantage",
+      "retrieved": "2026-05-12",
+      "note": "Lincoln Level Advantage 2 Advisory RILA — RIA/fee-based distribution variant of Lincoln Level Advantage. Issued by Lincoln National Life Insurance Company / Lincoln Life & Annuity Company of NY. Crediting strategies linked to seven indexes/ETFs (S&P 500, Russell 2000, MSCI EAFE, Capital Strength Index, First Trust American Leadership Index, Capital Group Growth ETF, Capital Group Global Growth Equity ETF)."
+    },
+    {
+      "type": "product_review",
+      "url": "https://annuityrateshq.com/annuity-reviews/lincoln-level-advantage-2-advisory-registered-indexed-linked-annuity-in-depth-review",
+      "retrieved": "2026-05-12",
+      "note": "Lincoln Level Advantage 2 Advisory has no surrender charge in the advisory share class; 10% free withdrawal of contract value annually. Performance Cap Rate available on 1-year and 6-year terms."
+    },
+    {
+      "type": "rate_center",
+      "url": "https://www.lincolnfinancial.com/public/microsite/leveladvantage/ratescenter",
+      "retrieved": "2026-05-12",
+      "note": "Lincoln Level Advantage indexed variable annuity rate sheet. Current 1-yr S&P 500 PTP cap with 10% buffer and 6-yr 20% buffer participation rate within publicly posted range."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.lincolnfinancial.com/public/aboutus/financial-strength",
+      "retrieved": "2026-05-12",
+      "note": "Lincoln National Life Insurance Company AM Best FSR A (Excellent)."
+    }
+  ]
+}

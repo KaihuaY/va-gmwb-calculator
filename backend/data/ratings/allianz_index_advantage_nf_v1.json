@@ -3,7 +3,7 @@
   "product_name": "Index Advantage NF",
   "carrier": "Allianz",
   "methodology_version": "v1.3.0",
-  "product_spec_hash": "a94b84a63947837cfdf7df90672f95aecfbadb82f1b0c9922662252fcbf543b9",
+  "product_spec_hash": "1d3272a00885917b4f85454096a06793982e7d4b567d0355a2342e6f406d91f3",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -29,8 +29,8 @@
       "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.33x. Buffer PV $71,035; floor PV $0; cost-base PV $53,502. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+      "score": 70.0,
+      "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
     },
     "ic": {
       "score": 90,
@@ -41,15 +41,15 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "composite": 75.6,
-  "letter_grade": "B",
+  "composite": 74.6,
+  "letter_grade": "B-",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
     "rollup_rate": 0.0,
     "withdrawal_rate_65": 0.0,
     "surrender_years": 6,
-    "surrender_max_pct": 0.06,
+    "surrender_max_pct": 0.07,
     "free_withdrawal_pct": 0.1,
     "waivers": [
       "nursing-home",
@@ -138,7 +138,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Allianz's Index Advantage NF earns a composite score of 75.6, which maps to a letter grade of B under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (57). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Allianz's Index Advantage NF earns a composite score of 74.6, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (57). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (57).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

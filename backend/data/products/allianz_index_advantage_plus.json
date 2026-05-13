@@ -4,23 +4,38 @@
   "carrier": "Allianz",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "carrier_product_page",
+      "url": "https://www.allianzlife.com/what-we-offer/annuities/registered-index-linked-annuities/index-advantage-plus",
+      "retrieved": "2026-05-12",
+      "note": "Allianz Index Advantage+ RILA (commission-bearing variant, with 1.25% annual product fee). Successor to original Index Advantage launched 2022. Issued by Allianz Life Insurance Company of North America (CIK 836346)."
+    },
+    {
+      "type": "rates_center",
+      "url": "https://www.allianzlife.com/what-we-offer/annuities/registered-index-linked-annuities/index-advantage-plus/rila-rates-center-ixap",
+      "retrieved": "2026-05-12",
+      "note": "Allianz Index Advantage+ RILA Rates Center. 6-year B-share surrender 7/7/6/5/4/3 confirmed; 6-year participation rate floor 100% per prospectus."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.allianzlife.com/about/financial-ratings",
+      "retrieved": "2026-05-12",
+      "note": "Allianz Life Insurance Company of North America AM Best FSR A+ (Superior)."
     }
   ],
+  "verification_notes": "AM Best A+ confirmed; surrender schedule corrected from 6/5/4/3/2/1 to 7/7/6/5/4/3 (B-share); product fee 1.25% retained — Allianz Index Advantage+ commission variant assesses an annual product fee, unlike NF; current cap and 6-yr participation rates within public range pending broker-portal rate sheet.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0125,
     "surrender_schedule": [
+      0.07,
+      0.07,
       0.06,
       0.05,
       0.04,
-      0.03,
-      0.02,
-      0.01
+      0.03
     ],
     "free_withdrawal_pct": 0.1,
     "nursing_home_waiver": true,

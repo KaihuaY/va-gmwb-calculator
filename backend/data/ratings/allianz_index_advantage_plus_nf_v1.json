@@ -1,0 +1,147 @@
+{
+  "product_slug": "allianz_index_advantage_plus_nf",
+  "product_name": "Index Advantage+ NF",
+  "carrier": "Allianz",
+  "methodology_version": "v1.3.0",
+  "product_spec_hash": "04efba6b9c8752f21300b9a08b8867b36768a9fb7b91c9d9d3fd9d287af3f08b",
+  "scored_at": "2026-05-12T00:00:00Z",
+  "scoring_inputs": {
+    "premium": 250000,
+    "horizon_years": 30,
+    "age": 60,
+    "gender": "blend"
+  },
+  "monte_carlo": {
+    "fees_pv_mean": 0.0,
+    "glwb_pv_mean": 0.0,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 404833.39,
+    "av_end_p50": 1297137.48,
+    "av_end_p95": 4663784.33
+  },
+  "sub_scores": {
+    "tco": {
+      "score": 100.0,
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+    },
+    "gv": {
+      "score": 100.0,
+      "rationale": "Closed-form PV(buffer absorption) $71,035 with zero cost base \u2014 capped at 100."
+    },
+    "sf": {
+      "score": 62.5,
+      "rationale": "6-yr surrender schedule (max 8.5%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 90,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 20%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "composite": 88.5,
+  "letter_grade": "A-",
+  "feature_snapshot": {
+    "me_fee_annual": 0.0,
+    "rider_fee_annual": 0.0,
+    "rollup_rate": 0.0,
+    "withdrawal_rate_65": 0.0,
+    "surrender_years": 6,
+    "surrender_max_pct": 0.085,
+    "free_withdrawal_pct": 0.1,
+    "waivers": [
+      "nursing-home",
+      "terminal-illness"
+    ],
+    "waiver_count": 2,
+    "step_up": false,
+    "has_glwb": false,
+    "headline_cap": 0.105,
+    "am_best": "A+",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.2,
+    "cap_cut_count_5yr": 1,
+    "product_type": "rila",
+    "first_offered": "2022-01-01"
+  },
+  "regimes": {
+    "bull_1985_1999": {
+      "display_name": "Secular bull (1985-1999)",
+      "start_month": "1985-02",
+      "end_month": "2000-01",
+      "years": 15,
+      "av_end": 1444090.14,
+      "av_min": 250000.0,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 100.0,
+      "history_truncated": false
+    },
+    "lost_decade_2000_2009": {
+      "display_name": "Lost decade (2000-2009)",
+      "start_month": "2000-01",
+      "end_month": "2009-12",
+      "years": 10,
+      "av_end": 231752.49,
+      "av_min": 189882.31,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 28.5,
+      "history_truncated": false
+    },
+    "gfc_2008_2010": {
+      "display_name": "GFC stress window (2008-2010)",
+      "start_month": "2008-01",
+      "end_month": "2010-12",
+      "years": 3,
+      "av_end": 222566.61,
+      "av_min": 170849.13,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 26.0,
+      "history_truncated": false
+    },
+    "post_gfc_bull_2010_2021": {
+      "display_name": "Post-GFC bull (2010-2021)",
+      "start_month": "2010-01",
+      "end_month": "2021-12",
+      "years": 12,
+      "av_end": 863502.25,
+      "av_min": 250000.0,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 100.0,
+      "history_truncated": false
+    },
+    "rate_hike_2022_2024": {
+      "display_name": "Rate-hike cycle (2022-2024)",
+      "start_month": "2022-01",
+      "end_month": "2024-12",
+      "years": 3,
+      "av_end": 299460.58,
+      "av_min": 218456.28,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 46.5,
+      "history_truncated": false
+    }
+  },
+  "narrative": "Allianz's Index Advantage+ NF earns a composite score of 88.5, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (90), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (62).",
+  "signed_by": "K Hu",
+  "signed_credentials": "FSA, MAAA",
+  "signed_at": "2026-05-12T00:00:00Z",
+  "status": "published"
+}

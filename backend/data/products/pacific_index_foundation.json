@@ -7,10 +7,25 @@
   "data_provenance": "synthetic_v0",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "carrier_product_page",
+      "url": "https://www.annuities.pacificlife.com/home/annuities/fixed-annuities/pacific-index-foundation.html",
+      "retrieved": "2026-05-12",
+      "note": "MISCLASSIFICATION FLAG: Pacific Index Foundation is a Fixed Annuity (Pacific Life classification: 'fixed-annuities' URL path; product guide confirms Guaranteed Minimum Surrender Value = 91% of purchase payments). NOT a RILA. The actual Pacific Life RILA is Pacific Protective Growth (see pacific_protective_growth.json)."
+    },
+    {
+      "type": "carrier_product_guide",
+      "url": "https://www.pacificlife.com/content/dam/paclife/rsd/annuities/public/pdfs/guide/pacific-index-foundation-guide.pdf",
+      "retrieved": "2026-05-12",
+      "note": "Pacific Index Foundation product guide (FAC0265-00 2/26). 10% free withdrawal Year 1; point-to-point cap. Full principal protection — no buffer or floor."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.pacificlife.com/who-we-are/financial-strength.html",
+      "retrieved": "2026-05-12",
+      "note": "Pacific Life Insurance Company AM Best FSR A+ (Superior). Synthetic anchor confirmed."
     }
   ],
+  "verification_notes": "CRITICAL: Pacific Index Foundation is a Fixed Indexed Annuity / fixed annuity, not a RILA — full principal protection rather than buffer/floor. Should be reclassified or removed from RILA catalog. AM Best A+ confirmed. Excluded from market-coverage % denominator.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,

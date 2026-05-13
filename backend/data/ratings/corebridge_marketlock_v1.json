@@ -1,0 +1,147 @@
+{
+  "product_slug": "corebridge_marketlock",
+  "product_name": "MarketLock",
+  "carrier": "Corebridge",
+  "methodology_version": "v1.3.0",
+  "product_spec_hash": "eae3d4e1c4b1e667f7678bc8400701634ed9f9cdca07a3f30eb188e39ec67d14",
+  "scored_at": "2026-05-12T00:00:00Z",
+  "scoring_inputs": {
+    "premium": 250000,
+    "horizon_years": 30,
+    "age": 60,
+    "gender": "blend"
+  },
+  "monte_carlo": {
+    "fees_pv_mean": 0.0,
+    "glwb_pv_mean": 0.0,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 354139.94,
+    "av_end_p50": 961496.25,
+    "av_end_p95": 2735592.26
+  },
+  "sub_scores": {
+    "tco": {
+      "score": 75.2,
+      "rationale": "Annualised fee + cap-spread drag: 0.70%. Cohort best: 0.00%; cohort worst: 2.83%."
+    },
+    "gv": {
+      "score": 100.0,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+    },
+    "sf": {
+      "score": 65.0,
+      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 83,
+      "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "composite": 82.6,
+  "letter_grade": "B+",
+  "feature_snapshot": {
+    "me_fee_annual": 0.0,
+    "rider_fee_annual": 0.0,
+    "rollup_rate": 0.0,
+    "withdrawal_rate_65": 0.0,
+    "surrender_years": 6,
+    "surrender_max_pct": 0.08,
+    "free_withdrawal_pct": 0.1,
+    "waivers": [
+      "nursing-home",
+      "terminal-illness"
+    ],
+    "waiver_count": 2,
+    "step_up": false,
+    "has_glwb": false,
+    "headline_cap": 0.12,
+    "am_best": "A",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.18,
+    "cap_cut_count_5yr": 0,
+    "product_type": "rila",
+    "first_offered": "2024-10-07"
+  },
+  "regimes": {
+    "bull_1985_1999": {
+      "display_name": "Secular bull (1985-1999)",
+      "start_month": "1985-02",
+      "end_month": "2000-01",
+      "years": 15,
+      "av_end": 1155234.2,
+      "av_min": 250000.0,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 100.0,
+      "history_truncated": false
+    },
+    "lost_decade_2000_2009": {
+      "display_name": "Lost decade (2000-2009)",
+      "start_month": "2000-01",
+      "end_month": "2009-12",
+      "years": 10,
+      "av_end": 222191.77,
+      "av_min": 189882.31,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 25.9,
+      "history_truncated": false
+    },
+    "gfc_2008_2010": {
+      "display_name": "GFC stress window (2008-2010)",
+      "start_month": "2008-01",
+      "end_month": "2010-12",
+      "years": 3,
+      "av_end": 218767.47,
+      "av_min": 170849.13,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 25.0,
+      "history_truncated": false
+    },
+    "post_gfc_bull_2010_2021": {
+      "display_name": "Post-GFC bull (2010-2021)",
+      "start_month": "2010-01",
+      "end_month": "2021-12",
+      "years": 12,
+      "av_end": 758738.84,
+      "av_min": 250000.0,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 100.0,
+      "history_truncated": false
+    },
+    "rate_hike_2022_2024": {
+      "display_name": "Rate-hike cycle (2022-2024)",
+      "start_month": "2022-01",
+      "end_month": "2024-12",
+      "years": 3,
+      "av_end": 291090.31,
+      "av_min": 218456.28,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 44.3,
+      "history_truncated": false
+    }
+  },
+  "narrative": "Corebridge's MarketLock earns a composite score of 82.6, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (65).",
+  "signed_by": "K Hu",
+  "signed_credentials": "FSA, MAAA",
+  "signed_at": "2026-05-12T00:00:00Z",
+  "status": "published"
+}

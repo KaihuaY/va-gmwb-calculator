@@ -3,7 +3,7 @@
   "product_name": "Pacific Index Advisory",
   "carrier": "Pacific Life",
   "methodology_version": "v1.3.0",
-  "product_spec_hash": "904e36f6da860479a3db2f69f1e54ba877fdc8d822e579b2feef3e9196332980",
+  "product_spec_hash": "fef2823e70026cde875c816524597eb0ed6d6c626d22368e9bfd67730065b2e9",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,

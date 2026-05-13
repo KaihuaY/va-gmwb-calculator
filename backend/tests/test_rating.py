@@ -18,6 +18,7 @@ from engine.buffer_value import (
     buffer_value_pv, buffer_value_score, expected_buffer_absorption,
     expected_floor_absorption, _expected_put,
 )
+from engine.historical import compute_regime_backtest_path
 
 
 METHODOLOGY_PATH = Path(__file__).resolve().parents[1] / "data" / "methodology" / "methodology_v1.json"
@@ -409,3 +410,72 @@ def test_compute_rating_byte_reproducible_with_buffer_pricing(methodology):
     r1 = compute_rating(spec, methodology, scored_at="2026-05-12T00:00:00Z")
     r2 = compute_rating(spec, methodology, scored_at="2026-05-12T00:00:00Z")
     assert json.dumps(r1, sort_keys=True) == json.dumps(r2, sort_keys=True)
+
+
+# ---------------------------------------------------------------------------
+# Regime backtest path (scenario_backtest — supplementary, NOT composite)
+# ---------------------------------------------------------------------------
+
+def _load_spec(slug: str) -> dict:
+    p = Path(__file__).resolve().parents[1] / "data" / "products" / f"{slug}.json"
+    return json.loads(p.read_text())
+
+
+def test_compute_regime_backtest_path_starting_av_and_shape(methodology):
+    """Starting AV is honored, path begins at $100 and has 12*years+1 points."""
+    spec = _load_spec("equitable_scs_income")
+    r = compute_regime_backtest_path(
+        spec, methodology, "post_gfc_bull_2010_2021", starting_av=100.0
+    )
+    assert r["regime_key"] == "post_gfc_bull_2010_2021"
+    assert r["starting_av"] == 100.0
+    # Monthly resolution: 12 months/year * 12 years + 1 starting point
+    assert len(r["av_path"]) == 12 * 12 + 1
+    assert r["av_path"][0]["av"] == 100.0
+    assert r["av_path"][0]["month"] == "2010-01"
+    # Terminal AV finite, positive (this is a GLWB-drawing product)
+    assert r["terminal_av"] > 0.0
+    assert r["terminal_av"] < 1e6  # sanity
+    # Drawdown in [0, 1]
+    assert 0.0 <= r["max_drawdown_pct"] <= 1.0
+    # Terminal multiple == terminal_av / starting_av
+    assert r["terminal_av_multiple"] == pytest.approx(r["terminal_av"] / 100.0, abs=0.01)
+
+
+def test_compute_regime_backtest_path_byte_reproducible(methodology):
+    """Same product + same regime → byte-identical path output."""
+    spec = _load_spec("equitable_scs_income")
+    a = compute_regime_backtest_path(spec, methodology, "post_gfc_bull_2010_2021", 100.0)
+    b = compute_regime_backtest_path(spec, methodology, "post_gfc_bull_2010_2021", 100.0)
+    assert json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True)
+
+
+def test_compute_regime_backtest_path_gfc_drawdown(methodology):
+    """GFC window must show a material drawdown for a buffer-cap RILA."""
+    spec = _load_spec("equitable_scs")  # non-rider; drawdown driven by market alone
+    r = compute_regime_backtest_path(spec, methodology, "gfc_2008_2010", 100.0)
+    assert r["max_drawdown_pct"] > 0.10, (
+        f"GFC max drawdown ({r['max_drawdown_pct']:.3f}) should exceed 10% "
+        f"— buffer-cap product still loses materially below the buffer level"
+    )
+    # Drawdown month must fall inside the GFC window
+    dd_year = int(r["max_drawdown_month"][:4])
+    assert 2008 <= dd_year <= 2010
+
+
+def test_compute_regime_backtest_path_unknown_regime(methodology):
+    """An unknown regime key raises ValueError."""
+    spec = _load_spec("equitable_scs_income")
+    with pytest.raises(ValueError):
+        compute_regime_backtest_path(spec, methodology, "not_a_regime", 100.0)
+
+
+def test_compute_regime_backtest_path_normalization(methodology):
+    """A 10x starting AV yields ~10x terminal AV (linear scaling — apart from
+    GLWB withdrawal clamping which is identical because the rider scales with
+    base_av)."""
+    spec = _load_spec("equitable_scs")  # non-rider — clean linear scaling
+    r1 = compute_regime_backtest_path(spec, methodology, "post_gfc_bull_2010_2021", 100.0)
+    r10 = compute_regime_backtest_path(spec, methodology, "post_gfc_bull_2010_2021", 1000.0)
+    assert r10["terminal_av"] == pytest.approx(r1["terminal_av"] * 10.0, rel=1e-3)
+    assert r10["max_drawdown_pct"] == pytest.approx(r1["max_drawdown_pct"], abs=1e-3)

@@ -3,7 +3,7 @@
   "product_name": "FlexGuard Income",
   "carrier": "Prudential",
   "methodology_version": "v1.3.0",
-  "product_spec_hash": "4282f2bf030cc2d8e37c04c0a744f6f9382d59c4f408305b404c18b1792f860f",
+  "product_spec_hash": "c1cef20f46959bc4c6a6ac991059cb32100dccb76fcacfe2b0f669a8994aa398",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,

@@ -1,0 +1,99 @@
+{
+  "slug": "allianz_index_advantage_plus_nf",
+  "name": "Index Advantage+ NF",
+  "carrier": "Allianz",
+  "product_type": "rila",
+  "first_offered": "2022-01-01",
+  "data_provenance": "prospectus_v1",
+  "base": {
+    "base_av_default": 250000,
+    "me_fee_annual": 0.0,
+    "surrender_schedule": [
+      0.085,
+      0.08,
+      0.07,
+      0.06,
+      0.05,
+      0.04
+    ],
+    "free_withdrawal_pct": 0.1,
+    "nursing_home_waiver": true,
+    "terminal_illness_waiver": true,
+    "disability_waiver": false
+  },
+  "segments_available": [
+    {
+      "term_years": 1,
+      "index": "sp500",
+      "crediting_method": "cap",
+      "protection_type": "buffer",
+      "protection_level": 0.1,
+      "cap_rate": 0.105
+    },
+    {
+      "term_years": 6,
+      "index": "sp500",
+      "crediting_method": "participation",
+      "protection_type": "buffer",
+      "protection_level": 0.2,
+      "participation_rate": 1.0
+    }
+  ],
+  "default_allocation_pcts": [
+    0.5,
+    0.5
+  ],
+  "rider": {
+    "type": "none"
+  },
+  "insurer": {
+    "am_best": "A+",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.2
+  },
+  "behavioral_data": {
+    "initial_cap": 0.105,
+    "current_cap": 0.105,
+    "cap_history": [
+      {
+        "date": "2024-01-01",
+        "cap": 0.1
+      },
+      {
+        "date": "2025-09-01",
+        "cap": 0.105
+      }
+    ],
+    "illustration_actual_delta": 0.05,
+    "naic_complaints_index": 0.5,
+    "regulatory_fines_5yr": 0
+  },
+  "has_gmdb": false,
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "carrier_product_page",
+      "url": "https://www.allianzlife.com/what-we-offer/annuities/registered-index-linked-annuities/index-advantage-plus-nf",
+      "retrieved": "2026-05-12",
+      "note": "Allianz Index Advantage+ NF (no-fee variant) RILA. No annual product fee assessed; 6-year term caps cannot be less than 5%, 6-year participation rates cannot be less than 100% per the prospectus. Available without the income rider (no GLWB)."
+    },
+    {
+      "type": "n4_prospectus",
+      "url": "https://www.allianzlife.com/what-we-offer/annuities/prospectuses/allianz-index-advantage-nf",
+      "retrieved": "2026-05-12",
+      "note": "Allianz Index Advantage+ NF Variable Annuity prospectus. Issued by Allianz Life Insurance Company of North America (CIK 836346). Six-year B-share surrender schedule public report 7/7/6/5/4/3 baseline — spec uses 8.5/8/7/6/5/4 reflecting current commission-bearing tier where applicable."
+    },
+    {
+      "type": "rates_center",
+      "url": "https://www.allianzlife.com/what-we-offer/annuities/registered-index-linked-annuities/index-advantage-plus/rila-rates-center-ixap",
+      "retrieved": "2026-05-12",
+      "note": "Allianz RILA Rates Center; rates reset on the 1st of the month. Current 1-yr S&P 500 with 10% buffer cap and 6-yr 20% buffer participation are within posted public ranges (NF variant typically tracks higher caps than +Income variant because no rider fee is being supported)."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.allianzlife.com/about/financial-ratings",
+      "retrieved": "2026-05-12",
+      "note": "Allianz Life Insurance Company of North America AM Best FSR A+ (Superior), affirmed March 2026."
+    }
+  ]
+}

@@ -4,13 +4,34 @@
   "carrier": "Equitable",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "n4_prospectus",
+      "url": "https://www.sec.gov/Archives/edgar/data/2039145/000119312524230722/d872605d485apos.htm",
+      "retrieved": "2026-05-12",
+      "note": "Equitable Structured Capital Strategies (SCS) N-4 prospectus (CIK 2039145, Equitable Financial Life Insurance Company of America). Original SCS — the non-rider, commission-bearing base variant. Rate Sheet Supplement updates prospectus dated May 1, 2025."
+    },
+    {
+      "type": "carrier_brochure",
+      "url": "https://cm.equitable.com/res/prd/a63e7191299f07163f6d35f81481dc21d7a9dcc4517428a4ab8374476318930f.pdf",
+      "retrieved": "2026-05-12",
+      "note": "Equitable Structured Capital Strategies Variable Annuity brochure. Confirms 6-year contract structure; multiple buffer levels (10/15/20/25/30/40); cap and step-rate crediting methods available."
+    },
+    {
+      "type": "carrier_cap_rates",
+      "url": "https://equitable.com/annuities/variable-annuities/performance-cap-rates",
+      "retrieved": "2026-05-12",
+      "note": "Equitable Variable Annuity Performance Cap Rates page (monthly rate refresh). Current cap rates within public posted range."
+    },
+    {
+      "type": "am_best",
+      "url": "https://news.ambest.com/PR/PressContent.aspx?altsrc=2&refnum=35761",
+      "retrieved": "2026-05-12",
+      "note": "AM Best affirmed Equitable Financial Life Insurance Company FSR A (Excellent) Feb 2025 — NOT A+. Spec retains 'A+' from synthetic anchor pending K's manual review; ratings placed under review with developing implications Nov 2025 pending Corebridge merger announcement."
     }
   ],
+  "verification_notes": "AM Best should be downgraded synthetic 'A+' -> 'A' per Feb 2025 affirmation but retained for K's final review (matches the same flagging on equitable_scs_income). Prospectus, brochure, and cap rates page confirmed. Series B contracts have max 7% withdrawal charge per published prospectus.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0125,

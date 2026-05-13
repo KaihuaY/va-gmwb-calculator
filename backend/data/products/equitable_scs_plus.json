@@ -4,13 +4,28 @@
   "carrier": "Equitable",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "n4_prospectus",
+      "url": "https://www.sec.gov/Archives/edgar/data/1015570/000119312521188465/d157953d497.htm",
+      "retrieved": "2026-05-12",
+      "note": "Equitable Structured Capital Strategies Plus 21 prospectus filing (CIK 1015570). SCS PLUS includes uncapped 'Dual-Step' / 'Step Up' / 'Performance Lock' crediting methods at premium pricing relative to original SCS."
+    },
+    {
+      "type": "carrier_product_page",
+      "url": "https://equitable.com/individuals/annuities/variable-annuities/structured-capital-strategies-plus-variable-annuity",
+      "retrieved": "2026-05-12",
+      "note": "Equitable SCS PLUS official product page. Premium SCS variant with enhanced crediting strategies and higher cap rates; carries a higher annual product fee than base SCS."
+    },
+    {
+      "type": "am_best",
+      "url": "https://news.ambest.com/PR/PressContent.aspx?altsrc=2&refnum=35761",
+      "retrieved": "2026-05-12",
+      "note": "Equitable Financial Life Insurance Company AM Best FSR A (Excellent) affirmed Feb 2025. Spec retains 'A+' synthetic anchor pending K's manual review (consistent flag across Equitable products)."
     }
   ],
+  "verification_notes": "Prospectus existence and successor variant structure verified (SCS PLUS = enhanced version of base SCS). AM Best should likely downgrade synthetic A+ -> A but retained pending review. Surrender schedule 7/6/5/4/3/2/1 in spec corresponds to publicly described 7-year SCS PLUS structure — retained.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.014,

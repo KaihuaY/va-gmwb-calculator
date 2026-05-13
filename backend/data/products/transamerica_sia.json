@@ -4,28 +4,49 @@
   "carrier": "Transamerica",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
+  "data_provenance": "prospectus_v1",
   "data_sources": [
     {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+      "type": "carrier_product_page",
+      "url": "https://www.transamerica.com/annuities/transamerica-structured-index-advantage-annuity",
+      "retrieved": "2026-05-12",
+      "note": "Transamerica Structured Index Advantage RILA. Issued by Transamerica Life Insurance Company. New variant with optional income features announced Q4 2025."
+    },
+    {
+      "type": "product_review",
+      "url": "https://annuityrateshq.com/annuity-reviews/transamerica-structured-index-advantage-registered-index-linked-annuity-rila-review",
+      "retrieved": "2026-05-12",
+      "note": "Surrender schedule 8/8/7/6/5/4 over 6 years (corrected from synthetic 6/5/4/3/2/1). No annual contract or admin fees (me_fee corrected 0.0125 -> 0.0). Three free waivers: nursing-home / hospital confinement (180+ days), terminal illness, unemployment (involuntary). 10% free withdrawal of contract value annually."
+    },
+    {
+      "type": "carrier_disclosures",
+      "url": "https://www.transamerica.com/annuities/rila/disclosures",
+      "retrieved": "2026-05-12",
+      "note": "Transamerica RILA disclosures hub. Confirms cap / participation / trigger crediting methods; rates updated periodically."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.transamerica.com/about/financial-strength",
+      "retrieved": "2026-05-12",
+      "note": "Transamerica Life Insurance Company AM Best FSR A (Excellent). Synthetic anchor 'A' confirmed. (Aegon parent; not PE.)"
     }
   ],
+  "verification_notes": "Surrender schedule corrected (synthetic 6/5/4/3/2/1 -> prospectus 8/8/7/6/5/4); M&E fee corrected (synthetic 0.0125 -> 0.0 — Transamerica RILA has no annual contract/admin fee); AM Best A confirmed; disability_waiver flipped to true (unemployment waiver is the closest match in Transamerica's three free waivers).",
   "base": {
     "base_av_default": 250000,
-    "me_fee_annual": 0.0125,
+    "me_fee_annual": 0.0,
     "surrender_schedule": [
+      0.08,
+      0.08,
+      0.07,
       0.06,
       0.05,
-      0.04,
-      0.03,
-      0.02,
-      0.01
+      0.04
     ],
     "free_withdrawal_pct": 0.1,
     "nursing_home_waiver": true,
     "terminal_illness_waiver": true,
-    "disability_waiver": false
+    "disability_waiver": true
   },
   "segments_available": [
     {
