@@ -28,7 +28,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.105
+      "cap_rate": 0.105,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -71,7 +72,7 @@
       "type": "carrier_press_release",
       "url": "https://www.pacificlife.com/press-releases/pacific-life-launches-new-registered-index-linked-annuity.html",
       "retrieved": "2026-05-12",
-      "note": "Pacific Life entered RILA market with Pacific Protective Growth (launched implementation date 2024-12-16/17). Issued by Pacific Life Insurance Company. NEW PRODUCT — first Pacific Life RILA; their previously-marketed Pacific Index Advisory / Index Foundation products are FIA, not RILA."
+      "note": "Pacific Life entered RILA market with Pacific Protective Growth (launched implementation date 2024-12-16/17). Issued by Pacific Life Insurance Company. NEW PRODUCT \u2014 first Pacific Life RILA; their previously-marketed Pacific Index Advisory / Index Foundation products are FIA, not RILA."
     },
     {
       "type": "product_review",

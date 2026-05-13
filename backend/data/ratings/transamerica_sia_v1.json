@@ -2,9 +2,9 @@
   "product_slug": "transamerica_sia",
   "product_name": "Structured Index Advantage",
   "carrier": "Transamerica",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "15de0f0934d16c5718685fbdcef5e04533b02eb18e03be0587248ca551052b4a",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,20 +13,55 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 0.0,
+    "me_fees_pv_mean": 0.0,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 185559.43,
     "av_end_p50": 387577.68,
-    "av_end_p95": 749204.67
+    "av_end_p95": 749204.67,
+    "av_paths_p50": [
+      250000.0,
+      262939.92,
+      264095.04,
+      266268.99,
+      269313.21,
+      271924.65,
+      275797.86,
+      278170.72,
+      281371.59,
+      284543.38,
+      288614.77,
+      292469.6,
+      295816.56,
+      300907.31,
+      304431.88,
+      309614.84,
+      313235.23,
+      318713.18,
+      321636.99,
+      326712.76,
+      331126.43,
+      335626.15,
+      341740.47,
+      347957.04,
+      353288.78,
+      357802.68,
+      364056.52,
+      369424.19,
+      375504.88,
+      381325.67,
+      387577.68
+    ]
   },
   "sub_scores": {
     "tco": {
-      "score": 100.0,
+      "score": 99.8,
       "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
       "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100."
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 362.29x. Buffer PV $50,728; floor PV $0; cost-base PV $140. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 70.0,
@@ -139,10 +174,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Transamerica's Structured Index Advantage earns a composite score of 88.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (88). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
-  "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (70).",
+  "narrative": "Transamerica's Structured Index Advantage earns a composite score of 88.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (88). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (70).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

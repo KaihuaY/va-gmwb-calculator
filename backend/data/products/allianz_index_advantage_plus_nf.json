@@ -28,7 +28,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.105
+      "cap_rate": 0.105,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -81,7 +82,7 @@
       "type": "n4_prospectus",
       "url": "https://www.allianzlife.com/what-we-offer/annuities/prospectuses/allianz-index-advantage-nf",
       "retrieved": "2026-05-12",
-      "note": "Allianz Index Advantage+ NF Variable Annuity prospectus. Issued by Allianz Life Insurance Company of North America (CIK 836346). Six-year B-share surrender schedule public report 7/7/6/5/4/3 baseline — spec uses 8.5/8/7/6/5/4 reflecting current commission-bearing tier where applicable."
+      "note": "Allianz Index Advantage+ NF Variable Annuity prospectus. Issued by Allianz Life Insurance Company of North America (CIK 836346). Six-year B-share surrender schedule public report 7/7/6/5/4/3 baseline \u2014 spec uses 8.5/8/7/6/5/4 reflecting current commission-bearing tier where applicable."
     },
     {
       "type": "rates_center",

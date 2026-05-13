@@ -122,6 +122,22 @@ console.log('— Anonymous access (no OTP gate) —');
 const otpModal = await page.locator('text=/Verify your email/i').count();
 await assert(otpModal === 0, 'No OTP/auth gate triggered on ratings detail');
 
+// ── Cap-rate freshness badge — appears in the Flexibility lens segment list
+console.log('— Cap-rate freshness badge —');
+// Switch detail page to flexibility lens; click the lens tab
+await page.click('[data-testid="detail-lens-tabs"] button:has-text("Flexibility")');
+await page.waitForTimeout(150);
+const freshnessCount = await page.locator('[data-testid="freshness-badge"]').count();
+await assert(freshnessCount >= 1, `Freshness badge present on segment list (got ${freshnessCount})`);
+// And the /freshness API returns a sensible payload
+const freshResp = await page.request.get(`http://localhost:8000/ratings/equitable_scs_income/freshness`);
+await assert(freshResp.ok(), `/freshness API returns 200 (got ${freshResp.status()})`);
+const freshJson = await freshResp.json();
+await assert(Array.isArray(freshJson.segments) && freshJson.segments.length > 0,
+             '/freshness has a non-empty segments array');
+await assert(['green','yellow','red'].includes(freshJson.overall_status),
+             `/freshness overall_status is a valid color (got ${freshJson.overall_status})`);
+
 console.log('— /methodology —');
 await page.goto(`${BASE}/methodology`);
 await page.waitForSelector('[data-testid="methodology-page"]', { timeout: 5000 });

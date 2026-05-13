@@ -213,6 +213,8 @@ def project_rila_path(
     av_path[0] = av
 
     total_fees_pv = 0.0
+    total_me_fees_pv = 0.0
+    total_rider_fees_pv = 0.0
     total_glwb_pv = 0.0
     total_gmdb_pv = 0.0
 
@@ -275,17 +277,22 @@ def project_rila_path(
             shortfall = max(0.0, gmdb_bb - av)
             total_gmdb_pv += shortfall * q_year * discount[disc_idx]
 
-        # Fees PV
+        # Fees PV (combined + split into M&E vs rider for downstream GV math)
         disc_idx = min(year + 1, len(discount) - 1)
         age_idx = min(year + 1, len(survival) - 1)
-        total_fees_pv += total_fee_year * survival[age_idx] * discount[disc_idx]
+        weight = survival[age_idx] * discount[disc_idx]
+        total_fees_pv       += total_fee_year * weight
+        total_me_fees_pv    += me_fee * weight
+        total_rider_fees_pv += (glwb_fee + gmdb_fee) * weight
 
         av_path[year + 1] = av
 
     return {
         "av_end": av,
         "av_path": av_path,
-        "fees_paid_pv": total_fees_pv,
+        "fees_paid_pv":     total_fees_pv,
+        "me_fees_pv":       total_me_fees_pv,
+        "rider_fees_pv":    total_rider_fees_pv,
         "glwb_pv": total_glwb_pv,
         "gmdb_pv": total_gmdb_pv,
     }
@@ -313,11 +320,13 @@ def project_rila_monte_carlo(
     # Annual frequency; one factor per year per scenario
     returns = generate_gbm_returns(mu, sigma, 1.0, projection_years, n_scenarios, rng)
 
-    fees_pv     = np.zeros(n_scenarios)
-    glwb_pv     = np.zeros(n_scenarios)
-    gmdb_pv     = np.zeros(n_scenarios)
-    av_end      = np.zeros(n_scenarios)
-    av_paths    = np.zeros((n_scenarios, projection_years + 1))
+    fees_pv       = np.zeros(n_scenarios)
+    me_fees_pv    = np.zeros(n_scenarios)
+    rider_fees_pv = np.zeros(n_scenarios)
+    glwb_pv       = np.zeros(n_scenarios)
+    gmdb_pv       = np.zeros(n_scenarios)
+    av_end        = np.zeros(n_scenarios)
+    av_paths      = np.zeros((n_scenarios, projection_years + 1))
 
     for i in range(n_scenarios):
         out = project_rila_path(
@@ -329,14 +338,18 @@ def project_rila_monte_carlo(
             survival_probs=survival_probs,
             discount_factors=discount_factors,
         )
-        fees_pv[i]  = out["fees_paid_pv"]
+        fees_pv[i]       = out["fees_paid_pv"]
+        me_fees_pv[i]    = out["me_fees_pv"]
+        rider_fees_pv[i] = out["rider_fees_pv"]
         glwb_pv[i]  = out["glwb_pv"]
         gmdb_pv[i]  = out["gmdb_pv"]
         av_end[i]   = out["av_end"]
         av_paths[i] = out["av_path"]
 
     return {
-        "fees_pv_mean":  float(np.mean(fees_pv)),
+        "fees_pv_mean":        float(np.mean(fees_pv)),
+        "me_fees_pv_mean":     float(np.mean(me_fees_pv)),
+        "rider_fees_pv_mean":  float(np.mean(rider_fees_pv)),
         "glwb_pv_mean":  float(np.mean(glwb_pv)),
         "gmdb_pv_mean":  float(np.mean(gmdb_pv)),
         "av_end_mean":   float(np.mean(av_end)),

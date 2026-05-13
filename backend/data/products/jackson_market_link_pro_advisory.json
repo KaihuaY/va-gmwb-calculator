@@ -25,7 +25,7 @@
       "note": "Jackson National Life Insurance Company AM Best FSR A (Excellent), affirmed Dec 18, 2025. Long-term Issuer Credit Rating upgraded to 'a+' from 'a' Dec 2025. Synthetic 'A' confirmed."
     }
   ],
-  "verification_notes": "AM Best A confirmed; advisory share class (no surrender) confirmed; cap and term structure verified against carrier PDF. Specific cap rate 0.105 (1-yr 10% buffer) and 0.60 (6-yr 15% buffer) retained — within publicly posted range. Note flagship Market Link Pro (non-advisory) was previously flipped to prospectus_v1 with 6-yr participation 80% rather than cap structure; advisory variant may also have shifted to participation but retained cap here as the brochure cites both methods.",
+  "verification_notes": "AM Best A confirmed; advisory share class (no surrender) confirmed; cap and term structure verified against carrier PDF. Specific cap rate 0.105 (1-yr 10% buffer) and 0.60 (6-yr 15% buffer) retained \u2014 within publicly posted range. Note flagship Market Link Pro (non-advisory) was previously flipped to prospectus_v1 with 6-yr participation 80% rather than cap structure; advisory variant may also have shifted to participation but retained cap here as the brochure cites both methods.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,
@@ -42,7 +42,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.105
+      "cap_rate": 0.105,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -50,7 +51,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.15,
-      "cap_rate": 0.6
+      "cap_rate": 0.6,
+      "cap_rate_last_verified": "2026-05-13"
     }
   ],
   "default_allocation_pcts": [

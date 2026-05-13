@@ -2,9 +2,9 @@
   "product_slug": "equitable_scs_plus",
   "product_name": "SCS Plus",
   "carrier": "Equitable",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "29c0da38552b7e4caa7d6fa115c5995b7758a81ae5cd60703dc8191f57b1bd8f",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,11 +13,46 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 47204.2,
+    "me_fees_pv_mean": 47204.2,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 173098.89,
     "av_end_p50": 387817.19,
-    "av_end_p95": 807621.07
+    "av_end_p95": 807621.07,
+    "av_paths_p50": [
+      250000.0,
+      259258.76,
+      263352.74,
+      264719.39,
+      267868.66,
+      270483.83,
+      274451.17,
+      277257.81,
+      280442.28,
+      283069.18,
+      287283.99,
+      289965.62,
+      294413.41,
+      299629.39,
+      302428.87,
+      307035.63,
+      312221.21,
+      316818.68,
+      321305.91,
+      327027.44,
+      330182.69,
+      334882.44,
+      340336.11,
+      346964.66,
+      353719.71,
+      357900.32,
+      361916.56,
+      369353.23,
+      377633.13,
+      379625.42,
+      387817.19
+    ]
   },
   "sub_scores": {
     "tco": {
@@ -25,8 +60,8 @@
       "rationale": "Annualised fee + cap-spread drag: 1.40%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 58.1,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.16x. Buffer PV $71,035; floor PV $0; cost-base PV $61,146. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+      "score": 57.6,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.15x. Buffer PV $51,758; floor PV $0; cost-base PV $44,949. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 65.0,
@@ -41,7 +76,7 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
     }
   },
-  "composite": 70.3,
+  "composite": 70.2,
   "letter_grade": "B-",
   "feature_snapshot": {
     "me_fee_annual": 0.014,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Equitable's SCS Plus earns a composite score of 70.3, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (50), Guarantee Value (58). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Equitable's SCS Plus earns a composite score of 70.2, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (50), Guarantee Value (58). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (50).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

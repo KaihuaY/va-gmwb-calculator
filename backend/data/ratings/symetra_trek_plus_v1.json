@@ -2,9 +2,9 @@
   "product_slug": "symetra_trek_plus",
   "product_name": "Trek Plus",
   "carrier": "Symetra",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "ba666223cb38ccc5c02045fb57284aaa259bee503064f6e0bf590c85cfbf80cd",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,20 +13,55 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 0.0,
+    "me_fees_pv_mean": 0.0,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 196281.73,
     "av_end_p50": 411616.98,
-    "av_end_p95": 797192.6
+    "av_end_p95": 797192.6,
+    "av_paths_p50": [
+      250000.0,
+      262939.92,
+      264532.28,
+      266890.87,
+      270115.01,
+      273037.09,
+      277428.56,
+      279862.84,
+      283529.66,
+      287398.49,
+      292066.36,
+      295956.24,
+      300278.72,
+      305985.66,
+      309823.32,
+      315620.28,
+      320580.93,
+      326548.94,
+      330286.19,
+      336801.01,
+      342130.65,
+      346865.99,
+      354334.03,
+      361551.31,
+      368989.42,
+      374948.2,
+      381425.77,
+      389476.09,
+      397076.75,
+      404014.95,
+      411616.98
+    ]
   },
   "sub_scores": {
     "tco": {
-      "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+      "score": 89.2,
+      "rationale": "Annualised fee + cap-spread drag: 0.31%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
       "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100."
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 5.14x. Buffer PV $51,381; floor PV $0; cost-base PV $10,002. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 70.0,
@@ -41,7 +76,7 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "composite": 88.6,
+  "composite": 86.4,
   "letter_grade": "A-",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Symetra's Trek Plus earns a composite score of 88.6, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
-  "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (70).",
+  "narrative": "Symetra's Trek Plus earns a composite score of 86.4, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (89), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (70).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

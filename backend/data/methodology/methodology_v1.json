@@ -1,6 +1,6 @@
 {
-  "version": "v1.3.0",
-  "effective_date": "2026-05-12",
+  "version": "v1.3.1",
+  "effective_date": "2026-05-13",
   "weights": {
     "tco": 0.20,
     "gv":  0.20,
@@ -115,5 +115,5 @@
     "normalized_starting_av": 100.0,
     "output": "Monthly AV path, terminal AV, max drawdown, fees-paid total, claim-PV total."
   },
-  "notes": "Methodology v1.3.0 is the current published methodology. It defines an FSA-signed composite rating for registered index-linked annuities (RILAs) built from 5 equal-weighted sub-scores (TCO / GV / SF / IC / BF). Scoring runs once against a 50/50 blended-gender mortality cohort at age 60, $250K premium, 30-year horizon, election age 65, μ=7%, σ=18%, 4% discount, 2012 IAM (Scale G2 projection), 5,000 Monte Carlo paths, seed=42. Buffer / floor protection on non-rider products is monetised via closed-form lognormal integration (see buffer_value_pricing). Historical regime outcomes and the interactive backtest scenario are supplementary context, NOT composite inputs. Rating output is byte-reproducible from (product spec hash, methodology version, seed)."
+  "notes": "Current published methodology. FSA-signed composite rating for registered index-linked annuities (RILAs) built from 5 equal-weighted sub-scores (TCO / GV / SF / IC / BF). Scoring runs once against a 50/50 blended-gender mortality cohort at age 60, $250K premium, 30-year horizon, election age 65, μ=7%, σ=18%, 4% discount, 2012 IAM (Scale G2 projection), 5,000 Monte Carlo paths, seed=42. GV monetises two guarantee components on the same persistency basis: (1) GLWB / GMDB rider PV claims vs PV rider fees, both persistency-weighted from the Monte Carlo path; (2) buffer / floor absorption priced by closed-form lognormal integration against an M&E + cap-spread cost base, persistency-weighted and using the median Monte Carlo AV trajectory rather than a flat AV ≈ premium approximation. Cap-spread drag uses μ from this scenario (no hardcoded constants). Historical regime outcomes and the interactive backtest scenario are supplementary context, NOT composite inputs. Rating output is byte-reproducible from (product spec hash, methodology version, seed)."
 }

@@ -2,9 +2,9 @@
   "product_slug": "pacific_protective_growth",
   "product_name": "Pacific Protective Growth",
   "carrier": "Pacific Life",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "9f7bd21072bbf9cf160d3150b72f7dc191606270262f8cf547f7ed4901b7d095",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,11 +13,46 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 0.0,
+    "me_fees_pv_mean": 0.0,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 349120.43,
     "av_end_p50": 979071.17,
-    "av_end_p95": 2987771.51
+    "av_end_p95": 2987771.51,
+    "av_paths_p50": [
+      250000.0,
+      261969.42,
+      276535.79,
+      288168.22,
+      300903.29,
+      314587.3,
+      330277.41,
+      343731.81,
+      358679.36,
+      371338.27,
+      390263.27,
+      406856.86,
+      424836.01,
+      446275.19,
+      466511.17,
+      485280.98,
+      511639.88,
+      537183.89,
+      563703.38,
+      590836.45,
+      615412.37,
+      644155.59,
+      676822.93,
+      713423.17,
+      745338.69,
+      777112.13,
+      812057.72,
+      853418.9,
+      895952.92,
+      941487.26,
+      979071.17
+    ]
   },
   "sub_scores": {
     "tco": {
@@ -26,7 +61,7 @@
     },
     "gv": {
       "score": 100.0,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 3.10x. Buffer PV $71,035; floor PV $0; cost-base PV $22,930. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.99x. Buffer PV $70,760; floor PV $0; cost-base PV $23,645. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 70.0,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Pacific Life's Pacific Protective Growth earns a composite score of 87.7, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (81), Guarantee Value (100), Insurer Credit (95), Behavioral Fairness (92). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Pacific Life's Pacific Protective Growth earns a composite score of 87.7, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (81), Guarantee Value (100), Insurer Credit (95), Behavioral Fairness (92). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (70).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

@@ -1,0 +1,51 @@
+{
+  "comment": "Cap-rate source registry. Each entry maps a product slug + segment index to a public URL where the current cap rate can be found, plus a parser hint. Sources should be: (1) publicly accessible without login, (2) on the carrier's own domain or SEC EDGAR, (3) refreshed at known cadences. Maintained by K. Add entries here; tools/fetch_cap_rates.py walks this registry.",
+  "schema_version": 1,
+  "sources": [
+    {
+      "slug": "allianz_index_advantage_income",
+      "segment_index": 0,
+      "segment_label": "1-yr S&P500 cap, 10% buffer",
+      "url": "https://www.allianzlife.com/-/media/files/allianzlife/pdfs/product-pdfs/m-7188.pdf",
+      "parser_hint": "PDF rate sheet; cap appears as '1-Year S&P 500 ... Cap Rate ... X.XX%' under the Index Advantage+ Income B-share row. The published rate sheet is named M-7188 and updated monthly.",
+      "carrier_page": "https://www.allianzlife.com/what-we-offer/annuities/registered-index-linked-annuities/index-advantage-plus-income",
+      "refresh_cadence_days": 30
+    },
+    {
+      "slug": "brighthouse_shield_pay_plus",
+      "segment_index": 0,
+      "segment_label": "1-yr S&P500 cap, 10% buffer",
+      "url": "https://www.brighthousefinancial.com/content/dam/brighthousefinancial-com/documents/annuity-product-rates/shield-level-pay-plus-rates.pdf",
+      "parser_hint": "PDF rate sheet; cap under 'Shield Level Pay Plus 6 / S&P 500 / 1-Year / 10% Shield'.",
+      "carrier_page": "https://www.brighthousefinancial.com/annuities/shield-level-pay-plus/",
+      "refresh_cadence_days": 30
+    },
+    {
+      "slug": "equitable_scs_income",
+      "segment_index": 0,
+      "segment_label": "1-yr S&P500 cap, 10% buffer",
+      "url": "https://equitable.com/-/media/files/equitable/pdfs/scs-income-current-rates.pdf",
+      "parser_hint": "PDF rate sheet; cap under 'SCS Income / S&P 500 / 1-Year / -10% Buffer'. URL is a documented stable redirect; if it 404s, fall back to the SCS Income product page and follow the 'current rates' link.",
+      "carrier_page": "https://equitable.com/retirement/products/variable-annuities/structured-capital-strategies-income",
+      "refresh_cadence_days": 30
+    },
+    {
+      "slug": "lincoln_level_advantage_income",
+      "segment_index": 0,
+      "segment_label": "1-yr S&P500 cap, 10% buffer",
+      "url": "https://www.lfg.com/wcs-static/pdf/Lincoln Level Advantage Income current rates.pdf",
+      "parser_hint": "PDF rate sheet for Lincoln Level Advantage Income B-share; cap appears as a table cell '1-Year / S&P 500 / 10% Buffer / X.XX%'.",
+      "carrier_page": "https://www.lincolnfinancial.com/public/individuals/products/annuities/registered-index-linked-annuities/lincolnleveladvantageincome",
+      "refresh_cadence_days": 30
+    },
+    {
+      "slug": "jackson_market_link_pro",
+      "segment_index": 0,
+      "segment_label": "1-yr S&P500 cap, 10% buffer",
+      "url": "https://www.jackson.com/content/dam/jackson/documents/Market-Link-Pro-Current-Rates.pdf",
+      "parser_hint": "Jackson Market Link Pro current rates sheet; look for 'S&P 500 / 1-Year / 10% Buffer / Cap Rate / X.XX%'.",
+      "carrier_page": "https://www.jackson.com/products/registered-index-linked-annuities/market-link-pro.html",
+      "refresh_cadence_days": 30
+    }
+  ]
+}

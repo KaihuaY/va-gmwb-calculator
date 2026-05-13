@@ -2,9 +2,9 @@
   "product_slug": "corebridge_marketlock",
   "product_name": "MarketLock",
   "carrier": "Corebridge",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "eae3d4e1c4b1e667f7678bc8400701634ed9f9cdca07a3f30eb188e39ec67d14",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,11 +13,46 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 0.0,
+    "me_fees_pv_mean": 0.0,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 354139.94,
     "av_end_p50": 961496.25,
-    "av_end_p95": 2735592.26
+    "av_end_p95": 2735592.26,
+    "av_paths_p50": [
+      250000.0,
+      261645.93,
+      277053.32,
+      288418.22,
+      301238.47,
+      314802.11,
+      330030.43,
+      343845.43,
+      357938.59,
+      371290.26,
+      389819.97,
+      406820.61,
+      424629.91,
+      444698.31,
+      465605.95,
+      484051.11,
+      509666.46,
+      533306.81,
+      559223.38,
+      585348.61,
+      611793.75,
+      637400.01,
+      669957.42,
+      705266.82,
+      735456.71,
+      767390.0,
+      799590.24,
+      839349.08,
+      878747.45,
+      922090.27,
+      961496.25
+    ]
   },
   "sub_scores": {
     "tco": {
@@ -26,7 +61,7 @@
     },
     "gv": {
       "score": 100.0,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.25x. Buffer PV $70,508; floor PV $0; cost-base PV $31,402. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 65.0,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Corebridge's MarketLock earns a composite score of 82.6, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Corebridge's MarketLock earns a composite score of 82.6, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

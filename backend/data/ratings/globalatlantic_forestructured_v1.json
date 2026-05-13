@@ -2,9 +2,9 @@
   "product_slug": "globalatlantic_forestructured",
   "product_name": "ForeStructured Growth",
   "carrier": "Global Atlantic",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "6c012b880843dd61f6ad85f9005950e43af05675f084b44a9443b3a9cb45b389",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,20 +13,55 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 0.0,
+    "me_fees_pv_mean": 0.0,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 199984.53,
     "av_end_p50": 417752.24,
-    "av_end_p95": 802295.65
+    "av_end_p95": 802295.65,
+    "av_paths_p50": [
+      250000.0,
+      262939.92,
+      265809.42,
+      268401.45,
+      272159.9,
+      275442.41,
+      280292.59,
+      283523.96,
+      287420.55,
+      291722.43,
+      296425.26,
+      301025.82,
+      305497.4,
+      311282.15,
+      315575.67,
+      321763.25,
+      326874.37,
+      332689.21,
+      336709.12,
+      343435.44,
+      348710.17,
+      353684.12,
+      361278.33,
+      368867.94,
+      375822.36,
+      381393.58,
+      388447.35,
+      396165.79,
+      403802.5,
+      410769.01,
+      417752.24
+    ]
   },
   "sub_scores": {
     "tco": {
-      "score": 100.0,
+      "score": 99.8,
       "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
       "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $71,035 with zero cost base \u2014 capped at 100."
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 370.46x. Buffer PV $53,252; floor PV $0; cost-base PV $144. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 55.0,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Global Atlantic's ForeStructured Growth earns a composite score of 80.4, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100). Areas where this product scores below cohort median: Surrender Flexibility (55). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
-  "verdict": "Low fees (100) offset by restrictive surrender terms (55).",
+  "narrative": "Global Atlantic's ForeStructured Growth earns a composite score of 80.4, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100). Areas where this product scores below cohort median: Surrender Flexibility (55). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Strong guarantee value (100) offset by restrictive surrender terms (55).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

@@ -28,7 +28,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.095
+      "cap_rate": 0.095,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -75,7 +76,7 @@
       "type": "carrier_rate_sheet",
       "url": "https://annuityeducator.com/reviews/jackson-national-life-insurance-company/fixed-index/market-link-pro-iii",
       "retrieved": "2026-05-12",
-      "note": "Jackson Market Link Pro III (launch 2025-05-19, JNL). 6-yr surrender 8/8/7/6/5/4. 1-yr S&P 500 PTP cap with 10% buffer = 9.5% cap; 6-yr S&P 500 PTP with 20% buffer = 80% participation rate (NOT cap — crediting_method changed from 'cap' to 'participation'). 10% free withdrawal corridor. Spec surrender updated 7/7/6/5/4 (5yr) -> 8/8/7/6/5/4 (6yr); 1-yr cap 0.10 -> 0.095; 6-yr crediting_method 'cap'/0.55 -> 'participation'/0.80; base has NO GLWB rider (rider type 'none' retained — +Income rider is optional, 1.45% if added, not modeled here)."
+      "note": "Jackson Market Link Pro III (launch 2025-05-19, JNL). 6-yr surrender 8/8/7/6/5/4. 1-yr S&P 500 PTP cap with 10% buffer = 9.5% cap; 6-yr S&P 500 PTP with 20% buffer = 80% participation rate (NOT cap \u2014 crediting_method changed from 'cap' to 'participation'). 10% free withdrawal corridor. Spec surrender updated 7/7/6/5/4 (5yr) -> 8/8/7/6/5/4 (6yr); 1-yr cap 0.10 -> 0.095; 6-yr crediting_method 'cap'/0.55 -> 'participation'/0.80; base has NO GLWB rider (rider type 'none' retained \u2014 +Income rider is optional, 1.45% if added, not modeled here)."
     },
     {
       "type": "n4_prospectus",

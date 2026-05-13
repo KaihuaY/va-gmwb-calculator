@@ -104,52 +104,63 @@ def product_spec_to_rila(spec: dict, premium: float) -> RILAProduct:
 # Sub-score functions
 # ---------------------------------------------------------------------------
 
-def _tco_drag(spec: dict, mc_result: dict, premium: float) -> float:
+def _cap_spread_drag(spec: dict, mu: float) -> float:
     """
-    TCO drag = (PV(M&E + rider fees) + cap-spread drag estimate) / premium / horizon_years.
+    Allocation-weighted annualized cap-spread drag for a product's segment menu.
 
-    Returns annualized drag rate (decimal).  Higher = more expensive.
+    For a capped segment with multi-year cap C over T years, the annualized
+    cap is (1+C)^(1/T)-1; drag = max(0, mu_annual - ann_cap). Participation,
+    spread, and trigger get analogous treatments. `mu` is read from the
+    scoring scenario so changing the assumption flows through both _tco_drag
+    and the buffer-value cost base consistently.
     """
-    base = spec.get("base", {})
-    explicit_annual = base.get("me_fee_annual", 0.0125)
-    rider_fee = 0.0
-    if spec.get("rider", {}).get("type") == "glwb":
-        rider_fee = spec["rider"].get("rider_fee_annual", 0.0)
-
-    # Cap-spread drag estimate: weighted by allocation
-    # If a segment is capped at C and uncapped expected upside is U (annualized),
-    # the drag is approximately max(0, U - C) * P(upside) * partition.
-    # Use a simple heuristic: drag = (0.06 - effective_cap_annualized) capped at 0.04
-    segs = spec.get("segments_available", [])
+    segs = spec.get("segments_available", []) or []
     allocations = spec.get(
         "default_allocation_pcts",
         [1.0 / len(segs)] * len(segs) if segs else [],
     )
     cap_drag = 0.0
     for seg, alloc in zip(segs, allocations):
-        if seg.get("crediting_method") == "cap" and seg.get("cap_rate") is not None:
-            ann_cap = seg["cap_rate"] / max(1, seg["term_years"])
-            # Expected uncapped index ≈ 7% real → drag = max(0, 0.07 - ann_cap)
-            drag_component = max(0.0, 0.07 - ann_cap)
-        elif seg.get("crediting_method") == "participation":
-            part = seg.get("participation_rate", 1.0)
-            drag_component = max(0.0, 0.07 * (1.0 - min(1.0, part)))
-        elif seg.get("crediting_method") == "spread":
-            drag_component = seg.get("spread", 0.0) / max(1, seg["term_years"])
-        elif seg.get("crediting_method") == "trigger":
-            trig = seg.get("trigger_rate", 0.0)
-            ann_trig = trig / max(1, seg["term_years"])
-            drag_component = max(0.0, 0.07 - ann_trig)
+        method = seg.get("crediting_method")
+        T = max(1, seg.get("term_years", 1))
+        if method == "cap" and seg.get("cap_rate") is not None:
+            ann_cap = (1.0 + seg["cap_rate"]) ** (1.0 / T) - 1.0
+            drag_component = max(0.0, mu - ann_cap)
+        elif method == "participation":
+            part = seg.get("participation_rate", 1.0) or 1.0
+            drag_component = max(0.0, mu * (1.0 - min(1.0, part)))
+        elif method == "spread":
+            spread = (seg.get("spread", 0.0) or 0.0) / T
+            drag_component = spread
+        elif method == "trigger":
+            trig = seg.get("trigger_rate", 0.0) or 0.0
+            ann_trig = (1.0 + trig) ** (1.0 / T) - 1.0
+            drag_component = max(0.0, mu - ann_trig)
         else:
             drag_component = 0.0
         cap_drag += alloc * drag_component
+    return cap_drag
 
+
+def _tco_drag(spec: dict, mc_result: dict, premium: float, mu: float = 0.07) -> float:
+    """
+    TCO drag = (annualized M&E + rider fee + cap-spread drag estimate).
+
+    Returns annualized drag rate (decimal). Higher = more expensive.
+    `mu` is the scoring-scenario expected return; sourced from methodology.
+    """
+    base = spec.get("base", {})
+    explicit_annual = base.get("me_fee_annual", 0.0125)
+    rider_fee = 0.0
+    if spec.get("rider", {}).get("type") == "glwb":
+        rider_fee = spec["rider"].get("rider_fee_annual", 0.0)
+    cap_drag = _cap_spread_drag(spec, mu)
     return explicit_annual + rider_fee + cap_drag
 
 
-def tco_score(spec: dict, mc_result: dict, cohort_drags: list[float], premium: float) -> tuple[float, str]:
+def tco_score(spec: dict, mc_result: dict, cohort_drags: list[float], premium: float, mu: float = 0.07) -> tuple[float, str]:
     """Score 100 = lowest drag in cohort; 0 = highest."""
-    this_drag = _tco_drag(spec, mc_result, premium)
+    this_drag = _tco_drag(spec, mc_result, premium, mu)
     if not cohort_drags or len(cohort_drags) == 1:
         # Single-product cohort — neutral 70 score
         return 70.0, f"Estimated annualised fee + cap-spread drag: {this_drag*100:.2f}% (no cohort comparison available)."
@@ -174,6 +185,7 @@ def gv_score(
     mu: float = 0.07,
     sigma: float = 0.18,
     discount_rate: float = 0.04,
+    persistency: Optional[list[float]] = None,
 ) -> tuple[float, str]:
     """
     Guarantee Value sub-score.
@@ -201,16 +213,17 @@ def gv_score(
     has_rider = bool(rider and rider.get("type") == "glwb")
 
     # --- Rider component --------------------------------------------------
+    # v1.3.1: use real persistency-weighted rider fees PV from the Monte Carlo
+    # result. Previously approximated as rider_fee × premium × horizon × 0.7;
+    # the explicit MC accumulator is more accurate for products with deferral
+    # or significant AV depletion under GLWB drawdown.
     rider_pv = 0.0
     rider_fees_pv = 0.0
     rider_score: Optional[float] = None
     rider_msg = ""
     if has_rider:
         rider_pv = mc_result["glwb_pv_mean"]
-        rider_fee_annual = rider.get("rider_fee_annual", 0.0)
-        # PV(rider fees) ≈ rider_fee × premium × horizon × 0.7 survival/discount adj
-        # (preserved from v1.1.0 — orthogonal to buffer pricing).
-        rider_fees_pv = rider_fee_annual * premium * horizon_years * 0.7
+        rider_fees_pv = mc_result.get("rider_fees_pv_mean", 0.0)
         if rider_fees_pv > 0:
             ratio = rider_pv / rider_fees_pv
             rider_score = max(0.0, min(100.0, 50.0 * ratio))
@@ -220,6 +233,10 @@ def gv_score(
             )
 
     # --- Buffer / floor component ----------------------------------------
+    # v1.3.1: pass persistency + AV trajectory so the buffer ratio is on the
+    # same apples-to-apples basis as the rider ratio (both persistency-weighted,
+    # both use real AV trajectory rather than flat AV ≈ premium).
+    av_path_mc = mc_result.get("av_paths_p50")
     buffer_s, buffer_msg, buffer_detail = buffer_value_score(
         spec,
         premium=premium,
@@ -227,12 +244,14 @@ def gv_score(
         mu=mu,
         sigma=sigma,
         discount_rate=discount_rate,
+        persistency=persistency,
+        av_path=av_path_mc,
     )
     buffer_pv = buffer_detail.get("pv_total", 0.0)
 
     # --- Combine ----------------------------------------------------------
     # If both components are present, weight by their absolute PV value
-    # (so a $100k rider doesn't get out-voted by a $1k buffer or vice versa).
+    # (now persistency-consistent across rider_pv and buffer_pv).
     if rider_score is not None and buffer_pv > 0:
         w_rider  = rider_pv  / (rider_pv + buffer_pv) if (rider_pv + buffer_pv) > 0 else 0.5
         w_buffer = 1.0 - w_rider
@@ -245,7 +264,7 @@ def gv_score(
         return combined, msg
     if rider_score is not None:
         return rider_score, rider_msg
-    # No rider — fall back to buffer-only score (v1.2.0 replacement for 50)
+    # No rider — fall back to buffer-only score
     return buffer_s, buffer_msg
 
 
@@ -599,11 +618,12 @@ def _score_blended(
         current_age=scenario["age"],
     )
 
-    tco_s, tco_rationale = tco_score(product_spec, mc, cohort_tco_drags, premium)
+    tco_s, tco_rationale = tco_score(product_spec, mc, cohort_tco_drags, premium, scenario["mu"])
     gv_s,  gv_rationale  = gv_score(
         product_spec, mc, premium, horizon,
         mu=scenario["mu"], sigma=scenario["sigma"],
         discount_rate=scenario["discount_rate"],
+        persistency=persistency,
     )
     sf_s,  sf_rationale  = sf_score(product_spec)
     ic_s,  ic_rationale  = ic_score(product_spec)
@@ -622,12 +642,15 @@ def _score_blended(
     )
     letter = composite_to_letter(composite, letter_bands)
     mc_summary = {
-        "fees_pv_mean":  round(mc["fees_pv_mean"], 2),
+        "fees_pv_mean":        round(mc["fees_pv_mean"], 2),
+        "me_fees_pv_mean":     round(mc["me_fees_pv_mean"], 2),
+        "rider_fees_pv_mean":  round(mc["rider_fees_pv_mean"], 2),
         "glwb_pv_mean":  round(mc["glwb_pv_mean"], 2),
         "gmdb_pv_mean":  round(mc["gmdb_pv_mean"], 2),
         "av_end_p5":     round(mc["av_end_p5"], 2),
         "av_end_p50":    round(mc["av_end_p50"], 2),
         "av_end_p95":    round(mc["av_end_p95"], 2),
+        "av_paths_p50":  [round(v, 2) for v in mc["av_paths_p50"]],
     }
     return sub_scores, mc_summary, {"composite": round(composite, 1), "letter": letter}
 

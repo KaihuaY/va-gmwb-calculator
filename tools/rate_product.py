@@ -82,8 +82,12 @@ def _compute_cohort_tco(methodology: dict) -> list[float]:
     drags = []
     for slug in _all_slugs():
         spec, _ = _load_product(slug)
-        # _tco_drag doesn't need monte carlo result (only spec)
-        drags.append(_tco_drag(spec, {}, methodology["scoring_scenario"]["premium"]))
+        # _tco_drag doesn't need monte carlo result (only spec + mu)
+        drags.append(_tco_drag(
+            spec, {},
+            methodology["scoring_scenario"]["premium"],
+            methodology["scoring_scenario"]["mu"],
+        ))
     return drags
 
 

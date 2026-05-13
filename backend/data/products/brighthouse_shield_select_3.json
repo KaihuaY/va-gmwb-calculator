@@ -16,7 +16,7 @@
       "type": "carrier_fact_card",
       "url": "https://www.brighthousefinancial.com/content/dam/brighthouse-financial/public/pdfs/shield/shield23/E21_Shield-Level-Select_3-Year-Fact-Card.pdf",
       "retrieved": "2026-05-12",
-      "note": "Brighthouse Shield Level Select 3-Year fact card. 6-yr surrender schedule (7/7/6/5/4/3) applies even on 3-year term contracts (contract surrender period, not segment-term-locked). Spec surrender 7/6/5 (3-yr only) was incorrect — updated to prospectus-verified 7/7/6/5/4/3."
+      "note": "Brighthouse Shield Level Select 3-Year fact card. 6-yr surrender schedule (7/7/6/5/4/3) applies even on 3-year term contracts (contract surrender period, not segment-term-locked). Spec surrender 7/6/5 (3-yr only) was incorrect \u2014 updated to prospectus-verified 7/7/6/5/4/3."
     },
     {
       "type": "am_best",
@@ -49,7 +49,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.25
+      "cap_rate": 0.25,
+      "cap_rate_last_verified": "2026-05-13"
     }
   ],
   "default_allocation_pcts": [

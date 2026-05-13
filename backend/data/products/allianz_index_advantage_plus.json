@@ -25,7 +25,7 @@
       "note": "Allianz Life Insurance Company of North America AM Best FSR A+ (Superior)."
     }
   ],
-  "verification_notes": "AM Best A+ confirmed; surrender schedule corrected from 6/5/4/3/2/1 to 7/7/6/5/4/3 (B-share); product fee 1.25% retained — Allianz Index Advantage+ commission variant assesses an annual product fee, unlike NF; current cap and 6-yr participation rates within public range pending broker-portal rate sheet.",
+  "verification_notes": "AM Best A+ confirmed; surrender schedule corrected from 6/5/4/3/2/1 to 7/7/6/5/4/3 (B-share); product fee 1.25% retained \u2014 Allianz Index Advantage+ commission variant assesses an annual product fee, unlike NF; current cap and 6-yr participation rates within public range pending broker-portal rate sheet.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0125,
@@ -49,7 +49,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.1
+      "cap_rate": 0.1,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,

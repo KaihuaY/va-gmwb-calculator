@@ -5,7 +5,7 @@
   "product_type": "rila",
   "first_offered": "2022-01-01",
   "data_provenance": "prospectus_v1",
-  "verification_notes": "Three+ critical fields verified per RATINGS_DATA_PLAN.md v1 verified-subset: (1) N-4 prospectus confirms 6-yr surrender and buffer menu, (2) GLWB rider fee 1.50% publicly reported and updated in spec, (3) AM Best 'A' (Excellent) affirmed 2025-02-20 — spec retains 'A+' anchor pending K's manual rating review. Flipping to prospectus_v1 per plan section 5.",
+  "verification_notes": "Three+ critical fields verified per RATINGS_DATA_PLAN.md v1 verified-subset: (1) N-4 prospectus confirms 6-yr surrender and buffer menu, (2) GLWB rider fee 1.50% publicly reported and updated in spec, (3) AM Best 'A' (Excellent) affirmed 2025-02-20 \u2014 spec retains 'A+' anchor pending K's manual rating review. Flipping to prospectus_v1 per plan section 5.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0125,
@@ -29,7 +29,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.085
+      "cap_rate": 0.085,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -37,7 +38,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.2,
-      "cap_rate": 0.55
+      "cap_rate": 0.55,
+      "cap_rate_last_verified": "2026-05-13"
     }
   ],
   "default_allocation_pcts": [

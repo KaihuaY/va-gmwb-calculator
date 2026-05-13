@@ -31,7 +31,7 @@
       "note": "Pruco Life Insurance Company / Prudential Annuities Life Assurance Corp. AM Best FSR A+ (Superior). Synthetic anchor 'A+' confirmed."
     }
   ],
-  "verification_notes": "AM Best A+ confirmed; product structure (cap rate + uncapped strategies, 1/3/6-yr terms, 10/15/20 buffer) verified against carrier product page; surrender schedule and exact current cap rates within posted public ranges — not modified from synthetic.",
+  "verification_notes": "AM Best A+ confirmed; product structure (cap rate + uncapped strategies, 1/3/6-yr terms, 10/15/20 buffer) verified against carrier product page; surrender schedule and exact current cap rates within posted public ranges \u2014 not modified from synthetic.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,
@@ -56,7 +56,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.1
+      "cap_rate": 0.1,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 3,
@@ -64,7 +65,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.15,
-      "cap_rate": 0.3
+      "cap_rate": 0.3,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -72,7 +74,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.2,
-      "cap_rate": 0.6
+      "cap_rate": 0.6,
+      "cap_rate_last_verified": "2026-05-13"
     }
   ],
   "default_allocation_pcts": [

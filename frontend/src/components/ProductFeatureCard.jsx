@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import FreshnessBadge from './FreshnessBadge';
 
 function pct(v, digits = 2) {
   if (v == null || isNaN(v)) return '—';
@@ -22,6 +23,23 @@ function describeSegment(s) {
   if (s.trigger_rate != null)       parts.push(`trigger ${pct(s.trigger_rate, 1)}`);
   parts.push(`${pct(s.protection_level, 0)} ${s.protection_type}`);
   return parts.join(', ');
+}
+
+function SegmentLine({ s }) {
+  // Multi-line segment row so the freshness badge can sit alongside the
+  // cap rate it refers to. Only segments with a cap_rate get a badge.
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <span>{describeSegment(s)}</span>
+      {s.cap_rate != null && (
+        <FreshnessBadge
+          verified={s.cap_rate_last_verified}
+          sourceUrl={s.cap_rate_source_url}
+          compact
+        />
+      )}
+    </div>
+  );
 }
 
 function Row({ label, value, emphasis }) {
@@ -114,7 +132,13 @@ export default function ProductFeatureCard({ product, lens }) {
       { label: 'Hardship waivers', value: waivers.length ? waivers.join(', ') : 'None' },
       {
         label: 'Investment segments',
-        value: (product.segments_available || []).map(describeSegment).join(' · ') || '—',
+        value: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end' }}>
+            {(product.segments_available || []).length
+              ? product.segments_available.map((s, i) => <SegmentLine key={i} s={s} />)
+              : '—'}
+          </div>
+        ),
       },
     ];
   }

@@ -70,6 +70,64 @@ def _spec_has_glwb(slug: str) -> bool:
     return (spec.get("rider") or {}).get("type") == "glwb"
 
 
+def compute_freshness(slug: str, as_of: Optional[str] = None) -> Optional[dict]:
+    """Return per-segment cap-rate freshness for the product, or None if missing.
+
+    `as_of` is YYYY-MM-DD; defaults to today. Status colors map by age (days):
+      green  ≤ 30
+      yellow ≤ 90
+      red    > 90 or unverified
+    """
+    from datetime import date
+    p = PRODUCTS_DIR / f"{slug}.json"
+    if not p.exists():
+        return None
+    spec = json.loads(p.read_text(encoding="utf-8"))
+    today = date.fromisoformat(as_of) if as_of else date.today()
+    segments = []
+    for i, seg in enumerate(spec.get("segments_available", []) or []):
+        cap = seg.get("cap_rate")
+        verified = seg.get("cap_rate_last_verified")
+        source_url = seg.get("cap_rate_source_url")
+        age_days = None
+        status = "red"
+        if verified:
+            try:
+                d = date.fromisoformat(verified)
+                age_days = (today - d).days
+                if age_days <= 30:
+                    status = "green"
+                elif age_days <= 90:
+                    status = "yellow"
+                else:
+                    status = "red"
+            except ValueError:
+                pass
+        segments.append({
+            "segment_index": i,
+            "term_years":    seg.get("term_years"),
+            "crediting_method": seg.get("crediting_method"),
+            "cap_rate":      cap,
+            "cap_rate_last_verified": verified,
+            "cap_rate_source_url":    source_url,
+            "age_days":      age_days,
+            "status":        status,
+        })
+    overall = "red"
+    if segments:
+        if all(s["status"] == "green" for s in segments):
+            overall = "green"
+        elif any(s["status"] == "green" for s in segments) or all(s["status"] in ("green", "yellow") for s in segments):
+            overall = "yellow"
+    return {
+        "slug": slug,
+        "as_of": (as_of or date.today().isoformat()),
+        "data_provenance": spec.get("data_provenance", "synthetic_v0"),
+        "overall_status": overall,
+        "segments": segments,
+    }
+
+
 def load_rating(slug: str) -> Optional[dict]:
     """Return the published rating for `slug`, or None if not found."""
     path = RATINGS_DIR / f"{slug}_v1.json"

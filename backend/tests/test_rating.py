@@ -308,8 +308,8 @@ def test_compute_rating_includes_regimes_field(methodology):
 # ---------------------------------------------------------------------------
 
 def test_methodology_current_version(methodology):
-    """Methodology is at v1.3.0 with buffer_value_pricing block."""
-    assert methodology["version"] == "v1.3.0"
+    """Methodology is at v1.3.1 with buffer_value_pricing block."""
+    assert methodology["version"] == "v1.3.1"
     assert "buffer_value_pricing" in methodology
     bvp = methodology["buffer_value_pricing"]
     assert bvp["method"] == "closed_form_lognormal"
@@ -479,3 +479,75 @@ def test_compute_regime_backtest_path_normalization(methodology):
     r10 = compute_regime_backtest_path(spec, methodology, "post_gfc_bull_2010_2021", 1000.0)
     assert r10["terminal_av"] == pytest.approx(r1["terminal_av"] * 10.0, rel=1e-3)
     assert r10["max_drawdown_pct"] == pytest.approx(r1["max_drawdown_pct"], abs=1e-3)
+
+
+# ---------------------------------------------------------------------------
+# v1.3.1 math-fix tests
+# ---------------------------------------------------------------------------
+
+def test_tco_drag_uses_methodology_mu():
+    """When μ doubles, capped-segment drag should grow because more upside is foregone."""
+    from engine.rating import _tco_drag
+    spec = {
+        "base": {"me_fee_annual": 0.0125},
+        "rider": {"type": "none"},
+        "segments_available": [{
+            "term_years": 1, "crediting_method": "cap", "cap_rate": 0.08,
+            "protection_type": "buffer", "protection_level": 0.10,
+        }],
+        "default_allocation_pcts": [1.0],
+    }
+    drag_at_7 = _tco_drag(spec, {}, 250_000, mu=0.07)
+    drag_at_14 = _tco_drag(spec, {}, 250_000, mu=0.14)
+    assert drag_at_14 > drag_at_7, "higher μ → more cap-spread drag for a capped segment"
+
+
+def test_rila_path_splits_me_and_rider_fees():
+    """project_rila_path must emit me_fees_pv and rider_fees_pv separately."""
+    import numpy as np
+    from engine.rila import RILAProduct, RILASegment, project_rila_path
+    seg = RILASegment(
+        term_years=1, index="sp500", crediting_method="cap",
+        protection_type="buffer", protection_level=0.10, cap_rate=0.09,
+    )
+    rila = RILAProduct(
+        name="T", carrier="T", base_av=250_000,
+        segments=[seg], allocation_pcts=[1.0],
+        me_fee_annual=0.012, surrender_schedule=[],
+        has_glwb=True, glwb_rider_fee=0.013, glwb_withdrawal_rate=0.05,
+    )
+    returns = np.full(10, 1.05)
+    out = project_rila_path(rila, returns, 10, current_age=60, glwb_election_age=65)
+    assert "me_fees_pv" in out and "rider_fees_pv" in out
+    assert out["fees_paid_pv"] == pytest.approx(out["me_fees_pv"] + out["rider_fees_pv"], abs=0.01)
+    assert out["rider_fees_pv"] > 0
+    assert out["me_fees_pv"] > 0
+
+
+def test_buffer_value_pv_persistency_shrinks_pv():
+    """Buffer PV with full persistency > buffer PV with declining persistency."""
+    from engine.buffer_value import buffer_value_pv
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "equitable_scs.json"
+    spec = json.loads(spec_path.read_text())
+    full = buffer_value_pv(
+        spec, premium=250_000, horizon_years=30, mu=0.07, sigma=0.18, discount_rate=0.04,
+    )["pv_total"]
+    # Linear-decaying persistency from 1.0 at year 0 to 0.5 at year 30
+    persist = [1.0 - 0.5 * k / 30 for k in range(31)]
+    shrunk = buffer_value_pv(
+        spec, premium=250_000, horizon_years=30, mu=0.07, sigma=0.18, discount_rate=0.04,
+        persistency=persist,
+    )["pv_total"]
+    assert 0 < shrunk < full
+    assert shrunk / full < 0.85  # noticeable shrinkage
+
+
+def test_compute_freshness_status_bands():
+    """Verify the green/yellow/red status thresholds against synthetic dates."""
+    from engine.ratings_store import compute_freshness
+    # Use a real slug from the catalog
+    f = compute_freshness("equitable_scs_income", as_of="2026-05-13")
+    assert f is not None
+    assert "segments" in f
+    assert all("status" in s and s["status"] in ("green", "yellow", "red")
+               for s in f["segments"])

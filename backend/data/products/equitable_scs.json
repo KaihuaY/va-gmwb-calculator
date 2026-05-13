@@ -10,7 +10,7 @@
       "type": "n4_prospectus",
       "url": "https://www.sec.gov/Archives/edgar/data/2039145/000119312524230722/d872605d485apos.htm",
       "retrieved": "2026-05-12",
-      "note": "Equitable Structured Capital Strategies (SCS) N-4 prospectus (CIK 2039145, Equitable Financial Life Insurance Company of America). Original SCS — the non-rider, commission-bearing base variant. Rate Sheet Supplement updates prospectus dated May 1, 2025."
+      "note": "Equitable Structured Capital Strategies (SCS) N-4 prospectus (CIK 2039145, Equitable Financial Life Insurance Company of America). Original SCS \u2014 the non-rider, commission-bearing base variant. Rate Sheet Supplement updates prospectus dated May 1, 2025."
     },
     {
       "type": "carrier_brochure",
@@ -28,7 +28,7 @@
       "type": "am_best",
       "url": "https://news.ambest.com/PR/PressContent.aspx?altsrc=2&refnum=35761",
       "retrieved": "2026-05-12",
-      "note": "AM Best affirmed Equitable Financial Life Insurance Company FSR A (Excellent) Feb 2025 — NOT A+. Spec retains 'A+' from synthetic anchor pending K's manual review; ratings placed under review with developing implications Nov 2025 pending Corebridge merger announcement."
+      "note": "AM Best affirmed Equitable Financial Life Insurance Company FSR A (Excellent) Feb 2025 \u2014 NOT A+. Spec retains 'A+' from synthetic anchor pending K's manual review; ratings placed under review with developing implications Nov 2025 pending Corebridge merger announcement."
     }
   ],
   "verification_notes": "AM Best should be downgraded synthetic 'A+' -> 'A' per Feb 2025 affirmation but retained for K's final review (matches the same flagging on equitable_scs_income). Prospectus, brochure, and cap rates page confirmed. Series B contracts have max 7% withdrawal charge per published prospectus.",
@@ -55,7 +55,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.105
+      "cap_rate": 0.105,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -63,7 +64,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.2,
-      "cap_rate": 0.65
+      "cap_rate": 0.65,
+      "cap_rate_last_verified": "2026-05-13"
     }
   ],
   "default_allocation_pcts": [

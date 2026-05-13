@@ -2,9 +2,9 @@
   "product_slug": "nationwide_defender",
   "product_name": "Defender",
   "carrier": "Nationwide",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "bcf118de8cd799f5d56c9b3d377253499bc539f67a2d5910f557fb5e42dcfd95",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,11 +13,46 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 34006.13,
+    "me_fees_pv_mean": 34006.13,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 145803.43,
     "av_end_p50": 307102.81,
-    "av_end_p95": 596976.12
+    "av_end_p95": 596976.12,
+    "av_paths_p50": [
+      250000.0,
+      260047.58,
+      260575.04,
+      260420.1,
+      261648.24,
+      262032.45,
+      264048.66,
+      264447.35,
+      265344.82,
+      266674.21,
+      268197.63,
+      269451.78,
+      271143.1,
+      273642.49,
+      274251.2,
+      276681.56,
+      278368.92,
+      280638.7,
+      281124.66,
+      283474.02,
+      285076.76,
+      286471.52,
+      289105.1,
+      292360.26,
+      294687.97,
+      296016.62,
+      297987.41,
+      300844.9,
+      303279.11,
+      305296.0,
+      307102.81
+    ]
   },
   "sub_scores": {
     "tco": {
@@ -25,8 +60,8 @@
       "rationale": "Annualised fee + cap-spread drag: 1.10%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 73.9,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.48x. Buffer PV $71,035; floor PV $0; cost-base PV $48,043. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+      "score": 73.7,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.47x. Buffer PV $48,606; floor PV $0; cost-base PV $32,973. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 75.0,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Nationwide's Defender earns a composite score of 79.0, which maps to a letter grade of B under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (95), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Nationwide's Defender earns a composite score of 79.0, which maps to a letter grade of B under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Insurer Credit (95), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong insurer credit (95), softest in high fee drag (61).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

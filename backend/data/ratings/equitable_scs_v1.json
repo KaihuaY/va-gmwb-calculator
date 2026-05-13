@@ -2,9 +2,9 @@
   "product_slug": "equitable_scs",
   "product_name": "Structured Capital Strategies",
   "carrier": "Equitable",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "2e6a634a386b6b5a0f18cd120ea82f766b83da17b7996c26b3430b09bb842230",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,11 +13,46 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 40886.77,
+    "me_fees_pv_mean": 40886.77,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 163638.43,
     "av_end_p50": 357713.42,
-    "av_end_p95": 722957.01
+    "av_end_p95": 722957.01,
+    "av_paths_p50": [
+      250000.0,
+      259653.17,
+      262607.03,
+      263212.03,
+      265704.72,
+      267813.57,
+      271209.73,
+      272972.69,
+      275235.2,
+      277514.47,
+      281143.4,
+      283168.72,
+      286452.06,
+      290627.19,
+      292726.65,
+      296966.99,
+      301025.15,
+      304045.32,
+      306852.15,
+      312025.49,
+      313775.23,
+      316960.74,
+      321933.9,
+      326869.36,
+      332547.94,
+      334670.78,
+      338522.5,
+      344500.48,
+      349771.97,
+      351829.6,
+      357713.42
+    ]
   },
   "sub_scores": {
     "tco": {
@@ -25,8 +60,8 @@
       "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 65.1,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+      "score": 64.6,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.29x. Buffer PV $50,665; floor PV $0; cost-base PV $39,207. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 75.0,
@@ -41,7 +76,7 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
     }
   },
-  "composite": 74.8,
+  "composite": 74.7,
   "letter_grade": "B-",
   "feature_snapshot": {
     "me_fee_annual": 0.0125,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Equitable's Structured Capital Strategies earns a composite score of 74.8, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Equitable's Structured Capital Strategies earns a composite score of 74.7, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (56).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

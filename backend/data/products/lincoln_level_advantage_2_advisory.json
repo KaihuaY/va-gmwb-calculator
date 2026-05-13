@@ -21,7 +21,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.115
+      "cap_rate": 0.115,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -68,7 +69,7 @@
       "type": "carrier_product_page",
       "url": "https://www.lincolnfinancial.com/public/microsite/leveladvantage",
       "retrieved": "2026-05-12",
-      "note": "Lincoln Level Advantage 2 Advisory RILA — RIA/fee-based distribution variant of Lincoln Level Advantage. Issued by Lincoln National Life Insurance Company / Lincoln Life & Annuity Company of NY. Crediting strategies linked to seven indexes/ETFs (S&P 500, Russell 2000, MSCI EAFE, Capital Strength Index, First Trust American Leadership Index, Capital Group Growth ETF, Capital Group Global Growth Equity ETF)."
+      "note": "Lincoln Level Advantage 2 Advisory RILA \u2014 RIA/fee-based distribution variant of Lincoln Level Advantage. Issued by Lincoln National Life Insurance Company / Lincoln Life & Annuity Company of NY. Crediting strategies linked to seven indexes/ETFs (S&P 500, Russell 2000, MSCI EAFE, Capital Strength Index, First Trust American Leadership Index, Capital Group Growth ETF, Capital Group Global Growth Equity ETF)."
     },
     {
       "type": "product_review",

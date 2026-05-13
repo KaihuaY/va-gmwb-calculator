@@ -28,7 +28,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.105
+      "cap_rate": 0.105,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,

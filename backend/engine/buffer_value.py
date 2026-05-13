@@ -127,19 +127,25 @@ def buffer_value_pv(
     mu: float,
     sigma: float,
     discount_rate: float,
+    persistency: Optional[list[float]] = None,
+    av_path: Optional[list[float]] = None,
 ) -> dict:
     """
-    Compute PV of all buffer + floor absorption across a product's segments
-    over `horizon_years`, weighted by allocation_pct, discounted continuously.
+    PV of buffer + floor absorption across a product's segments over
+    `horizon_years`, weighted by allocation_pct.
 
-    The user's allocation is assumed to re-roll into the same segment menu
-    each period (the convention used elsewhere in the rating engine).
+    v1.3.1 enhancements:
+      - `persistency` (list of length horizon_years+1): in-force probability
+        at each year. When provided, each segment-period payoff at t=kT is
+        weighted by persistency[t], matching the persistency basis the
+        Monte Carlo uses for rider PV. The buffer/rider ratios then become
+        directly comparable.
+      - `av_path` (list of length horizon_years+1): per-year average AV. When
+        provided, the segment notional at the start of each period is taken
+        from this path rather than held flat at `alloc * premium`. Reflects
+        AV depletion (GLWB drawdown phase) or growth (no-rider products).
 
-    Returns dict:
-      pv_total      total $ PV of buffer + floor absorption
-      pv_buffer     $ PV attributable to buffer segments
-      pv_floor      $ PV attributable to floor segments
-      detail        list of per-segment contributions
+    Defaults preserve legacy v1.2.0 behavior (no persistency, flat AV).
     """
     segments = spec.get("segments_available", []) or []
     if not segments:
@@ -152,6 +158,15 @@ def buffer_value_pv(
     if abs(sum(allocations) - 1.0) > 1e-6:
         total = sum(allocations) or 1.0
         allocations = [a / total for a in allocations]
+
+    # Normalize persistency / av_path to length horizon_years+1
+    n = horizon_years + 1
+    if persistency is None:
+        persistency = [1.0] * n
+    persistency = list(persistency)[:n] + [persistency[-1]] * max(0, n - len(persistency))
+    if av_path is None:
+        av_path = [premium] * n
+    av_path = list(av_path)[:n] + [av_path[-1]] * max(0, n - len(av_path))
 
     pv_buffer = 0.0
     pv_floor = 0.0
@@ -173,17 +188,18 @@ def buffer_value_pv(
         else:
             per_period = 0.0
 
-        # PV over the horizon: end-of-term payoffs at t = T, 2T, ... up to H.
-        # Per-period payoff is on $1 of segment principal at the start of
-        # each period; we approximate by holding the allocation notional
-        # constant at `alloc * premium` (the rating engine convention).
-        seg_notional = alloc * premium
+        # PV over horizon: end-of-term payoffs at t = T, 2T, ... up to H.
+        # Segment notional at start of each period is allocation × AV at t-1.
+        # Discount and persistency applied at the payoff date t.
         n_terms = horizon_years // term
         seg_pv = 0.0
         for k in range(1, n_terms + 1):
             t = k * term
+            t_start = (k - 1) * term
+            seg_notional_t = alloc * av_path[min(t_start, n - 1)]
             df = math.exp(-discount_rate * t)
-            seg_pv += per_period * seg_notional * df
+            persist = persistency[min(t, n - 1)]
+            seg_pv += per_period * seg_notional_t * df * persist
 
         detail.append({
             "term_years": term,
@@ -216,30 +232,73 @@ def buffer_cost_base_pv(
     *,
     premium: float,
     horizon_years: int,
+    mu: float,
     discount_rate: float,
+    av_path: Optional[list[float]] = None,
+    persistency: Optional[list[float]] = None,
 ) -> float:
     """
-    PV of "what the policyholder pays for the buffer" — used as the
-    denominator when mapping buffer absorption value to a 0–100 score.
+    PV of "what the policyholder pays for the buffer" — denominator of the
+    buffer value ratio.
 
-    Buffers are not separately priced; the holder pays for them through
-    the M&E load PLUS the implicit cap-spread drag (the carrier's net
-    profit on the protection-shorting / option-replication strategy).
-    Both flow through to fees in practice, so we sum:
+    The holder pays for buffer/floor protection through the M&E load PLUS
+    the implicit cap-spread drag (the carrier's option-replication margin
+    embedded in the foregone uncapped upside):
 
-       PV(M&E annual × AV) + PV(cap-spread drag × AV)
+       PV(M&E rate × AV(t)) + PV(cap-spread drag × AV(t))
 
-    Approximated by holding AV ≈ premium across the horizon (consistent
-    with the existing TCO drag heuristic — sufficient resolution for a
-    cohort-relative score). Continuous discounting at the methodology rate.
+    If `av_path` (length horizon_years+1) is provided, fees scale with the
+    actual reconciled AV at each year-end — this is more accurate than
+    holding AV flat at premium for products that deplete (GLWB drawdown)
+    or compound (no-rider buffer products).
+
+    If `persistency` is provided, each year's fee is weighted by the
+    in-force probability — matching the persistency basis used for rider
+    PV in the Monte Carlo result. This is required for an apples-to-apples
+    comparison between the buffer ratio and the rider ratio.
+
+    Both `av_path` and `persistency` default to None, in which case the
+    function falls back to flat AV ≈ premium with no persistency weighting
+    (legacy v1.2.0 behavior, kept for callers that pre-date the v1.3.1
+    enhancement).
     """
     base = spec.get("base", {}) or {}
     me_fee_annual = float(base.get("me_fee_annual", 0.0))
+    cap_drag = _cap_spread_drag_local(spec, mu)
+    annual_cost_rate = me_fee_annual + cap_drag
 
-    # Cap-spread drag — same heuristic as _tco_drag, mirrored here to avoid
-    # an import cycle.  Kept in sync by docstring discipline; covered by
-    # tests in test_rating.py that pin both code paths to identical
-    # assumption values (μ=7%, U=0.07).
+    # Discrete year-end summation when AV path / persistency are supplied.
+    if av_path is not None or persistency is not None:
+        # Build year-end AV and persistency vectors of length horizon_years+1
+        # (index 0 = inception). If only one is given, the other defaults
+        # to the constant case so the sum is still well-formed.
+        n = horizon_years + 1
+        if av_path is None:
+            av_path = [premium] * n
+        if persistency is None:
+            persistency = [1.0] * n
+        av_path = list(av_path)[:n] + [av_path[-1]] * max(0, n - len(av_path))
+        persistency = list(persistency)[:n] + [persistency[-1]] * max(0, n - len(persistency))
+        total = 0.0
+        for year in range(1, horizon_years + 1):
+            # Mid-year average AV for the fee accrual over [year-1, year]
+            av_mid = 0.5 * (av_path[year - 1] + av_path[year])
+            df = math.exp(-discount_rate * year)
+            total += annual_cost_rate * av_mid * persistency[year] * df
+        return total
+
+    # Continuous-annuity closed form, AV held flat at premium (legacy path).
+    if discount_rate <= 1e-12:
+        return annual_cost_rate * premium * horizon_years
+    return (
+        annual_cost_rate * premium
+        * (1.0 - math.exp(-discount_rate * horizon_years))
+        / discount_rate
+    )
+
+
+def _cap_spread_drag_local(spec: dict, mu: float) -> float:
+    """Local mirror of rating._cap_spread_drag (avoids import cycle)."""
     segs = spec.get("segments_available", []) or []
     allocations = spec.get(
         "default_allocation_pcts",
@@ -248,32 +307,23 @@ def buffer_cost_base_pv(
     cap_drag = 0.0
     for seg, alloc in zip(segs, allocations):
         method = seg.get("crediting_method")
+        T = max(1, seg.get("term_years", 1))
         if method == "cap" and seg.get("cap_rate") is not None:
-            ann_cap = seg["cap_rate"] / max(1, seg.get("term_years", 1))
-            drag_component = max(0.0, 0.07 - ann_cap)
+            ann_cap = (1.0 + seg["cap_rate"]) ** (1.0 / T) - 1.0
+            drag_component = max(0.0, mu - ann_cap)
         elif method == "participation":
             part = seg.get("participation_rate", 1.0) or 1.0
-            drag_component = max(0.0, 0.07 * (1.0 - min(1.0, part)))
+            drag_component = max(0.0, mu * (1.0 - min(1.0, part)))
         elif method == "spread":
-            drag_component = (seg.get("spread", 0.0) or 0.0) / max(1, seg.get("term_years", 1))
+            drag_component = (seg.get("spread", 0.0) or 0.0) / T
         elif method == "trigger":
             trig = seg.get("trigger_rate", 0.0) or 0.0
-            ann_trig = trig / max(1, seg.get("term_years", 1))
-            drag_component = max(0.0, 0.07 - ann_trig)
+            ann_trig = (1.0 + trig) ** (1.0 / T) - 1.0
+            drag_component = max(0.0, mu - ann_trig)
         else:
             drag_component = 0.0
         cap_drag += alloc * drag_component
-
-    annual_cost_rate = me_fee_annual + cap_drag
-    # PV of a continuous annuity of rate `c × premium` over H years at r:
-    #   c × premium × (1 − e^{−rH}) / r
-    if discount_rate <= 1e-12:
-        return annual_cost_rate * premium * horizon_years
-    return (
-        annual_cost_rate * premium
-        * (1.0 - math.exp(-discount_rate * horizon_years))
-        / discount_rate
-    )
+    return cap_drag
 
 
 # ---------------------------------------------------------------------------
@@ -288,14 +338,15 @@ def buffer_value_score(
     mu: float,
     sigma: float,
     discount_rate: float,
+    persistency: Optional[list[float]] = None,
+    av_path: Optional[list[float]] = None,
 ) -> tuple[float, str, dict]:
     """
-    Map buffer-absorption value to a 0–100 score using the same shape as
-    the rider-PV path: ratio = PV(absorption) / PV(cost base).
+    Map buffer-absorption value to a 0–100 score: ratio = PV(absorption) / PV(cost base).
     1.0× → 50, 2.0× → 100, 0.5× → 25, clamped to [0, 100].
 
-    Returns (score, rationale, detail).  `detail` is a dict the caller
-    can fold into the GV rationale for transparency.
+    Persistency and av_path are passed through to both numerator and denominator
+    so the ratio is internally consistent and comparable to the rider ratio.
     """
     pv = buffer_value_pv(
         spec,
@@ -304,12 +355,17 @@ def buffer_value_score(
         mu=mu,
         sigma=sigma,
         discount_rate=discount_rate,
+        persistency=persistency,
+        av_path=av_path,
     )
     cost = buffer_cost_base_pv(
         spec,
         premium=premium,
         horizon_years=horizon_years,
+        mu=mu,
         discount_rate=discount_rate,
+        persistency=persistency,
+        av_path=av_path,
     )
     pv_total = pv["pv_total"]
 

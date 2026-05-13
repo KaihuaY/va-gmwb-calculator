@@ -175,3 +175,12 @@ export async function getRegimeBacktest(slug, regimeKey) {
   const { data } = await client.get(`/ratings/${slug}/backtest/${regimeKey}`);
   return data;
 }
+
+/**
+ * Cap-rate freshness summary for a product. Returns per-segment last-verified
+ * date + status color (green ≤30 days, yellow ≤90, red older / unverified).
+ */
+export async function getRatingFreshness(slug) {
+  const { data } = await client.get(`/ratings/${slug}/freshness`);
+  return data;
+}

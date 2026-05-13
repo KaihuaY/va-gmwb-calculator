@@ -2,9 +2,9 @@
   "product_slug": "athene_amplify_2_nf",
   "product_name": "Amplify 2.0 NF",
   "carrier": "Athene",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "543038023af932764d72fc93e4e6f1b3fa5cc503abc7c2d47e1aff55c5b232d4",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,11 +13,46 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 0.0,
+    "me_fees_pv_mean": 0.0,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 496695.95,
     "av_end_p50": 1568480.4,
-    "av_end_p95": 5367608.98
+    "av_end_p95": 5367608.98,
+    "av_paths_p50": [
+      250000.0,
+      262939.92,
+      284770.86,
+      301498.63,
+      319550.18,
+      339930.64,
+      361594.56,
+      383608.32,
+      405524.84,
+      428227.77,
+      456412.3,
+      485780.79,
+      515790.66,
+      545183.2,
+      581938.35,
+      616641.19,
+      659578.81,
+      702144.44,
+      752242.64,
+      795080.15,
+      846479.25,
+      900442.15,
+      961558.35,
+      1025056.17,
+      1088111.31,
+      1154766.92,
+      1221100.04,
+      1306309.81,
+      1391844.32,
+      1494585.01,
+      1568480.4
+    ]
   },
   "sub_scores": {
     "tco": {
@@ -26,7 +61,7 @@
     },
     "gv": {
       "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $71,035 with zero cost base \u2014 capped at 100."
+      "rationale": "Closed-form PV(buffer absorption) $85,118 with zero cost base \u2014 capped at 100."
     },
     "sf": {
       "score": 65.0,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Athene's Amplify 2.0 NF earns a composite score of 85.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Athene's Amplify 2.0 NF earns a composite score of 85.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

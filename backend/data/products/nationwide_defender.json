@@ -31,7 +31,7 @@
       "note": "Nationwide Life Insurance Company AM Best FSR A+ (Superior). Synthetic anchor 'A+' confirmed."
     }
   ],
-  "verification_notes": "AM Best A+ confirmed, product fee 1.10% verified (spec updated from 1.25% to 1.10%), buffer levels 10/20 and 6-year term confirmed by carrier product page; cap rate 0.085 kept synthetic — disclosed S&P 500 cap up to 24.5% appears to be the participation-rate variant rather than the cap-rate variant on the 1-yr 10% buffer segment, requires rate-sheet PDF to fully resolve.",
+  "verification_notes": "AM Best A+ confirmed, product fee 1.10% verified (spec updated from 1.25% to 1.10%), buffer levels 10/20 and 6-year term confirmed by carrier product page; cap rate 0.085 kept synthetic \u2014 disclosed S&P 500 cap up to 24.5% appears to be the participation-rate variant rather than the cap-rate variant on the 1-yr 10% buffer segment, requires rate-sheet PDF to fully resolve.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.011,
@@ -55,7 +55,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.085
+      "cap_rate": 0.085,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -63,7 +64,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.2,
-      "cap_rate": 0.55
+      "cap_rate": 0.55,
+      "cap_rate_last_verified": "2026-05-13"
     }
   ],
   "default_allocation_pcts": [

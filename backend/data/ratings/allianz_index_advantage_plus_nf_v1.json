@@ -2,9 +2,9 @@
   "product_slug": "allianz_index_advantage_plus_nf",
   "product_name": "Index Advantage+ NF",
   "carrier": "Allianz",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "04efba6b9c8752f21300b9a08b8867b36768a9fb7b91c9d9d3fd9d287af3f08b",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,11 +13,46 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 0.0,
+    "me_fees_pv_mean": 0.0,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 404833.39,
     "av_end_p50": 1297137.48,
-    "av_end_p95": 4663784.33
+    "av_end_p95": 4663784.33,
+    "av_paths_p50": [
+      250000.0,
+      262939.92,
+      279532.85,
+      293936.43,
+      309209.72,
+      325634.66,
+      344210.11,
+      361424.68,
+      379757.1,
+      396201.45,
+      419764.43,
+      442771.05,
+      466365.69,
+      492382.82,
+      519578.81,
+      546407.13,
+      581337.83,
+      616409.17,
+      652402.0,
+      693406.47,
+      729611.46,
+      771924.1,
+      820556.16,
+      874123.2,
+      921592.5,
+      970730.74,
+      1023769.02,
+      1088621.31,
+      1152120.28,
+      1236716.95,
+      1297137.48
+    ]
   },
   "sub_scores": {
     "tco": {
@@ -26,7 +61,7 @@
     },
     "gv": {
       "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $71,035 with zero cost base \u2014 capped at 100."
+      "rationale": "Closed-form PV(buffer absorption) $77,698 with zero cost base \u2014 capped at 100."
     },
     "sf": {
       "score": 62.5,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Allianz's Index Advantage+ NF earns a composite score of 88.5, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (90), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Allianz's Index Advantage+ NF earns a composite score of 88.5, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (90), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (62).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

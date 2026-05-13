@@ -28,10 +28,10 @@
       "type": "am_best",
       "url": "https://www.lincolnfinancial.com/public/aboutus/financial-strength",
       "retrieved": "2026-05-12",
-      "note": "Lincoln National Life Insurance Company AM Best FSR A (Excellent). Synthetic spec anchored 'A+' — should be downgraded to 'A' for accuracy."
+      "note": "Lincoln National Life Insurance Company AM Best FSR A (Excellent). Synthetic spec anchored 'A+' \u2014 should be downgraded to 'A' for accuracy."
     }
   ],
-  "verification_notes": "AM Best should be A (synthetic was A+ — downgraded to match disclosed FSR); surrender schedule 8/7/6/5/4/3 confirmed for B-share; cap rates within public range pending broker portal access.",
+  "verification_notes": "AM Best should be A (synthetic was A+ \u2014 downgraded to match disclosed FSR); surrender schedule 8/7/6/5/4/3 confirmed for B-share; cap rates within public range pending broker portal access.",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,
@@ -55,7 +55,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.085
+      "cap_rate": 0.085,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -63,7 +64,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.5
+      "cap_rate": 0.5,
+      "cap_rate_last_verified": "2026-05-13"
     }
   ],
   "default_allocation_pcts": [

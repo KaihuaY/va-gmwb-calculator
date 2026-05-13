@@ -28,7 +28,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.1
+      "cap_rate": 0.1,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -75,7 +76,7 @@
       "type": "carrier_product_page",
       "url": "https://www.symetra.com/our-products/individuals/annuities/IndexLinkedAnnuity/",
       "retrieved": "2026-05-12",
-      "note": "Symetra Trek Frontier RILA — buffer-based variant of the Trek RILA suite. Issued by Symetra Life Insurance Company. Trek suite (Trek, Trek Plus, Trek Frontier) launched 2021."
+      "note": "Symetra Trek Frontier RILA \u2014 buffer-based variant of the Trek RILA suite. Issued by Symetra Life Insurance Company. Trek suite (Trek, Trek Plus, Trek Frontier) launched 2021."
     },
     {
       "type": "product_review",

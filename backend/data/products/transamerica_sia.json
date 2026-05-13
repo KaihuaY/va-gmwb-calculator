@@ -31,7 +31,7 @@
       "note": "Transamerica Life Insurance Company AM Best FSR A (Excellent). Synthetic anchor 'A' confirmed. (Aegon parent; not PE.)"
     }
   ],
-  "verification_notes": "Surrender schedule corrected (synthetic 6/5/4/3/2/1 -> prospectus 8/8/7/6/5/4); M&E fee corrected (synthetic 0.0125 -> 0.0 — Transamerica RILA has no annual contract/admin fee); AM Best A confirmed; disability_waiver flipped to true (unemployment waiver is the closest match in Transamerica's three free waivers).",
+  "verification_notes": "Surrender schedule corrected (synthetic 6/5/4/3/2/1 -> prospectus 8/8/7/6/5/4); M&E fee corrected (synthetic 0.0125 -> 0.0 \u2014 Transamerica RILA has no annual contract/admin fee); AM Best A confirmed; disability_waiver flipped to true (unemployment waiver is the closest match in Transamerica's three free waivers).",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,
@@ -55,7 +55,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.08
+      "cap_rate": 0.08,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -63,7 +64,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.15,
-      "cap_rate": 0.5
+      "cap_rate": 0.5,
+      "cap_rate_last_verified": "2026-05-13"
     }
   ],
   "default_allocation_pcts": [

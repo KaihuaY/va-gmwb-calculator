@@ -2,9 +2,9 @@
   "product_slug": "allianz_index_advantage_income",
   "product_name": "Index Advantage+ Income",
   "carrier": "Allianz",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "2b2cb8b46d59e7ca5df3b33b1793720d3f357b6dc2b8b11169b244f94cd17885",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,11 +13,46 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 55856.49,
+    "me_fees_pv_mean": 28828.86,
+    "rider_fees_pv_mean": 27027.62,
     "glwb_pv_mean": 29748.41,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 0.0,
     "av_end_p50": 0.0,
-    "av_end_p95": 38870.17
+    "av_end_p95": 38870.17,
+    "av_paths_p50": [
+      250000.0,
+      256305.9,
+      261859.1,
+      265651.45,
+      269600.35,
+      273244.46,
+      258218.71,
+      240822.51,
+      222580.1,
+      203528.52,
+      185391.0,
+      167396.47,
+      147590.56,
+      127603.87,
+      108327.17,
+      88152.89,
+      67324.1,
+      46024.99,
+      25200.19,
+      3069.13,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "sub_scores": {
     "tco": {
@@ -25,8 +60,8 @@
       "rationale": "Annualised fee + cap-spread drag: 2.83%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 38.9,
-      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.81x ($29,748 / $36,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.77x. Buffer PV $71,035; floor PV $0; cost-base PV $92,810. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (30% rider / 70% buffer)."
+      "score": 46.9,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 1.10x ($29,748 / $27,028). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.80x. Buffer PV $34,141; floor PV $0; cost-base PV $42,902. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (47% rider / 53% buffer)."
     },
     "sf": {
       "score": 65.0,
@@ -41,7 +76,7 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "composite": 56.8,
+  "composite": 58.4,
   "letter_grade": "C-",
   "feature_snapshot": {
     "me_fee_annual": 0.0125,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Allianz's Index Advantage+ Income earns a composite score of 56.8, which maps to a letter grade of C- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (0), Guarantee Value (39). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Allianz's Index Advantage+ Income earns a composite score of 58.4, which maps to a letter grade of C- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (0), Guarantee Value (47). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (0).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

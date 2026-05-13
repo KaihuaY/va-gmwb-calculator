@@ -2,9 +2,9 @@
   "product_slug": "prudential_flexguard_life",
   "product_name": "FlexGuard Life",
   "carrier": "Prudential",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "71681a9131f541525e9e82828aea4ccad953514a6948a8ad6ef1d7edd4ec4b39",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,11 +13,46 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 38075.0,
+    "me_fees_pv_mean": 38075.0,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 138890.27,
     "av_end_p50": 294879.28,
-    "av_end_p95": 583379.8
+    "av_end_p95": 583379.8,
+    "av_paths_p50": [
+      250000.0,
+      259653.17,
+      259176.07,
+      258679.73,
+      259170.02,
+      259225.48,
+      260768.06,
+      260556.52,
+      261007.7,
+      261717.64,
+      263341.99,
+      263122.24,
+      264905.43,
+      266994.83,
+      267186.89,
+      269286.83,
+      270465.41,
+      272459.93,
+      272669.96,
+      274908.87,
+      276208.94,
+      276498.86,
+      279414.95,
+      281773.01,
+      284647.08,
+      285136.24,
+      286684.21,
+      289855.3,
+      291871.19,
+      293336.01,
+      294879.28
+    ]
   },
   "sub_scores": {
     "tco": {
@@ -25,8 +60,8 @@
       "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 63.3,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+      "score": 63.4,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $46,660; floor PV $0; cost-base PV $36,823. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 80.0,
@@ -139,10 +174,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Prudential's FlexGuard Life earns a composite score of 75.8, which maps to a letter grade of B under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Surrender Flexibility (80), Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Prudential's FlexGuard Life earns a composite score of 75.8, which maps to a letter grade of B under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Surrender Flexibility (80), Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (56).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

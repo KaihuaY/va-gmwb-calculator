@@ -2,9 +2,9 @@
   "product_slug": "pacific_index_advisory",
   "product_name": "Pacific Index Advisory",
   "carrier": "Pacific Life",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "fef2823e70026cde875c816524597eb0ed6d6c626d22368e9bfd67730065b2e9",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,11 +13,46 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 0.0,
+    "me_fees_pv_mean": 0.0,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 216417.13,
     "av_end_p50": 467023.52,
-    "av_end_p95": 932050.23
+    "av_end_p95": 932050.23,
+    "av_paths_p50": [
+      250000.0,
+      262939.92,
+      266707.03,
+      269929.05,
+      274401.94,
+      278608.24,
+      284421.98,
+      288444.13,
+      293607.76,
+      298763.31,
+      305142.75,
+      309683.05,
+      316117.65,
+      323185.48,
+      328625.86,
+      336300.82,
+      343239.63,
+      350644.92,
+      356692.19,
+      365884.88,
+      372343.52,
+      378979.03,
+      388755.01,
+      398544.1,
+      409517.8,
+      416040.42,
+      424653.95,
+      436256.11,
+      447227.77,
+      455738.36,
+      467023.52
+    ]
   },
   "sub_scores": {
     "tco": {
@@ -26,7 +61,7 @@
     },
     "gv": {
       "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100."
+      "rationale": "Closed-form PV(buffer absorption) $53,474 with zero cost base \u2014 capped at 100."
     },
     "sf": {
       "score": 100.0,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Pacific Life's Pacific Index Advisory earns a composite score of 97.0, which maps to a letter grade of A+ under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (95), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Pacific Life's Pacific Index Advisory earns a composite score of 97.0, which maps to a letter grade of A+ under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (95), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Solid across the board \u2014 top-ranked area is low fees (100).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

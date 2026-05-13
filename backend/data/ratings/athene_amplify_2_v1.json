@@ -2,9 +2,9 @@
   "product_slug": "athene_amplify_2",
   "product_name": "Amplify 2.0",
   "carrier": "Athene",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "f3a7e0dcf2de1246dffa379f0747fbe022234fde73f0f9ce909b79c49018ab0a",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,20 +13,55 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 0.0,
+    "me_fees_pv_mean": 0.0,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 265173.63,
     "av_end_p50": 588508.64,
-    "av_end_p95": 1212848.33
+    "av_end_p95": 1212848.33,
+    "av_paths_p50": [
+      250000.0,
+      262939.92,
+      269378.04,
+      274167.24,
+      280686.64,
+      286735.48,
+      294646.02,
+      301412.61,
+      308496.21,
+      315910.15,
+      324395.81,
+      331943.07,
+      341171.65,
+      352640.65,
+      360090.33,
+      370954.02,
+      382892.53,
+      392831.28,
+      405686.89,
+      418170.52,
+      429619.79,
+      442282.22,
+      456012.91,
+      471722.04,
+      488646.07,
+      502905.29,
+      515826.24,
+      534633.69,
+      555958.48,
+      568027.96,
+      588508.64
+    ]
   },
   "sub_scores": {
     "tco": {
-      "score": 100.0,
+      "score": 99.8,
       "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
       "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $71,035 with zero cost base \u2014 capped at 100."
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 367.31x. Buffer PV $58,513; floor PV $0; cost-base PV $159. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 65.0,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Athene's Amplify 2.0 earns a composite score of 83.4, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
-  "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (65).",
+  "narrative": "Athene's Amplify 2.0 earns a composite score of 83.4, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

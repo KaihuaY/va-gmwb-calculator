@@ -2,9 +2,9 @@
   "product_slug": "jackson_market_link_pro_advisory",
   "product_name": "Market Link Pro Advisory",
   "carrier": "Jackson",
-  "methodology_version": "v1.3.0",
+  "methodology_version": "v1.3.1",
   "product_spec_hash": "4ea78d3d1127940df9b4b500e5a9af3b0bf594fb17ebbebb1ed44aa99a208c41",
-  "scored_at": "2026-05-12T00:00:00Z",
+  "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
@@ -13,11 +13,46 @@
   },
   "monte_carlo": {
     "fees_pv_mean": 0.0,
+    "me_fees_pv_mean": 0.0,
+    "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 226786.58,
     "av_end_p50": 496228.53,
-    "av_end_p95": 1000634.37
+    "av_end_p95": 1000634.37,
+    "av_paths_p50": [
+      250000.0,
+      262939.92,
+      267873.43,
+      271280.71,
+      276682.99,
+      281520.29,
+      288012.55,
+      292597.24,
+      298402.14,
+      304135.58,
+      311357.61,
+      316603.2,
+      323429.8,
+      331785.36,
+      338118.07,
+      346881.76,
+      355082.66,
+      362621.43,
+      370190.93,
+      380866.66,
+      386822.27,
+      395167.41,
+      405781.02,
+      416816.98,
+      429211.81,
+      436911.2,
+      447267.38,
+      459857.08,
+      472797.9,
+      480931.14,
+      496228.53
+    ]
   },
   "sub_scores": {
     "tco": {
@@ -26,7 +61,7 @@
     },
     "gv": {
       "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100."
+      "rationale": "Closed-form PV(buffer absorption) $54,516 with zero cost base \u2014 capped at 100."
     },
     "sf": {
       "score": 100.0,
@@ -138,10 +173,10 @@
       "history_truncated": false
     }
   },
-  "narrative": "Jackson's Market Link Pro Advisory earns a composite score of 93.8, which maps to a letter grade of A under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Jackson's Market Link Pro Advisory earns a composite score of 93.8, which maps to a letter grade of A under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Solid across the board \u2014 top-ranked area is low fees (100).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
-  "signed_at": "2026-05-12T00:00:00Z",
+  "signed_at": "2026-05-13T00:00:00Z",
   "status": "published"
 }

@@ -19,6 +19,7 @@ from engine.historical import (
 from engine.session_store import save_session
 from engine.ratings_store import (
     list_published_ratings, load_rating, load_product_spec, load_methodology,
+    compute_freshness,
 )
 
 app = FastAPI(
@@ -478,6 +479,19 @@ def methodology_get(version: str = "v1"):
         return load_methodology(version)
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail=f"Methodology {version} not found")
+
+
+@app.get("/ratings/{slug}/freshness")
+def ratings_freshness(slug: str):
+    """Per-segment cap-rate freshness for the product.
+
+    Returns the verified date, age in days, source URL, and a status color
+    (green ≤30d, yellow ≤90d, red >90d or unverified) for each segment.
+    """
+    spec = load_product_spec(slug)
+    if spec is None:
+        raise HTTPException(status_code=404, detail=f"No product spec for '{slug}'")
+    return compute_freshness(slug)
 
 
 @app.get("/ratings/{slug}/backtest/{regime_key}")

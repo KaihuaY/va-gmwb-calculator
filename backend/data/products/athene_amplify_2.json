@@ -16,13 +16,13 @@
       "type": "product_review",
       "url": "https://annuityeducator.com/reviews/athene-annuity-and-life-company/fixed-index/athene-amplify-20-nf",
       "retrieved": "2026-05-12",
-      "note": "Athene Amplify 2.0 surrender schedule 8/8/7/6/5/4 over 6 years (NOT 7 years as in synthetic anchor 9/8/7/6/5/4/3 — synthetic spec was incorrect). Surrender schedule updated to prospectus-verified 8/8/7/6/5/4. Free withdrawal 10% of purchase payment Yr 1, 10% contract value Yr 2+. Current cap (1-yr S&P 500 PTP with 10% buffer) = 17% per carrier rate flier."
+      "note": "Athene Amplify 2.0 surrender schedule 8/8/7/6/5/4 over 6 years (NOT 7 years as in synthetic anchor 9/8/7/6/5/4/3 \u2014 synthetic spec was incorrect). Surrender schedule updated to prospectus-verified 8/8/7/6/5/4. Free withdrawal 10% of purchase payment Yr 1, 10% contract value Yr 2+. Current cap (1-yr S&P 500 PTP with 10% buffer) = 17% per carrier rate flier."
     },
     {
       "type": "am_best",
       "url": "https://www.athene.com/about/financial-strength",
       "retrieved": "2026-05-12",
-      "note": "Athene Annuity and Life Company AM Best FSR A+ (Superior) — upgraded from prior 'A'. Synthetic spec had 'A'; updated to 'A+'. Athene is a subsidiary of Apollo Global Management (pe_owned=true confirmed)."
+      "note": "Athene Annuity and Life Company AM Best FSR A+ (Superior) \u2014 upgraded from prior 'A'. Synthetic spec had 'A'; updated to 'A+'. Athene is a subsidiary of Apollo Global Management (pe_owned=true confirmed)."
     }
   ],
   "verification_notes": "Surrender schedule corrected (synthetic 9/8/7/6/5/4/3 -> prospectus 8/8/7/6/5/4); AM Best updated A -> A+; cap rate updated 0.09 -> 0.13 reflecting current rate sheet (still below NF variant's 0.17 because this variant carries 0.95% segment fee). Cap rate update is a modest move toward current public range; M&E remains 0 (segment fee is not modeled as a contract-level M&E).",
@@ -49,7 +49,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.13
+      "cap_rate": 0.13,
+      "cap_rate_last_verified": "2026-05-13"
     },
     {
       "term_years": 6,
@@ -57,7 +58,8 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.2,
-      "cap_rate": 0.5
+      "cap_rate": 0.5,
+      "cap_rate_last_verified": "2026-05-13"
     }
   ],
   "default_allocation_pcts": [
