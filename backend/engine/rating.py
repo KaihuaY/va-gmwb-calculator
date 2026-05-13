@@ -460,11 +460,13 @@ def compute_regime_outcomes(
     ceiling_mult = regime_cfg.get("av_ceiling_multiple_of_premium", 2.0)
 
     max_years = max((r.get("years", 1) for r in regimes_meta), default=1)
-    # Gender-neutral default for regime survival (uses male; regime is comparative
-    # across products, so gender is held constant rather than blended).
+    # Use the same 50/50 blended-gender cohort as the composite scoring
+    # (v1.3.0). AV path is mortality-independent (fees and GLWB withdrawals
+    # decrement AV directly, not via survival weights), so this is mainly
+    # for documentation consistency with the composite scenario.
     survival = compute_survival_probs(
         current_age=age,
-        gender="male",
+        gender="blend",
         base_calendar_year=2026,
         max_age=age + max_years,
         multiplier=1.0,

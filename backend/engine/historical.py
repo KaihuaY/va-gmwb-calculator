@@ -308,10 +308,13 @@ def compute_regime_backtest_path(
     actual_years = len(annual_factors)
     history_truncated = actual_years < requested_years
 
-    # Mortality / discount machinery (gender-neutral; matches compute_regime_outcomes)
+    # Mortality / discount machinery: 50/50 blended-gender cohort, matching
+    # the composite scoring scenario (methodology v1.3.0). AV path is
+    # mortality-independent so gender choice doesn't move the chart values;
+    # using "blend" keeps every scoring path on the same mortality basis.
     survival = compute_survival_probs(
         current_age=age,
-        gender="male",
+        gender="blend",
         base_calendar_year=2026,
         max_age=age + max(1, actual_years),
         multiplier=1.0,
