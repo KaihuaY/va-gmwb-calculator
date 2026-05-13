@@ -681,6 +681,20 @@ def compute_rating(
     )
     feature_snapshot = _carrier_feature_snapshot(product_spec)
     regimes = compute_regime_outcomes(product_spec, methodology)
+
+    # Stress score = worst regime score (most stress-resilient = highest).
+    # Reported ALONGSIDE the composite, never inside it. Surfaces how the
+    # contract behaved in its worst-tested historical environment so an
+    # advisor can see "B+ overall but C- in GFC" at a glance.
+    regime_scores = [r.get("regime_score") for r in regimes.values()
+                     if r.get("regime_score") is not None]
+    stress_score = min(regime_scores) if regime_scores else None
+    stress_letter = (composite_to_letter(stress_score, methodology["letter_bands"])
+                     if stress_score is not None else None)
+    worst_regime_key = None
+    if regime_scores:
+        worst_regime_key = min(regimes.items(), key=lambda kv: kv[1].get("regime_score", 100.0))[0]
+
     narrative = draft_narrative(
         product_spec, sub_scores, comp["composite"], comp["letter"],
         methodology_version=methodology["version"],
@@ -703,6 +717,9 @@ def compute_rating(
         "sub_scores": sub_scores,
         "composite": comp["composite"],
         "letter_grade": comp["letter"],
+        "stress_score": round(stress_score, 1) if stress_score is not None else None,
+        "stress_letter_grade": stress_letter,
+        "worst_regime_key": worst_regime_key,
         "feature_snapshot": feature_snapshot,
         "regimes": regimes,
         "narrative": narrative,
@@ -777,6 +794,27 @@ def _carrier_feature_snapshot(spec: dict) -> dict:
             headline_cap = seg["cap_rate"]
             break
 
+    # Best-of-class extras surfaced by the Custom lens. "Best" = highest cap /
+    # participation, smallest (most protective) buffer / floor, across every
+    # segment of the requested term length. None if no segment matches.
+    segments = spec.get("segments_available", []) or []
+    def _best_cap(term: int) -> float | None:
+        caps = [s["cap_rate"] for s in segments
+                if s.get("term_years") == term and s.get("crediting_method") == "cap"
+                and s.get("cap_rate") is not None]
+        return max(caps) if caps else None
+    best_participation = max(
+        (s["participation_rate"] for s in segments
+         if s.get("participation_rate") is not None),
+        default=None,
+    )
+    buffer_levels = [s["protection_level"] for s in segments
+                     if s.get("protection_type") == "buffer" and s.get("protection_level") is not None]
+    floor_levels  = [s["protection_level"] for s in segments
+                     if s.get("protection_type") == "floor"  and s.get("protection_level") is not None]
+    best_buffer = max(buffer_levels) if buffer_levels else None  # bigger buffer = more protective
+    best_floor  = max(floor_levels)  if floor_levels  else None  # bigger floor  = more protective
+
     waivers = [
         name for name, present in [
             ("nursing-home", base.get("nursing_home_waiver", False)),
@@ -804,4 +842,11 @@ def _carrier_feature_snapshot(spec: dict) -> dict:
         "cap_cut_count_5yr":      max(0, len(behavioral.get("cap_history", []) or []) - 1),
         "product_type":           spec.get("product_type"),
         "first_offered":          spec.get("first_offered"),
+        # Best-of-class extras (Custom lens columns)
+        "best_1yr_cap":           _best_cap(1),
+        "best_6yr_cap":           _best_cap(6),
+        "best_participation":     best_participation,
+        "best_buffer":            best_buffer,
+        "best_floor":             best_floor,
+        "segment_count":          len(segments),
     }

@@ -79,6 +79,30 @@ const LENS_COLUMNS = {
   ],
 };
 
+// All columns available to the Custom lens (union of the 4 lenses + a few
+// power-user fields that don't fit any single curated lens but are commonly
+// requested by RIAs comparing products head-to-head).
+const ALL_COLUMNS = (() => {
+  const m = new Map();
+  for (const lensKey of Object.keys(LENS_COLUMNS)) {
+    for (const c of LENS_COLUMNS[lensKey]) {
+      if (!m.has(c.key)) m.set(c.key, c);
+    }
+  }
+  // Extra columns surfaced by Custom lens only — feature_snapshot exposes them
+  // but no curated lens includes them by default.
+  const extras = [
+    { key: 'best_1yr_cap',       label: 'Best 1-yr cap',  render: (s) => pct(s.best_1yr_cap, 1) },
+    { key: 'best_6yr_cap',       label: 'Best 6-yr cap',  render: (s) => pct(s.best_6yr_cap, 1) },
+    { key: 'best_participation', label: 'Best par rate',  render: (s) => pct(s.best_participation, 0) },
+    { key: 'best_buffer',        label: 'Best buffer',    render: (s) => pct(s.best_buffer, 0) },
+    { key: 'best_floor',         label: 'Best floor',     render: (s) => pct(s.best_floor, 0) },
+    { key: 'segment_count',      label: 'Segment count',  render: (s) => String(s.segment_count ?? '—') },
+  ];
+  for (const e of extras) if (!m.has(e.key)) m.set(e.key, e);
+  return [...m.values()];
+})();
+
 export default function RatingsIndex() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -88,6 +112,11 @@ export default function RatingsIndex() {
   const [hasGlwbOnly, setHasGlwbOnly] = useState(false);
   const [search, setSearch] = useState('');
   const [lens, setLens] = useState('costs');
+  // Custom-lens user-selected feature columns. Default selection mirrors the
+  // Costs lens so the first time a user clicks Custom they see something
+  // familiar and can add/remove freely.
+  const DEFAULT_CUSTOM_KEYS = LENS_COLUMNS.costs.map((c) => c.key);
+  const [customKeys, setCustomKeys] = useState(DEFAULT_CUSTOM_KEYS);
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [sortKey, setSortKey] = useState('composite');
   const [sortDesc, setSortDesc] = useState(true);
@@ -181,7 +210,9 @@ export default function RatingsIndex() {
   if (loading) return <div data-testid="ratings-loading" style={pageStyle}>Loading ratings…</div>;
   if (error)   return <div data-testid="ratings-error"   style={pageStyle}>Error: {error}</div>;
 
-  const cols = LENS_COLUMNS[lens] || LENS_COLUMNS.costs;
+  const cols = lens === 'custom'
+    ? ALL_COLUMNS.filter((c) => customKeys.includes(c.key))
+    : (LENS_COLUMNS[lens] || LENS_COLUMNS.costs);
 
   return (
     <div data-testid="ratings-index" style={pageStyle}>
@@ -201,6 +232,60 @@ export default function RatingsIndex() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 14 }}>
         <LensTabs value={lens} onChange={setLens} />
       </div>
+
+      {/* Custom lens — user-selectable column chips */}
+      {lens === 'custom' && (
+        <div
+          data-testid="custom-column-picker"
+          style={{
+            padding: 12,
+            border: '1px dashed #d1d5db',
+            borderRadius: 8,
+            marginBottom: 12,
+            background: '#fafafa',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 6,
+            alignItems: 'center',
+          }}
+        >
+          <span style={{ fontSize: 12, color: '#4b5563', marginRight: 4 }}>
+            Pick columns:
+          </span>
+          {ALL_COLUMNS.map((c) => {
+            const on = customKeys.includes(c.key);
+            return (
+              <button
+                key={c.key}
+                type="button"
+                data-testid={`custom-col-${c.key}`}
+                onClick={() => setCustomKeys((prev) =>
+                  prev.includes(c.key)
+                    ? prev.filter((k) => k !== c.key)
+                    : [...prev, c.key],
+                )}
+                style={{
+                  padding: '3px 10px',
+                  borderRadius: 999,
+                  border: '1px solid ' + (on ? '#2563eb' : '#d1d5db'),
+                  background: on ? '#2563eb' : '#ffffff',
+                  color: on ? '#ffffff' : '#374151',
+                  fontSize: 12,
+                  fontWeight: on ? 600 : 500,
+                  cursor: 'pointer',
+                }}
+              >
+                {c.label}
+              </button>
+            );
+          })}
+          {customKeys.length === 0 && (
+            <span style={{ fontSize: 12, color: '#b91c1c', marginLeft: 8 }}>
+              Pick at least one column.
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Search — case-insensitive substring across name / carrier / slug */}
       <div style={{ marginBottom: 10 }}>
@@ -294,6 +379,7 @@ export default function RatingsIndex() {
             <Th label="Carrier"   onClick={() => setSort('carrier')}  active={sortKey==='carrier'}  desc={sortDesc} />
             <Th label="Grade"     onClick={() => setSort('letter_grade')} active={sortKey==='letter_grade'} desc={sortDesc} />
             <Th label="Composite" onClick={() => setSort('composite')} active={sortKey==='composite'} desc={sortDesc} num />
+            <Th label="Stress" onClick={() => setSort('stress_score')} active={sortKey==='stress_score'} desc={sortDesc} num />
             {cols.map((c) => (
               <Th
                 key={c.key}
@@ -351,6 +437,16 @@ export default function RatingsIndex() {
                 </span>
               </td>
               <td style={numCell}>{it._composite?.toFixed(1) ?? '—'}</td>
+              <td
+                style={numCell}
+                title={it.worst_regime_key ? `Worst regime: ${it.worst_regime_key}` : 'No regime data'}
+              >
+                {it.stress_score != null ? (
+                  <span style={{ color: gradeColor(it.stress_letter_grade), fontWeight: 600 }}>
+                    {it.stress_letter_grade} <span style={{ color: '#6b7280', fontWeight: 400, fontSize: 12 }}>{it.stress_score.toFixed(0)}</span>
+                  </span>
+                ) : '—'}
+              </td>
               {cols.map((c) => (
                 <td key={c.key} style={numCell}>{c.render(it._snap)}</td>
               ))}

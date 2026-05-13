@@ -2,8 +2,8 @@
   "product_slug": "jackson_market_link_pro",
   "product_name": "Market Link Pro",
   "carrier": "Jackson",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "2eff9ea9cdb112e88871e409cd061f43778a62a5792c3820f4e9a61b5b73fdf9",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "c77854f23970179d755d093e4eb38248c5a326047b329bb877e3b3f8cd251fb6",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 81.8,
   "letter_grade": "B+",
+  "stress_score": 23.7,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "gfc_2008_2010",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.2,
     "cap_cut_count_5yr": 1,
     "product_type": "rila",
-    "first_offered": "2022-01-01"
+    "first_offered": "2022-01-01",
+    "best_1yr_cap": 0.095,
+    "best_6yr_cap": null,
+    "best_participation": 0.8,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Jackson's Market Link Pro earns a composite score of 81.8, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Jackson's Market Link Pro earns a composite score of 81.8, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

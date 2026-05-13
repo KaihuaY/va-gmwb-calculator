@@ -308,8 +308,8 @@ def test_compute_rating_includes_regimes_field(methodology):
 # ---------------------------------------------------------------------------
 
 def test_methodology_current_version(methodology):
-    """Methodology is at v1.3.1 with buffer_value_pricing block."""
-    assert methodology["version"] == "v1.3.1"
+    """Methodology is at v1.3.2 with buffer_value_pricing block."""
+    assert methodology["version"] == "v1.3.2"
     assert "buffer_value_pricing" in methodology
     bvp = methodology["buffer_value_pricing"]
     assert bvp["method"] == "closed_form_lognormal"
@@ -479,6 +479,14 @@ def test_compute_regime_backtest_path_normalization(methodology):
     r10 = compute_regime_backtest_path(spec, methodology, "post_gfc_bull_2010_2021", 1000.0)
     assert r10["terminal_av"] == pytest.approx(r1["terminal_av"] * 10.0, rel=1e-3)
     assert r10["max_drawdown_pct"] == pytest.approx(r1["max_drawdown_pct"], abs=1e-3)
+
+
+def test_compute_regime_backtest_path_defaults_to_premium(methodology):
+    """When starting_av is None, the backtest uses scoring_scenario.premium ($250K)
+    so the same dollar basis is used as the composite rating's PV calcs."""
+    spec = _load_spec("equitable_scs_income")
+    r_default = compute_regime_backtest_path(spec, methodology, "post_gfc_bull_2010_2021")
+    assert r_default["starting_av"] == methodology["scoring_scenario"]["premium"]
 
 
 # ---------------------------------------------------------------------------

@@ -18,6 +18,7 @@ export const LENSES = [
   { id: 'income',      label: 'Income' },
   { id: 'carrier',     label: 'Carrier' },
   { id: 'flexibility', label: 'Flexibility' },
+  { id: 'custom',      label: 'Custom' },
 ];
 
 export default function LensTabs({ value, onChange, testid = 'lens-tabs' }) {

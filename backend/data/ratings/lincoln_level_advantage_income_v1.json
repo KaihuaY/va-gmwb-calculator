@@ -2,8 +2,8 @@
   "product_slug": "lincoln_level_advantage_income",
   "product_name": "Level Advantage Income",
   "carrier": "Lincoln",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "05e359236defbd04b44425d1f7093d1ad3e59e4cbea12b9f550bb98691391169",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "9da395d59bb08e1291750c9b8a7ea2b8ef27eb60d904e60617c9828893e2290c",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 82.0,
   "letter_grade": "B+",
+  "stress_score": 0.0,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "lost_decade_2000_2009",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.004,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.16,
     "cap_cut_count_5yr": 2,
     "product_type": "rila",
-    "first_offered": "2022-01-01"
+    "first_offered": "2022-01-01",
+    "best_1yr_cap": 0.1,
+    "best_6yr_cap": 0.45,
+    "best_participation": null,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Lincoln's Level Advantage Income earns a composite score of 82.0, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Guarantee Value (92), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Lincoln's Level Advantage Income earns a composite score of 82.0, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Guarantee Value (92), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (92), softest in restrictive surrender terms (70).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

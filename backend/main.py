@@ -506,7 +506,9 @@ def ratings_regime_backtest(slug: str, regime_key: str):
         raise HTTPException(status_code=404, detail=f"No product spec for '{slug}'")
     meth = load_methodology()
     try:
-        return compute_regime_backtest_path(spec, meth, regime_key, starting_av=100.0)
+        # starting_av defaults to methodology.scoring_scenario.premium ($250K) —
+        # same base as the composite rating's PV calcs.
+        return compute_regime_backtest_path(spec, meth, regime_key)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 

@@ -2,7 +2,7 @@
   "product_slug": "midland_oak_elite_adv",
   "product_name": "Oak Elite ADV",
   "carrier": "Midland National",
-  "methodology_version": "v1.3.1",
+  "methodology_version": "v1.3.2",
   "product_spec_hash": "f92eb45be5ee18c6d2c1468ec6ad9e42983506aed7c75b702610ebd61336a81b",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,9 @@
   },
   "composite": 93.9,
   "letter_grade": "A",
+  "stress_score": 25.4,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "gfc_2008_2010",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.18,
     "cap_cut_count_5yr": 0,
     "product_type": "rila",
-    "first_offered": "2024-01-01"
+    "first_offered": "2024-01-01",
+    "best_1yr_cap": 0.11,
+    "best_6yr_cap": null,
+    "best_participation": 0.9,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Midland National's Oak Elite ADV earns a composite score of 93.9, which maps to a letter grade of A under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (88), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (90), Behavioral Fairness (92). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Midland National's Oak Elite ADV earns a composite score of 93.9, which maps to a letter grade of A under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (88), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (90), Behavioral Fairness (92). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Solid across the board \u2014 top-ranked area is strong guarantee value (100).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

@@ -2,8 +2,8 @@
   "product_slug": "equitable_scs_plus",
   "product_name": "SCS Plus",
   "carrier": "Equitable",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "29c0da38552b7e4caa7d6fa115c5995b7758a81ae5cd60703dc8191f57b1bd8f",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "e6a6302e5b59bbb5d56537c3a66cc44ca9deedbe3b846a3f5d8bdc6151b6d64b",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 70.2,
   "letter_grade": "B-",
+  "stress_score": 14.5,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "lost_decade_2000_2009",
   "feature_snapshot": {
     "me_fee_annual": 0.014,
     "rider_fee_annual": 0.0,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.18,
     "cap_cut_count_5yr": 0,
     "product_type": "rila",
-    "first_offered": "2022-01-01"
+    "first_offered": "2022-01-01",
+    "best_1yr_cap": 0.12,
+    "best_6yr_cap": 0.7,
+    "best_participation": null,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Equitable's SCS Plus earns a composite score of 70.2, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (50), Guarantee Value (58). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Equitable's SCS Plus earns a composite score of 70.2, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (50), Guarantee Value (58). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (50).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

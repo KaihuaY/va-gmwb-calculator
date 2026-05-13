@@ -2,8 +2,8 @@
   "product_slug": "nationwide_dpa",
   "product_name": "Defined Protection Annuity",
   "carrier": "Nationwide",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "05a8050215df73888a13e4a76b93e30af4ade1266e5234089c45bc5de6423f15",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "c23df9f39d9df7ed086aa2bdd961e8f808f4a02e317f5998eba8e55479a0fc09",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 76.1,
   "letter_grade": "B",
+  "stress_score": 10.5,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "lost_decade_2000_2009",
   "feature_snapshot": {
     "me_fee_annual": 0.0125,
     "rider_fee_annual": 0.0,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.14,
     "cap_cut_count_5yr": 0,
     "product_type": "rila",
-    "first_offered": "2022-01-01"
+    "first_offered": "2022-01-01",
+    "best_1yr_cap": 0.08,
+    "best_6yr_cap": 0.5,
+    "best_participation": null,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Nationwide's Defined Protection Annuity earns a composite score of 76.1, which maps to a letter grade of B under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Insurer Credit (95), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Nationwide's Defined Protection Annuity earns a composite score of 76.1, which maps to a letter grade of B under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Insurer Credit (95), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (95) offset by high fee drag (56).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

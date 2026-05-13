@@ -2,8 +2,8 @@
   "product_slug": "athene_amplify_2_nf",
   "product_name": "Amplify 2.0 NF",
   "carrier": "Athene",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "543038023af932764d72fc93e4e6f1b3fa5cc503abc7c2d47e1aff55c5b232d4",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "07570432f29c1ffe0b7bcffe4508af93bfec25b4868b6d7e73a8e6041aa0a3d7",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 85.2,
   "letter_grade": "A-",
+  "stress_score": 28.4,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "gfc_2008_2010",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.28,
     "cap_cut_count_5yr": 1,
     "product_type": "rila",
-    "first_offered": "2022-05-01"
+    "first_offered": "2022-05-01",
+    "best_1yr_cap": 0.17,
+    "best_6yr_cap": null,
+    "best_participation": 1.0,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Athene's Amplify 2.0 NF earns a composite score of 85.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Athene's Amplify 2.0 NF earns a composite score of 85.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

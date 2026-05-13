@@ -2,8 +2,8 @@
   "product_slug": "allianz_index_advantage_nf",
   "product_name": "Index Advantage NF",
   "carrier": "Allianz",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "1d3272a00885917b4f85454096a06793982e7d4b567d0355a2342e6f406d91f3",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "473fe783ad2c7e87dd1ceaf89c6b2ee8e45e24aaf210e1b6510bbab16726ad01",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 74.3,
   "letter_grade": "B-",
+  "stress_score": 19.6,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "lost_decade_2000_2009",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.2,
     "cap_cut_count_5yr": 0,
     "product_type": "rila",
-    "first_offered": "2022-01-01"
+    "first_offered": "2022-01-01",
+    "best_1yr_cap": 0.08,
+    "best_6yr_cap": null,
+    "best_participation": 0.65,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Allianz's Index Advantage NF earns a composite score of 74.3, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (57). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Allianz's Index Advantage NF earns a composite score of 74.3, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (57). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (57).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

@@ -148,6 +148,36 @@ export default function RatingDetail() {
               Methodology {rating.methodology_version}
             </Link>
           </div>
+          {rating.stress_score != null && (
+            <div
+              data-testid="stress-score"
+              title={`Worst of the 5 historical regime scores — supplementary detail. NOT in the composite.${rating.worst_regime_key ? ' Worst regime: ' + rating.worst_regime_key : ''}`}
+              style={{
+                marginLeft: 'auto',
+                fontSize: 13,
+                color: '#4b5563',
+                background: '#f3f4f6',
+                padding: '10px 14px',
+                borderRadius: 10,
+                lineHeight: 1.4,
+                minWidth: 160,
+              }}
+            >
+              <div style={{ fontSize: 11, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                Stress score (worst regime)
+              </div>
+              <div style={{ marginTop: 2 }}>
+                <strong style={{ color: gradeColor(rating.stress_letter_grade), fontSize: 18 }}>
+                  {rating.stress_letter_grade}
+                </strong>{' '}
+                <span style={{ color: '#111827' }}>{rating.stress_score.toFixed(1)}</span>
+                <span style={{ color: '#6b7280' }}> / 100</span>
+              </div>
+              <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>
+                Not in composite
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
@@ -192,7 +222,9 @@ export default function RatingDetail() {
         <h2 style={h2Style}>How this contract would have performed in past markets</h2>
         <p style={{ fontSize: 13.5, color: '#4b5563', margin: '0 0 14px', lineHeight: 1.55 }}>
           Deterministic replay of this contract against actual S&amp;P 500 monthly
-          returns, with the starting account value normalized to $100. This is a
+          returns, starting from the same $250K premium used in the composite
+          rating above. Same dollar basis means the trajectory, terminal AV, and
+          PV(rider claims) shown elsewhere on this page all line up. This is a
           what-if scenario — it does <strong>not</strong> enter the composite
           rating score.
         </p>

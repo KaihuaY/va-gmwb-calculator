@@ -259,12 +259,15 @@ def compute_regime_backtest_path(
     product_spec: dict,
     methodology: dict,
     regime_key: str,
-    starting_av: float = 100.0,
+    starting_av: Optional[float] = None,
 ) -> dict:
     """
     Deterministically replay `product_spec` against actual S&P 500 monthly returns
-    for the named regime, with the starting account value normalized to
-    `starting_av` (default $100). Returns the AV trajectory and summary stats.
+    for the named regime. When `starting_av` is None (default), uses the
+    methodology's scoring-scenario premium ($250K) so the backtest matches the
+    same dollar basis as the composite rating's PV(rider claims) / PV(fees).
+    Pass an explicit `starting_av` to override (e.g. an advisor running with a
+    specific client premium).
 
     The annual crediting math is delegated to `project_rila_path` (the same
     routine the rating engine already uses), which credits each year via the
@@ -298,6 +301,8 @@ def compute_regime_backtest_path(
     election_age = scenario["election_age"]
     requested_years = int(regime["years"])
     start_month = regime["start_month"]
+    if starting_av is None:
+        starting_av = float(scenario["premium"])
 
     # Aggregate to annual factors for the RILA crediting engine
     annual_factors, year_start_labels = _resolve_returns(

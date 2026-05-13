@@ -2,8 +2,8 @@
   "product_slug": "brighthouse_shield_level_ii_6",
   "product_name": "Shield Level II 6-Year",
   "carrier": "Brighthouse",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "5147686e68b3580e4dc7098a5380fa18f5f988dc68d6d7d5bd10d4436b21792c",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "f6b8deb45e5bf4a7c131a6fa85fbe8ada7f028a4ed857d29e27c95d5cb6f8059",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 84.1,
   "letter_grade": "B+",
+  "stress_score": 24.1,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "gfc_2008_2010",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.22,
     "cap_cut_count_5yr": 1,
     "product_type": "rila",
-    "first_offered": "2024-07-01"
+    "first_offered": "2024-07-01",
+    "best_1yr_cap": 0.095,
+    "best_6yr_cap": null,
+    "best_participation": 0.85,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Brighthouse's Shield Level II 6-Year earns a composite score of 84.1, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (81), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Brighthouse's Shield Level II 6-Year earns a composite score of 84.1, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (81), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (70).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

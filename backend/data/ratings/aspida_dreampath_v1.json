@@ -2,7 +2,7 @@
   "product_slug": "aspida_dreampath",
   "product_name": "DreamPath",
   "carrier": "Aspida",
-  "methodology_version": "v1.3.1",
+  "methodology_version": "v1.3.2",
   "product_spec_hash": "2d1bb0915400d63b9019c2314a1e2279e58cba3df238235579b92cf53d10b906",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,9 @@
   },
   "composite": 80.2,
   "letter_grade": "B+",
+  "stress_score": 26.8,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "gfc_2008_2010",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.3,
     "cap_cut_count_5yr": 0,
     "product_type": "rila",
-    "first_offered": "2025-10-27"
+    "first_offered": "2025-10-27",
+    "best_1yr_cap": 0.13,
+    "best_6yr_cap": null,
+    "best_participation": 0.95,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Aspida's DreamPath earns a composite score of 80.2, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (94), Guarantee Value (100), Behavioral Fairness (90). Areas where this product scores below cohort median: Surrender Flexibility (55). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Aspida's DreamPath earns a composite score of 80.2, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (94), Guarantee Value (100), Behavioral Fairness (90). Areas where this product scores below cohort median: Surrender Flexibility (55). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong guarantee value (100) offset by restrictive surrender terms (55).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

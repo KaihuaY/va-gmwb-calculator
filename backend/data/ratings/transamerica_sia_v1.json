@@ -2,8 +2,8 @@
   "product_slug": "transamerica_sia",
   "product_name": "Structured Index Advantage",
   "carrier": "Transamerica",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "15de0f0934d16c5718685fbdcef5e04533b02eb18e03be0587248ca551052b4a",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "1a84ef78f34a23d54b3975fbb8f4d08491d1bad14ea97c5b8e4f83a346f11d52",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 88.2,
   "letter_grade": "A-",
+  "stress_score": 15.3,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "lost_decade_2000_2009",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
@@ -100,7 +103,13 @@
     "level_3_pct_2024": 0.19,
     "cap_cut_count_5yr": 0,
     "product_type": "rila",
-    "first_offered": "2022-01-01"
+    "first_offered": "2022-01-01",
+    "best_1yr_cap": 0.08,
+    "best_6yr_cap": 0.5,
+    "best_participation": null,
+    "best_buffer": 0.15,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -174,7 +183,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Transamerica's Structured Index Advantage earns a composite score of 88.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (88). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Transamerica's Structured Index Advantage earns a composite score of 88.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (88). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (70).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

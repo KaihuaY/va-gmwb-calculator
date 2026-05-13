@@ -2,8 +2,8 @@
   "product_slug": "equitable_scs",
   "product_name": "Structured Capital Strategies",
   "carrier": "Equitable",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "2e6a634a386b6b5a0f18cd120ea82f766b83da17b7996c26b3430b09bb842230",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "a0e913a737c77f8caa2f2830ccf5f3c6b703160b2e34494b1bb82b15bb213571",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 74.7,
   "letter_grade": "B-",
+  "stress_score": 13.7,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "lost_decade_2000_2009",
   "feature_snapshot": {
     "me_fee_annual": 0.0125,
     "rider_fee_annual": 0.0,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.18,
     "cap_cut_count_5yr": 1,
     "product_type": "rila",
-    "first_offered": "2022-01-01"
+    "first_offered": "2022-01-01",
+    "best_1yr_cap": 0.105,
+    "best_6yr_cap": 0.65,
+    "best_participation": null,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Equitable's Structured Capital Strategies earns a composite score of 74.7, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Equitable's Structured Capital Strategies earns a composite score of 74.7, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (56).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

@@ -2,8 +2,8 @@
   "product_slug": "massmutual_index_summit_6_pro",
   "product_name": "Index Summit 6 Pro",
   "carrier": "MassMutual Ascend",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "b60fa8a952ba5f4e8e924ec3a958066bfb3d2211f7f59413b7c4c612c221ebdd",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "9d210793bbd32316733a02b04f12586f981233be246a7e9b49b328647b8bd2d6",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 88.2,
   "letter_grade": "A-",
+  "stress_score": 26.1,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "gfc_2008_2010",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.15,
     "cap_cut_count_5yr": 1,
     "product_type": "rila",
-    "first_offered": "2022-01-01"
+    "first_offered": "2022-01-01",
+    "best_1yr_cap": 0.115,
+    "best_6yr_cap": null,
+    "best_participation": 0.95,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "MassMutual Ascend's Index Summit 6 Pro earns a composite score of 88.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (94), Guarantee Value (100), Insurer Credit (95), Behavioral Fairness (92). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "MassMutual Ascend's Index Summit 6 Pro earns a composite score of 88.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (94), Guarantee Value (100), Insurer Credit (95), Behavioral Fairness (92). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (60).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

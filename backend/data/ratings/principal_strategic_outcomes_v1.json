@@ -2,8 +2,8 @@
   "product_slug": "principal_strategic_outcomes",
   "product_name": "Principal Strategic Outcomes",
   "carrier": "Principal",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "7305a9c4c3588e977a75e301df6034b097aae29ac63a9d8d6df377e63f5702f4",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "047292410ed122b99c2732c44b62571b8ddf21705975e5a0564cd4319c92c1f6",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 85.2,
   "letter_grade": "A-",
+  "stress_score": 24.7,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "gfc_2008_2010",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.16,
     "cap_cut_count_5yr": 1,
     "product_type": "rila",
-    "first_offered": "2022-09-01"
+    "first_offered": "2022-09-01",
+    "best_1yr_cap": 0.105,
+    "best_6yr_cap": null,
+    "best_participation": 0.85,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Principal's Principal Strategic Outcomes earns a composite score of 85.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (81), Guarantee Value (100), Insurer Credit (90), Behavioral Fairness (92). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Principal's Principal Strategic Outcomes earns a composite score of 85.2, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (81), Guarantee Value (100), Insurer Credit (90), Behavioral Fairness (92). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (62).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

@@ -2,8 +2,8 @@
   "product_slug": "symetra_trek_frontier",
   "product_name": "Trek Frontier",
   "carrier": "Symetra",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "f541aa5b004404f7942b08255252df7d9ced2d79afe7e528857334eb7eeaea97",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "be88fb5e3672d72d342a60848136d95a0ccc86d24d92816b79ac44a8a8337f8e",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 83.9,
   "letter_grade": "B+",
+  "stress_score": 24.4,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "gfc_2008_2010",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.18,
     "cap_cut_count_5yr": 1,
     "product_type": "rila",
-    "first_offered": "2021-06-01"
+    "first_offered": "2021-06-01",
+    "best_1yr_cap": 0.1,
+    "best_6yr_cap": null,
+    "best_participation": 0.85,
+    "best_buffer": 0.2,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Symetra's Trek Frontier earns a composite score of 83.9, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Total Cost of Ownership (81), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Symetra's Trek Frontier earns a composite score of 83.9, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (81), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

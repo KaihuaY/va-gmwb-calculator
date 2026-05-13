@@ -5,7 +5,9 @@
  * For the selected regime, fetches /ratings/:slug/backtest/:regimeKey and
  * renders:
  *   1. Regime pill buttons (read from /methodology)
- *   2. Line chart of AV path, normalized starting AV = $100
+ *   2. Line chart of AV path; starting AV = methodology.scoring_scenario.premium
+ *      ($250K) so the chart uses the same dollar basis as the composite-rating
+ *      PV calcs displayed above (one base, easier to read).
  *   3. Summary cards: terminal AV, terminal multiple, max drawdown,
  *      fees paid, annualised fee drag
  *
@@ -121,7 +123,8 @@ export default function RegimeBacktestPanel({ slug }) {
                 />
                 <YAxis
                   tick={{ fontSize: 11, fill: '#6b7280' }}
-                  tickFormatter={(v) => `$${v.toFixed(0)}`}
+                  // K-formatted for the $250K base scale
+                  tickFormatter={(v) => v >= 1000 ? `$${(v/1000).toFixed(0)}K` : `$${v.toFixed(0)}`}
                   domain={['auto', 'auto']}
                 />
                 <Tooltip
@@ -134,7 +137,9 @@ export default function RegimeBacktestPanel({ slug }) {
                   stroke="#9ca3af"
                   strokeDasharray="4 4"
                   label={{
-                    value: `Start $${result.starting_av.toFixed(0)}`,
+                    value: `Start ${result.starting_av >= 1000
+                      ? `$${(result.starting_av/1000).toFixed(0)}K`
+                      : `$${result.starting_av.toFixed(0)}`}`,
                     position: 'insideTopRight',
                     fontSize: 11,
                     fill: '#6b7280',
@@ -155,14 +160,16 @@ export default function RegimeBacktestPanel({ slug }) {
           <div style={statsGrid}>
             <Stat
               label="Terminal AV"
-              value={fmtMoney(result.terminal_av, 2)}
+              value={fmtMoney(result.terminal_av, 0)}
               testid="regime-backtest-terminal-av"
               hint={`After ${result.years} year${result.years === 1 ? '' : 's'}`}
             />
             <Stat
               label="Terminal multiple"
               value={`${result.terminal_av_multiple.toFixed(2)}x`}
-              hint={`Of starting $${result.starting_av.toFixed(0)}`}
+              hint={`Of starting ${result.starting_av >= 1000
+                ? `$${(result.starting_av/1000).toFixed(0)}K`
+                : `$${result.starting_av.toFixed(0)}`}`}
             />
             <Stat
               label="Max drawdown"

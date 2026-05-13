@@ -2,8 +2,8 @@
   "product_slug": "brighthouse_shield_pay_plus",
   "product_name": "Shield Level Pay Plus",
   "carrier": "Brighthouse",
-  "methodology_version": "v1.3.1",
-  "product_spec_hash": "b16c1a0b37f378a0348880062af97015eb3224119d0b4fec25a4cc71198fe4c4",
+  "methodology_version": "v1.3.2",
+  "product_spec_hash": "23d69a432a37fb99f6cd7a4a1e7edf0b154bc2163d17d353a82043dc44b95bd7",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -78,6 +78,9 @@
   },
   "composite": 68.7,
   "letter_grade": "C+",
+  "stress_score": 0.0,
+  "stress_letter_grade": "F",
+  "worst_regime_key": "lost_decade_2000_2009",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.015,
@@ -99,7 +102,13 @@
     "level_3_pct_2024": 0.22,
     "cap_cut_count_5yr": 2,
     "product_type": "rila",
-    "first_offered": "2022-01-01"
+    "first_offered": "2022-01-01",
+    "best_1yr_cap": 0.08,
+    "best_6yr_cap": 0.5,
+    "best_participation": null,
+    "best_buffer": 0.15,
+    "best_floor": null,
+    "segment_count": 2
   },
   "regimes": {
     "bull_1985_1999": {
@@ -173,7 +182,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Brighthouse's Shield Level Pay Plus earns a composite score of 68.7, which maps to a letter grade of C+ under AnnuityVoice Methodology v1.3.1. Relative strengths versus the cohort include Insurer Credit (83). Areas where this product scores below cohort median: Total Cost of Ownership (47). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Brighthouse's Shield Level Pay Plus earns a composite score of 68.7, which maps to a letter grade of C+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Insurer Credit (83). Areas where this product scores below cohort median: Total Cost of Ownership (47). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (83) offset by high fee drag (47).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

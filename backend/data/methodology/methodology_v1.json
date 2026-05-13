@@ -1,5 +1,5 @@
 {
-  "version": "v1.3.1",
+  "version": "v1.3.2",
   "effective_date": "2026-05-13",
   "weights": {
     "tco": 0.20,
@@ -111,9 +111,9 @@
   },
   "scenario_backtest": {
     "enabled": true,
-    "purpose": "User-facing what-if tool. Pick any product + any regime, replay the contract deterministically against actual S&P 500 monthly returns, view the AV trajectory normalized to a starting value of $100. Independent of scoring — does NOT affect the composite score.",
-    "normalized_starting_av": 100.0,
-    "output": "Monthly AV path, terminal AV, max drawdown, fees-paid total, claim-PV total."
+    "purpose": "User-facing what-if tool. Pick any product + any regime, replay the contract deterministically against actual S&P 500 monthly returns. Uses the same $250K premium as the composite scoring scenario by default — one common dollar basis across all UI surfaces (composite PV calcs and the backtest chart agree). Callers can pass an explicit starting_av to override (e.g. an advisor running with a specific client premium). Independent of scoring — does NOT affect the composite score.",
+    "default_starting_av_source": "scoring_scenario.premium",
+    "output": "Monthly AV path, terminal AV (in dollars), terminal AV multiple (× starting premium), max drawdown, fees-paid total."
   },
   "notes": "Current published methodology. FSA-signed composite rating for registered index-linked annuities (RILAs) built from 5 equal-weighted sub-scores (TCO / GV / SF / IC / BF). Scoring runs once against a 50/50 blended-gender mortality cohort at age 60, $250K premium, 30-year horizon, election age 65, μ=7%, σ=18%, 4% discount, 2012 IAM (Scale G2 projection), 5,000 Monte Carlo paths, seed=42. GV monetises two guarantee components on the same persistency basis: (1) GLWB / GMDB rider PV claims vs PV rider fees, both persistency-weighted from the Monte Carlo path; (2) buffer / floor absorption priced by closed-form lognormal integration against an M&E + cap-spread cost base, persistency-weighted and using the median Monte Carlo AV trajectory rather than a flat AV ≈ premium approximation. Cap-spread drag uses μ from this scenario (no hardcoded constants). Historical regime outcomes and the interactive backtest scenario are supplementary context, NOT composite inputs. Rating output is byte-reproducible from (product spec hash, methodology version, seed)."
 }
