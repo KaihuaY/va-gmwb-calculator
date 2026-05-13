@@ -2,7 +2,7 @@
   "product_slug": "corebridge_marketlock",
   "product_name": "MarketLock",
   "carrier": "Corebridge",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "598d439bc175d9cd714919fee2361739d173f48d66a0a2d97fc5e76597e0187a",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 82.6,
   "letter_grade": "B+",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 50.4,
+          "rationale": "Annualised fee + cap-spread drag: 1.40%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 13.8,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.28x. Buffer PV $18,127; floor PV $0; cost-base PV $65,714. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 303076.59,
+        "av_end_p50": 1092599.85,
+        "av_end_p95": 3915085.72,
+        "av_paths_p50": [
+          250000.0,
+          260351.94,
+          275974.83,
+          289449.02,
+          303138.45,
+          319274.5,
+          335557.48,
+          351287.43,
+          368159.44,
+          381455.06,
+          404662.9,
+          425619.81,
+          443269.91,
+          465031.17,
+          487950.99,
+          513984.56,
+          541156.78,
+          570178.67,
+          601904.74,
+          633990.98,
+          663725.94,
+          698427.8,
+          734975.03,
+          778264.43,
+          813735.49,
+          849467.38,
+          883387.94,
+          936981.48,
+          983411.23,
+          1045193.2,
+          1092599.85
+        ]
+      },
+      "composite": 60.4,
+      "letter_grade": "C"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 75.2,
+          "rationale": "Annualised fee + cap-spread drag: 0.70%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.25x. Buffer PV $70,508; floor PV $0; cost-base PV $31,402. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 354139.94,
+        "av_end_p50": 961496.25,
+        "av_end_p95": 2735592.26,
+        "av_paths_p50": [
+          250000.0,
+          261645.93,
+          277053.32,
+          288418.22,
+          301238.47,
+          314802.11,
+          330030.43,
+          343845.43,
+          357938.59,
+          371290.26,
+          389819.97,
+          406820.61,
+          424629.91,
+          444698.31,
+          465605.95,
+          484051.11,
+          509666.46,
+          533306.81,
+          559223.38,
+          585348.61,
+          611793.75,
+          637400.01,
+          669957.42,
+          705266.82,
+          735456.71,
+          767390.0,
+          799590.24,
+          839349.08,
+          878747.45,
+          922090.27,
+          961496.25
+        ]
+      },
+      "composite": 82.6,
+      "letter_grade": "B+"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $117,241 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 382046.18,
+        "av_end_p50": 820081.88,
+        "av_end_p95": 1632575.75,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          279200.47,
+          284332.24,
+          297808.84,
+          309206.16,
+          321008.28,
+          333589.13,
+          346155.88,
+          359481.86,
+          374040.91,
+          388094.28,
+          403622.4,
+          421026.8,
+          437184.16,
+          454642.29,
+          472984.33,
+          491588.5,
+          513711.77,
+          531582.38,
+          552344.79,
+          574728.32,
+          596222.49,
+          623651.14,
+          651350.3,
+          673584.04,
+          698051.97,
+          727770.27,
+          760637.12,
+          785205.88,
+          820081.88
+        ]
+      },
+      "composite": 87.6,
+      "letter_grade": "A-"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 60.4,
+    "max_composite": 87.6,
+    "spread_points": 27.2
+  },
+  "published_profile": "balanced",
   "stress_score": 25.0,
   "stress_letter_grade": "F",
   "worst_regime_key": "gfc_2008_2010",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Corebridge's MarketLock earns a composite score of 82.6, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Corebridge's MarketLock earns a composite score of 82.6, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

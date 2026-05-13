@@ -2,7 +2,7 @@
   "product_slug": "symetra_trek_frontier",
   "product_name": "Trek Frontier",
   "carrier": "Symetra",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "be88fb5e3672d72d342a60848136d95a0ccc86d24d92816b79ac44a8a8337f8e",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 83.9,
   "letter_grade": "B+",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 62.8,
+          "rationale": "Annualised fee + cap-spread drag: 1.05%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 18.1,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.36x. Buffer PV $18,908; floor PV $0; cost-base PV $52,154. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 332999.86,
+        "av_end_p50": 1251004.6,
+        "av_end_p95": 4715012.18,
+        "av_paths_p50": [
+          250000.0,
+          260998.93,
+          278002.57,
+          293061.44,
+          308349.8,
+          326484.44,
+          344612.23,
+          361666.36,
+          381349.74,
+          396175.92,
+          422841.52,
+          448602.42,
+          468540.22,
+          492271.11,
+          520546.31,
+          550477.04,
+          583956.18,
+          614801.49,
+          653979.54,
+          691051.73,
+          729861.73,
+          770882.1,
+          812885.56,
+          866434.15,
+          909314.12,
+          952810.7,
+          995936.31,
+          1058718.09,
+          1117363.94,
+          1190908.88,
+          1251004.6
+        ]
+      },
+      "composite": 63.8,
+      "letter_grade": "C"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 81.4,
+          "rationale": "Annualised fee + cap-spread drag: 0.53%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.99x. Buffer PV $70,173; floor PV $0; cost-base PV $23,435. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 341491.15,
+        "av_end_p50": 961109.17,
+        "av_end_p95": 2947919.57,
+        "av_paths_p50": [
+          250000.0,
+          261969.42,
+          276029.77,
+          287562.02,
+          299834.96,
+          313354.0,
+          328510.26,
+          341683.15,
+          356495.34,
+          368704.53,
+          387009.17,
+          403283.06,
+          420910.54,
+          441875.43,
+          461426.75,
+          480022.37,
+          505138.15,
+          530513.47,
+          555849.73,
+          582319.41,
+          606626.53,
+          634114.32,
+          665773.5,
+          702420.62,
+          733287.08,
+          764504.96,
+          797333.27,
+          838919.06,
+          880257.66,
+          923771.4,
+          961109.17
+        ]
+      },
+      "composite": 83.9,
+      "letter_grade": "B+"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $108,854 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 325609.22,
+        "av_end_p50": 663599.06,
+        "av_end_p95": 1251351.07,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          275000.0,
+          279363.92,
+          290443.18,
+          299121.34,
+          308843.84,
+          318146.55,
+          328581.04,
+          337725.02,
+          349621.46,
+          360380.84,
+          372449.49,
+          385982.74,
+          398251.6,
+          409928.61,
+          424271.99,
+          437567.72,
+          452104.05,
+          466913.46,
+          481334.42,
+          495599.56,
+          512481.17,
+          529885.88,
+          550980.77,
+          564736.13,
+          583580.54,
+          602865.57,
+          625618.65,
+          641739.77,
+          663599.06
+        ]
+      },
+      "composite": 87.6,
+      "letter_grade": "A-"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 63.8,
+    "max_composite": 87.6,
+    "spread_points": 23.8
+  },
+  "published_profile": "balanced",
   "stress_score": 24.4,
   "stress_letter_grade": "F",
   "worst_regime_key": "gfc_2008_2010",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Symetra's Trek Frontier earns a composite score of 83.9, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (81), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Symetra's Trek Frontier earns a composite score of 83.9, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Total Cost of Ownership (81), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

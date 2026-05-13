@@ -2,7 +2,7 @@
   "product_slug": "athene_amplify_2",
   "product_name": "Amplify 2.0",
   "carrier": "Athene",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "137fce996e630c23097cc8efdcd4815350ea5e5db06b42fad522fd6c3919d0d7",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 83.4,
   "letter_grade": "B+",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 99.7,
+          "rationale": "Annualised fee + cap-spread drag: 0.01%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 50.72x. Buffer PV $12,898; floor PV $0; cost-base PV $254. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 75,
+          "rationale": "AM Best A+; PE-owned; Level 3 assets 28%."
+        },
+        "bf": {
+          "score": 77.0,
+          "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.90; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 114224.26,
+        "av_end_p50": 275987.35,
+        "av_end_p95": 601619.98,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          261799.46,
+          260305.13,
+          260426.83,
+          259869.47,
+          260955.65,
+          260758.05,
+          260409.74,
+          261529.24,
+          261743.86,
+          262465.39,
+          263470.38,
+          264820.15,
+          264734.08,
+          266229.58,
+          266344.65,
+          268022.4,
+          266464.74,
+          268208.97,
+          268542.39,
+          269827.95,
+          270465.24,
+          271880.91,
+          272430.27,
+          273095.01,
+          274643.91,
+          274308.11,
+          274937.39,
+          275214.44,
+          275987.35
+        ]
+      },
+      "composite": 83.3,
+      "letter_grade": "B+"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 99.8,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 367.31x. Buffer PV $58,513; floor PV $0; cost-base PV $159. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 75,
+          "rationale": "AM Best A+; PE-owned; Level 3 assets 28%."
+        },
+        "bf": {
+          "score": 77.0,
+          "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.90; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 265173.63,
+        "av_end_p50": 588508.64,
+        "av_end_p95": 1212848.33,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          269378.04,
+          274167.24,
+          280686.64,
+          286735.48,
+          294646.02,
+          301412.61,
+          308496.21,
+          315910.15,
+          324395.81,
+          331943.07,
+          341171.65,
+          352640.65,
+          360090.33,
+          370954.02,
+          382892.53,
+          392831.28,
+          405686.89,
+          418170.52,
+          429619.79,
+          442282.22,
+          456012.91,
+          471722.04,
+          488646.07,
+          502905.29,
+          515826.24,
+          534633.69,
+          555958.48,
+          568027.96,
+          588508.64
+        ]
+      },
+      "composite": 83.4,
+      "letter_grade": "B+"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $121,381 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 75,
+          "rationale": "AM Best A+; PE-owned; Level 3 assets 28%."
+        },
+        "bf": {
+          "score": 77.0,
+          "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.90; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 412128.23,
+        "av_end_p50": 900819.12,
+        "av_end_p95": 1846427.37,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          280062.28,
+          286547.46,
+          300749.46,
+          313729.18,
+          327061.63,
+          340932.07,
+          354943.85,
+          369794.16,
+          385754.64,
+          401353.36,
+          418355.1,
+          438256.63,
+          456937.7,
+          476110.72,
+          497795.3,
+          518572.03,
+          543848.55,
+          564508.16,
+          589285.2,
+          615368.05,
+          637984.34,
+          669559.92,
+          702544.92,
+          729924.92,
+          759355.98,
+          791422.26,
+          830041.0,
+          861651.06,
+          900819.12
+        ]
+      },
+      "composite": 83.4,
+      "letter_grade": "B+"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 83.3,
+    "max_composite": 83.4,
+    "spread_points": 0.1
+  },
+  "published_profile": "balanced",
   "stress_score": 20.8,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Athene's Amplify 2.0 earns a composite score of 83.4, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Athene's Amplify 2.0 earns a composite score of 83.4, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

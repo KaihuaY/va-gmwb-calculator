@@ -2,7 +2,7 @@
   "product_slug": "pacific_index_advisory",
   "product_name": "Pacific Index Advisory",
   "carrier": "Pacific Life",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "fef2823e70026cde875c816524597eb0ed6d6c626d22368e9bfd67730065b2e9",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 97.0,
   "letter_grade": "A+",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $10,483 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 100.0,
+          "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 95,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 15%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 104506.1,
+        "av_end_p50": 267831.32,
+        "av_end_p95": 617758.35,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          260678.79,
+          259085.7,
+          259008.92,
+          258340.48,
+          259198.13,
+          259203.32,
+          257937.58,
+          258821.79,
+          259094.51,
+          259009.81,
+          259812.92,
+          261125.07,
+          260964.14,
+          262302.03,
+          262441.86,
+          262354.53,
+          261703.89,
+          263578.5,
+          263750.34,
+          264114.08,
+          264516.2,
+          264929.32,
+          266781.74,
+          267190.94,
+          266834.58,
+          267562.95,
+          267379.06,
+          266839.24,
+          267831.32
+        ]
+      },
+      "composite": 97.0,
+      "letter_grade": "A+"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $53,474 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 100.0,
+          "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 95,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 15%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 216417.13,
+        "av_end_p50": 467023.52,
+        "av_end_p95": 932050.23,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          266707.03,
+          269929.05,
+          274401.94,
+          278608.24,
+          284421.98,
+          288444.13,
+          293607.76,
+          298763.31,
+          305142.75,
+          309683.05,
+          316117.65,
+          323185.48,
+          328625.86,
+          336300.82,
+          343239.63,
+          350644.92,
+          356692.19,
+          365884.88,
+          372343.52,
+          378979.03,
+          388755.01,
+          398544.1,
+          409517.8,
+          416040.42,
+          424653.95,
+          436256.11,
+          447227.77,
+          455738.36,
+          467023.52
+        ]
+      },
+      "composite": 97.0,
+      "letter_grade": "A+"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $108,854 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 100.0,
+          "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 95,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 15%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 325609.22,
+        "av_end_p50": 663599.06,
+        "av_end_p95": 1251351.07,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          275000.0,
+          279363.92,
+          290443.18,
+          299121.34,
+          308843.84,
+          318146.55,
+          328581.04,
+          337725.02,
+          349621.46,
+          360380.84,
+          372449.49,
+          385982.74,
+          398251.6,
+          409928.61,
+          424271.99,
+          437567.72,
+          452104.05,
+          466913.46,
+          481334.42,
+          495599.56,
+          512481.17,
+          529885.88,
+          550980.77,
+          564736.13,
+          583580.54,
+          602865.57,
+          625618.65,
+          641739.77,
+          663599.06
+        ]
+      },
+      "composite": 97.0,
+      "letter_grade": "A+"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 97.0,
+    "max_composite": 97.0,
+    "spread_points": 0.0
+  },
+  "published_profile": "balanced",
   "stress_score": 17.7,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Pacific Life's Pacific Index Advisory earns a composite score of 97.0, which maps to a letter grade of A+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (95), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Pacific Life's Pacific Index Advisory earns a composite score of 97.0, which maps to a letter grade of A+ under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (95), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Solid across the board \u2014 top-ranked area is low fees (100).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

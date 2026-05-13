@@ -2,7 +2,7 @@
   "product_slug": "brighthouse_shield_pay_plus",
   "product_name": "Shield Level Pay Plus",
   "carrier": "Brighthouse",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "23d69a432a37fb99f6cd7a4a1e7edf0b154bc2163d17d353a82043dc44b95bd7",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 68.7,
   "letter_grade": "C+",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 46.6,
+          "rationale": "Annualised fee + cap-spread drag: 1.51%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 48.2,
+          "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.77x ($39,364 / $51,012). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 51.02x. Buffer PV $7,282; floor PV $0; cost-base PV $143. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (84% rider / 16% buffer)."
+        },
+        "sf": {
+          "score": 70.0,
+          "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+        },
+        "bf": {
+          "score": 79.0,
+          "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 51012.27,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 51012.27,
+        "glwb_pv_mean": 39363.81,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 0.0,
+        "av_end_p50": 0.0,
+        "av_end_p95": 0.0,
+        "av_paths_p50": [
+          250000.0,
+          259189.92,
+          251914.45,
+          245591.07,
+          240297.68,
+          234296.59,
+          212955.22,
+          190618.78,
+          167660.26,
+          145178.49,
+          123173.76,
+          101396.56,
+          79777.31,
+          57289.64,
+          35577.43,
+          14404.23,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "composite": 65.4,
+      "letter_grade": "C+"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 46.7,
+          "rationale": "Annualised fee + cap-spread drag: 1.50%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 64.7,
+          "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.61x ($31,087 / $51,012). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 382.69x. Buffer PV $30,194; floor PV $0; cost-base PV $79. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (51% rider / 49% buffer)."
+        },
+        "sf": {
+          "score": 70.0,
+          "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+        },
+        "bf": {
+          "score": 79.0,
+          "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 51012.27,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 51012.27,
+        "glwb_pv_mean": 31087.44,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 0.0,
+        "av_end_p50": 0.0,
+        "av_end_p95": 0.0,
+        "av_paths_p50": [
+          250000.0,
+          259189.92,
+          256310.03,
+          254266.37,
+          252705.08,
+          250619.7,
+          232651.97,
+          212971.23,
+          193194.6,
+          173735.77,
+          154411.27,
+          133893.25,
+          114776.29,
+          94316.14,
+          73086.91,
+          53169.33,
+          31802.67,
+          10801.34,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "composite": 68.7,
+      "letter_grade": "C+"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 46.9,
+          "rationale": "Annualised fee + cap-spread drag: 1.50%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 78.0,
+          "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.45x ($23,077 / $51,012). Closed-form PV(buffer absorption) $58,019 with zero cost base \u2014 capped at 100. PV-weighted blend (28% rider / 72% buffer)."
+        },
+        "sf": {
+          "score": 70.0,
+          "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+        },
+        "bf": {
+          "score": 79.0,
+          "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 51012.27,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 51012.27,
+        "glwb_pv_mean": 23076.66,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 0.0,
+        "av_end_p50": 0.0,
+        "av_end_p95": 0.0,
+        "av_paths_p50": [
+          250000.0,
+          259189.92,
+          262012.5,
+          261506.94,
+          265303.2,
+          266666.55,
+          251124.42,
+          234816.73,
+          218956.15,
+          201915.74,
+          185783.39,
+          167737.62,
+          150625.6,
+          132394.97,
+          113632.65,
+          94169.77,
+          74993.29,
+          55093.01,
+          34397.34,
+          13982.65,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "composite": 71.4,
+      "letter_grade": "B-"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 65.4,
+    "max_composite": 71.4,
+    "spread_points": 6.0
+  },
+  "published_profile": "balanced",
   "stress_score": 0.0,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Brighthouse's Shield Level Pay Plus earns a composite score of 68.7, which maps to a letter grade of C+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Insurer Credit (83). Areas where this product scores below cohort median: Total Cost of Ownership (47). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Brighthouse's Shield Level Pay Plus earns a composite score of 68.7, which maps to a letter grade of C+ under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Insurer Credit (83). Areas where this product scores below cohort median: Total Cost of Ownership (47). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (83) offset by high fee drag (47).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

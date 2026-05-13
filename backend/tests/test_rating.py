@@ -308,8 +308,10 @@ def test_compute_rating_includes_regimes_field(methodology):
 # ---------------------------------------------------------------------------
 
 def test_methodology_current_version(methodology):
-    """Methodology is at v1.3.2 with buffer_value_pricing block."""
-    assert methodology["version"] == "v1.3.2"
+    """Methodology is at v1.4.0 with buffer_value_pricing + allocation_profiles."""
+    assert methodology["version"] == "v1.4.0"
+    assert "allocation_profiles" in methodology
+    assert methodology["allocation_profiles"]["published_profile"] == "balanced"
     assert "buffer_value_pricing" in methodology
     bvp = methodology["buffer_value_pricing"]
     assert bvp["method"] == "closed_form_lognormal"
@@ -548,6 +550,53 @@ def test_buffer_value_pv_persistency_shrinks_pv():
     )["pv_total"]
     assert 0 < shrunk < full
     assert shrunk / full < 0.85  # noticeable shrinkage
+
+
+def test_compute_rating_emits_three_allocation_profiles(methodology):
+    """Rating output must include conservative / balanced / growth allocation
+    scores; balanced must match the top-level published composite."""
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "allianz_index_advantage_income.json"
+    spec = json.loads(spec_path.read_text())
+    r = compute_rating(spec, methodology, scored_at="2026-05-13T00:00:00Z")
+    assert "allocation_scores" in r
+    for name in ("conservative", "balanced", "growth"):
+        assert name in r["allocation_scores"]
+        assert 0 <= r["allocation_scores"][name]["composite"] <= 100
+    # Published composite == balanced
+    assert r["composite"] == r["allocation_scores"]["balanced"]["composite"]
+    assert r["letter_grade"] == r["allocation_scores"]["balanced"]["letter_grade"]
+    # Range computed correctly
+    comps = [r["allocation_scores"][n]["composite"] for n in ("conservative","balanced","growth")]
+    assert r["allocation_range"]["min_composite"] == pytest.approx(min(comps))
+    assert r["allocation_range"]["max_composite"] == pytest.approx(max(comps))
+
+
+def test_derive_allocation_profiles_from_segments():
+    """When allocation_profiles is absent, derivation must produce 3 valid
+    weight vectors summing to 1.0 with conservative pointing at the
+    most-protected segment and growth at the least-protected."""
+    from engine.rating import derive_allocation_profiles
+    spec = {
+        "segments_available": [
+            {"term_years": 1, "crediting_method": "cap", "cap_rate": 0.09,
+             "protection_type": "buffer", "protection_level": 0.10},
+            {"term_years": 1, "crediting_method": "cap", "cap_rate": 0.06,
+             "protection_type": "buffer", "protection_level": 0.20},
+            {"term_years": 6, "crediting_method": "participation", "participation_rate": 0.75,
+             "protection_type": "floor", "protection_level": 0.05},
+        ],
+    }
+    profiles = derive_allocation_profiles(spec)
+    for name in ("conservative", "balanced", "growth"):
+        v = profiles[name]
+        assert len(v) == 3
+        assert sum(v) == pytest.approx(1.0)
+    # Conservative loads onto the highest protection level (the 20% buffer at index 1)
+    assert profiles["conservative"][1] == 1.0
+    # Growth loads onto the lowest protection level (the 5% floor at index 2)
+    assert profiles["growth"][2] == 1.0
+    # Balanced is equal weight
+    assert profiles["balanced"] == [pytest.approx(1/3)] * 3
 
 
 def test_compute_freshness_status_bands():

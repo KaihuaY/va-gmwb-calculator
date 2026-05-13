@@ -2,7 +2,7 @@
   "product_slug": "lincoln_level_advantage",
   "product_name": "Level Advantage",
   "carrier": "Lincoln",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "729787670100a9281d5e662f4765581f5fceebc4182b3d506322c0833a9895e0",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 87.6,
   "letter_grade": "A-",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $102,600 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 16%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 283023.76,
+        "av_end_p50": 559314.34,
+        "av_end_p95": 1006312.98,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          271250.0,
+          275111.68,
+          284459.87,
+          291458.38,
+          298861.44,
+          306190.63,
+          314067.11,
+          321668.99,
+          330649.56,
+          339190.42,
+          348326.51,
+          358455.27,
+          367091.69,
+          376674.0,
+          386871.73,
+          397455.88,
+          406733.95,
+          418238.29,
+          429470.4,
+          439191.12,
+          452567.59,
+          464789.31,
+          479349.68,
+          489654.46,
+          502858.94,
+          516122.91,
+          532746.49,
+          544160.45,
+          559314.34
+        ]
+      },
+      "composite": 87.6,
+      "letter_grade": "A-"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 99.8,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 351.23x. Buffer PV $49,091; floor PV $0; cost-base PV $140. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 16%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 185714.46,
+        "av_end_p50": 391310.15,
+        "av_end_p95": 765452.89,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          263400.78,
+          265770.89,
+          268591.82,
+          271025.24,
+          275064.65,
+          277036.18,
+          279953.39,
+          283624.59,
+          287682.64,
+          290851.8,
+          295021.01,
+          299771.28,
+          303044.9,
+          308460.36,
+          312549.07,
+          318341.63,
+          321226.39,
+          326633.46,
+          331661.44,
+          335494.61,
+          342117.21,
+          348749.55,
+          354787.27,
+          359626.46,
+          364927.8,
+          371894.52,
+          379027.03,
+          385382.04,
+          391310.15
+        ]
+      },
+      "composite": 87.6,
+      "letter_grade": "A-"
+    },
+    "growth": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 99.7,
+          "rationale": "Annualised fee + cap-spread drag: 0.01%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 30.70x. Buffer PV $7,317; floor PV $0; cost-base PV $238. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 16%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 84593.6,
+        "av_end_p50": 223381.88,
+        "av_end_p95": 528630.63,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          257466.74,
+          254684.6,
+          252729.52,
+          250906.19,
+          249808.62,
+          248586.41,
+          245482.96,
+          245393.13,
+          244057.52,
+          242548.5,
+          241779.96,
+          241338.87,
+          240503.67,
+          239526.22,
+          238627.91,
+          237617.84,
+          234412.34,
+          234959.11,
+          234252.51,
+          232957.72,
+          231745.19,
+          230499.38,
+          231743.39,
+          229518.52,
+          229223.84,
+          226894.79,
+          226358.17,
+          224475.87,
+          223381.88
+        ]
+      },
+      "composite": 87.5,
+      "letter_grade": "A-"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 87.5,
+    "max_composite": 87.6,
+    "spread_points": 0.1
+  },
+  "published_profile": "balanced",
   "stress_score": 15.0,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Lincoln's Level Advantage earns a composite score of 87.6, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Lincoln's Level Advantage earns a composite score of 87.6, which maps to a letter grade of A- under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

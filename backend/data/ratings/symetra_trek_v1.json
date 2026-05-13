@@ -2,7 +2,7 @@
   "product_slug": "symetra_trek",
   "product_name": "Trek",
   "carrier": "Symetra",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "25cfa1ca7939e30103dad63b23da499239b1b131b6ed49e793faf42a55ddffa8",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,230 @@
   },
   "composite": 89.6,
   "letter_grade": "A-",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $100,528 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 75.0,
+          "rationale": "5-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 270328.71,
+        "av_end_p50": 526283.02,
+        "av_end_p95": 931528.54,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          270000.0,
+          273570.72,
+          282336.32,
+          288630.92,
+          295111.07,
+          301977.65,
+          309047.33,
+          316218.73,
+          324355.9,
+          332079.59,
+          340245.29,
+          349388.6,
+          356925.58,
+          365859.74,
+          374359.42,
+          384033.57,
+          392316.26,
+          401882.63,
+          411990.92,
+          420823.34,
+          432880.46,
+          444408.28,
+          456225.83,
+          465626.03,
+          476903.85,
+          489165.78,
+          503511.51,
+          513897.26,
+          526283.02
+        ]
+      },
+      "composite": 89.6,
+      "letter_grade": "A-"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $100,528 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 75.0,
+          "rationale": "5-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 270328.71,
+        "av_end_p50": 526283.02,
+        "av_end_p95": 931528.54,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          270000.0,
+          273570.72,
+          282336.32,
+          288630.92,
+          295111.07,
+          301977.65,
+          309047.33,
+          316218.73,
+          324355.9,
+          332079.59,
+          340245.29,
+          349388.6,
+          356925.58,
+          365859.74,
+          374359.42,
+          384033.57,
+          392316.26,
+          401882.63,
+          411990.92,
+          420823.34,
+          432880.46,
+          444408.28,
+          456225.83,
+          465626.03,
+          476903.85,
+          489165.78,
+          503511.51,
+          513897.26,
+          526283.02
+        ]
+      },
+      "composite": 89.6,
+      "letter_grade": "A-"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $100,528 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 75.0,
+          "rationale": "5-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 270328.71,
+        "av_end_p50": 526283.02,
+        "av_end_p95": 931528.54,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          270000.0,
+          273570.72,
+          282336.32,
+          288630.92,
+          295111.07,
+          301977.65,
+          309047.33,
+          316218.73,
+          324355.9,
+          332079.59,
+          340245.29,
+          349388.6,
+          356925.58,
+          365859.74,
+          374359.42,
+          384033.57,
+          392316.26,
+          401882.63,
+          411990.92,
+          420823.34,
+          432880.46,
+          444408.28,
+          456225.83,
+          465626.03,
+          476903.85,
+          489165.78,
+          503511.51,
+          513897.26,
+          526283.02
+        ]
+      },
+      "composite": 89.6,
+      "letter_grade": "A-"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 89.6,
+    "max_composite": 89.6,
+    "spread_points": 0.0
+  },
+  "published_profile": "balanced",
   "stress_score": 22.3,
   "stress_letter_grade": "F",
   "worst_regime_key": "gfc_2008_2010",
@@ -182,7 +406,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Symetra's Trek earns a composite score of 89.6, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Symetra's Trek earns a composite score of 89.6, which maps to a letter grade of A- under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Solid across the board \u2014 top-ranked area is low fees (100).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

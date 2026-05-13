@@ -2,7 +2,7 @@
   "product_slug": "lincoln_level_advantage_2_advisory",
   "product_name": "Level Advantage 2 Advisory",
   "carrier": "Lincoln Financial",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "ea8c1ed8e6cae07e4b0fce2e84c4d2dfcc602ea0b997e9b673ac66801c549227",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 91.6,
   "letter_grade": "A",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 78.8,
+          "rationale": "Annualised fee + cap-spread drag: 0.60%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 31.1,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.62x. Buffer PV $20,127; floor PV $0; cost-base PV $32,377. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 100.0,
+          "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 16814.45,
+        "me_fees_pv_mean": 16814.45,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 376872.55,
+        "av_end_p50": 1519701.74,
+        "av_end_p95": 6250172.72,
+        "av_paths_p50": [
+          250000.0,
+          261637.19,
+          280827.64,
+          297732.92,
+          315826.83,
+          336401.3,
+          357834.03,
+          377222.37,
+          400387.79,
+          418546.88,
+          449630.88,
+          480010.86,
+          506158.97,
+          536455.06,
+          569424.38,
+          604432.38,
+          648502.92,
+          686617.43,
+          737810.42,
+          781669.87,
+          831073.32,
+          885875.99,
+          941316.08,
+          1004404.16,
+          1066009.58,
+          1122120.72,
+          1186499.68,
+          1273859.51,
+          1343444.18,
+          1447127.1,
+          1519701.74
+        ]
+      },
+      "composite": 76.6,
+      "letter_grade": "B"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 85.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.43%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 3.68x. Buffer PV $74,207; floor PV $0; cost-base PV $20,151. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 100.0,
+          "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 13727.8,
+        "me_fees_pv_mean": 13727.8,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 369093.3,
+        "av_end_p50": 1129073.98,
+        "av_end_p95": 3803064.78,
+        "av_paths_p50": [
+          250000.0,
+          261959.88,
+          278275.81,
+          291235.75,
+          305191.08,
+          320458.32,
+          337245.36,
+          353423.87,
+          369169.98,
+          384373.05,
+          405468.68,
+          425630.65,
+          446289.21,
+          469368.35,
+          494089.0,
+          516715.27,
+          547226.28,
+          575983.0,
+          607200.17,
+          642223.08,
+          671809.04,
+          705332.36,
+          747605.2,
+          792879.49,
+          830087.25,
+          870593.39,
+          913647.33,
+          965166.26,
+          1017747.49,
+          1082605.88,
+          1129073.98
+        ]
+      },
+      "composite": 91.6,
+      "letter_grade": "A"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 91.2,
+          "rationale": "Annualised fee + cap-spread drag: 0.25%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 11.06x. Buffer PV $112,034; floor PV $0; cost-base PV $10,128. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 100.0,
+          "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 10641.15,
+        "me_fees_pv_mean": 10641.15,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 341048.33,
+        "av_end_p50": 722514.41,
+        "av_end_p95": 1418356.06,
+        "av_paths_p50": [
+          250000.0,
+          262282.57,
+          277357.99,
+          281038.01,
+          293180.63,
+          302992.39,
+          313206.56,
+          324146.35,
+          335048.48,
+          346239.7,
+          359144.19,
+          370673.83,
+          384145.24,
+          399292.82,
+          412147.85,
+          427488.33,
+          442911.55,
+          457535.77,
+          476150.59,
+          491615.94,
+          509185.78,
+          525274.37,
+          544793.56,
+          566121.93,
+          588678.86,
+          606817.3,
+          626226.71,
+          649337.49,
+          677307.35,
+          695137.08,
+          722514.41
+        ]
+      },
+      "composite": 92.8,
+      "letter_grade": "A"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 76.6,
+    "max_composite": 92.8,
+    "spread_points": 16.2
+  },
+  "published_profile": "balanced",
   "stress_score": 25.6,
   "stress_letter_grade": "F",
   "worst_regime_key": "gfc_2008_2010",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Lincoln Financial's Level Advantage 2 Advisory earns a composite score of 91.6, which maps to a letter grade of A under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (85), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Lincoln Financial's Level Advantage 2 Advisory earns a composite score of 91.6, which maps to a letter grade of A under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Total Cost of Ownership (85), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Solid across the board \u2014 top-ranked area is strong guarantee value (100).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

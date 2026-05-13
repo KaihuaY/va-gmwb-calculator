@@ -2,7 +2,7 @@
   "product_slug": "globalatlantic_forestructured",
   "product_name": "ForeStructured Growth",
   "carrier": "Global Atlantic",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "6c012b880843dd61f6ad85f9005950e43af05675f084b44a9443b3a9cb45b389",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 80.4,
   "letter_grade": "B+",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 99.7,
+          "rationale": "Annualised fee + cap-spread drag: 0.01%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 50.72x. Buffer PV $12,898; floor PV $0; cost-base PV $254. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 55.0,
+          "rationale": "7-yr surrender schedule (max 9.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 68,
+          "rationale": "AM Best A; PE-owned; Level 3 assets 30%."
+        },
+        "bf": {
+          "score": 79.0,
+          "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 114224.26,
+        "av_end_p50": 275987.35,
+        "av_end_p95": 601619.98,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          261799.46,
+          260305.13,
+          260426.83,
+          259869.47,
+          260955.65,
+          260758.05,
+          260409.74,
+          261529.24,
+          261743.86,
+          262465.39,
+          263470.38,
+          264820.15,
+          264734.08,
+          266229.58,
+          266344.65,
+          268022.4,
+          266464.74,
+          268208.97,
+          268542.39,
+          269827.95,
+          270465.24,
+          271880.91,
+          272430.27,
+          273095.01,
+          274643.91,
+          274308.11,
+          274937.39,
+          275214.44,
+          275987.35
+        ]
+      },
+      "composite": 80.3,
+      "letter_grade": "B+"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 99.8,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 370.46x. Buffer PV $53,252; floor PV $0; cost-base PV $144. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 55.0,
+          "rationale": "7-yr surrender schedule (max 9.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 68,
+          "rationale": "AM Best A; PE-owned; Level 3 assets 30%."
+        },
+        "bf": {
+          "score": 79.0,
+          "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 199984.53,
+        "av_end_p50": 417752.24,
+        "av_end_p95": 802295.65,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          265809.42,
+          268401.45,
+          272159.9,
+          275442.41,
+          280292.59,
+          283523.96,
+          287420.55,
+          291722.43,
+          296425.26,
+          301025.82,
+          305497.4,
+          311282.15,
+          315575.67,
+          321763.25,
+          326874.37,
+          332689.21,
+          336709.12,
+          343435.44,
+          348710.17,
+          353684.12,
+          361278.33,
+          368867.94,
+          375822.36,
+          381393.58,
+          388447.35,
+          396165.79,
+          403802.5,
+          410769.01,
+          417752.24
+        ]
+      },
+      "composite": 80.4,
+      "letter_grade": "B+"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $102,600 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 55.0,
+          "rationale": "7-yr surrender schedule (max 9.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 68,
+          "rationale": "AM Best A; PE-owned; Level 3 assets 30%."
+        },
+        "bf": {
+          "score": 79.0,
+          "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 283023.76,
+        "av_end_p50": 559314.34,
+        "av_end_p95": 1006312.98,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          271250.0,
+          275111.68,
+          284459.87,
+          291458.38,
+          298861.44,
+          306190.63,
+          314067.11,
+          321668.99,
+          330649.56,
+          339190.42,
+          348326.51,
+          358455.27,
+          367091.69,
+          376674.0,
+          386871.73,
+          397455.88,
+          406733.95,
+          418238.29,
+          429470.4,
+          439191.12,
+          452567.59,
+          464789.31,
+          479349.68,
+          489654.46,
+          502858.94,
+          516122.91,
+          532746.49,
+          544160.45,
+          559314.34
+        ]
+      },
+      "composite": 80.4,
+      "letter_grade": "B+"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 80.3,
+    "max_composite": 80.4,
+    "spread_points": 0.1
+  },
+  "published_profile": "balanced",
   "stress_score": 16.9,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Global Atlantic's ForeStructured Growth earns a composite score of 80.4, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100). Areas where this product scores below cohort median: Surrender Flexibility (55). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Global Atlantic's ForeStructured Growth earns a composite score of 80.4, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100). Areas where this product scores below cohort median: Surrender Flexibility (55). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong guarantee value (100) offset by restrictive surrender terms (55).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

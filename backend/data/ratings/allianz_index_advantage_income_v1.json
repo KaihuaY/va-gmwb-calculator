@@ -2,7 +2,7 @@
   "product_slug": "allianz_index_advantage_income",
   "product_name": "Index Advantage+ Income",
   "carrier": "Allianz",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "7e3dd7c545c753b6cdc55ff354bfebcdb7e49a6c0b3fafdd191a02670402d9a3",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 58.4,
   "letter_grade": "C-",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 0.0,
+          "rationale": "Annualised fee + cap-spread drag: 3.70%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 41.8,
+          "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 1.06x ($30,978 / $29,098). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.17x. Buffer PV $10,517; floor PV $0; cost-base PV $63,130. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (75% rider / 25% buffer)."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 20%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 60973.48,
+        "me_fees_pv_mean": 31875.6,
+        "rider_fees_pv_mean": 29097.88,
+        "glwb_pv_mean": 30977.57,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 0.0,
+        "av_end_p50": 0.0,
+        "av_end_p95": 135909.36,
+        "av_paths_p50": [
+          250000.0,
+          254708.63,
+          263476.62,
+          269431.76,
+          275226.58,
+          282338.83,
+          268965.23,
+          252956.73,
+          235432.53,
+          216631.33,
+          200312.23,
+          182055.56,
+          162610.07,
+          142670.09,
+          123619.51,
+          101442.9,
+          80206.13,
+          58755.96,
+          37679.24,
+          14065.73,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "composite": 57.4,
+      "letter_grade": "C-"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 0.0,
+          "rationale": "Annualised fee + cap-spread drag: 2.83%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 46.9,
+          "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 1.10x ($29,748 / $27,028). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.80x. Buffer PV $34,141; floor PV $0; cost-base PV $42,902. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (47% rider / 53% buffer)."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 20%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 55856.49,
+        "me_fees_pv_mean": 28828.86,
+        "rider_fees_pv_mean": 27027.62,
+        "glwb_pv_mean": 29748.41,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 0.0,
+        "av_end_p50": 0.0,
+        "av_end_p95": 38870.17,
+        "av_paths_p50": [
+          250000.0,
+          256305.9,
+          261859.1,
+          265651.45,
+          269600.35,
+          273244.46,
+          258218.71,
+          240822.51,
+          222580.1,
+          203528.52,
+          185391.0,
+          167396.47,
+          147590.56,
+          127603.87,
+          108327.17,
+          88152.89,
+          67324.1,
+          46024.99,
+          25200.19,
+          3069.13,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "composite": 58.4,
+      "letter_grade": "C-"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 31.0,
+          "rationale": "Annualised fee + cap-spread drag: 1.95%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 86.4,
+          "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 1.27x ($32,636 / $25,695). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.31x. Buffer PV $55,066; floor PV $0; cost-base PV $23,838. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (37% rider / 63% buffer)."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 20%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 51188.21,
+        "me_fees_pv_mean": 25492.91,
+        "rider_fees_pv_mean": 25695.29,
+        "glwb_pv_mean": 32635.97,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 0.0,
+        "av_end_p50": 0.0,
+        "av_end_p95": 0.0,
+        "av_paths_p50": [
+          250000.0,
+          257903.17,
+          260763.62,
+          259234.35,
+          262375.12,
+          263416.33,
+          244779.4,
+          225535.25,
+          206662.44,
+          187220.4,
+          168403.2,
+          147775.41,
+          128364.96,
+          108061.62,
+          86926.34,
+          66452.93,
+          45338.97,
+          24002.39,
+          2434.25,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "composite": 72.5,
+      "letter_grade": "B-"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 57.4,
+    "max_composite": 72.5,
+    "spread_points": 15.1
+  },
+  "published_profile": "balanced",
   "stress_score": 0.0,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Allianz's Index Advantage+ Income earns a composite score of 58.4, which maps to a letter grade of C- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (0), Guarantee Value (47). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Allianz's Index Advantage+ Income earns a composite score of 58.4, which maps to a letter grade of C- under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (0), Guarantee Value (47). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (0).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

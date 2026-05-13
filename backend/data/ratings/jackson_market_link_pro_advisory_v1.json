@@ -2,7 +2,7 @@
   "product_slug": "jackson_market_link_pro_advisory",
   "product_name": "Market Link Pro Advisory",
   "carrier": "Jackson",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "b88f2b3a8ec2c214d5d6e2750db916c181dddac2ba9cc7818f7729811c227d56",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 93.8,
   "letter_grade": "A",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $10,644 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 100.0,
+          "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 20%."
+        },
+        "bf": {
+          "score": 86.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.70; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 110146.76,
+        "av_end_p50": 286824.7,
+        "av_end_p95": 674961.88,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          261567.66,
+          260604.17,
+          261445.38,
+          261271.01,
+          262882.51,
+          263321.8,
+          262981.46,
+          264265.57,
+          265310.32,
+          265441.95,
+          267102.32,
+          268844.04,
+          269795.56,
+          271837.93,
+          272375.48,
+          272766.98,
+          272990.04,
+          275619.91,
+          276736.19,
+          277506.1,
+          278626.03,
+          279860.14,
+          282332.11,
+          283303.32,
+          284262.83,
+          284843.62,
+          285215.72,
+          285981.24,
+          286824.7
+        ]
+      },
+      "composite": 93.8,
+      "letter_grade": "A"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $54,516 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 100.0,
+          "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 20%."
+        },
+        "bf": {
+          "score": 86.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.70; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 226786.58,
+        "av_end_p50": 496228.53,
+        "av_end_p95": 1000634.37,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          267873.43,
+          271280.71,
+          276682.99,
+          281520.29,
+          288012.55,
+          292597.24,
+          298402.14,
+          304135.58,
+          311357.61,
+          316603.2,
+          323429.8,
+          331785.36,
+          338118.07,
+          346881.76,
+          355082.66,
+          362621.43,
+          370190.93,
+          380866.66,
+          386822.27,
+          395167.41,
+          405781.02,
+          416816.98,
+          429211.81,
+          436911.2,
+          447267.38,
+          459857.08,
+          472797.9,
+          480931.14,
+          496228.53
+        ]
+      },
+      "composite": 93.8,
+      "letter_grade": "A"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $110,942 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 100.0,
+          "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 20%."
+        },
+        "bf": {
+          "score": 86.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.70; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 340125.83,
+        "av_end_p50": 700951.52,
+        "av_end_p95": 1344505.97,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          276250.0,
+          280695.22,
+          292429.27,
+          301479.23,
+          311787.1,
+          322175.67,
+          332964.73,
+          343060.59,
+          355736.51,
+          368017.7,
+          380535.29,
+          394930.15,
+          407447.92,
+          421317.54,
+          436160.13,
+          450634.13,
+          467703.58,
+          483411.08,
+          498909.09,
+          514671.05,
+          533351.08,
+          553113.5,
+          575312.5,
+          590894.9,
+          611443.05,
+          632527.58,
+          658393.63,
+          675982.99,
+          700951.52
+        ]
+      },
+      "composite": 93.8,
+      "letter_grade": "A"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 93.8,
+    "max_composite": 93.8,
+    "spread_points": 0.0
+  },
+  "published_profile": "balanced",
   "stress_score": 18.6,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Jackson's Market Link Pro Advisory earns a composite score of 93.8, which maps to a letter grade of A under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Jackson's Market Link Pro Advisory earns a composite score of 93.8, which maps to a letter grade of A under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Solid across the board \u2014 top-ranked area is low fees (100).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

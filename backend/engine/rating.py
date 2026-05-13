@@ -580,7 +580,196 @@ def compute_regime_outcomes(
 # Main entry point
 # ---------------------------------------------------------------------------
 
+def derive_allocation_profiles(spec: dict) -> dict:
+    """Return {conservative, balanced, growth} -> list of allocation weights.
+
+    Uses explicit `allocation_profiles` from the product spec when present.
+    Otherwise derives algorithmically from segments_available:
+      conservative = 100% in the single most-protected segment (highest
+                     protection level; buffer + floor treated the same for
+                     ordering since both reduce downside)
+      growth       = 100% in the single least-protected segment
+      balanced     = equal weight across all segments (matches the existing
+                     default behavior, so back-compat is preserved when the
+                     `balanced` profile is used as the published composite)
+    """
+    explicit = spec.get("allocation_profiles") or {}
+    segs = spec.get("segments_available", []) or []
+    n = len(segs)
+    if n == 0:
+        return {"conservative": [], "balanced": [], "growth": []}
+
+    if explicit and all(k in explicit for k in ("conservative", "balanced", "growth")):
+        out = {}
+        for k in ("conservative", "balanced", "growth"):
+            v = explicit[k]
+            if len(v) != n:
+                # Fall through to derivation if shape mismatch
+                explicit = {}
+                break
+            total = sum(v) or 1.0
+            out[k] = [a / total for a in v]
+        if explicit:
+            return out
+
+    # Algorithmic derivation
+    balanced = [1.0 / n] * n
+    if n == 1:
+        return {"conservative": [1.0], "balanced": [1.0], "growth": [1.0]}
+    # Order segments by protection level (descending = most protective first).
+    # Tie-break on cap rate (lower = more conservative).
+    idxs = list(range(n))
+    def proto_key(i):
+        s = segs[i]
+        return (-(s.get("protection_level") or 0.0), s.get("cap_rate") or 0.0)
+    idxs.sort(key=proto_key)
+    conservative = [0.0] * n
+    conservative[idxs[0]] = 1.0
+    growth = [0.0] * n
+    growth[idxs[-1]] = 1.0
+    return {"conservative": conservative, "balanced": balanced, "growth": growth}
+
+
+def _score_single_allocation(
+    product_spec: dict,
+    methodology: dict,
+    cohort_tco_drags: list[float],
+    allocation_pcts: list[float],
+    persistency: list[float],
+    survival: list[float],
+    discount: list[float],
+) -> tuple[dict, dict, dict]:
+    """Run scoring for ONE allocation. Shared between balanced/conservative/growth."""
+    scenario = methodology["scoring_scenario"]
+    weights = methodology["weights"]
+    letter_bands = methodology["letter_bands"]
+    premium = scenario["premium"]
+    horizon = scenario["horizon_years"]
+
+    # Build a temporary spec with this allocation
+    scoped_spec = dict(product_spec)
+    scoped_spec["default_allocation_pcts"] = allocation_pcts
+
+    rila = product_spec_to_rila(scoped_spec, premium)
+    mc = project_rila_monte_carlo(
+        rila,
+        mu=scenario["mu"],
+        sigma=scenario["sigma"],
+        projection_years=horizon,
+        n_scenarios=scenario["num_scenarios"],
+        seed=scenario["seed"],
+        survival_probs=persistency,
+        discount_factors=discount,
+        glwb_election_age=scenario["election_age"],
+        current_age=scenario["age"],
+    )
+
+    tco_s, tco_r = tco_score(scoped_spec, mc, cohort_tco_drags, premium, scenario["mu"])
+    gv_s,  gv_r  = gv_score(
+        scoped_spec, mc, premium, horizon,
+        mu=scenario["mu"], sigma=scenario["sigma"],
+        discount_rate=scenario["discount_rate"],
+        persistency=persistency,
+    )
+    sf_s,  sf_r  = sf_score(scoped_spec)
+    ic_s,  ic_r  = ic_score(scoped_spec)
+    bf_s,  bf_r  = bf_score(scoped_spec)
+
+    sub_scores = {
+        "tco": {"score": round(tco_s, 1), "rationale": tco_r},
+        "gv":  {"score": round(gv_s,  1), "rationale": gv_r},
+        "sf":  {"score": round(sf_s,  1), "rationale": sf_r},
+        "ic":  {"score": round(ic_s,  1), "rationale": ic_r},
+        "bf":  {"score": round(bf_s,  1), "rationale": bf_r},
+    }
+    composite = (
+        weights["tco"] * tco_s + weights["gv"] * gv_s + weights["sf"] * sf_s
+        + weights["ic"] * ic_s + weights["bf"] * bf_s
+    )
+    letter = composite_to_letter(composite, letter_bands)
+    mc_summary = {
+        "fees_pv_mean":        round(mc["fees_pv_mean"], 2),
+        "me_fees_pv_mean":     round(mc["me_fees_pv_mean"], 2),
+        "rider_fees_pv_mean":  round(mc["rider_fees_pv_mean"], 2),
+        "glwb_pv_mean":  round(mc["glwb_pv_mean"], 2),
+        "gmdb_pv_mean":  round(mc["gmdb_pv_mean"], 2),
+        "av_end_p5":     round(mc["av_end_p5"], 2),
+        "av_end_p50":    round(mc["av_end_p50"], 2),
+        "av_end_p95":    round(mc["av_end_p95"], 2),
+        "av_paths_p50":  [round(v, 2) for v in mc["av_paths_p50"]],
+    }
+    return sub_scores, mc_summary, {"composite": round(composite, 1), "letter": letter}
+
+
 def _score_blended(
+    product_spec: dict,
+    methodology: dict,
+    cohort_tco_drags: list[float],
+) -> tuple[dict, dict, dict]:
+    """Run the scoring scenario once with 50/50 blended-gender mortality,
+    using the BALANCED allocation. Preserved as the back-compat signature
+    returning (sub_scores, mc_summary, composite_info). Multi-profile scoring
+    is invoked from compute_rating which also calls _score_single_allocation
+    for conservative + growth profiles."""
+    scenario = methodology["scoring_scenario"]
+
+    survival = compute_survival_probs(
+        current_age=scenario["age"],
+        gender="blend",
+        base_calendar_year=2026,
+        max_age=scenario["age"] + scenario["horizon_years"],
+        multiplier=1.0,
+        table_name=scenario["mortality_table"],
+    )
+    discount = compute_discount_factors(scenario["discount_rate"], scenario["horizon_years"] + 1)
+    persistency = compute_persistency(survival, scenario.get("base_lapse", 0.0))
+
+    profiles = derive_allocation_profiles(product_spec)
+    balanced_alloc = profiles["balanced"]
+    return _score_single_allocation(
+        product_spec, methodology, cohort_tco_drags, balanced_alloc,
+        persistency, survival, discount,
+    )
+
+
+def _score_all_profiles(
+    product_spec: dict,
+    methodology: dict,
+    cohort_tco_drags: list[float],
+) -> dict:
+    """Score conservative / balanced / growth allocations. Returns dict of
+    {profile_name: {sub_scores, monte_carlo, composite, letter, allocation}}.
+    The BALANCED profile is the published composite (back-compat with v1.3.x)."""
+    scenario = methodology["scoring_scenario"]
+    survival = compute_survival_probs(
+        current_age=scenario["age"],
+        gender="blend",
+        base_calendar_year=2026,
+        max_age=scenario["age"] + scenario["horizon_years"],
+        multiplier=1.0,
+        table_name=scenario["mortality_table"],
+    )
+    discount = compute_discount_factors(scenario["discount_rate"], scenario["horizon_years"] + 1)
+    persistency = compute_persistency(survival, scenario.get("base_lapse", 0.0))
+
+    profiles = derive_allocation_profiles(product_spec)
+    out = {}
+    for name in ("conservative", "balanced", "growth"):
+        sub, mc, comp = _score_single_allocation(
+            product_spec, methodology, cohort_tco_drags, profiles[name],
+            persistency, survival, discount,
+        )
+        out[name] = {
+            "allocation_pcts": profiles[name],
+            "sub_scores": sub,
+            "monte_carlo": mc,
+            "composite": comp["composite"],
+            "letter_grade": comp["letter"],
+        }
+    return out
+
+
+def _score_blended_LEGACY(
     product_spec: dict,
     methodology: dict,
     cohort_tco_drags: list[float],
@@ -676,9 +865,22 @@ def compute_rating(
         json.dumps(product_spec, sort_keys=True).encode("utf-8")
     ).hexdigest()
 
-    sub_scores, mc_summary, comp = _score_blended(
-        product_spec, methodology, cohort_tco_drags,
-    )
+    # Score conservative / balanced / growth allocations. Balanced is the
+    # published composite (back-compat with v1.3.x and the existing tests).
+    all_profiles = _score_all_profiles(product_spec, methodology, cohort_tco_drags)
+    balanced = all_profiles["balanced"]
+    sub_scores = balanced["sub_scores"]
+    mc_summary = balanced["monte_carlo"]
+    comp = {"composite": balanced["composite"], "letter": balanced["letter_grade"]}
+
+    # Allocation range — for the detail-page "Conservative B- / Balanced B+ /
+    # Growth A-" display. Spans the COMPOSITE of all three profiles.
+    composites = [all_profiles[k]["composite"] for k in ("conservative", "balanced", "growth")]
+    allocation_range = {
+        "min_composite": min(composites),
+        "max_composite": max(composites),
+        "spread_points": round(max(composites) - min(composites), 1),
+    }
     feature_snapshot = _carrier_feature_snapshot(product_spec)
     regimes = compute_regime_outcomes(product_spec, methodology)
 
@@ -717,6 +919,9 @@ def compute_rating(
         "sub_scores": sub_scores,
         "composite": comp["composite"],
         "letter_grade": comp["letter"],
+        "allocation_scores": all_profiles,
+        "allocation_range": allocation_range,
+        "published_profile": "balanced",
         "stress_score": round(stress_score, 1) if stress_score is not None else None,
         "stress_letter_grade": stress_letter,
         "worst_regime_key": worst_regime_key,

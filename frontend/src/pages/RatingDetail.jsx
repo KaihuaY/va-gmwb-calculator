@@ -143,6 +143,15 @@ export default function RatingDetail() {
           <div style={{ fontSize: 14, color: '#4b5563' }}>
             Composite&nbsp;
             <strong style={{ color: '#111827' }}>{view.composite?.toFixed(1)}</strong>&nbsp;/&nbsp;100
+            {rating.allocation_range && rating.allocation_range.spread_points >= 2 && (
+              <span data-testid="allocation-range" style={{
+                marginLeft: 8, fontSize: 12, color: '#6b7280',
+                background: '#f3f4f6', padding: '2px 8px', borderRadius: 999,
+              }}
+              title="Range across the three allocation profiles. Conservative = 100% in most-protected segment; Balanced (published) = equal weight; Growth = 100% in least-protected segment.">
+                Range {rating.allocation_range.min_composite.toFixed(0)}–{rating.allocation_range.max_composite.toFixed(0)}
+              </span>
+            )}
             <br />
             <Link to="/methodology" style={{ color: '#2563eb' }}>
               Methodology {rating.methodology_version}
@@ -216,6 +225,57 @@ export default function RatingDetail() {
         </div>
         <ProductFeatureCard product={product} lens={lens} />
       </section>
+
+      {/* 4a. Allocation profile composites — surfaces dispersion across the
+          conservative/balanced/growth allocation choices. The PUBLISHED
+          composite (hero number above) is the balanced profile. */}
+      {rating.allocation_scores && (
+        <section style={sectionStyle} data-testid="allocation-profiles">
+          <h2 style={h2Style}>Score by allocation choice</h2>
+          <p style={{ fontSize: 13.5, color: '#4b5563', margin: '0 0 12px', lineHeight: 1.55 }}>
+            Buyers can mix across the available segments. Headline grade above
+            is the <strong>balanced</strong> profile (equal weight). Conservative
+            loads 100% into the most-protected segment; growth loads 100% into
+            the least-protected. Spread:&nbsp;
+            <strong>{rating.allocation_range.spread_points.toFixed(1)}</strong> points.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+            {['conservative', 'balanced', 'growth'].map((name) => {
+              const p = rating.allocation_scores[name];
+              if (!p) return null;
+              const isPublished = name === 'balanced';
+              return (
+                <div
+                  key={name}
+                  data-testid={`alloc-${name}`}
+                  style={{
+                    padding: '12px 14px',
+                    border: `1px solid ${isPublished ? '#2563eb' : '#e5e7eb'}`,
+                    background: isPublished ? '#eff6ff' : '#ffffff',
+                    borderRadius: 8,
+                  }}
+                >
+                  <div style={{ fontSize: 11, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    {name}{isPublished ? ' · published' : ''}
+                  </div>
+                  <div style={{ marginTop: 4, fontSize: 14 }}>
+                    <strong style={{ color: gradeColor(p.letter_grade), fontSize: 22 }}>
+                      {p.letter_grade}
+                    </strong>
+                    &nbsp;<span style={{ color: '#111827' }}>{p.composite.toFixed(1)}</span>
+                    <span style={{ color: '#6b7280' }}> / 100</span>
+                  </div>
+                  <div style={{ marginTop: 6, fontSize: 11.5, color: '#6b7280', lineHeight: 1.4 }}>
+                    {name === 'conservative' && '100% in most-protected segment'}
+                    {name === 'balanced' && 'Equal weight across all segments'}
+                    {name === 'growth' && '100% in least-protected segment'}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* 4b. Historical regime backtest — interactive what-if. NOT scored. */}
       <section style={sectionStyle}>

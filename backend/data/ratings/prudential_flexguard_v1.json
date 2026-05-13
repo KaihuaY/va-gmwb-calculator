@@ -2,7 +2,7 @@
   "product_slug": "prudential_flexguard",
   "product_name": "FlexGuard",
   "carrier": "Prudential",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "c503315e3183ded8e04a143dfc70b6a114f87c39cfe62d56b550326263dcb648",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -17,41 +17,41 @@
     "rider_fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
-    "av_end_p5": 211986.5,
-    "av_end_p50": 469429.72,
-    "av_end_p95": 961475.58,
+    "av_end_p5": 210871.22,
+    "av_end_p50": 467264.77,
+    "av_end_p95": 958552.16,
     "av_paths_p50": [
       250000.0,
       262939.92,
-      268539.88,
-      271657.9,
-      276330.89,
-      281029.57,
-      287643.72,
-      292038.41,
-      297322.03,
-      303082.86,
-      309690.31,
-      314280.9,
-      321380.19,
-      328557.38,
-      333902.48,
-      342132.13,
-      349451.47,
-      356767.75,
-      363057.44,
-      372062.54,
-      378628.22,
-      385290.48,
-      394705.77,
-      404518.43,
-      414842.52,
-      422475.15,
-      430671.93,
-      441182.71,
-      451389.49,
-      460325.83,
-      469429.72
+      268511.0,
+      271579.17,
+      276210.66,
+      280828.37,
+      287414.92,
+      291820.32,
+      296961.47,
+      302699.98,
+      309267.77,
+      313748.17,
+      320891.81,
+      328056.26,
+      333409.4,
+      341421.17,
+      348758.43,
+      356008.02,
+      362239.56,
+      371176.83,
+      377600.97,
+      384162.82,
+      393626.41,
+      403151.1,
+      413476.95,
+      420959.77,
+      429089.16,
+      439606.2,
+      449515.02,
+      458218.97,
+      467264.77
     ]
   },
   "sub_scores": {
@@ -61,7 +61,7 @@
     },
     "gv": {
       "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $48,788 with zero cost base \u2014 capped at 100."
+      "rationale": "Closed-form PV(buffer absorption) $48,249 with zero cost base \u2014 capped at 100."
     },
     "sf": {
       "score": 65.0,
@@ -78,6 +78,236 @@
   },
   "composite": 89.0,
   "letter_grade": "A-",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $13,315 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "7-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 128067.37,
+        "av_end_p50": 318220.72,
+        "av_end_p95": 719976.24,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          263736.14,
+          263465.19,
+          265086.97,
+          266200.81,
+          268467.81,
+          269961.23,
+          270920.91,
+          273129.21,
+          274608.01,
+          276282.76,
+          278892.15,
+          281817.25,
+          282969.34,
+          286133.04,
+          287674.5,
+          290094.66,
+          290727.79,
+          294142.15,
+          296650.07,
+          298321.27,
+          300811.79,
+          303229.02,
+          306986.29,
+          309038.77,
+          310540.53,
+          312935.58,
+          315540.13,
+          316573.94,
+          318220.72
+        ]
+      },
+      "composite": 89.0,
+      "letter_grade": "A-"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $48,249 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "7-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 210871.22,
+        "av_end_p50": 467264.77,
+        "av_end_p95": 958552.16,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          268511.0,
+          271579.17,
+          276210.66,
+          280828.37,
+          287414.92,
+          291820.32,
+          296961.47,
+          302699.98,
+          309267.77,
+          313748.17,
+          320891.81,
+          328056.26,
+          333409.4,
+          341421.17,
+          348758.43,
+          356008.02,
+          362239.56,
+          371176.83,
+          377600.97,
+          384162.82,
+          393626.41,
+          403151.1,
+          413476.95,
+          420959.77,
+          429089.16,
+          439606.2,
+          449515.02,
+          458218.97,
+          467264.77
+        ]
+      },
+      "composite": 89.0,
+      "letter_grade": "A-"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $108,854 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 65.0,
+          "rationale": "7-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 325609.22,
+        "av_end_p50": 663599.06,
+        "av_end_p95": 1251351.07,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          275000.0,
+          279363.92,
+          290443.18,
+          299121.34,
+          308843.84,
+          318146.55,
+          328581.04,
+          337725.02,
+          349621.46,
+          360380.84,
+          372449.49,
+          385982.74,
+          398251.6,
+          409928.61,
+          424271.99,
+          437567.72,
+          452104.05,
+          466913.46,
+          481334.42,
+          495599.56,
+          512481.17,
+          529885.88,
+          550980.77,
+          564736.13,
+          583580.54,
+          602865.57,
+          625618.65,
+          641739.77,
+          663599.06
+        ]
+      },
+      "composite": 89.0,
+      "letter_grade": "A-"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 89.0,
+    "max_composite": 89.0,
+    "spread_points": 0.0
+  },
+  "published_profile": "balanced",
   "stress_score": 17.9,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +412,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Prudential's FlexGuard earns a composite score of 89.0, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (90), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Prudential's FlexGuard earns a composite score of 89.0, which maps to a letter grade of A- under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (90), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

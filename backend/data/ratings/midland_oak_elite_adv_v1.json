@@ -2,7 +2,7 @@
   "product_slug": "midland_oak_elite_adv",
   "product_name": "Oak Elite ADV",
   "carrier": "Midland National",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "f92eb45be5ee18c6d2c1468ec6ad9e42983506aed7c75b702610ebd61336a81b",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 93.9,
   "letter_grade": "A",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 75.2,
+          "rationale": "Annualised fee + cap-spread drag: 0.70%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 26.8,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.54x. Buffer PV $19,739; floor PV $0; cost-base PV $36,821. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 100.0,
+          "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 92.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.40; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 368188.38,
+        "av_end_p50": 1433191.95,
+        "av_end_p95": 5642198.09,
+        "av_paths_p50": [
+          250000.0,
+          261645.93,
+          280038.54,
+          296862.82,
+          313895.52,
+          333869.86,
+          353822.65,
+          372596.46,
+          394551.29,
+          411955.1,
+          441299.91,
+          470172.65,
+          493725.1,
+          522011.16,
+          554313.06,
+          587751.47,
+          626436.53,
+          663482.81,
+          711556.36,
+          753463.01,
+          799730.08,
+          849147.61,
+          898259.87,
+          961191.9,
+          1015563.76,
+          1066870.84,
+          1122425.13,
+          1198188.1,
+          1271773.71,
+          1363857.4,
+          1433191.95
+        ]
+      },
+      "composite": 76.8,
+      "letter_grade": "B"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 87.6,
+          "rationale": "Annualised fee + cap-spread drag: 0.35%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 4.48x. Buffer PV $73,492; floor PV $0; cost-base PV $16,421. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 100.0,
+          "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 92.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.40; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 372091.31,
+        "av_end_p50": 1094549.04,
+        "av_end_p95": 3499883.02,
+        "av_paths_p50": [
+          250000.0,
+          262292.92,
+          278123.21,
+          290697.48,
+          304761.97,
+          319675.92,
+          336286.61,
+          351548.66,
+          367601.25,
+          382037.36,
+          402891.1,
+          422287.67,
+          442369.77,
+          465178.51,
+          488869.55,
+          510440.06,
+          539724.49,
+          568311.71,
+          598364.06,
+          631190.53,
+          659078.85,
+          691672.01,
+          731903.14,
+          774501.48,
+          808801.83,
+          847837.56,
+          888706.43,
+          936941.55,
+          988232.65,
+          1045453.3,
+          1094549.04
+        ]
+      },
+      "composite": 93.9,
+      "letter_grade": "A"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $113,050 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 100.0,
+          "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 92.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.40; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 353165.61,
+        "av_end_p50": 738638.04,
+        "av_end_p95": 1433830.4,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          277500.0,
+          281908.33,
+          294245.71,
+          304127.83,
+          314824.25,
+          326187.26,
+          337693.7,
+          348702.26,
+          361690.22,
+          374495.52,
+          388162.98,
+          403799.42,
+          417123.58,
+          432377.13,
+          448639.79,
+          463791.77,
+          483083.75,
+          500010.06,
+          517318.92,
+          534550.77,
+          554685.41,
+          576375.31,
+          600051.47,
+          618493.57,
+          639906.89,
+          663256.24,
+          692209.79,
+          711342.09,
+          738638.04
+        ]
+      },
+      "composite": 96.4,
+      "letter_grade": "A+"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 76.8,
+    "max_composite": 96.4,
+    "spread_points": 19.6
+  },
+  "published_profile": "balanced",
   "stress_score": 25.4,
   "stress_letter_grade": "F",
   "worst_regime_key": "gfc_2008_2010",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Midland National's Oak Elite ADV earns a composite score of 93.9, which maps to a letter grade of A under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (88), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (90), Behavioral Fairness (92). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Midland National's Oak Elite ADV earns a composite score of 93.9, which maps to a letter grade of A under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Total Cost of Ownership (88), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (90), Behavioral Fairness (92). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Solid across the board \u2014 top-ranked area is strong guarantee value (100).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

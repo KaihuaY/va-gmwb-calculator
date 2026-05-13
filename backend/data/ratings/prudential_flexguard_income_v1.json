@@ -2,7 +2,7 @@
   "product_slug": "prudential_flexguard_income",
   "product_name": "FlexGuard Income",
   "carrier": "Prudential",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "c1cef20f46959bc4c6a6ac991059cb32100dccb76fcacfe2b0f669a8994aa398",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 75.7,
   "letter_grade": "B",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 54.0,
+          "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 64.0,
+          "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 1.17x ($55,603 / $47,715). Closed-form PV(buffer absorption) $8,889 with zero cost base \u2014 capped at 100. PV-weighted blend (86% rider / 14% buffer)."
+        },
+        "sf": {
+          "score": 75.0,
+          "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 47715.22,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 47715.22,
+        "glwb_pv_mean": 55603.37,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 0.0,
+        "av_end_p50": 0.0,
+        "av_end_p95": 0.0,
+        "av_paths_p50": [
+          250000.0,
+          259689.92,
+          255983.52,
+          251506.47,
+          248086.98,
+          243935.84,
+          219680.31,
+          194660.81,
+          168900.65,
+          143618.66,
+          118590.93,
+          92601.69,
+          67711.16,
+          42515.4,
+          16609.62,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "composite": 74.6,
+      "letter_grade": "B-"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 54.0,
+          "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 69.4,
+          "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.99x ($47,459 / $47,731). Closed-form PV(buffer absorption) $30,508 with zero cost base \u2014 capped at 100. PV-weighted blend (61% rider / 39% buffer)."
+        },
+        "sf": {
+          "score": 75.0,
+          "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 47731.02,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 47731.02,
+        "glwb_pv_mean": 47458.84,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 0.0,
+        "av_end_p50": 0.0,
+        "av_end_p95": 0.0,
+        "av_paths_p50": [
+          250000.0,
+          259689.92,
+          259589.23,
+          258491.36,
+          258521.11,
+          257658.12,
+          236789.01,
+          213580.65,
+          191184.5,
+          167909.3,
+          145555.59,
+          121660.12,
+          98111.15,
+          74455.0,
+          48794.41,
+          23846.05,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "composite": 75.7,
+      "letter_grade": "B"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 54.0,
+          "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 75.7,
+          "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.83x ($39,488 / $47,811). Closed-form PV(buffer absorption) $55,751 with zero cost base \u2014 capped at 100. PV-weighted blend (41% rider / 59% buffer)."
+        },
+        "sf": {
+          "score": 75.0,
+          "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 47810.57,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 47810.57,
+        "glwb_pv_mean": 39487.55,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 0.0,
+        "av_end_p50": 0.0,
+        "av_end_p95": 0.0,
+        "av_paths_p50": [
+          250000.0,
+          259689.92,
+          264246.25,
+          264365.84,
+          269174.0,
+          271760.12,
+          252674.06,
+          232838.09,
+          213173.55,
+          192465.79,
+          172240.69,
+          150060.52,
+          128809.92,
+          106522.72,
+          82765.49,
+          58897.3,
+          34287.49,
+          9642.75,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "composite": 76.9,
+      "letter_grade": "B"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 74.6,
+    "max_composite": 76.9,
+    "spread_points": 2.3
+  },
+  "published_profile": "balanced",
   "stress_score": 0.0,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Prudential's FlexGuard Income earns a composite score of 75.7, which maps to a letter grade of B under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (54). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Prudential's FlexGuard Income earns a composite score of 75.7, which maps to a letter grade of B under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (54). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (54).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

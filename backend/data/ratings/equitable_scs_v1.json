@@ -2,7 +2,7 @@
   "product_slug": "equitable_scs",
   "product_name": "Structured Capital Strategies",
   "carrier": "Equitable",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "a0e913a737c77f8caa2f2830ccf5f3c6b703160b2e34494b1bb82b15bb213571",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 74.7,
   "letter_grade": "B-",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 55.8,
+          "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 17.9,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.36x. Buffer PV $12,450; floor PV $0; cost-base PV $34,723. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 75.0,
+          "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 88.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 36027.72,
+        "me_fees_pv_mean": 36027.72,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 92440.78,
+        "av_end_p50": 233616.16,
+        "av_end_p95": 534552.74,
+        "av_paths_p50": [
+          250000.0,
+          259653.17,
+          258196.22,
+          255497.65,
+          253977.82,
+          252318.05,
+          252625.33,
+          250828.35,
+          249363.99,
+          248127.49,
+          247679.3,
+          246002.86,
+          245945.98,
+          245986.04,
+          244635.89,
+          244833.95,
+          243443.69,
+          243115.66,
+          241061.32,
+          241080.42,
+          240917.93,
+          239738.34,
+          239374.21,
+          239109.74,
+          239038.14,
+          238613.27,
+          236746.15,
+          237081.47,
+          235986.71,
+          234679.4,
+          233616.16
+        ]
+      },
+      "composite": 65.3,
+      "letter_grade": "C+"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 55.8,
+          "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 64.6,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.29x. Buffer PV $50,665; floor PV $0; cost-base PV $39,207. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 75.0,
+          "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 88.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 40886.77,
+        "me_fees_pv_mean": 40886.77,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 163638.43,
+        "av_end_p50": 357713.42,
+        "av_end_p95": 722957.01,
+        "av_paths_p50": [
+          250000.0,
+          259653.17,
+          262607.03,
+          263212.03,
+          265704.72,
+          267813.57,
+          271209.73,
+          272972.69,
+          275235.2,
+          277514.47,
+          281143.4,
+          283168.72,
+          286452.06,
+          290627.19,
+          292726.65,
+          296966.99,
+          301025.15,
+          304045.32,
+          306852.15,
+          312025.49,
+          313775.23,
+          316960.74,
+          321933.9,
+          326869.36,
+          332547.94,
+          334670.78,
+          338522.5,
+          344500.48,
+          349771.97,
+          351829.6,
+          357713.42
+        ]
+      },
+      "composite": 74.7,
+      "letter_grade": "B-"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 55.8,
+          "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.23x. Buffer PV $97,320; floor PV $0; cost-base PV $43,691. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 75.0,
+          "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 18%."
+        },
+        "bf": {
+          "score": 88.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 45745.81,
+        "me_fees_pv_mean": 45745.81,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 233212.99,
+        "av_end_p50": 480619.19,
+        "av_end_p95": 921883.12,
+        "av_paths_p50": [
+          250000.0,
+          259653.17,
+          269386.91,
+          270300.18,
+          278079.68,
+          283101.99,
+          289121.75,
+          295020.69,
+          301089.12,
+          306340.75,
+          313689.14,
+          320462.23,
+          327220.27,
+          335353.34,
+          341657.98,
+          348871.99,
+          356647.87,
+          363877.21,
+          372939.66,
+          380646.28,
+          387939.06,
+          395192.72,
+          404417.06,
+          414159.53,
+          425396.89,
+          431457.33,
+          440880.33,
+          450382.27,
+          462939.83,
+          469366.18,
+          480619.19
+        ]
+      },
+      "composite": 81.8,
+      "letter_grade": "B+"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 65.3,
+    "max_composite": 81.8,
+    "spread_points": 16.5
+  },
+  "published_profile": "balanced",
   "stress_score": 13.7,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Equitable's Structured Capital Strategies earns a composite score of 74.7, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Equitable's Structured Capital Strategies earns a composite score of 74.7, which maps to a letter grade of B- under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (56).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

@@ -79,6 +79,13 @@ class ProductSpec(BaseModel):
     base:                    BaseSpec
     segments_available:      list[SegmentSpec]
     default_allocation_pcts: list[float]
+    # Optional explicit allocation profiles for multi-profile scoring (v1.4.0).
+    # When present, must contain keys "conservative", "balanced", "growth";
+    # each must be a list of weights with len == len(segments_available)
+    # summing to 1.0. When absent, the rating engine derives all three
+    # algorithmically from segments_available (conservative=most-protected
+    # segment, growth=least-protected, balanced=equal weight).
+    allocation_profiles:     Optional[dict[str, list[float]]] = None
     rider:                   Optional[RiderSpec] = None
     insurer:                 InsurerSpec
     behavioral_data:         Optional[BehavioralData] = None

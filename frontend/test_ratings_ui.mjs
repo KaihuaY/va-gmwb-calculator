@@ -122,6 +122,15 @@ console.log('— Anonymous access (no OTP gate) —');
 const otpModal = await page.locator('text=/Verify your email/i').count();
 await assert(otpModal === 0, 'No OTP/auth gate triggered on ratings detail');
 
+// ── Allocation profile range — must show 3 cards
+console.log('— Allocation profiles —');
+const allocPanel = await page.locator('[data-testid="allocation-profiles"]').count();
+await assert(allocPanel === 1, 'Allocation-profiles panel renders');
+for (const name of ['conservative', 'balanced', 'growth']) {
+  const present = await page.locator(`[data-testid="alloc-${name}"]`).count();
+  await assert(present === 1, `Allocation card present: ${name}`);
+}
+
 // ── Cap-rate freshness badge — appears in the Flexibility lens segment list
 console.log('— Cap-rate freshness badge —');
 // Switch detail page to flexibility lens; click the lens tab

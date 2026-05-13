@@ -2,7 +2,7 @@
   "product_slug": "brighthouse_shield_select_3",
   "product_name": "Shield Level Select 3",
   "carrier": "Brighthouse",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "8a5cc01e17798a8a36cf952c18f41e878183fc1db1fd708adabf13348ee75a3f",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,230 @@
   },
   "composite": 88.6,
   "letter_grade": "A-",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $22,458 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 70.0,
+          "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 118987.17,
+        "av_end_p50": 295877.07,
+        "av_end_p95": 665752.73,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          262579.9,
+          261809.18,
+          262790.13,
+          263138.72,
+          264395.31,
+          265372.62,
+          265489.54,
+          266941.93,
+          267948.87,
+          269052.79,
+          270620.97,
+          273039.44,
+          273421.6,
+          275970.17,
+          276909.27,
+          278603.25,
+          278251.08,
+          281093.56,
+          282125.79,
+          283450.86,
+          284870.7,
+          286729.83,
+          288979.55,
+          290581.66,
+          291436.62,
+          292551.18,
+          294164.16,
+          295038.9,
+          295877.07
+        ]
+      },
+      "composite": 88.6,
+      "letter_grade": "A-"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $22,458 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 70.0,
+          "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 118987.17,
+        "av_end_p50": 295877.07,
+        "av_end_p95": 665752.73,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          262579.9,
+          261809.18,
+          262790.13,
+          263138.72,
+          264395.31,
+          265372.62,
+          265489.54,
+          266941.93,
+          267948.87,
+          269052.79,
+          270620.97,
+          273039.44,
+          273421.6,
+          275970.17,
+          276909.27,
+          278603.25,
+          278251.08,
+          281093.56,
+          282125.79,
+          283450.86,
+          284870.7,
+          286729.83,
+          288979.55,
+          290581.66,
+          291436.62,
+          292551.18,
+          294164.16,
+          295038.9,
+          295877.07
+        ]
+      },
+      "composite": 88.6,
+      "letter_grade": "A-"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $22,458 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 70.0,
+          "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 83,
+          "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 118987.17,
+        "av_end_p50": 295877.07,
+        "av_end_p95": 665752.73,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          262579.9,
+          261809.18,
+          262790.13,
+          263138.72,
+          264395.31,
+          265372.62,
+          265489.54,
+          266941.93,
+          267948.87,
+          269052.79,
+          270620.97,
+          273039.44,
+          273421.6,
+          275970.17,
+          276909.27,
+          278603.25,
+          278251.08,
+          281093.56,
+          282125.79,
+          283450.86,
+          284870.7,
+          286729.83,
+          288979.55,
+          290581.66,
+          291436.62,
+          292551.18,
+          294164.16,
+          295038.9,
+          295877.07
+        ]
+      },
+      "composite": 88.6,
+      "letter_grade": "A-"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 88.6,
+    "max_composite": 88.6,
+    "spread_points": 0.0
+  },
+  "published_profile": "balanced",
   "stress_score": 8.7,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +406,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Brighthouse's Shield Level Select 3 earns a composite score of 88.6, which maps to a letter grade of A- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Brighthouse's Shield Level Select 3 earns a composite score of 88.6, which maps to a letter grade of A- under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (70).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

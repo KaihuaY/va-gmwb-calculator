@@ -2,7 +2,7 @@
   "product_slug": "aspida_dreampath",
   "product_name": "DreamPath",
   "carrier": "Aspida",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "2d1bb0915400d63b9019c2314a1e2279e58cba3df238235579b92cf53d10b906",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 80.2,
   "letter_grade": "B+",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 87.6,
+          "rationale": "Annualised fee + cap-spread drag: 0.35%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 52.8,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.06x. Buffer PV $20,629; floor PV $0; cost-base PV $19,520. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 55.0,
+          "rationale": "7-yr surrender schedule (max 9.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 62,
+          "rationale": "AM Best A-; PE-owned; Level 3 assets 30%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 406263.09,
+        "av_end_p50": 1638216.25,
+        "av_end_p95": 6737594.79,
+        "av_paths_p50": [
+          250000.0,
+          262292.92,
+          282237.06,
+          299977.13,
+          319004.93,
+          340638.04,
+          363248.83,
+          383890.27,
+          408486.39,
+          428082.99,
+          461027.77,
+          493411.33,
+          521593.4,
+          554198.81,
+          589732.95,
+          627558.41,
+          675002.63,
+          716465.78,
+          771813.75,
+          819743.9,
+          873738.06,
+          933688.35,
+          994607.16,
+          1063926.69,
+          1132012.97,
+          1194584.77,
+          1266286.89,
+          1362928.64,
+          1440981.17,
+          1556081.89,
+          1638216.25
+        ]
+      },
+      "composite": 69.5,
+      "letter_grade": "C+"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 93.8,
+          "rationale": "Annualised fee + cap-spread drag: 0.18%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 8.91x. Buffer PV $78,157; floor PV $0; cost-base PV $8,771. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 55.0,
+          "rationale": "7-yr surrender schedule (max 9.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 62,
+          "rationale": "AM Best A-; PE-owned; Level 3 assets 30%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 421733.09,
+        "av_end_p50": 1282097.2,
+        "av_end_p95": 4242366.23,
+        "av_paths_p50": [
+          250000.0,
+          262616.42,
+          281119.62,
+          295350.54,
+          310837.25,
+          327855.14,
+          346625.64,
+          365063.12,
+          382941.28,
+          400712.49,
+          424445.61,
+          447943.51,
+          471893.45,
+          498605.29,
+          526573.25,
+          553298.29,
+          588584.44,
+          622593.03,
+          658153.31,
+          697618.47,
+          733399.7,
+          776047.49,
+          823692.58,
+          875529.3,
+          920380.51,
+          968954.59,
+          1017895.05,
+          1082507.7,
+          1144536.07,
+          1219010.68,
+          1282097.2
+        ]
+      },
+      "composite": 80.2,
+      "letter_grade": "B+"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $121,381 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 55.0,
+          "rationale": "7-yr surrender schedule (max 9.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 62,
+          "rationale": "AM Best A-; PE-owned; Level 3 assets 30%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 412128.23,
+        "av_end_p50": 900819.12,
+        "av_end_p95": 1846427.37,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          280062.28,
+          286547.46,
+          300749.46,
+          313729.18,
+          327061.63,
+          340932.07,
+          354943.85,
+          369794.16,
+          385754.64,
+          401353.36,
+          418355.1,
+          438256.63,
+          456937.7,
+          476110.72,
+          497795.3,
+          518572.03,
+          543848.55,
+          564508.16,
+          589285.2,
+          615368.05,
+          637984.34,
+          669559.92,
+          702544.92,
+          729924.92,
+          759355.98,
+          791422.26,
+          830041.0,
+          861651.06,
+          900819.12
+        ]
+      },
+      "composite": 81.4,
+      "letter_grade": "B+"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 69.5,
+    "max_composite": 81.4,
+    "spread_points": 11.9
+  },
+  "published_profile": "balanced",
   "stress_score": 26.8,
   "stress_letter_grade": "F",
   "worst_regime_key": "gfc_2008_2010",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Aspida's DreamPath earns a composite score of 80.2, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Total Cost of Ownership (94), Guarantee Value (100), Behavioral Fairness (90). Areas where this product scores below cohort median: Surrender Flexibility (55). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Aspida's DreamPath earns a composite score of 80.2, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Total Cost of Ownership (94), Guarantee Value (100), Behavioral Fairness (90). Areas where this product scores below cohort median: Surrender Flexibility (55). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong guarantee value (100) offset by restrictive surrender terms (55).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

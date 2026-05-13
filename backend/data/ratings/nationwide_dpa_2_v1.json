@@ -2,7 +2,7 @@
   "product_slug": "nationwide_dpa_2",
   "product_name": "Defined Protection Annuity 2.0",
   "carrier": "Nationwide",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "4a29456e667f0f3c4f48ae594e39ff8773d0272c71750153b24d2c799d6f7683",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 63.0,
   "letter_grade": "C",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 0.0,
+          "rationale": "Annualised fee + cap-spread drag: 3.20%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 6.4,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.13x. Buffer PV $15,286; floor PV $0; cost-base PV $118,727. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 67.0,
+          "rationale": "6-yr surrender schedule (max 7.0%); 7% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 95,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 14%."
+        },
+        "bf": {
+          "score": 92.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.40; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 46648.73,
+        "me_fees_pv_mean": 46648.73,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 176355.91,
+        "av_end_p50": 589879.18,
+        "av_end_p95": 1930241.02,
+        "av_paths_p50": [
+          250000.0,
+          256208.31,
+          266059.03,
+          273165.11,
+          280738.74,
+          289051.86,
+          298144.55,
+          306351.06,
+          313465.25,
+          319174.66,
+          331241.71,
+          340406.95,
+          347569.32,
+          357684.81,
+          367918.63,
+          379460.4,
+          390824.22,
+          403364.93,
+          417268.86,
+          430541.18,
+          442813.78,
+          453821.72,
+          467249.28,
+          488039.48,
+          497495.71,
+          510200.31,
+          519562.11,
+          537544.89,
+          556662.94,
+          574672.96,
+          589879.18
+        ]
+      },
+      "composite": 52.1,
+      "letter_grade": "D+"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 23.9,
+          "rationale": "Annualised fee + cap-spread drag: 2.15%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 37.2,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.74x. Buffer PV $56,693; floor PV $0; cost-base PV $76,189. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 67.0,
+          "rationale": "6-yr surrender schedule (max 7.0%); 7% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 95,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 14%."
+        },
+        "bf": {
+          "score": 92.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.40; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 42455.31,
+        "me_fees_pv_mean": 42455.31,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 202438.36,
+        "av_end_p50": 509489.14,
+        "av_end_p95": 1339251.44,
+        "av_paths_p50": [
+          250000.0,
+          258127.94,
+          265850.42,
+          271743.14,
+          278135.86,
+          283984.44,
+          291643.3,
+          297200.17,
+          304129.95,
+          308484.22,
+          316171.59,
+          323496.91,
+          331907.93,
+          339829.96,
+          346224.07,
+          354305.8,
+          364763.18,
+          373822.41,
+          382985.68,
+          392492.08,
+          402976.0,
+          408827.2,
+          421526.38,
+          435820.82,
+          445475.73,
+          453636.04,
+          464629.76,
+          476217.71,
+          487884.73,
+          499711.16,
+          509489.14
+        ]
+      },
+      "composite": 63.0,
+      "letter_grade": "C"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 61.1,
+          "rationale": "Annualised fee + cap-spread drag: 1.10%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.54x. Buffer PV $93,613; floor PV $0; cost-base PV $36,911. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 67.0,
+          "rationale": "6-yr surrender schedule (max 7.0%); 7% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 95,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 14%."
+        },
+        "bf": {
+          "score": 92.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.40; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 38261.89,
+        "me_fees_pv_mean": 38261.89,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 213357.11,
+        "av_end_p50": 426098.84,
+        "av_end_p95": 775915.31,
+        "av_paths_p50": [
+          250000.0,
+          260047.58,
+          266537.97,
+          267465.31,
+          273965.17,
+          278376.51,
+          282912.36,
+          287269.79,
+          292072.57,
+          296226.64,
+          302102.12,
+          306724.22,
+          311808.99,
+          318260.03,
+          323540.92,
+          328423.09,
+          334565.28,
+          340574.66,
+          345823.35,
+          352182.34,
+          358430.46,
+          363065.59,
+          370338.58,
+          376864.0,
+          385545.68,
+          389963.79,
+          397013.79,
+          404171.86,
+          412821.89,
+          418237.91,
+          426098.84
+        ]
+      },
+      "composite": 83.0,
+      "letter_grade": "B+"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 52.1,
+    "max_composite": 83.0,
+    "spread_points": 30.9
+  },
+  "published_profile": "balanced",
   "stress_score": 15.8,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Nationwide's Defined Protection Annuity 2.0 earns a composite score of 63.0, which maps to a letter grade of C under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Insurer Credit (95), Behavioral Fairness (92). Areas where this product scores below cohort median: Total Cost of Ownership (24), Guarantee Value (37). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Nationwide's Defined Protection Annuity 2.0 earns a composite score of 63.0, which maps to a letter grade of C under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Insurer Credit (95), Behavioral Fairness (92). Areas where this product scores below cohort median: Total Cost of Ownership (24), Guarantee Value (37). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (95) offset by high fee drag (24).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

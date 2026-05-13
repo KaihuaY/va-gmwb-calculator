@@ -1,5 +1,5 @@
 {
-  "version": "v1.3.2",
+  "version": "v1.4.0",
   "effective_date": "2026-05-13",
   "weights": {
     "tco": 0.20,
@@ -51,6 +51,16 @@
     "table": "2012iam",
     "improvement": "Scale G2 projected from 2012 base year",
     "cohort": "50/50 blended-gender qx (single scoring run, no M/F split). Mortality differential between sexes at typical annuity ages is small (≤5% of qx) and largely washes out under the PV(claims)/PV(fees) ratio that defines GV; using a blended cohort avoids gender-based scoring concerns that arise in some US states (Montana, Title VII / Norris 1983 for single-life pricing) without materially changing the composite."
+  },
+  "allocation_profiles": {
+    "rationale": "Real RILA products offer multiple segments (term × index × protection level × crediting method), and the buyer's allocation across them materially shifts the contract's cost and guarantee value. Scoring a single allocation hides this dispersion. v1.4.0 scores each product three times — under a CONSERVATIVE (100% in the most-protected segment), BALANCED (equal weight across all segments), and GROWTH (100% in the least-protected segment) allocation — and reports all three composites. The published composite (and letter grade) is the BALANCED profile, preserving back-compat with v1.3.x. The conservative/growth scores are surfaced alongside so advisors can see the range of outcomes available depending on which segments the client picks.",
+    "profiles": {
+      "conservative": "100% in the single segment with the highest protection level (deepest buffer or floor). Ties broken by lower cap rate.",
+      "balanced":     "Equal weight across all available segments. This is the published composite — same as the v1.3.x convention.",
+      "growth":       "100% in the single segment with the lowest protection level (least buffer or floor)."
+    },
+    "published_profile": "balanced",
+    "derivation": "When the product spec includes an explicit `allocation_profiles` block ({conservative,balanced,growth: [weights]}), it is used as-is. When absent, profiles are derived algorithmically from segments_available."
   },
   "buffer_value_pricing": {
     "rationale": "Buffer / floor absorption on indexed RILA segments is an embedded put-spread (buffer) or deep put (floor). Both have non-zero expected value under any real-world equity model with sigma > 0, so non-rider RILAs whose only guarantee is the buffer must have that value monetised — otherwise the Guarantee Value sub-score is a placeholder. Closed-form lognormal integration is used (NOT a separate Monte Carlo) for speed and byte-reproducibility; the integrand has an analytical form in terms of the standard normal CDF.",
@@ -115,5 +125,5 @@
     "default_starting_av_source": "scoring_scenario.premium",
     "output": "Monthly AV path, terminal AV (in dollars), terminal AV multiple (× starting premium), max drawdown, fees-paid total."
   },
-  "notes": "Current published methodology. FSA-signed composite rating for registered index-linked annuities (RILAs) built from 5 equal-weighted sub-scores (TCO / GV / SF / IC / BF). Scoring runs once against a 50/50 blended-gender mortality cohort at age 60, $250K premium, 30-year horizon, election age 65, μ=7%, σ=18%, 4% discount, 2012 IAM (Scale G2 projection), 5,000 Monte Carlo paths, seed=42. GV monetises two guarantee components on the same persistency basis: (1) GLWB / GMDB rider PV claims vs PV rider fees, both persistency-weighted from the Monte Carlo path; (2) buffer / floor absorption priced by closed-form lognormal integration against an M&E + cap-spread cost base, persistency-weighted and using the median Monte Carlo AV trajectory rather than a flat AV ≈ premium approximation. Cap-spread drag uses μ from this scenario (no hardcoded constants). Historical regime outcomes and the interactive backtest scenario are supplementary context, NOT composite inputs. Rating output is byte-reproducible from (product spec hash, methodology version, seed)."
+  "notes": "Current published methodology. FSA-signed composite rating for registered index-linked annuities (RILAs) built from 5 equal-weighted sub-scores (TCO / GV / SF / IC / BF). Scoring runs against a 50/50 blended-gender mortality cohort at age 60, $250K premium, 30-year horizon, election age 65, μ=7%, σ=18%, 4% discount, 2012 IAM (Scale G2 projection), 5,000 Monte Carlo paths, seed=42. v1.4.0 introduces MULTI-ALLOCATION scoring: each product is scored under three named profiles (conservative / balanced / growth) — see allocation_profiles. The published composite and letter grade reflect the BALANCED profile (equal weight across all segments); conservative and growth composites are reported alongside so advisors can see the full range available under different allocation choices. GV monetises two guarantee components on the same persistency basis: (1) GLWB / GMDB rider PV claims vs PV rider fees, both persistency-weighted from the Monte Carlo path; (2) buffer / floor absorption priced by closed-form lognormal integration against an M&E + cap-spread cost base, persistency-weighted and using the median Monte Carlo AV trajectory rather than a flat AV ≈ premium approximation. Cap-spread drag uses μ from this scenario (no hardcoded constants). A stress_score (worst of 5 historical regime scores) is reported alongside the composite but NOT inside it. Historical regime outcomes and the interactive backtest scenario are supplementary context, NOT composite inputs. Rating output is byte-reproducible from (product spec hash, methodology version, seed)."
 }

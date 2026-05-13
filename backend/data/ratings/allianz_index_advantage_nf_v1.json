@@ -2,7 +2,7 @@
   "product_slug": "allianz_index_advantage_nf",
   "product_name": "Index Advantage NF",
   "carrier": "Allianz",
-  "methodology_version": "v1.3.2",
+  "methodology_version": "v1.4.0",
   "product_spec_hash": "473fe783ad2c7e87dd1ceaf89c6b2ee8e45e24aaf210e1b6510bbab16726ad01",
   "scored_at": "2026-05-13T00:00:00Z",
   "scoring_inputs": {
@@ -78,6 +78,233 @@
   },
   "composite": 74.3,
   "letter_grade": "B-",
+  "allocation_scores": {
+    "conservative": {
+      "allocation_pcts": [
+        0.0,
+        1.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 13.3,
+          "rationale": "Annualised fee + cap-spread drag: 2.45%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 8.2,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.16x. Buffer PV $16,088; floor PV $0; cost-base PV $97,647. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 70.0,
+          "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 20%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 221521.04,
+        "av_end_p50": 710317.49,
+        "av_end_p95": 2215132.16,
+        "av_paths_p50": [
+          250000.0,
+          258410.95,
+          269776.05,
+          279141.92,
+          288433.75,
+          298786.6,
+          310196.35,
+          320926.5,
+          330335.19,
+          338433.71,
+          353024.29,
+          365084.59,
+          375592.99,
+          389017.07,
+          402460.61,
+          417754.37,
+          432982.97,
+          450023.4,
+          467512.37,
+          485063.26,
+          502139.66,
+          517942.57,
+          537835.05,
+          561762.78,
+          577789.24,
+          596811.71,
+          612995.39,
+          636108.98,
+          665159.93,
+          689216.28,
+          710317.49
+        ]
+      },
+      "composite": 54.3,
+      "letter_grade": "D+"
+    },
+    "balanced": {
+      "allocation_pcts": [
+        0.5,
+        0.5
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 56.6,
+          "rationale": "Annualised fee + cap-spread drag: 1.23%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 64.9,
+          "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $60,659; floor PV $0; cost-base PV $46,713. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
+        },
+        "sf": {
+          "score": 70.0,
+          "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 20%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 255315.95,
+        "av_end_p50": 619622.26,
+        "av_end_p95": 1558214.04,
+        "av_paths_p50": [
+          250000.0,
+          260675.43,
+          269728.74,
+          277737.75,
+          286093.38,
+          293994.53,
+          303410.93,
+          312034.44,
+          320618.34,
+          328195.56,
+          338601.19,
+          348637.61,
+          360227.43,
+          371408.22,
+          380315.96,
+          392314.09,
+          405325.93,
+          418561.02,
+          431967.7,
+          446511.61,
+          460107.06,
+          470745.37,
+          487484.54,
+          507745.91,
+          522227.88,
+          535364.7,
+          551565.36,
+          569709.44,
+          587995.77,
+          605416.19,
+          619622.26
+        ]
+      },
+      "composite": 74.3,
+      "letter_grade": "B-"
+    },
+    "growth": {
+      "allocation_pcts": [
+        1.0,
+        0.0
+      ],
+      "sub_scores": {
+        "tco": {
+          "score": 100.0,
+          "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
+        },
+        "gv": {
+          "score": 100.0,
+          "rationale": "Closed-form PV(buffer absorption) $100,528 with zero cost base \u2014 capped at 100."
+        },
+        "sf": {
+          "score": 70.0,
+          "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+        },
+        "ic": {
+          "score": 90,
+          "rationale": "AM Best A+; not PE-owned; Level 3 assets 20%."
+        },
+        "bf": {
+          "score": 90.0,
+          "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+        }
+      },
+      "monte_carlo": {
+        "fees_pv_mean": 0.0,
+        "me_fees_pv_mean": 0.0,
+        "rider_fees_pv_mean": 0.0,
+        "glwb_pv_mean": 0.0,
+        "gmdb_pv_mean": 0.0,
+        "av_end_p5": 270328.71,
+        "av_end_p50": 526283.02,
+        "av_end_p95": 931528.54,
+        "av_paths_p50": [
+          250000.0,
+          262939.92,
+          270000.0,
+          273570.72,
+          282336.32,
+          288630.92,
+          295111.07,
+          301977.65,
+          309047.33,
+          316218.73,
+          324355.9,
+          332079.59,
+          340245.29,
+          349388.6,
+          356925.58,
+          365859.74,
+          374359.42,
+          384033.57,
+          392316.26,
+          401882.63,
+          411990.92,
+          420823.34,
+          432880.46,
+          444408.28,
+          456225.83,
+          465626.03,
+          476903.85,
+          489165.78,
+          503511.51,
+          513897.26,
+          526283.02
+        ]
+      },
+      "composite": 90.0,
+      "letter_grade": "A"
+    }
+  },
+  "allocation_range": {
+    "min_composite": 54.3,
+    "max_composite": 90.0,
+    "spread_points": 35.7
+  },
+  "published_profile": "balanced",
   "stress_score": 19.6,
   "stress_letter_grade": "F",
   "worst_regime_key": "lost_decade_2000_2009",
@@ -182,7 +409,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Allianz's Index Advantage NF earns a composite score of 74.3, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.2. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (57). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Allianz's Index Advantage NF earns a composite score of 74.3, which maps to a letter grade of B- under AnnuityVoice Methodology v1.4.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (57). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (57).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
