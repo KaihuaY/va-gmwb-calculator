@@ -1,7 +1,27 @@
 # Ratings UI screenshots
 
-Captured 2026-05-12 from `localhost:5173` on the `ratings-mvp` branch
-([commit 01edcc3](https://github.com/KaihuaY/va-gmwb-calculator/tree/ratings-mvp)).
+Latest captured 2026-05-13 from `localhost:5173` on the `ratings-mvp` branch
+([commit 178c391](https://github.com/KaihuaY/va-gmwb-calculator/tree/ratings-mvp)).
+
+## v1.3.1 update (2026-05-13)
+
+- **Methodology bumped to v1.3.1** — four math audit fixes landed:
+  - μ now read from `methodology.scoring_scenario.mu` everywhere (no hardcoded 0.07)
+  - `me_fees_pv` separated from `rider_fees_pv` in Monte Carlo accumulation
+  - Buffer PV persistency-weighted on the same basis as rider PV
+  - Buffer cost base uses real `av_paths_p50` trajectory instead of flat AV
+- **Cap-rate freshness scaffold** — `cap_rate_last_verified` + `cap_rate_source_url`
+  per segment, `GET /ratings/{slug}/freshness` endpoint, `FreshnessBadge` UI
+  pill (green ≤30d, yellow ≤90d, red >90d/unverified), `tools/fetch_cap_rates.py`
+  + `tools/apply_rate_proposals.py` for K-owned review workflow.
+- `ratings_detail_freshness.png` is the new screenshot showing the badge in
+  the Flexibility lens segment list.
+
+Methodology **v1.3.1**. 37 RILA products rated, FSA-signed by K Hu.
+
+Older context retained below for reference.
+
+---
 
 Methodology **v1.3.0**. 37 RILA products rated (~86% of 2025 US RILA premium
 per LIMRA), 50/50 blended-gender mortality, FSA-signed by K Hu.
