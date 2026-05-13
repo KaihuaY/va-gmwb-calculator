@@ -8,9 +8,15 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from engine.mortality import _get_base_table
 from engine.rating import (
     composite_to_letter, sf_score, ic_score, bf_score, _tco_drag,
     compute_rating, compute_regime_outcomes, _regime_score_from_terminal_av,
+    _score_for_gender, product_spec_to_rila, gv_score,
+)
+from engine.buffer_value import (
+    buffer_value_pv, buffer_value_score, expected_buffer_absorption,
+    expected_floor_absorption, _expected_put,
 )
 
 
@@ -245,6 +251,89 @@ def test_regime_post_gfc_bull_grows_av(methodology):
     assert bull["regime_score"] > 50.0
 
 
+def test_mortality_gender_coverage():
+    """Both mortality tables must publish male AND female qx columns.
+
+    The gender-blended composite assumes a real lookup for each gender;
+    silently falling back to the other gender would corrupt every rating.
+    `_get_base_table` is asserted to refuse to return a table missing
+    either column.
+    """
+    for table_name in ("2012iam", "annuity2000"):
+        table = _get_base_table(table_name)
+        for gender_key in ("male", "female"):
+            col = table["base"][gender_key]
+            assert col, f"{table_name} missing {gender_key} column"
+            # Sanity: scoring-scenario ages (60..90) should all have a qx
+            for age in range(60, 91):
+                assert str(age) in col, f"{table_name}.{gender_key} missing age {age}"
+                assert 0.0 < col[str(age)] < 1.0, (
+                    f"{table_name}.{gender_key}[{age}] = {col[str(age)]} is not a valid qx"
+                )
+
+
+def test_lapse_gender_multiplier_lowers_female_persistency(methodology):
+    """F cohort with multiplier 0.93 → lower lapse → higher persistency →
+    higher PV(rider claims) than the same product scored with M-cohort lapse.
+
+    We compare M and F monte-carlo glwb_pv_mean on an income product; F
+    should be strictly higher when only the gender lever is moved (mortality
+    table differences also push F higher in the same direction, so the
+    combined effect is monotone).
+    """
+    assert "lapse_gender_multiplier" in methodology["scoring_scenario"]
+    mult = methodology["scoring_scenario"]["lapse_gender_multiplier"]
+    assert mult["M"] == 1.0
+    assert 0.0 < mult["F"] < 1.0, "F multiplier must lower female lapse"
+
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "equitable_scs_income.json"
+    spec = json.loads(spec_path.read_text())
+    _, m_mc, _ = _score_for_gender(spec, methodology, "M", [0.02, 0.03, 0.04])
+    _, f_mc, _ = _score_for_gender(spec, methodology, "F", [0.02, 0.03, 0.04])
+    # Lower female lapse + lighter female mortality both raise PV(GLWB claims)
+    assert f_mc["glwb_pv_mean"] > m_mc["glwb_pv_mean"], (
+        f"Expected F glwb_pv ({f_mc['glwb_pv_mean']}) > M glwb_pv "
+        f"({m_mc['glwb_pv_mean']}) when female lapse multiplier < 1.0"
+    )
+
+
+def test_female_withdrawal_override_applied():
+    """When `rider.withdrawal_rate_by_age_female` is present, the F-cohort
+    RILA adapter must pick up the override; M-cohort must keep the unisex curve.
+    Existing 25 specs (no override) must keep identical M and F withdrawal rates.
+    """
+    spec_with_override = {
+        "name": "Test", "carrier": "Test",
+        "slug": "test", "product_type": "rila",
+        "segments_available": [{
+            "term_years": 1, "index": "sp500", "crediting_method": "cap",
+            "protection_type": "buffer", "protection_level": 0.10, "cap_rate": 0.09,
+        }],
+        "default_allocation_pcts": [1.0],
+        "base": {"me_fee_annual": 0.0125, "surrender_schedule": [0.05]},
+        "rider": {
+            "type": "glwb",
+            "rider_fee_annual": 0.013,
+            "withdrawal_rate_by_age":        {"65+": 0.055},
+            "withdrawal_rate_by_age_female": {"65+": 0.050},
+        },
+    }
+    m_rila = product_spec_to_rila(spec_with_override, 250_000, gender="M")
+    f_rila = product_spec_to_rila(spec_with_override, 250_000, gender="F")
+    assert m_rila.glwb_withdrawal_rate == pytest.approx(0.055)
+    assert f_rila.glwb_withdrawal_rate == pytest.approx(0.050)
+
+    # Existing-style spec without the override: both genders identical.
+    spec_no_override = dict(spec_with_override)
+    spec_no_override["rider"] = {
+        "type": "glwb", "rider_fee_annual": 0.013,
+        "withdrawal_rate_by_age": {"65+": 0.055},
+    }
+    m2 = product_spec_to_rila(spec_no_override, 250_000, gender="M")
+    f2 = product_spec_to_rila(spec_no_override, 250_000, gender="F")
+    assert m2.glwb_withdrawal_rate == f2.glwb_withdrawal_rate == pytest.approx(0.055)
+
+
 def test_compute_rating_includes_regimes_field(methodology):
     """The top-level rating output exposes the regimes block."""
     spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "equitable_scs.json"
@@ -263,3 +352,112 @@ def test_compute_rating_includes_regimes_field(methodology):
         + weights["bf"] * r["sub_scores"]["bf"]["score"]
     )
     assert r["composite"] == pytest.approx(expected_composite, abs=0.15)
+
+
+# ---------------------------------------------------------------------------
+# Buffer-value pricing (v1.2.0)
+# ---------------------------------------------------------------------------
+
+def test_methodology_is_v1_2_0(methodology):
+    """Methodology must be bumped to v1.2.0 with buffer_value_pricing block."""
+    assert methodology["version"] == "v1.2.0"
+    assert "buffer_value_pricing" in methodology
+    bvp = methodology["buffer_value_pricing"]
+    assert bvp["method"] == "closed_form_lognormal"
+    weights = methodology["weights"]
+    for k in ("tco", "gv", "sf", "ic", "bf"):
+        assert weights[k] == pytest.approx(0.20)
+
+
+def test_buffer_value_score_zero_buffer():
+    spec_no_protection = {
+        "base": {"me_fee_annual": 0.01},
+        "segments_available": [],
+        "default_allocation_pcts": [],
+        "rider": {"type": "none"},
+    }
+    pv = buffer_value_pv(
+        spec_no_protection,
+        premium=250_000, horizon_years=30,
+        mu=0.07, sigma=0.18, discount_rate=0.04,
+    )
+    assert pv["pv_total"] == 0.0
+    assert pv["pv_buffer"] == 0.0
+    assert pv["pv_floor"] == 0.0
+
+
+def test_buffer_value_score_explicit_zero_protection_level():
+    spec = {
+        "base": {"me_fee_annual": 0.0125},
+        "segments_available": [{
+            "term_years": 1, "index": "sp500",
+            "crediting_method": "cap", "cap_rate": 0.10,
+            "protection_type": "buffer", "protection_level": 0.0,
+        }],
+        "default_allocation_pcts": [1.0],
+    }
+    pv = buffer_value_pv(spec, premium=250_000, horizon_years=30,
+                        mu=0.07, sigma=0.18, discount_rate=0.04)
+    assert pv["pv_total"] == 0.0
+
+
+def test_buffer_value_score_closed_form_against_blackscholes():
+    val = expected_buffer_absorption(
+        protection_level=0.10, term_years=1, mu=0.07, sigma=0.18
+    )
+    assert val == pytest.approx(0.0281, abs=0.002)
+
+
+def test_buffer_value_score_increases_with_buffer():
+    small = expected_buffer_absorption(protection_level=0.05, term_years=1, mu=0.07, sigma=0.18)
+    big   = expected_buffer_absorption(protection_level=0.20, term_years=1, mu=0.07, sigma=0.18)
+    assert big > small * 1.5
+
+
+def test_floor_absorption_positive_and_smaller_than_buffer_at_same_level():
+    b = expected_buffer_absorption(protection_level=0.10, term_years=1, mu=0.07, sigma=0.18)
+    f = expected_floor_absorption(protection_level=0.10, term_years=1, mu=0.07, sigma=0.18)
+    assert f > 0
+    assert b > 0
+    assert f < b
+
+
+def test_floor_absorption_grows_with_lower_floor():
+    f_loose  = expected_floor_absorption(protection_level=0.20, term_years=1, mu=0.07, sigma=0.18)
+    f_tight  = expected_floor_absorption(protection_level=0.05, term_years=1, mu=0.07, sigma=0.18)
+    assert f_tight > f_loose
+
+
+def test_expected_put_zero_vol_degenerate():
+    assert _expected_put(strike=1.0, m=0.0, v=0.0) == pytest.approx(0.0)
+    assert _expected_put(strike=1.0, m=-0.05, v=0.0) == pytest.approx(1 - 0.95123, abs=1e-4)
+
+
+def test_gv_score_non_rider_buffer_now_above_neutral():
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "equitable_scs.json"
+    spec = json.loads(spec_path.read_text())
+    mc = {"glwb_pv_mean": 0.0, "gmdb_pv_mean": 0.0, "fees_pv_mean": 0.0}
+    s, msg = gv_score(
+        spec, mc, premium=250_000, horizon_years=30,
+        mu=0.07, sigma=0.18, discount_rate=0.04,
+    )
+    assert s > 50.0, f"non-rider product with buffer should score above neutral 50, got {s}"
+    assert "buffer" in msg.lower() or "PV" in msg
+
+
+def test_gv_score_combined_rider_and_buffer(methodology):
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "equitable_scs_income.json"
+    spec = json.loads(spec_path.read_text())
+    r = compute_rating(spec, methodology, scored_at="2026-05-12T00:00:00Z")
+    gv = r["sub_scores"]["gv"]
+    assert 0 < gv["score"] < 100
+    assert "rider" in gv["rationale"].lower()
+    assert "buffer" in gv["rationale"].lower()
+
+
+def test_compute_rating_byte_reproducible_with_buffer_pricing(methodology):
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "athene_amplify_2.json"
+    spec = json.loads(spec_path.read_text())
+    r1 = compute_rating(spec, methodology, scored_at="2026-05-12T00:00:00Z")
+    r2 = compute_rating(spec, methodology, scored_at="2026-05-12T00:00:00Z")
+    assert json.dumps(r1, sort_keys=True) == json.dumps(r2, sort_keys=True)

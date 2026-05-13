@@ -2,8 +2,8 @@
   "product_slug": "allianz_index_advantage_income",
   "product_name": "Index Advantage+ Income",
   "carrier": "Allianz",
-  "methodology_version": "v1.1.0",
-  "product_spec_hash": "154a4c9ed705c092f60e9def443625082c3cdfc45264b64231e27ee59501f947",
+  "methodology_version": "v1.2.0",
+  "product_spec_hash": "2b2cb8b46d59e7ca5df3b33b1793720d3f357b6dc2b8b11169b244f94cd17885",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -17,41 +17,41 @@
     ]
   },
   "monte_carlo": {
-    "fees_pv_mean": 103389.34,
-    "glwb_pv_mean": 73190.67,
+    "fees_pv_mean": 56399.72,
+    "glwb_pv_mean": 30530.33,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 0.0,
     "av_end_p50": 0.0,
-    "av_end_p95": 0.0
+    "av_end_p95": 38870.17
   },
   "monte_carlo_male": {
-    "fees_pv_mean": 102240.65,
-    "glwb_pv_mean": 70859.8,
+    "fees_pv_mean": 55409.92,
+    "glwb_pv_mean": 28806.51,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 0.0,
     "av_end_p50": 0.0,
-    "av_end_p95": 0.0
+    "av_end_p95": 38870.17
   },
   "monte_carlo_female": {
-    "fees_pv_mean": 104538.03,
-    "glwb_pv_mean": 75521.53,
+    "fees_pv_mean": 57389.53,
+    "glwb_pv_mean": 32254.16,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 0.0,
     "av_end_p50": 0.0,
-    "av_end_p95": 0.0
+    "av_end_p95": 38870.17
   },
   "sub_scores": {
     "tco": {
       "score": 0.0,
-      "rationale": "Annualised fee + cap-spread drag: 3.43%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "rationale": "Annualised fee + cap-spread drag: 2.83%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 53.6,
-      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.04x. GLWB PV $70,860; rider fee PV $68,250. (male) / PV(GLWB claims) / PV(rider fees) \u2248 1.11x. GLWB PV $75,522; rider fee PV $68,250. (female)"
+      "score": 39.2,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.78x ($28,807 / $36,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.77x. Buffer PV $71,035; floor PV $0; cost-base PV $92,810. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (29% rider / 71% buffer). (male) / GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.88x ($32,254 / $36,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.77x. Buffer PV $71,035; floor PV $0; cost-base PV $92,810. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (31% rider / 69% buffer). (female)"
     },
     "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+      "score": 65.0,
+      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
     },
     "ic": {
       "score": 90.0,
@@ -65,15 +65,15 @@
   "male_scores": {
     "tco": {
       "score": 0.0,
-      "rationale": "Annualised fee + cap-spread drag: 3.43%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "rationale": "Annualised fee + cap-spread drag: 2.83%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 51.9,
-      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.04x. GLWB PV $70,860; rider fee PV $68,250."
+      "score": 38.5,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.78x ($28,807 / $36,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.77x. Buffer PV $71,035; floor PV $0; cost-base PV $92,810. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (29% rider / 71% buffer)."
     },
     "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+      "score": 65.0,
+      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
     },
     "ic": {
       "score": 90,
@@ -87,15 +87,15 @@
   "female_scores": {
     "tco": {
       "score": 0.0,
-      "rationale": "Annualised fee + cap-spread drag: 3.43%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "rationale": "Annualised fee + cap-spread drag: 2.83%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 55.3,
-      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.11x. GLWB PV $75,522; rider fee PV $68,250."
+      "score": 40.0,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.88x ($32,254 / $36,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.77x. Buffer PV $71,035; floor PV $0; cost-base PV $92,810. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (31% rider / 69% buffer)."
     },
     "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+      "score": 65.0,
+      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
     },
     "ic": {
       "score": 90,
@@ -109,15 +109,15 @@
   "blended_scores": {
     "tco": {
       "score": 0.0,
-      "rationale": "Annualised fee + cap-spread drag: 3.43%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "rationale": "Annualised fee + cap-spread drag: 2.83%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 53.6,
-      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.04x. GLWB PV $70,860; rider fee PV $68,250. (male) / PV(GLWB claims) / PV(rider fees) \u2248 1.11x. GLWB PV $75,522; rider fee PV $68,250. (female)"
+      "score": 39.2,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.78x ($28,807 / $36,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.77x. Buffer PV $71,035; floor PV $0; cost-base PV $92,810. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (29% rider / 71% buffer). (male) / GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.88x ($32,254 / $36,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 0.77x. Buffer PV $71,035; floor PV $0; cost-base PV $92,810. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (31% rider / 69% buffer). (female)"
     },
     "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+      "score": 65.0,
+      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
     },
     "ic": {
       "score": 90.0,
@@ -128,19 +128,19 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "male_composite": 61.4,
-  "female_composite": 62.1,
-  "male_letter_grade": "C",
-  "female_letter_grade": "C",
-  "composite": 61.8,
-  "letter_grade": "C",
+  "male_composite": 56.7,
+  "female_composite": 57.0,
+  "male_letter_grade": "C-",
+  "female_letter_grade": "C-",
+  "composite": 56.9,
+  "letter_grade": "C-",
   "feature_snapshot": {
     "me_fee_annual": 0.0125,
-    "rider_fee_annual": 0.013,
+    "rider_fee_annual": 0.007,
     "rollup_rate": 0.07,
     "withdrawal_rate_65": 0.055,
     "surrender_years": 6,
-    "surrender_max_pct": 0.06,
+    "surrender_max_pct": 0.08,
     "free_withdrawal_pct": 0.1,
     "waivers": [
       "nursing-home",
@@ -163,13 +163,13 @@
       "start_month": "1985-02",
       "end_month": "2000-01",
       "years": 15,
-      "av_end": 348757.77,
+      "av_end": 397233.34,
       "av_min": 250000.0,
-      "fees_pv": 91958.86,
+      "fees_pv": 72655.84,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 59.7,
+      "regime_score": 72.6,
       "history_truncated": false
     },
     "lost_decade_2000_2009": {
@@ -177,9 +177,9 @@
       "start_month": "2000-01",
       "end_month": "2009-12",
       "years": 10,
-      "av_end": 60250.36,
-      "av_min": 60250.36,
-      "fees_pv": 50775.91,
+      "av_end": 77100.03,
+      "av_min": 77100.03,
+      "fees_pv": 36519.26,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
@@ -191,13 +191,13 @@
       "start_month": "2008-01",
       "end_month": "2010-12",
       "years": 3,
-      "av_end": 191054.26,
-      "av_min": 165463.51,
-      "fees_pv": 15932.33,
+      "av_end": 196299.5,
+      "av_min": 166963.51,
+      "fees_pv": 11570.97,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 17.6,
+      "regime_score": 19.0,
       "history_truncated": false
     },
     "post_gfc_bull_2010_2021": {
@@ -205,13 +205,13 @@
       "start_month": "2010-01",
       "end_month": "2021-12",
       "years": 12,
-      "av_end": 303839.77,
+      "av_end": 339182.63,
       "av_min": 250000.0,
-      "fees_pv": 72954.9,
+      "fees_pv": 56842.18,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 47.7,
+      "regime_score": 57.1,
       "history_truncated": false
     },
     "rate_hike_2022_2024": {
@@ -219,17 +219,17 @@
       "start_month": "2022-01",
       "end_month": "2024-12",
       "years": 3,
-      "av_end": 257389.54,
-      "av_min": 212475.58,
-      "fees_pv": 17857.2,
+      "av_end": 262768.92,
+      "av_min": 213975.58,
+      "fees_pv": 13497.39,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 35.3,
+      "regime_score": 36.7,
       "history_truncated": false
     }
   },
-  "narrative": "Allianz's Index Advantage+ Income earns a composite score of 61.8, which maps to a letter grade of C under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (0), Guarantee Value (54). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Allianz's Index Advantage+ Income earns a composite score of 56.9, which maps to a letter grade of C- under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (0), Guarantee Value (39). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (0).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

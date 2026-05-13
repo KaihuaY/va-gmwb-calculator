@@ -26,8 +26,9 @@ from typing import Any, Optional
 
 import numpy as np
 
+from .buffer_value import buffer_value_score
 from .historical import _resolve_returns
-from .mortality import compute_survival_probs
+from .mortality import compute_persistency, compute_survival_probs
 from .rila import RILAProduct, RILASegment, project_rila_monte_carlo, project_rila_path
 from .utils import compute_discount_factors
 
@@ -36,8 +37,14 @@ from .utils import compute_discount_factors
 # Product spec → RILAProduct adapter
 # ---------------------------------------------------------------------------
 
-def product_spec_to_rila(spec: dict, premium: float) -> RILAProduct:
-    """Construct a RILAProduct from a product-spec JSON, scaled to `premium`."""
+def product_spec_to_rila(spec: dict, premium: float, gender: str = "M") -> RILAProduct:
+    """Construct a RILAProduct from a product-spec JSON, scaled to `premium`.
+
+    `gender` is "M" or "F" and selects the rider withdrawal-rate curve:
+    if `rider.withdrawal_rate_by_age_female` is present, it overrides the
+    default `withdrawal_rate_by_age` for F-cohort scoring. When absent the
+    male/unisex curve is used (existing-spec default behavior).
+    """
     segments_data = spec.get("segments_available", [])
     segments = [
         RILASegment(
@@ -67,8 +74,14 @@ def product_spec_to_rila(spec: dict, premium: float) -> RILAProduct:
     rider = spec.get("rider", {}) or {}
     has_glwb = rider.get("type") == "glwb"
 
-    # Resolve withdrawal rate at age 65 (the scoring scenario's election age)
-    wd_rate_by_age = rider.get("withdrawal_rate_by_age", {})
+    # Resolve withdrawal rate at age 65 (the scoring scenario's election age).
+    # F cohort uses the female curve when published; falls back to the unisex
+    # curve so existing 25 specs (no female override) keep identical behavior.
+    wd_rate_by_age = rider.get("withdrawal_rate_by_age", {}) or {}
+    if gender == "F":
+        female_curve = rider.get("withdrawal_rate_by_age_female")
+        if female_curve:
+            wd_rate_by_age = female_curve
     glwb_wd_rate = 0.05
     if "65+" in wd_rate_by_age:
         glwb_wd_rate = wd_rate_by_age["65+"]
@@ -162,30 +175,88 @@ def tco_score(spec: dict, mc_result: dict, cohort_drags: list[float], premium: f
     )
 
 
-def gv_score(spec: dict, mc_result: dict, premium: float, horizon_years: int) -> tuple[float, str]:
+def gv_score(
+    spec: dict,
+    mc_result: dict,
+    premium: float,
+    horizon_years: int,
+    *,
+    mu: float = 0.07,
+    sigma: float = 0.18,
+    discount_rate: float = 0.04,
+) -> tuple[float, str]:
     """
-    GV = Monte Carlo PV of rider claims / PV of rider fees.
-    Higher ratio = better. Products without riders neutral 50.
+    Guarantee Value sub-score.
+
+    Two monetised guarantees can contribute (v1.2.0):
+
+      1. Income / death rider — PV of GLWB / GMDB claims vs PV of rider fees
+         (Monte Carlo, already computed in `mc_result`).
+      2. Buffer / floor absorption on indexed segments — closed-form PV of
+         downside absorption vs PV of M&E + cap-spread cost base.
+
+    Rationale for the two-denominator design: the rider charge funds
+    rider claims directly (clean ratio); the buffer is funded implicitly
+    through M&E + cap-spread drag (the carrier's option-replication cost
+    embedded in the explicit fee + the foregone uncapped upside). Using
+    rider fees as the denominator for buffer value would understate the
+    buffer's cost-effectiveness for non-rider products that have non-zero
+    M&E. The two ratios are computed separately, then mapped to scores
+    and AVERAGED (weighted by their PV contributions to avoid a 50/50
+    split when one guarantee dominates).
+
+    Mapping (per ratio):  1.0x → 50,  2.0x → 100,  0.5x → 25, clamped.
     """
     rider = spec.get("rider")
-    if not rider or rider.get("type") != "glwb":
-        return 50.0, "No income rider — guarantee value is neutral (50)."
+    has_rider = bool(rider and rider.get("type") == "glwb")
 
-    glwb_pv = mc_result["glwb_pv_mean"]
-    rider_fee_annual = rider.get("rider_fee_annual", 0.0)
-    # PV(rider fees) ≈ rider_fee * premium * survival/discount summed
-    # Already in mc_result["fees_pv_mean"] but that's all-in. Approximate rider PV:
-    rider_fees_pv = rider_fee_annual * premium * horizon_years * 0.7  # rough discount/survival adj
-    if rider_fees_pv <= 0:
-        return 50.0, "Rider fee is zero — guarantee value undefined."
-    ratio = glwb_pv / rider_fees_pv
-    # Map ratio to score: 1.0x = 50 (break-even), 2.0x = 100, 0.5x = 25
-    score = 50.0 * ratio
-    score = max(0.0, min(100.0, score))
-    return score, (
-        f"PV(GLWB claims) / PV(rider fees) ≈ {ratio:.2f}x. "
-        f"GLWB PV ${glwb_pv:,.0f}; rider fee PV ${rider_fees_pv:,.0f}."
+    # --- Rider component --------------------------------------------------
+    rider_pv = 0.0
+    rider_fees_pv = 0.0
+    rider_score: Optional[float] = None
+    rider_msg = ""
+    if has_rider:
+        rider_pv = mc_result["glwb_pv_mean"]
+        rider_fee_annual = rider.get("rider_fee_annual", 0.0)
+        # PV(rider fees) ≈ rider_fee × premium × horizon × 0.7 survival/discount adj
+        # (preserved from v1.1.0 — orthogonal to buffer pricing).
+        rider_fees_pv = rider_fee_annual * premium * horizon_years * 0.7
+        if rider_fees_pv > 0:
+            ratio = rider_pv / rider_fees_pv
+            rider_score = max(0.0, min(100.0, 50.0 * ratio))
+            rider_msg = (
+                f"Rider: PV(claims)/PV(rider fees) = {ratio:.2f}x "
+                f"(${rider_pv:,.0f} / ${rider_fees_pv:,.0f})."
+            )
+
+    # --- Buffer / floor component ----------------------------------------
+    buffer_s, buffer_msg, buffer_detail = buffer_value_score(
+        spec,
+        premium=premium,
+        horizon_years=horizon_years,
+        mu=mu,
+        sigma=sigma,
+        discount_rate=discount_rate,
     )
+    buffer_pv = buffer_detail.get("pv_total", 0.0)
+
+    # --- Combine ----------------------------------------------------------
+    # If both components are present, weight by their absolute PV value
+    # (so a $100k rider doesn't get out-voted by a $1k buffer or vice versa).
+    if rider_score is not None and buffer_pv > 0:
+        w_rider  = rider_pv  / (rider_pv + buffer_pv) if (rider_pv + buffer_pv) > 0 else 0.5
+        w_buffer = 1.0 - w_rider
+        combined = w_rider * rider_score + w_buffer * buffer_s
+        combined = max(0.0, min(100.0, combined))
+        msg = (
+            f"GV combines rider and buffer guarantees. {rider_msg} {buffer_msg} "
+            f"PV-weighted blend ({w_rider:.0%} rider / {w_buffer:.0%} buffer)."
+        )
+        return combined, msg
+    if rider_score is not None:
+        return rider_score, rider_msg
+    # No rider — fall back to buffer-only score (v1.2.0 replacement for 50)
+    return buffer_s, buffer_msg
 
 
 def sf_score(spec: dict) -> tuple[float, str]:
@@ -527,7 +598,19 @@ def _score_for_gender(
     )
     discount = compute_discount_factors(scenario["discount_rate"], horizon + 1)
 
-    rila = product_spec_to_rila(product_spec, premium)
+    # Gender-differentiated lapse: female persistency is typically higher than
+    # male at the same policy year. The methodology's `lapse_gender_multiplier`
+    # scales `base_lapse` per cohort; the resulting lapse rate is baked into the
+    # persistency vector that weights PV(claims) and PV(fees). When the field is
+    # absent (v1.1.0 and earlier) the multiplier defaults to 1.0 for both
+    # genders, preserving prior behavior.
+    base_lapse = scenario.get("base_lapse", 0.0)
+    lapse_mult_map = scenario.get("lapse_gender_multiplier", {}) or {}
+    lapse_mult = float(lapse_mult_map.get(gender_code, 1.0))
+    cohort_lapse = base_lapse * lapse_mult
+    persistency = compute_persistency(survival, cohort_lapse)
+
+    rila = product_spec_to_rila(product_spec, premium, gender=gender_code)
     mc = project_rila_monte_carlo(
         rila,
         mu=scenario["mu"],
@@ -535,14 +618,18 @@ def _score_for_gender(
         projection_years=horizon,
         n_scenarios=scenario["num_scenarios"],
         seed=scenario["seed"],
-        survival_probs=survival,
+        survival_probs=persistency,
         discount_factors=discount,
         glwb_election_age=scenario["election_age"],
         current_age=scenario["age"],
     )
 
     tco_s, tco_rationale = tco_score(product_spec, mc, cohort_tco_drags, premium)
-    gv_s,  gv_rationale  = gv_score(product_spec, mc, premium, horizon)
+    gv_s,  gv_rationale  = gv_score(
+        product_spec, mc, premium, horizon,
+        mu=scenario["mu"], sigma=scenario["sigma"],
+        discount_rate=scenario["discount_rate"],
+    )
     sf_s,  sf_rationale  = sf_score(product_spec)
     ic_s,  ic_rationale  = ic_score(product_spec)
     bf_s,  bf_rationale  = bf_score(product_spec)

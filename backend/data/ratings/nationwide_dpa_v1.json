@@ -2,7 +2,7 @@
   "product_slug": "nationwide_dpa",
   "product_name": "Defined Protection Annuity",
   "carrier": "Nationwide",
-  "methodology_version": "v1.1.0",
+  "methodology_version": "v1.2.0",
   "product_spec_hash": "f4f6383af4fa4885bda338f8a37136dfb1d0f399fb1126810692fbedd33e6410",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
@@ -17,7 +17,7 @@
     ]
   },
   "monte_carlo": {
-    "fees_pv_mean": 52069.86,
+    "fees_pv_mean": 37618.37,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 132645.67,
@@ -25,7 +25,7 @@
     "av_end_p95": 526500.48
   },
   "monte_carlo_male": {
-    "fees_pv_mean": 51367.33,
+    "fees_pv_mean": 36803.3,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 132645.67,
@@ -33,7 +33,7 @@
     "av_end_p95": 526500.48
   },
   "monte_carlo_female": {
-    "fees_pv_mean": 52772.39,
+    "fees_pv_mean": 38433.43,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 132645.67,
@@ -42,12 +42,12 @@
   },
   "sub_scores": {
     "tco": {
-      "score": 63.5,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 55.8,
+      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50). (male) / No income rider \u2014 guarantee value is neutral (50). (female)"
+      "score": 65.1,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
     },
     "sf": {
       "score": 75.0,
@@ -64,12 +64,12 @@
   },
   "male_scores": {
     "tco": {
-      "score": 63.5,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 55.8,
+      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50)."
+      "score": 65.1,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 75.0,
@@ -86,12 +86,12 @@
   },
   "female_scores": {
     "tco": {
-      "score": 63.5,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 55.8,
+      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50)."
+      "score": 65.1,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
       "score": 75.0,
@@ -108,12 +108,12 @@
   },
   "blended_scores": {
     "tco": {
-      "score": 63.5,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 55.8,
+      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50). (male) / No income rider \u2014 guarantee value is neutral (50). (female)"
+      "score": 65.1,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
     },
     "sf": {
       "score": 75.0,
@@ -128,12 +128,12 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "male_composite": 74.7,
-  "female_composite": 74.7,
-  "male_letter_grade": "B-",
-  "female_letter_grade": "B-",
-  "composite": 74.7,
-  "letter_grade": "B-",
+  "male_composite": 76.2,
+  "female_composite": 76.2,
+  "male_letter_grade": "B",
+  "female_letter_grade": "B",
+  "composite": 76.2,
+  "letter_grade": "B",
   "feature_snapshot": {
     "me_fee_annual": 0.0125,
     "rider_fee_annual": 0.0,
@@ -229,8 +229,8 @@
       "history_truncated": false
     }
   },
-  "narrative": "Nationwide's Defined Protection Annuity earns a composite score of 74.7, which maps to a letter grade of B- under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (95), Behavioral Fairness (90). Areas where this product scores below cohort median: Guarantee Value (50). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
-  "verdict": "Strong insurer credit (95) offset by weak guarantee value (50).",
+  "narrative": "Nationwide's Defined Protection Annuity earns a composite score of 76.2, which maps to a letter grade of B under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (95), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Strong insurer credit (95) offset by high fee drag (56).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
   "signed_at": "2026-05-12T00:00:00Z",

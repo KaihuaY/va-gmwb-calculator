@@ -25,13 +25,27 @@ def _load_table(filename: str) -> dict:
 
 
 def _get_base_table(table_name: str) -> dict:
-    """Return the loaded mortality table dict."""
+    """Return the loaded mortality table dict.
+
+    Asserts both 'male' and 'female' qx columns are present and non-empty.
+    Silently falling back to the other gender would corrupt every blended
+    rating; we fail loudly instead so the data error is caught immediately.
+    """
     filemap = {
         "2012iam": "mortality_2012iam.json",
         "annuity2000": "mortality_annuity2000.json",
     }
     fname = filemap.get(table_name, "mortality_2012iam.json")
-    return _load_table(fname)
+    table = _load_table(fname)
+    base = table.get("base") or {}
+    for gender_key in ("male", "female"):
+        col = base.get(gender_key)
+        assert col, (
+            f"Mortality table '{fname}' is missing the '{gender_key}' qx column. "
+            f"Gender-blended ratings require both columns to be populated; "
+            f"refusing to fall back silently."
+        )
+    return table
 
 
 def get_qx(

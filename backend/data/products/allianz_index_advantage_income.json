@@ -4,23 +4,17 @@
   "carrier": "Allianz",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
-  "data_sources": [
-    {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
-    }
-  ],
+  "data_provenance": "prospectus_v1",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0125,
     "surrender_schedule": [
+      0.08,
+      0.08,
+      0.07,
       0.06,
       0.05,
-      0.04,
-      0.03,
-      0.02,
-      0.01
+      0.04
     ],
     "free_withdrawal_pct": 0.1,
     "nursing_home_waiver": true,
@@ -51,7 +45,7 @@
   ],
   "rider": {
     "type": "glwb",
-    "rider_fee_annual": 0.013,
+    "rider_fee_annual": 0.007,
     "rollup_rate": 0.07,
     "withdrawal_rate_by_age": {
       "55-59": 0.04,
@@ -83,5 +77,37 @@
     "regulatory_fines_5yr": 0
   },
   "has_gmdb": false,
-  "gmdb_rider_fee": 0.0
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "n4_prospectus",
+      "url": "https://www.sec.gov/Archives/edgar/data/836346/000119312524099226/d65942d485bpos.htm",
+      "retrieved": "2026-05-12",
+      "note": "Allianz Index Advantage+ Income variable annuity prospectus filing 2024-04-29 (CIK 836346). 6-year surrender schedule 8/8/7/6/5/4 and 10% free withdrawal corridor confirmed."
+    },
+    {
+      "type": "carrier_product_page",
+      "url": "https://www.allianzlife.com/what-we-offer/annuities/registered-index-linked-annuities/index-advantage-income-adv",
+      "retrieved": "2026-05-12",
+      "note": "Income Benefit rider charge 0.70% (accrued daily, deducted on each quarterly contract anniversary, calculated as percentage of charge base). Spec rider_fee_annual updated synthetic 1.30% -> 0.70%."
+    },
+    {
+      "type": "product_fee",
+      "url": "https://www.annuityexpertadvice.com/reviews/allianz/index-advantage/",
+      "retrieved": "2026-05-12",
+      "note": "1.25% annual product fee on Index Advantage+ Income (cross-referenced reviewer summary). Spec me_fee_annual retained at 0.0125."
+    },
+    {
+      "type": "am_best",
+      "url": "https://www.allianzlife.com/about/financial-ratings",
+      "retrieved": "2026-05-12",
+      "note": "Allianz Life Insurance Company of North America AM Best Financial Strength Rating A+ (Superior), affirmed March 2026. Second-highest of 16 possible ratings."
+    },
+    {
+      "type": "naic_company_code",
+      "url": "https://interactive.web.insurance.ca.gov/companyprofile/companyprofile?event=companyProfile&doFunction=getCompanyProfile&eid=6145",
+      "retrieved": "2026-05-12",
+      "note": "Allianz Life Insurance Company of North America NAIC code 90611 (MN-domiciled)."
+    }
+  ]
 }

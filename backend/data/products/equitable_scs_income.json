@@ -5,12 +5,6 @@
   "product_type": "rila",
   "first_offered": "2022-01-01",
   "data_provenance": "synthetic_v0",
-  "data_sources": [
-    {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
-    }
-  ],
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0125,
@@ -51,7 +45,7 @@
   ],
   "rider": {
     "type": "glwb",
-    "rider_fee_annual": 0.0125,
+    "rider_fee_annual": 0.015,
     "rollup_rate": 0.06,
     "withdrawal_rate_by_age": {
       "55-59": 0.04,
@@ -83,5 +77,31 @@
     "regulatory_fines_5yr": 0
   },
   "has_gmdb": false,
-  "gmdb_rider_fee": 0.0
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "n4_prospectus",
+      "url": "https://www.sec.gov/Archives/edgar/data/2039145/000119312524230722/d872605d485apos.htm",
+      "retrieved": "2026-05-12",
+      "note": "SCS Income N-4 (Equitable Financial Life Insurance Company of America, CIK 2039145) filed 2024. Confirms 6-yr surrender period and -10%/-15%/-20%/-40% buffer menu; rate sheet effective May 1, 2025."
+    },
+    {
+      "type": "rider_fee",
+      "url": "https://www.diversifiedquotes.com/do-income-riders-have-fees/",
+      "retrieved": "2026-05-12",
+      "note": "SCS Income GLWB rider current charge 1.50% annual (publicly reported). Spec updated from synthetic 1.25% to 1.50%."
+    },
+    {
+      "type": "am_best",
+      "url": "https://ratings.ambest.com/CompanyProfile.aspx?ambnum=6341",
+      "retrieved": "2026-05-12",
+      "note": "Equitable Financial Life Insurance Company FSR currently A (Excellent), affirmed Feb 20, 2025; AM Best #006341. Spec retains 'A+' from synthetic anchor; awaiting K's review before downgrading rating."
+    },
+    {
+      "type": "naic_company_code",
+      "url": "https://myportal.dfs.ny.gov/companydirectory/dir_det.jsp?search_value=682&search_type=CPAT_NUM&naic=62944",
+      "retrieved": "2026-05-12",
+      "note": "Equitable Financial Life Insurance Company NAIC code 62944 (NY-domiciled)."
+    }
+  ]
 }

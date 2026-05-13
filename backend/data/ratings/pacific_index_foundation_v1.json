@@ -2,7 +2,7 @@
   "product_slug": "pacific_index_foundation",
   "product_name": "Pacific Index Foundation",
   "carrier": "Pacific Life",
-  "methodology_version": "v1.1.0",
+  "methodology_version": "v1.2.0",
   "product_spec_hash": "1ecf46683ac4e8c3c0f388043e0eaea75dd804ee04496e1f3a21381aaa9f9c7f",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
@@ -43,11 +43,11 @@
   "sub_scores": {
     "tco": {
       "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50). (male) / No income rider \u2014 guarantee value is neutral (50). (female)"
+      "score": 100.0,
+      "rationale": "Closed-form PV(buffer absorption) $120,539 with zero cost base \u2014 capped at 100. (male) / Closed-form PV(buffer absorption) $120,539 with zero cost base \u2014 capped at 100. (female)"
     },
     "sf": {
       "score": 60.0,
@@ -65,11 +65,11 @@
   "male_scores": {
     "tco": {
       "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50)."
+      "score": 100.0,
+      "rationale": "Closed-form PV(buffer absorption) $120,539 with zero cost base \u2014 capped at 100."
     },
     "sf": {
       "score": 60.0,
@@ -87,11 +87,11 @@
   "female_scores": {
     "tco": {
       "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50)."
+      "score": 100.0,
+      "rationale": "Closed-form PV(buffer absorption) $120,539 with zero cost base \u2014 capped at 100."
     },
     "sf": {
       "score": 60.0,
@@ -109,11 +109,11 @@
   "blended_scores": {
     "tco": {
       "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50). (male) / No income rider \u2014 guarantee value is neutral (50). (female)"
+      "score": 100.0,
+      "rationale": "Closed-form PV(buffer absorption) $120,539 with zero cost base \u2014 capped at 100. (male) / Closed-form PV(buffer absorption) $120,539 with zero cost base \u2014 capped at 100. (female)"
     },
     "sf": {
       "score": 60.0,
@@ -128,12 +128,12 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "male_composite": 79.0,
-  "female_composite": 79.0,
-  "male_letter_grade": "B",
-  "female_letter_grade": "B",
-  "composite": 79.0,
-  "letter_grade": "B",
+  "male_composite": 89.0,
+  "female_composite": 89.0,
+  "male_letter_grade": "A-",
+  "female_letter_grade": "A-",
+  "composite": 89.0,
+  "letter_grade": "A-",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
@@ -229,8 +229,8 @@
       "history_truncated": false
     }
   },
-  "narrative": "Pacific Life's Pacific Index Foundation earns a composite score of 79.0, which maps to a letter grade of B under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Insurer Credit (95), Behavioral Fairness (90). Areas where this product scores below cohort median: Guarantee Value (50). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
-  "verdict": "Low fees (100) offset by weak guarantee value (50).",
+  "narrative": "Pacific Life's Pacific Index Foundation earns a composite score of 89.0, which maps to a letter grade of A- under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (95), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (60).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
   "signed_at": "2026-05-12T00:00:00Z",

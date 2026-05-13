@@ -2,7 +2,7 @@
   "product_slug": "brighthouse_shield_select_6",
   "product_name": "Shield Level Select 6",
   "carrier": "Brighthouse",
-  "methodology_version": "v1.1.0",
+  "methodology_version": "v1.2.0",
   "product_spec_hash": "2806394e770a51b79c47ea1eb9aa27dcf0dfd6e04b779daab82f680e9c17eccf",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
@@ -43,11 +43,11 @@
   "sub_scores": {
     "tco": {
       "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50). (male) / No income rider \u2014 guarantee value is neutral (50). (female)"
+      "score": 100.0,
+      "rationale": "Closed-form PV(buffer absorption) $12,776 with zero cost base \u2014 capped at 100. (male) / Closed-form PV(buffer absorption) $12,776 with zero cost base \u2014 capped at 100. (female)"
     },
     "sf": {
       "score": 70.0,
@@ -65,11 +65,11 @@
   "male_scores": {
     "tco": {
       "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50)."
+      "score": 100.0,
+      "rationale": "Closed-form PV(buffer absorption) $12,776 with zero cost base \u2014 capped at 100."
     },
     "sf": {
       "score": 70.0,
@@ -87,11 +87,11 @@
   "female_scores": {
     "tco": {
       "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50)."
+      "score": 100.0,
+      "rationale": "Closed-form PV(buffer absorption) $12,776 with zero cost base \u2014 capped at 100."
     },
     "sf": {
       "score": 70.0,
@@ -109,11 +109,11 @@
   "blended_scores": {
     "tco": {
       "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50). (male) / No income rider \u2014 guarantee value is neutral (50). (female)"
+      "score": 100.0,
+      "rationale": "Closed-form PV(buffer absorption) $12,776 with zero cost base \u2014 capped at 100. (male) / Closed-form PV(buffer absorption) $12,776 with zero cost base \u2014 capped at 100. (female)"
     },
     "sf": {
       "score": 70.0,
@@ -128,12 +128,12 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "male_composite": 78.6,
-  "female_composite": 78.6,
-  "male_letter_grade": "B",
-  "female_letter_grade": "B",
-  "composite": 78.6,
-  "letter_grade": "B",
+  "male_composite": 88.6,
+  "female_composite": 88.6,
+  "male_letter_grade": "A-",
+  "female_letter_grade": "A-",
+  "composite": 88.6,
+  "letter_grade": "A-",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
@@ -229,8 +229,8 @@
       "history_truncated": false
     }
   },
-  "narrative": "Brighthouse's Shield Level Select 6 earns a composite score of 78.6, which maps to a letter grade of B under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Insurer Credit (83), Behavioral Fairness (90). Areas where this product scores below cohort median: Guarantee Value (50). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
-  "verdict": "Low fees (100) offset by weak guarantee value (50).",
+  "narrative": "Brighthouse's Shield Level Select 6 earns a composite score of 88.6, which maps to a letter grade of A- under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Mostly solid; strongest in low fees (100), softest in restrictive surrender terms (70).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
   "signed_at": "2026-05-12T00:00:00Z",

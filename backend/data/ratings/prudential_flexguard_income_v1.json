@@ -2,7 +2,7 @@
   "product_slug": "prudential_flexguard_income",
   "product_name": "FlexGuard Income",
   "carrier": "Prudential",
-  "methodology_version": "v1.1.0",
+  "methodology_version": "v1.2.0",
   "product_spec_hash": "4282f2bf030cc2d8e37c04c0a744f6f9382d59c4f408305b404c18b1792f860f",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
@@ -17,24 +17,24 @@
     ]
   },
   "monte_carlo": {
-    "fees_pv_mean": 67290.54,
-    "glwb_pv_mean": 91401.24,
+    "fees_pv_mean": 48294.11,
+    "glwb_pv_mean": 48631.14,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 0.0,
     "av_end_p50": 0.0,
     "av_end_p95": 0.0
   },
   "monte_carlo_male": {
-    "fees_pv_mean": 66377.82,
-    "glwb_pv_mean": 88601.68,
+    "fees_pv_mean": 47224.53,
+    "glwb_pv_mean": 46105.49,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 0.0,
     "av_end_p50": 0.0,
     "av_end_p95": 0.0
   },
   "monte_carlo_female": {
-    "fees_pv_mean": 68203.25,
-    "glwb_pv_mean": 94200.81,
+    "fees_pv_mean": 49363.7,
+    "glwb_pv_mean": 51156.79,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 0.0,
     "av_end_p50": 0.0,
@@ -42,12 +42,12 @@
   },
   "sub_scores": {
     "tco": {
-      "score": 62.0,
-      "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 54.0,
+      "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 67.0,
-      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.30x. GLWB PV $88,602; rider fee PV $68,250. (male) / PV(GLWB claims) / PV(rider fees) \u2248 1.38x. GLWB PV $94,201; rider fee PV $68,250. (female)"
+      "score": 73.8,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.68x ($46,105 / $68,250). Closed-form PV(buffer absorption) $71,035 with zero cost base \u2014 capped at 100. PV-weighted blend (39% rider / 61% buffer). (male) / GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.75x ($51,157 / $68,250). Closed-form PV(buffer absorption) $71,035 with zero cost base \u2014 capped at 100. PV-weighted blend (42% rider / 58% buffer). (female)"
     },
     "sf": {
       "score": 75.0,
@@ -64,12 +64,12 @@
   },
   "male_scores": {
     "tco": {
-      "score": 62.0,
-      "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 54.0,
+      "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 64.9,
-      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.30x. GLWB PV $88,602; rider fee PV $68,250."
+      "score": 73.9,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.68x ($46,105 / $68,250). Closed-form PV(buffer absorption) $71,035 with zero cost base \u2014 capped at 100. PV-weighted blend (39% rider / 61% buffer)."
     },
     "sf": {
       "score": 75.0,
@@ -86,12 +86,12 @@
   },
   "female_scores": {
     "tco": {
-      "score": 62.0,
-      "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 54.0,
+      "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 69.0,
-      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.38x. GLWB PV $94,201; rider fee PV $68,250."
+      "score": 73.8,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.75x ($51,157 / $68,250). Closed-form PV(buffer absorption) $71,035 with zero cost base \u2014 capped at 100. PV-weighted blend (42% rider / 58% buffer)."
     },
     "sf": {
       "score": 75.0,
@@ -108,12 +108,12 @@
   },
   "blended_scores": {
     "tco": {
-      "score": 62.0,
-      "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 54.0,
+      "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 67.0,
-      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.30x. GLWB PV $88,602; rider fee PV $68,250. (male) / PV(GLWB claims) / PV(rider fees) \u2248 1.38x. GLWB PV $94,201; rider fee PV $68,250. (female)"
+      "score": 73.8,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.68x ($46,105 / $68,250). Closed-form PV(buffer absorption) $71,035 with zero cost base \u2014 capped at 100. PV-weighted blend (39% rider / 61% buffer). (male) / GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.75x ($51,157 / $68,250). Closed-form PV(buffer absorption) $71,035 with zero cost base \u2014 capped at 100. PV-weighted blend (42% rider / 58% buffer). (female)"
     },
     "sf": {
       "score": 75.0,
@@ -128,11 +128,11 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "male_composite": 76.4,
-  "female_composite": 77.2,
+  "male_composite": 76.6,
+  "female_composite": 76.6,
   "male_letter_grade": "B",
   "female_letter_grade": "B",
-  "composite": 76.8,
+  "composite": 76.6,
   "letter_grade": "B",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
@@ -229,8 +229,8 @@
       "history_truncated": false
     }
   },
-  "narrative": "Prudential's FlexGuard Income earns a composite score of 76.8, which maps to a letter grade of B under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
-  "verdict": "Mostly solid; strongest in strong insurer credit (90), softest in high fee drag (62).",
+  "narrative": "Prudential's FlexGuard Income earns a composite score of 76.6, which maps to a letter grade of B under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (54). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Strong insurer credit (90) offset by high fee drag (54).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
   "signed_at": "2026-05-12T00:00:00Z",

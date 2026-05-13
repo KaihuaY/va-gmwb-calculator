@@ -10,3 +10,5 @@ tools/outreach_log.db
 backend/lambda_pkg/
 backend/lambda_deploy.zip
 tools/_*.py
+frontend/public/ratings-data/
+frontend/dist/

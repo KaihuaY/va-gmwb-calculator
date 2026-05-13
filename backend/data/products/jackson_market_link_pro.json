@@ -4,18 +4,13 @@
   "carrier": "Jackson",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
-  "data_sources": [
-    {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
-    }
-  ],
+  "data_provenance": "prospectus_v1",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,
     "surrender_schedule": [
-      0.07,
+      0.08,
+      0.08,
       0.07,
       0.06,
       0.05,
@@ -33,15 +28,15 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.1
+      "cap_rate": 0.095
     },
     {
       "term_years": 6,
       "index": "sp500",
-      "crediting_method": "cap",
+      "crediting_method": "participation",
       "protection_type": "buffer",
-      "protection_level": 0.15,
-      "cap_rate": 0.55
+      "protection_level": 0.2,
+      "participation_rate": 0.8
     }
   ],
   "default_allocation_pcts": [
@@ -58,12 +53,47 @@
   },
   "behavioral_data": {
     "initial_cap": 0.11,
-    "current_cap": 0.1,
-    "cap_history": [],
+    "current_cap": 0.095,
+    "cap_history": [
+      {
+        "date": "2024-01-01",
+        "cap": 0.1
+      },
+      {
+        "date": "2025-05-01",
+        "cap": 0.095
+      }
+    ],
     "illustration_actual_delta": 0.05,
     "naic_complaints_index": 0.7,
     "regulatory_fines_5yr": 0
   },
   "has_gmdb": false,
-  "gmdb_rider_fee": 0.0
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "carrier_rate_sheet",
+      "url": "https://annuityeducator.com/reviews/jackson-national-life-insurance-company/fixed-index/market-link-pro-iii",
+      "retrieved": "2026-05-12",
+      "note": "Jackson Market Link Pro III (launch 2025-05-19, JNL). 6-yr surrender 8/8/7/6/5/4. 1-yr S&P 500 PTP cap with 10% buffer = 9.5% cap; 6-yr S&P 500 PTP with 20% buffer = 80% participation rate (NOT cap — crediting_method changed from 'cap' to 'participation'). 10% free withdrawal corridor. Spec surrender updated 7/7/6/5/4 (5yr) -> 8/8/7/6/5/4 (6yr); 1-yr cap 0.10 -> 0.095; 6-yr crediting_method 'cap'/0.55 -> 'participation'/0.80; base has NO GLWB rider (rider type 'none' retained — +Income rider is optional, 1.45% if added, not modeled here)."
+    },
+    {
+      "type": "n4_prospectus",
+      "url": "https://www.sec.gov/Archives/edgar/data/931788/000093178820000009/jacksonmarketlinkprodoc.htm",
+      "retrieved": "2026-05-12",
+      "note": "Jackson Market Link Pro combined SEC document (Jackson National Life Insurance Company, CIK 931788). Confirms base RILA structure, 10% free annual withdrawal of remaining premium, MVA applies to amounts over free corridor."
+    },
+    {
+      "type": "am_best",
+      "url": "https://news.ambest.com/pr/PressContent.aspx?refnum=36903&altsrc=2",
+      "retrieved": "2026-05-12",
+      "note": "Jackson National Life Insurance Company AM Best FSR A (Excellent), affirmed Dec 18, 2025. Long-term Issuer Credit Rating upgraded to 'a+' from 'a' Dec 2025."
+    },
+    {
+      "type": "naic_company_code",
+      "url": "https://www.annuity.org/annuities/providers/jackson-national/",
+      "retrieved": "2026-05-12",
+      "note": "Jackson National Life Insurance Company NAIC code 65056 (MI-domiciled). 2024 individual annuity premium $17.5B (8th-largest US issuer)."
+    }
+  ]
 }

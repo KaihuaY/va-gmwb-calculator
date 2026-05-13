@@ -2,8 +2,8 @@
   "product_slug": "jackson_market_link_pro",
   "product_name": "Market Link Pro",
   "carrier": "Jackson",
-  "methodology_version": "v1.1.0",
-  "product_spec_hash": "d2e005a20fa5bf26711f87258ced8f3f5bdc718e89bbebb7ef3826095ca737d3",
+  "methodology_version": "v1.2.0",
+  "product_spec_hash": "2eff9ea9cdb112e88871e409cd061f43778a62a5792c3820f4e9a61b5b73fdf9",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -20,38 +20,38 @@
     "fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
-    "av_end_p5": 216417.13,
-    "av_end_p50": 467023.52,
-    "av_end_p95": 932050.23
+    "av_end_p5": 318301.95,
+    "av_end_p50": 865789.03,
+    "av_end_p95": 2507690.54
   },
   "monte_carlo_male": {
     "fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
-    "av_end_p5": 216417.13,
-    "av_end_p50": 467023.52,
-    "av_end_p95": 932050.23
+    "av_end_p5": 318301.95,
+    "av_end_p50": 865789.03,
+    "av_end_p95": 2507690.54
   },
   "monte_carlo_female": {
     "fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
-    "av_end_p5": 216417.13,
-    "av_end_p50": 467023.52,
-    "av_end_p95": 932050.23
+    "av_end_p5": 318301.95,
+    "av_end_p50": 865789.03,
+    "av_end_p95": 2507690.54
   },
   "sub_scores": {
     "tco": {
-      "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 75.2,
+      "rationale": "Annualised fee + cap-spread drag: 0.70%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50). (male) / No income rider \u2014 guarantee value is neutral (50). (female)"
+      "score": 100.0,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
     },
     "sf": {
-      "score": 75.0,
-      "rationale": "5-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+      "score": 65.0,
+      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
     },
     "ic": {
       "score": 83.0,
@@ -64,16 +64,16 @@
   },
   "male_scores": {
     "tco": {
-      "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 75.2,
+      "rationale": "Annualised fee + cap-spread drag: 0.70%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50)."
+      "score": 100.0,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
-      "score": 75.0,
-      "rationale": "5-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+      "score": 65.0,
+      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
     },
     "ic": {
       "score": 83,
@@ -86,16 +86,16 @@
   },
   "female_scores": {
     "tco": {
-      "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 75.2,
+      "rationale": "Annualised fee + cap-spread drag: 0.70%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50)."
+      "score": 100.0,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
-      "score": 75.0,
-      "rationale": "5-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+      "score": 65.0,
+      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
     },
     "ic": {
       "score": 83,
@@ -108,16 +108,16 @@
   },
   "blended_scores": {
     "tco": {
-      "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 75.2,
+      "rationale": "Annualised fee + cap-spread drag: 0.70%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 50.0,
-      "rationale": "No income rider \u2014 guarantee value is neutral (50). (male) / No income rider \u2014 guarantee value is neutral (50). (female)"
+      "score": 100.0,
+      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
     },
     "sf": {
-      "score": 75.0,
-      "rationale": "5-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+      "score": 65.0,
+      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
     },
     "ic": {
       "score": 83.0,
@@ -128,19 +128,19 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.70; 0 regulatory fines in 5yr."
     }
   },
-  "male_composite": 78.8,
-  "female_composite": 78.8,
-  "male_letter_grade": "B",
-  "female_letter_grade": "B",
-  "composite": 78.8,
-  "letter_grade": "B",
+  "male_composite": 81.8,
+  "female_composite": 81.8,
+  "male_letter_grade": "B+",
+  "female_letter_grade": "B+",
+  "composite": 81.8,
+  "letter_grade": "B+",
   "feature_snapshot": {
     "me_fee_annual": 0.0,
     "rider_fee_annual": 0.0,
     "rollup_rate": 0.0,
     "withdrawal_rate_65": 0.0,
-    "surrender_years": 5,
-    "surrender_max_pct": 0.07,
+    "surrender_years": 6,
+    "surrender_max_pct": 0.08,
     "free_withdrawal_pct": 0.1,
     "waivers": [
       "nursing-home",
@@ -149,11 +149,11 @@
     "waiver_count": 2,
     "step_up": false,
     "has_glwb": false,
-    "headline_cap": 0.1,
+    "headline_cap": 0.095,
     "am_best": "A",
     "pe_owned": false,
     "level_3_pct_2024": 0.2,
-    "cap_cut_count_5yr": 0,
+    "cap_cut_count_5yr": 1,
     "product_type": "rila",
     "first_offered": "2022-01-01"
   },
@@ -163,7 +163,7 @@
       "start_month": "1985-02",
       "end_month": "2000-01",
       "years": 15,
-      "av_end": 697593.2,
+      "av_end": 1074519.3,
       "av_min": 250000.0,
       "fees_pv": 0.0,
       "glwb_pv": 0.0,
@@ -177,13 +177,13 @@
       "start_month": "2000-01",
       "end_month": "2009-12",
       "years": 10,
-      "av_end": 191369.14,
-      "av_min": 175514.82,
+      "av_end": 214174.26,
+      "av_min": 188487.54,
       "fees_pv": 0.0,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 17.7,
+      "regime_score": 23.8,
       "history_truncated": false
     },
     "gfc_2008_2010": {
@@ -191,13 +191,13 @@
       "start_month": "2008-01",
       "end_month": "2010-12",
       "years": 3,
-      "av_end": 201018.8,
-      "av_min": 169626.05,
+      "av_end": 213817.34,
+      "av_min": 170849.13,
       "fees_pv": 0.0,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 20.3,
+      "regime_score": 23.7,
       "history_truncated": false
     },
     "post_gfc_bull_2010_2021": {
@@ -205,7 +205,7 @@
       "start_month": "2010-01",
       "end_month": "2021-12",
       "years": 12,
-      "av_end": 526115.74,
+      "av_end": 704480.08,
       "av_min": 250000.0,
       "fees_pv": 0.0,
       "glwb_pv": 0.0,
@@ -219,18 +219,18 @@
       "start_month": "2022-01",
       "end_month": "2024-12",
       "years": 3,
-      "av_end": 257368.87,
-      "av_min": 217233.21,
+      "av_end": 284822.05,
+      "av_min": 218456.28,
       "fees_pv": 0.0,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 35.3,
+      "regime_score": 42.6,
       "history_truncated": false
     }
   },
-  "narrative": "Jackson's Market Link Pro earns a composite score of 78.8, which maps to a letter grade of B under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Insurer Credit (83), Behavioral Fairness (86). Areas where this product scores below cohort median: Guarantee Value (50). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
-  "verdict": "Low fees (100) offset by weak guarantee value (50).",
+  "narrative": "Jackson's Market Link Pro earns a composite score of 81.8, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
   "signed_at": "2026-05-12T00:00:00Z",

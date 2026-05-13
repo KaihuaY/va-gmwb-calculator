@@ -4,23 +4,17 @@
   "carrier": "Lincoln",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
-  "data_sources": [
-    {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
-    }
-  ],
+  "data_provenance": "prospectus_v1",
   "base": {
     "base_av_default": 250000,
     "me_fee_annual": 0.0,
     "surrender_schedule": [
+      0.07,
+      0.07,
       0.06,
       0.05,
       0.04,
-      0.03,
-      0.02,
-      0.01
+      0.03
     ],
     "free_withdrawal_pct": 0.1,
     "nursing_home_waiver": true,
@@ -34,14 +28,14 @@
       "crediting_method": "cap",
       "protection_type": "buffer",
       "protection_level": 0.1,
-      "cap_rate": 0.075
+      "cap_rate": 0.1
     },
     {
       "term_years": 6,
       "index": "sp500",
       "crediting_method": "cap",
       "protection_type": "buffer",
-      "protection_level": 0.1,
+      "protection_level": 0.2,
       "cap_rate": 0.45
     }
   ],
@@ -51,7 +45,7 @@
   ],
   "rider": {
     "type": "glwb",
-    "rider_fee_annual": 0.012,
+    "rider_fee_annual": 0.004,
     "rollup_rate": 0.06,
     "withdrawal_rate_by_age": {
       "55-59": 0.04,
@@ -61,13 +55,13 @@
     "step_up": true
   },
   "insurer": {
-    "am_best": "A+",
+    "am_best": "A",
     "pe_owned": false,
     "level_3_pct_2024": 0.16
   },
   "behavioral_data": {
-    "initial_cap": 0.085,
-    "current_cap": 0.075,
+    "initial_cap": 0.1,
+    "current_cap": 0.1,
     "cap_history": [
       {
         "date": "2022-01-01",
@@ -75,7 +69,11 @@
       },
       {
         "date": "2023-06-01",
-        "cap": 0.075
+        "cap": 0.095
+      },
+      {
+        "date": "2025-01-01",
+        "cap": 0.1
       }
     ],
     "illustration_actual_delta": 0.05,
@@ -83,5 +81,31 @@
     "regulatory_fines_5yr": 0
   },
   "has_gmdb": false,
-  "gmdb_rider_fee": 0.0
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "carrier_rate_sheet",
+      "url": "https://www.lincolnfinancial.com/public/microsite/leveladvantage/ratescenter",
+      "retrieved": "2026-05-12",
+      "note": "Lincoln Level Advantage B-Share current rates: 1-yr S&P 500 PTP Cap with 10% buffer at 10% cap; 6-yr S&P 500 PTP Cap with 20% buffer at 45% cap. Surrender schedule 6-yr: 7/7/6/5/4/3. Free withdrawal 10% of current contract value or 10% of total purchase payment. Spec cap_rate updated synthetic 0.075 -> 0.10 (1-yr); 0.45 retained. Surrender updated 6/5/4/3/2/1 -> 7/7/6/5/4/3. me_fee retained at 0.0 (no separate M&E charge in B-Share)."
+    },
+    {
+      "type": "rider_fee",
+      "url": "https://annuityeducator.com/reviews/lincoln-national-life-insurance-company/fixed-index/lincoln-level-advantage-b-share",
+      "retrieved": "2026-05-12",
+      "note": "i4LIFE Indexed Advantage rider fee 0.40% annual. Spec rider_fee_annual updated synthetic 1.20% -> 0.40%."
+    },
+    {
+      "type": "am_best",
+      "url": "https://ratings.ambest.com/CompanyProfile.aspx?ambnum=6664&AltNum=1526664",
+      "retrieved": "2026-05-12",
+      "note": "Lincoln National Life Insurance Company AM Best Financial Strength Rating A (Excellent), outlook revised to Stable Feb 2025 (from Negative). Downgraded from A+ to A in Nov 2022 due to variable annuity / reinsurance concerns. Spec updated A+ -> A."
+    },
+    {
+      "type": "naic_company_code",
+      "url": "https://weissratings.com/en/insurer/L65676",
+      "retrieved": "2026-05-12",
+      "note": "Lincoln National Life Insurance Company NAIC code 65676 (IN-domiciled)."
+    }
+  ]
 }

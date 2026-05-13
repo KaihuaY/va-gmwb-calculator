@@ -4,23 +4,17 @@
   "carrier": "Brighthouse",
   "product_type": "rila",
   "first_offered": "2022-01-01",
-  "data_provenance": "synthetic_v0",
-  "data_sources": [
-    {
-      "type": "synthetic_v0_anchor",
-      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
-    }
-  ],
+  "data_provenance": "prospectus_v1",
   "base": {
     "base_av_default": 250000,
-    "me_fee_annual": 0.0125,
+    "me_fee_annual": 0.0,
     "surrender_schedule": [
+      0.07,
+      0.07,
       0.06,
       0.05,
       0.04,
-      0.03,
-      0.02,
-      0.01
+      0.03
     ],
     "free_withdrawal_pct": 0.1,
     "nursing_home_waiver": true,
@@ -51,12 +45,12 @@
   ],
   "rider": {
     "type": "glwb",
-    "rider_fee_annual": 0.014,
-    "rollup_rate": 0.04,
+    "rider_fee_annual": 0.015,
+    "rollup_rate": 0.05,
     "withdrawal_rate_by_age": {
-      "55-59": 0.04,
+      "55-59": 0.0475,
       "60-64": 0.05,
-      "65+": 0.05
+      "65+": 0.0525
     },
     "step_up": false
   },
@@ -87,5 +81,31 @@
     "regulatory_fines_5yr": 0
   },
   "has_gmdb": false,
-  "gmdb_rider_fee": 0.0
+  "gmdb_rider_fee": 0.0,
+  "data_sources": [
+    {
+      "type": "product_review",
+      "url": "https://annuityrateshq.com/annuity-reviews/brighthouse-shield-level-pay-plus-ii-indexed-annuity-review",
+      "retrieved": "2026-05-12",
+      "note": "Shield Level Pay Plus II Annuity (Brighthouse Life Insurance Company, policy form 5-213-1 (07/24)). GLWB rider fee 1.50% on benefit base, 5% simple-interest rollup for 10 years, 6-yr surrender 7/7/6/5/4/3, 10% free annual withdrawal. Single-life Market Growth withdrawal rates: 5.25% at age 59.5, ~7.5% at age 65, 8.00% at age 75+. Spec rider_fee_annual updated synthetic 1.40% -> 1.50%; rollup updated 4% -> 5%; surrender schedule updated 6/5/4/3/2/1 -> 7/7/6/5/4/3."
+    },
+    {
+      "type": "carrier_product_page",
+      "url": "https://www.brighthousefinancial.com/products/annuities/shield-level-pay-plus-annuities/",
+      "retrieved": "2026-05-12",
+      "note": "Brighthouse Shield Level Pay Plus II official product page; confirms two rider variants (Market Growth, Market Growth with Rollup) and annual rider charge structure."
+    },
+    {
+      "type": "am_best",
+      "url": "https://news.ambest.com/pr/PressContent.aspx?refnum=36726&altsrc=2",
+      "retrieved": "2026-05-12",
+      "note": "Brighthouse Life Insurance Company AM Best FSR A (Excellent). NOTE: AM Best placed ratings under review with negative implications on 2025-11-10 pending Aquarian Capital acquisition (announced Nov 2025; $70/share all-cash, ~$4.1B). Rating not yet downgraded. Spec retains 'A'."
+    },
+    {
+      "type": "naic_company_code",
+      "url": "https://insurance.delaware.gov/wp-content/uploads/sites/15/2024/06/BrighthouseLifeInsuranceCo2022web.pdf",
+      "retrieved": "2026-05-12",
+      "note": "Brighthouse Life Insurance Company NAIC code 87726 (NC-domiciled)."
+    }
+  ]
 }

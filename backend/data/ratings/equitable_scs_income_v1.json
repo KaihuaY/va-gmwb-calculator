@@ -2,8 +2,8 @@
   "product_slug": "equitable_scs_income",
   "product_name": "SCS Income",
   "carrier": "Equitable",
-  "methodology_version": "v1.1.0",
-  "product_spec_hash": "f27e666d269d3bd3a2a2c0d32c63c95bc77b4ff4f24f88fba79d2281cdd3b118",
+  "methodology_version": "v1.2.0",
+  "product_spec_hash": "a1164d8d849c944d240d6cb85ab9d0601b00442a004c6e62027fa15c0ba10f1f",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
@@ -17,24 +17,24 @@
     ]
   },
   "monte_carlo": {
-    "fees_pv_mean": 89010.11,
-    "glwb_pv_mean": 81206.7,
+    "fees_pv_mean": 75720.77,
+    "glwb_pv_mean": 46329.65,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 0.0,
     "av_end_p50": 0.0,
     "av_end_p95": 0.0
   },
   "monte_carlo_male": {
-    "fees_pv_mean": 88058.07,
-    "glwb_pv_mean": 78726.36,
+    "fees_pv_mean": 74330.01,
+    "glwb_pv_mean": 43981.27,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 0.0,
     "av_end_p50": 0.0,
     "av_end_p95": 0.0
   },
   "monte_carlo_female": {
-    "fees_pv_mean": 89962.14,
-    "glwb_pv_mean": 83687.04,
+    "fees_pv_mean": 77111.54,
+    "glwb_pv_mean": 48678.04,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 0.0,
     "av_end_p50": 0.0,
@@ -42,12 +42,12 @@
   },
   "sub_scores": {
     "tco": {
-      "score": 27.0,
-      "rationale": "Annualised fee + cap-spread drag: 2.50%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 2.7,
+      "rationale": "Annualised fee + cap-spread drag: 2.75%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 61.9,
-      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.20x. GLWB PV $78,726; rider fee PV $65,625. (male) / PV(GLWB claims) / PV(rider fees) \u2248 1.28x. GLWB PV $83,687; rider fee PV $65,625. (female)"
+      "score": 51.0,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.56x ($43,981 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (38% rider / 62% buffer). (male) / GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.62x ($48,678 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (41% rider / 59% buffer). (female)"
     },
     "sf": {
       "score": 75.0,
@@ -64,12 +64,12 @@
   },
   "male_scores": {
     "tco": {
-      "score": 27.0,
-      "rationale": "Annualised fee + cap-spread drag: 2.50%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 2.7,
+      "rationale": "Annualised fee + cap-spread drag: 2.75%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 60.0,
-      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.20x. GLWB PV $78,726; rider fee PV $65,625."
+      "score": 50.9,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.56x ($43,981 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (38% rider / 62% buffer)."
     },
     "sf": {
       "score": 75.0,
@@ -86,12 +86,12 @@
   },
   "female_scores": {
     "tco": {
-      "score": 27.0,
-      "rationale": "Annualised fee + cap-spread drag: 2.50%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 2.7,
+      "rationale": "Annualised fee + cap-spread drag: 2.75%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 63.8,
-      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.28x. GLWB PV $83,687; rider fee PV $65,625."
+      "score": 51.2,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.62x ($48,678 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (41% rider / 59% buffer)."
     },
     "sf": {
       "score": 75.0,
@@ -108,12 +108,12 @@
   },
   "blended_scores": {
     "tco": {
-      "score": 27.0,
-      "rationale": "Annualised fee + cap-spread drag: 2.50%. Cohort best: 0.00%; cohort worst: 3.43%."
+      "score": 2.7,
+      "rationale": "Annualised fee + cap-spread drag: 2.75%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 61.9,
-      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.20x. GLWB PV $78,726; rider fee PV $65,625. (male) / PV(GLWB claims) / PV(rider fees) \u2248 1.28x. GLWB PV $83,687; rider fee PV $65,625. (female)"
+      "score": 51.0,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.56x ($43,981 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (38% rider / 62% buffer). (male) / GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.62x ($48,678 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (41% rider / 59% buffer). (female)"
     },
     "sf": {
       "score": 75.0,
@@ -128,15 +128,15 @@
       "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
     }
   },
-  "male_composite": 67.0,
-  "female_composite": 67.8,
-  "male_letter_grade": "C+",
-  "female_letter_grade": "C+",
-  "composite": 67.4,
-  "letter_grade": "C+",
+  "male_composite": 60.3,
+  "female_composite": 60.4,
+  "male_letter_grade": "C",
+  "female_letter_grade": "C",
+  "composite": 60.3,
+  "letter_grade": "C",
   "feature_snapshot": {
     "me_fee_annual": 0.0125,
-    "rider_fee_annual": 0.0125,
+    "rider_fee_annual": 0.015,
     "rollup_rate": 0.06,
     "withdrawal_rate_65": 0.055,
     "surrender_years": 6,
@@ -163,13 +163,13 @@
       "start_month": "1985-02",
       "end_month": "2000-01",
       "years": 15,
-      "av_end": 208432.33,
-      "av_min": 208432.33,
-      "fees_pv": 79203.77,
+      "av_end": 190892.76,
+      "av_min": 190892.76,
+      "fees_pv": 86753.04,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 22.2,
+      "regime_score": 17.6,
       "history_truncated": false
     },
     "lost_decade_2000_2009": {
@@ -177,9 +177,9 @@
       "start_month": "2000-01",
       "end_month": "2009-12",
       "years": 10,
-      "av_end": 55588.53,
-      "av_min": 55588.53,
-      "fees_pv": 48045.75,
+      "av_end": 49116.08,
+      "av_min": 49116.08,
+      "fees_pv": 53799.67,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
@@ -191,13 +191,13 @@
       "start_month": "2008-01",
       "end_month": "2010-12",
       "years": 3,
-      "av_end": 181511.57,
-      "av_min": 165588.51,
-      "fees_pv": 15279.21,
+      "av_end": 179390.66,
+      "av_min": 164963.51,
+      "fees_pv": 17079.92,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 15.1,
+      "regime_score": 14.5,
       "history_truncated": false
     },
     "post_gfc_bull_2010_2021": {
@@ -205,13 +205,13 @@
       "start_month": "2010-01",
       "end_month": "2021-12",
       "years": 12,
-      "av_end": 214234.93,
-      "av_min": 214234.93,
-      "fees_pv": 66717.52,
+      "av_end": 202117.81,
+      "av_min": 202117.81,
+      "fees_pv": 73247.33,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 23.8,
+      "regime_score": 20.6,
       "history_truncated": false
     },
     "rate_hike_2022_2024": {
@@ -219,18 +219,18 @@
       "start_month": "2022-01",
       "end_month": "2024-12",
       "years": 3,
-      "av_end": 235024.02,
-      "av_min": 212600.58,
-      "fees_pv": 17027.58,
+      "av_end": 232903.2,
+      "av_min": 211975.58,
+      "fees_pv": 18828.29,
       "glwb_pv": 0.0,
       "gmdb_pv": 0.0,
       "shortfall_probability": 0.0,
-      "regime_score": 29.3,
+      "regime_score": 28.8,
       "history_truncated": false
     }
   },
-  "narrative": "Equitable's SCS Income earns a composite score of 67.4, which maps to a letter grade of C+ under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (83). Areas where this product scores below cohort median: Total Cost of Ownership (27). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
-  "verdict": "Strong insurer credit (90) offset by high fee drag (27).",
+  "narrative": "Equitable's SCS Income earns a composite score of 60.3, which maps to a letter grade of C under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (83). Areas where this product scores below cohort median: Total Cost of Ownership (3), Guarantee Value (51). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Strong insurer credit (90) offset by high fee drag (3).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
   "signed_at": "2026-05-12T00:00:00Z",
