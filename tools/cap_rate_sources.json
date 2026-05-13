@@ -1,13 +1,15 @@
 {
-  "comment": "Cap-rate source registry. Each entry maps a product slug + segment index to a public URL where the current cap rate can be found, plus a parser hint. Sources should be: (1) publicly accessible without login, (2) on the carrier's own domain or SEC EDGAR, (3) refreshed at known cadences. Maintained by K. Add entries here; tools/fetch_cap_rates.py walks this registry.",
-  "schema_version": 1,
+  "comment": "Cap-rate source registry. Each entry maps a product slug + segment index to one or two public URLs. SCHEMA v2: `url` is the primary carrier rate-sheet URL; `edgar_filing_url` is an optional SEC 497 supplement (or 485APOS amendment) that contains the same rate. The fetcher tries the carrier URL first, falls back to EDGAR if the carrier URL fails or returns no plausible cap-rate candidates. EDGAR is the authoritative public-record source — carrier URLs rotate, EDGAR documents are immutable once filed and have date stamps. Maintained by K.",
+  "schema_version": 2,
   "sources": [
     {
       "slug": "allianz_index_advantage_income",
       "segment_index": 0,
       "segment_label": "1-yr S&P500 cap, 10% buffer",
       "url": "https://www.allianzlife.com/-/media/files/allianzlife/pdfs/product-pdfs/m-7188.pdf",
-      "parser_hint": "PDF rate sheet; cap appears as '1-Year S&P 500 ... Cap Rate ... X.XX%' under the Index Advantage+ Income B-share row. The published rate sheet is named M-7188 and updated monthly.",
+      "edgar_cik": "0000356213",
+      "edgar_filing_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000356213&type=497&dateb=&owner=include&count=20",
+      "parser_hint": "PDF rate sheet M-7188; cap appears as '1-Year S&P 500 ... Cap Rate ... X.XX%' under the Index Advantage+ Income B-share row. Updated monthly.",
       "carrier_page": "https://www.allianzlife.com/what-we-offer/annuities/registered-index-linked-annuities/index-advantage-plus-income",
       "refresh_cadence_days": 30
     },
@@ -16,6 +18,8 @@
       "segment_index": 0,
       "segment_label": "1-yr S&P500 cap, 10% buffer",
       "url": "https://www.brighthousefinancial.com/content/dam/brighthousefinancial-com/documents/annuity-product-rates/shield-level-pay-plus-rates.pdf",
+      "edgar_cik": "0001294404",
+      "edgar_filing_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001294404&type=497&dateb=&owner=include&count=20",
       "parser_hint": "PDF rate sheet; cap under 'Shield Level Pay Plus 6 / S&P 500 / 1-Year / 10% Shield'.",
       "carrier_page": "https://www.brighthousefinancial.com/annuities/shield-level-pay-plus/",
       "refresh_cadence_days": 30
@@ -25,7 +29,9 @@
       "segment_index": 0,
       "segment_label": "1-yr S&P500 cap, 10% buffer",
       "url": "https://equitable.com/-/media/files/equitable/pdfs/scs-income-current-rates.pdf",
-      "parser_hint": "PDF rate sheet; cap under 'SCS Income / S&P 500 / 1-Year / -10% Buffer'. URL is a documented stable redirect; if it 404s, fall back to the SCS Income product page and follow the 'current rates' link.",
+      "edgar_cik": "0002039145",
+      "edgar_filing_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002039145&type=497&dateb=&owner=include&count=20",
+      "parser_hint": "PDF rate sheet under 'SCS Income / S&P 500 / 1-Year / -10% Buffer'. The carrier URL is a documented stable redirect; if it 404s, the SEC 497 filing list is the authoritative fallback.",
       "carrier_page": "https://equitable.com/retirement/products/variable-annuities/structured-capital-strategies-income",
       "refresh_cadence_days": 30
     },
@@ -34,6 +40,8 @@
       "segment_index": 0,
       "segment_label": "1-yr S&P500 cap, 10% buffer",
       "url": "https://www.lfg.com/wcs-static/pdf/Lincoln Level Advantage Income current rates.pdf",
+      "edgar_cik": "0000059558",
+      "edgar_filing_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000059558&type=497&dateb=&owner=include&count=20",
       "parser_hint": "PDF rate sheet for Lincoln Level Advantage Income B-share; cap appears as a table cell '1-Year / S&P 500 / 10% Buffer / X.XX%'.",
       "carrier_page": "https://www.lincolnfinancial.com/public/individuals/products/annuities/registered-index-linked-annuities/lincolnleveladvantageincome",
       "refresh_cadence_days": 30
@@ -43,7 +51,9 @@
       "segment_index": 0,
       "segment_label": "1-yr S&P500 cap, 10% buffer",
       "url": "https://www.jackson.com/content/dam/jackson/documents/Market-Link-Pro-Current-Rates.pdf",
-      "parser_hint": "Jackson Market Link Pro current rates sheet; look for 'S&P 500 / 1-Year / 10% Buffer / Cap Rate / X.XX%'.",
+      "edgar_cik": "0000812348",
+      "edgar_filing_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000812348&type=497&dateb=&owner=include&count=20",
+      "parser_hint": "Jackson Market Link Pro current rates sheet; 'S&P 500 / 1-Year / 10% Buffer / Cap Rate / X.XX%'.",
       "carrier_page": "https://www.jackson.com/products/registered-index-linked-annuities/market-link-pro.html",
       "refresh_cadence_days": 30
     }
