@@ -2,38 +2,17 @@
   "product_slug": "transamerica_sia",
   "product_name": "Structured Index Advantage",
   "carrier": "Transamerica",
-  "methodology_version": "v1.2.0",
+  "methodology_version": "v1.3.0",
   "product_spec_hash": "139b098de63021c5b2a22b0790ee5a58e30f308f27c38533aae274a9c08b6475",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
     "age": 60,
-    "gender": "blend",
-    "gender_blend": true,
-    "genders_blended": [
-      "M",
-      "F"
-    ]
+    "gender": "blend"
   },
   "monte_carlo": {
-    "fees_pv_mean": 37124.86,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 127231.94,
-    "av_end_p50": 265749.15,
-    "av_end_p95": 513704.78
-  },
-  "monte_carlo_male": {
-    "fees_pv_mean": 36326.53,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 127231.94,
-    "av_end_p50": 265749.15,
-    "av_end_p95": 513704.78
-  },
-  "monte_carlo_female": {
-    "fees_pv_mean": 37923.2,
+    "fees_pv_mean": 36705.45,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 127231.94,
@@ -47,28 +26,6 @@
     },
     "gv": {
       "score": 63.3,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
-    },
-    "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83.0,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 19%."
-    },
-    "bf": {
-      "score": 88.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_scores": {
-    "tco": {
-      "score": 55.8,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 63.3,
       "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
@@ -84,54 +41,6 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
     }
   },
-  "female_scores": {
-    "tco": {
-      "score": 55.8,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 63.3,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
-    },
-    "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 19%."
-    },
-    "bf": {
-      "score": 88.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
-    }
-  },
-  "blended_scores": {
-    "tco": {
-      "score": 55.8,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 63.3,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
-    },
-    "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83.0,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 19%."
-    },
-    "bf": {
-      "score": 88.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_composite": 73.0,
-  "female_composite": 73.0,
-  "male_letter_grade": "B-",
-  "female_letter_grade": "B-",
   "composite": 73.0,
   "letter_grade": "B-",
   "feature_snapshot": {
@@ -229,7 +138,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Transamerica's Structured Index Advantage earns a composite score of 73.0, which maps to a letter grade of B- under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (83), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Transamerica's Structured Index Advantage earns a composite score of 73.0, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (83), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Consistent carrier behavior (88) offset by high fee drag (56).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

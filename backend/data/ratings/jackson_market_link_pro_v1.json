@@ -2,37 +2,16 @@
   "product_slug": "jackson_market_link_pro",
   "product_name": "Market Link Pro",
   "carrier": "Jackson",
-  "methodology_version": "v1.2.0",
+  "methodology_version": "v1.3.0",
   "product_spec_hash": "2eff9ea9cdb112e88871e409cd061f43778a62a5792c3820f4e9a61b5b73fdf9",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
     "age": 60,
-    "gender": "blend",
-    "gender_blend": true,
-    "genders_blended": [
-      "M",
-      "F"
-    ]
+    "gender": "blend"
   },
   "monte_carlo": {
-    "fees_pv_mean": 0.0,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 318301.95,
-    "av_end_p50": 865789.03,
-    "av_end_p95": 2507690.54
-  },
-  "monte_carlo_male": {
-    "fees_pv_mean": 0.0,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 318301.95,
-    "av_end_p50": 865789.03,
-    "av_end_p95": 2507690.54
-  },
-  "monte_carlo_female": {
     "fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
@@ -47,28 +26,6 @@
     },
     "gv": {
       "score": 100.0,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
-    },
-    "sf": {
-      "score": 65.0,
-      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83.0,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 20%."
-    },
-    "bf": {
-      "score": 86.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.70; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_scores": {
-    "tco": {
-      "score": 75.2,
-      "rationale": "Annualised fee + cap-spread drag: 0.70%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 100.0,
       "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
@@ -84,54 +41,6 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.70; 0 regulatory fines in 5yr."
     }
   },
-  "female_scores": {
-    "tco": {
-      "score": 75.2,
-      "rationale": "Annualised fee + cap-spread drag: 0.70%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 100.0,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
-    },
-    "sf": {
-      "score": 65.0,
-      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 20%."
-    },
-    "bf": {
-      "score": 86.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.70; 0 regulatory fines in 5yr."
-    }
-  },
-  "blended_scores": {
-    "tco": {
-      "score": 75.2,
-      "rationale": "Annualised fee + cap-spread drag: 0.70%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 100.0,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 2.32x. Buffer PV $71,035; floor PV $0; cost-base PV $30,573. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
-    },
-    "sf": {
-      "score": 65.0,
-      "rationale": "6-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83.0,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 20%."
-    },
-    "bf": {
-      "score": 86.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.70; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_composite": 81.8,
-  "female_composite": 81.8,
-  "male_letter_grade": "B+",
-  "female_letter_grade": "B+",
   "composite": 81.8,
   "letter_grade": "B+",
   "feature_snapshot": {
@@ -229,7 +138,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Jackson's Market Link Pro earns a composite score of 81.8, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Jackson's Market Link Pro earns a composite score of 81.8, which maps to a letter grade of B+ under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Guarantee Value (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Mostly solid; strongest in strong guarantee value (100), softest in restrictive surrender terms (65).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

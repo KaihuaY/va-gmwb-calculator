@@ -1,17 +1,16 @@
 /**
  * /ratings/:slug — single product rating page (redesigned for advisors/clients).
  *
- * Reading order, per design principles K approved:
- *   1. Hero (carrier + product + letter grade + M/F/Blended toggle)
+ * Reading order:
+ *   1. Hero (carrier + product + letter grade)
  *   2. Synthesised one-sentence verdict (algorithmic, from sub-scores)
  *   3. SignatureBlock (REQUIRED — always rendered when signed_by present)
  *   4. ProductFeatureCard with lens tabs (Costs / Income / Carrier / Flexibility)
  *   5. Narrative paragraph
  *   6. Standardized scoring scenario summary
  *   7. Collapsible "Methodology score breakdown" — the 5 sub-score bars live
- *      inside a <details> element. They are inside-baseball and hidden by
- *      default. Crucially, they remain DOM-queryable for the Playwright
- *      smoke test (data-testid="subscore-{key}" still present).
+ *      inside a <details> element, hidden by default. They remain
+ *      DOM-queryable for the Playwright smoke test.
  *
  * Required test hooks (do not remove):
  *   [data-testid="rating-detail"]
@@ -38,36 +37,11 @@ function gradeColor(g) {
   return '#b91c1c';
 }
 
-// Pick which sub-score block + composite + letter to show
-// based on the user-selected gender view.
-function resolveGenderView(rating, view) {
-  if (view === 'M' && rating.male_scores) {
-    return {
-      sub: rating.male_scores,
-      composite: rating.male_composite ?? rating.composite,
-      letter: rating.male_letter_grade ?? rating.letter_grade,
-    };
-  }
-  if (view === 'F' && rating.female_scores) {
-    return {
-      sub: rating.female_scores,
-      composite: rating.female_composite ?? rating.composite,
-      letter: rating.female_letter_grade ?? rating.letter_grade,
-    };
-  }
-  return {
-    sub: rating.sub_scores,
-    composite: rating.composite,
-    letter: rating.letter_grade,
-  };
-}
-
 export default function RatingDetail() {
   const { slug } = useParams();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [lens, setLens] = useState('costs');
-  const [genderView, setGenderView] = useState('blend');
 
   useEffect(() => {
     getRating(slug)
@@ -80,8 +54,11 @@ export default function RatingDetail() {
   if (!data)  return <div data-testid="rating-detail-loading" style={pageStyle}>Loading…</div>;
 
   const { rating, product } = data;
-  const view = resolveGenderView(rating, genderView);
-  const hasGenderBlend = rating.male_scores && rating.female_scores;
+  const view = {
+    sub: rating.sub_scores,
+    composite: rating.composite,
+    letter: rating.letter_grade,
+  };
 
   // Schema.org Review JSON-LD for SEO — always references the published
   // (blended) composite, not the user-toggle view.
@@ -139,51 +116,6 @@ export default function RatingDetail() {
               Methodology {rating.methodology_version}
             </Link>
           </div>
-          {hasGenderBlend && (
-            <div
-              data-testid="gender-toggle"
-              role="tablist"
-              style={{
-                marginLeft: 'auto',
-                display: 'inline-flex',
-                gap: 4,
-                padding: 4,
-                background: '#f3f4f6',
-                borderRadius: 8,
-              }}
-            >
-              {[
-                { id: 'blend', label: 'Blended' },
-                { id: 'M',     label: 'Male'    },
-                { id: 'F',     label: 'Female'  },
-              ].map((opt) => {
-                const active = genderView === opt.id;
-                return (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={active}
-                    data-testid={`gender-${opt.id}`}
-                    onClick={() => setGenderView(opt.id)}
-                    style={{
-                      padding: '6px 14px',
-                      borderRadius: 6,
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontWeight: active ? 700 : 500,
-                      fontSize: 13,
-                      background: active ? '#ffffff' : 'transparent',
-                      color: active ? '#111827' : '#4b5563',
-                      boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                    }}
-                  >
-                    {opt.label}
-                  </button>
-                );
-              })}
-            </div>
-          )}
         </div>
       </header>
 
@@ -236,9 +168,7 @@ export default function RatingDetail() {
         <h2 style={h2Style}>Standardized scoring scenario</h2>
         <p style={{ fontSize: 14, color: '#4b5563' }}>
           Rated for a {rating.scoring_inputs.age}-year-old
-          {rating.scoring_inputs.gender_blend === false
-            ? (rating.scoring_inputs.gender === 'M' ? ' male' : ' female')
-            : ' (50/50 male/female blend)'},&nbsp;
+          {' '}(50/50 blended-gender mortality),&nbsp;
           ${rating.scoring_inputs.premium.toLocaleString()} premium, planning
           to draw income at age 65, over {rating.scoring_inputs.horizon_years} years.
           All products are rated against this identical scenario.
@@ -285,14 +215,6 @@ export default function RatingDetail() {
                 rationale={view.sub[id].rationale}
               />
             ))}
-            {hasGenderBlend && (
-              <p style={{ fontSize: 12, color: '#6b7280', marginTop: 12 }}>
-                Currently showing{' '}
-                {genderView === 'blend' ? '50/50 blended' :
-                  genderView === 'M' ? 'male-only' : 'female-only'}{' '}
-                scores. Use the gender toggle in the header to switch perspectives.
-              </p>
-            )}
           </div>
         </details>
       </section>
@@ -303,11 +225,10 @@ export default function RatingDetail() {
           Annuity ratings are the opinion of the named signing actuary based on
           the published methodology ({rating.methodology_version}). They are
           not investment advice, do not constitute a recommendation, and do not
-          create a fiduciary relationship. The default grade is a 50/50 blend
-          of male and female standardized scenarios; the gender toggle above
-          shows either single-gender perspective. Ratings reflect data available
-          as of the rating date and may change. Contract terms vary; consult
-          the product prospectus and a qualified advisor before purchase.
+          create a fiduciary relationship. Mortality is a 50/50 blended-gender
+          cohort. Ratings reflect data available as of the rating date and may
+          change. Contract terms vary; consult the product prospectus and a
+          qualified advisor before purchase.
         </p>
       </footer>
     </div>

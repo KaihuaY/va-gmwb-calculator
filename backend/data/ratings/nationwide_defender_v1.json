@@ -2,38 +2,17 @@
   "product_slug": "nationwide_defender",
   "product_name": "Defender",
   "carrier": "Nationwide",
-  "methodology_version": "v1.2.0",
+  "methodology_version": "v1.3.0",
   "product_spec_hash": "df5773d039b75d34163324b046bffe1b39292129a621d15297fd9a6d11b0ecdf",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
     "age": 60,
-    "gender": "blend",
-    "gender_blend": true,
-    "genders_blended": [
-      "M",
-      "F"
-    ]
+    "gender": "blend"
   },
   "monte_carlo": {
-    "fees_pv_mean": 38544.47,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 139313.16,
-    "av_end_p50": 293432.47,
-    "av_end_p95": 570402.4
-  },
-  "monte_carlo_male": {
-    "fees_pv_mean": 37695.93,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 139313.16,
-    "av_end_p50": 293432.47,
-    "av_end_p95": 570402.4
-  },
-  "monte_carlo_female": {
-    "fees_pv_mean": 39393.01,
+    "fees_pv_mean": 38100.39,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 139313.16,
@@ -47,28 +26,6 @@
     },
     "gv": {
       "score": 65.1,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
-    },
-    "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 95.0,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 14%."
-    },
-    "bf": {
-      "score": 90.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_scores": {
-    "tco": {
-      "score": 55.8,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 65.1,
       "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
@@ -84,54 +41,6 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "female_scores": {
-    "tco": {
-      "score": 55.8,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 65.1,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
-    },
-    "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 95,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 14%."
-    },
-    "bf": {
-      "score": 90.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
-    }
-  },
-  "blended_scores": {
-    "tco": {
-      "score": 55.8,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 65.1,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
-    },
-    "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 95.0,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 14%."
-    },
-    "bf": {
-      "score": 90.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_composite": 76.2,
-  "female_composite": 76.2,
-  "male_letter_grade": "B",
-  "female_letter_grade": "B",
   "composite": 76.2,
   "letter_grade": "B",
   "feature_snapshot": {
@@ -229,7 +138,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Nationwide's Defender earns a composite score of 76.2, which maps to a letter grade of B under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (95), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Nationwide's Defender earns a composite score of 76.2, which maps to a letter grade of B under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (95), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (95) offset by high fee drag (56).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

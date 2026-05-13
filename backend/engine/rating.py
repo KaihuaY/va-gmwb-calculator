@@ -37,14 +37,8 @@ from .utils import compute_discount_factors
 # Product spec → RILAProduct adapter
 # ---------------------------------------------------------------------------
 
-def product_spec_to_rila(spec: dict, premium: float, gender: str = "M") -> RILAProduct:
-    """Construct a RILAProduct from a product-spec JSON, scaled to `premium`.
-
-    `gender` is "M" or "F" and selects the rider withdrawal-rate curve:
-    if `rider.withdrawal_rate_by_age_female` is present, it overrides the
-    default `withdrawal_rate_by_age` for F-cohort scoring. When absent the
-    male/unisex curve is used (existing-spec default behavior).
-    """
+def product_spec_to_rila(spec: dict, premium: float) -> RILAProduct:
+    """Construct a RILAProduct from a product-spec JSON, scaled to `premium`."""
     segments_data = spec.get("segments_available", [])
     segments = [
         RILASegment(
@@ -75,13 +69,9 @@ def product_spec_to_rila(spec: dict, premium: float, gender: str = "M") -> RILAP
     has_glwb = rider.get("type") == "glwb"
 
     # Resolve withdrawal rate at age 65 (the scoring scenario's election age).
-    # F cohort uses the female curve when published; falls back to the unisex
-    # curve so existing 25 specs (no female override) keep identical behavior.
+    # US single-life withdrawal rates are unisex (Title VII / Norris 1983), so
+    # we use the single published curve.
     wd_rate_by_age = rider.get("withdrawal_rate_by_age", {}) or {}
-    if gender == "F":
-        female_curve = rider.get("withdrawal_rate_by_age_female")
-        if female_curve:
-            wd_rate_by_age = female_curve
     glwb_wd_rate = 0.05
     if "65+" in wd_rate_by_age:
         glwb_wd_rate = wd_rate_by_age["65+"]
@@ -372,14 +362,15 @@ def composite_to_letter(score: float, letter_bands: list[dict]) -> str:
 # Narrative templates
 # ---------------------------------------------------------------------------
 
-def draft_narrative(spec: dict, sub_scores: dict, composite: float, letter: str) -> str:
+def draft_narrative(spec: dict, sub_scores: dict, composite: float, letter: str,
+                    methodology_version: str = "current") -> str:
     """Template-driven narrative; no LLM call. FSA edits this at sign time."""
     name = spec["name"]
     carrier = spec["carrier"]
     parts = [
         f"{carrier}'s {name} earns a composite score of {composite:.1f}, "
         f"which maps to a letter grade of {letter} under AnnuityVoice "
-        f"Methodology v1.0.0.",
+        f"Methodology {methodology_version}.",
     ]
 
     strengths = []
@@ -460,7 +451,7 @@ def compute_regime_outcomes(
         return {}
 
     scenario = methodology["scoring_scenario"]
-    regime_cfg = methodology.get("regime_scoring", {})
+    regime_cfg = methodology.get("regime_role", methodology.get("regime_scoring", {}))
     premium = scenario["premium"]
     age = scenario["age"]
     election_age = scenario["election_age"]
@@ -568,19 +559,12 @@ def compute_regime_outcomes(
 # Main entry point
 # ---------------------------------------------------------------------------
 
-def _score_for_gender(
+def _score_blended(
     product_spec: dict,
     methodology: dict,
-    gender_code: str,
     cohort_tco_drags: list[float],
 ) -> tuple[dict, dict, dict]:
-    """
-    Run the scoring scenario for a single gender ("M" or "F").
-
-    Returns:
-        (sub_scores, monte_carlo_summary, composite_info)
-        composite_info = {"composite": float, "letter": str}
-    """
+    """Run the scoring scenario once with 50/50 blended-gender mortality."""
     scenario = methodology["scoring_scenario"]
     weights = methodology["weights"]
     letter_bands = methodology["letter_bands"]
@@ -590,27 +574,16 @@ def _score_for_gender(
 
     survival = compute_survival_probs(
         current_age=scenario["age"],
-        gender="male" if gender_code == "M" else "female",
+        gender="blend",
         base_calendar_year=2026,
         max_age=scenario["age"] + horizon,
         multiplier=1.0,
         table_name=scenario["mortality_table"],
     )
     discount = compute_discount_factors(scenario["discount_rate"], horizon + 1)
+    persistency = compute_persistency(survival, scenario.get("base_lapse", 0.0))
 
-    # Gender-differentiated lapse: female persistency is typically higher than
-    # male at the same policy year. The methodology's `lapse_gender_multiplier`
-    # scales `base_lapse` per cohort; the resulting lapse rate is baked into the
-    # persistency vector that weights PV(claims) and PV(fees). When the field is
-    # absent (v1.1.0 and earlier) the multiplier defaults to 1.0 for both
-    # genders, preserving prior behavior.
-    base_lapse = scenario.get("base_lapse", 0.0)
-    lapse_mult_map = scenario.get("lapse_gender_multiplier", {}) or {}
-    lapse_mult = float(lapse_mult_map.get(gender_code, 1.0))
-    cohort_lapse = base_lapse * lapse_mult
-    persistency = compute_persistency(survival, cohort_lapse)
-
-    rila = product_spec_to_rila(product_spec, premium, gender=gender_code)
+    rila = product_spec_to_rila(product_spec, premium)
     mc = project_rila_monte_carlo(
         rila,
         mu=scenario["mu"],
@@ -641,13 +614,11 @@ def _score_for_gender(
         "ic":  {"score": round(ic_s,  1), "rationale": ic_rationale},
         "bf":  {"score": round(bf_s,  1), "rationale": bf_rationale},
     }
-
     composite = (
         weights["tco"] * tco_s + weights["gv"] * gv_s + weights["sf"] * sf_s
         + weights["ic"] * ic_s + weights["bf"] * bf_s
     )
     letter = composite_to_letter(composite, letter_bands)
-
     mc_summary = {
         "fees_pv_mean":  round(mc["fees_pv_mean"], 2),
         "glwb_pv_mean":  round(mc["glwb_pv_mean"], 2),
@@ -656,35 +627,7 @@ def _score_for_gender(
         "av_end_p50":    round(mc["av_end_p50"], 2),
         "av_end_p95":    round(mc["av_end_p95"], 2),
     }
-
     return sub_scores, mc_summary, {"composite": round(composite, 1), "letter": letter}
-
-
-def _blend_sub_scores(male: dict, female: dict) -> dict:
-    """Element-wise 50/50 average of sub-scores. Rationales come from male (gender-invariant)."""
-    out = {}
-    for key in ("tco", "gv", "sf", "ic", "bf"):
-        m_s = male[key]["score"]
-        f_s = female[key]["score"]
-        blended = (m_s + f_s) / 2.0
-        # Use male rationale unless GV (which is the only one that varies meaningfully by mortality);
-        # for GV give a blended summary.
-        if key == "gv":
-            rationale = (
-                f"{male[key]['rationale']} (male) / "
-                f"{female[key]['rationale']} (female)"
-            )
-        else:
-            rationale = male[key]["rationale"]
-        out[key] = {"score": round(blended, 1), "rationale": rationale}
-    return out
-
-
-def _blend_monte_carlo(male: dict, female: dict) -> dict:
-    """50/50 average of Monte Carlo summary stats."""
-    return {
-        k: round((male[k] + female[k]) / 2.0, 2) for k in male
-    }
 
 
 def compute_rating(
@@ -692,108 +635,30 @@ def compute_rating(
     methodology: dict,
     cohort_tco_drags: Optional[list[float]] = None,
     scored_at: str = "1970-01-01T00:00:00Z",
-    gender_override: Optional[str] = None,
 ) -> dict:
-    """
-    Run the standardized scoring scenario for `product_spec` and return rating JSON.
+    """Score `product_spec` against `methodology` and return rating JSON.
 
-    Args:
-        product_spec: parsed product JSON
-        methodology: parsed methodology JSON
-        cohort_tco_drags: list of TCO drag values for all products in cohort
-                          (needed for relative TCO scoring). If None, uses
-                          a synthetic anchor cohort.
-        scored_at: ISO timestamp to embed in output. Pass a fixed string
-                   for reproducibility; CLI usually sets this from product
-                   spec mtime or an explicit arg.
-        gender_override: if "M" or "F", emit only that single-gender rating
-                         (no male/female/blended split). Used by API callers
-                         that want a single-perspective view. The default
-                         (None) produces the blended composite as the
-                         published score and exposes male_scores /
-                         female_scores / blended_scores breakdowns.
+    A single scoring run uses 50/50 blended-gender mortality. The rating
+    output exposes one composite, one set of sub-scores, and one Monte
+    Carlo summary — no M/F split.
     """
     scenario = methodology["scoring_scenario"]
 
     if cohort_tco_drags is None:
-        # Synthetic anchor cohort — the spec demands a relative measure even
-        # before all 25 ratings are computed. Anchors derived from typical
-        # RILA cost profiles.
         cohort_tco_drags = [0.020, 0.025, 0.030, 0.035, 0.040]
 
     spec_hash = hashlib.sha256(
         json.dumps(product_spec, sort_keys=True).encode("utf-8")
     ).hexdigest()
 
-    # ------------------------------------------------------------------
-    # Single-gender override path — emit a focused rating (no blend split)
-    # ------------------------------------------------------------------
-    if gender_override in ("M", "F"):
-        sub_scores, mc_summary, comp = _score_for_gender(
-            product_spec, methodology, gender_override, cohort_tco_drags,
-        )
-        narrative = draft_narrative(
-            product_spec, sub_scores, comp["composite"], comp["letter"]
-        )
-        return {
-            "product_slug": product_spec["slug"],
-            "product_name": product_spec["name"],
-            "carrier": product_spec["carrier"],
-            "methodology_version": methodology["version"],
-            "product_spec_hash": spec_hash,
-            "scored_at": scored_at,
-            "scoring_inputs": {
-                "premium": scenario["premium"],
-                "horizon_years": scenario["horizon_years"],
-                "age": scenario["age"],
-                "gender": gender_override,
-                "gender_blend": False,
-            },
-            "monte_carlo": mc_summary,
-            "sub_scores": sub_scores,
-            "composite": comp["composite"],
-            "letter_grade": comp["letter"],
-            "narrative": narrative,
-            "signed_by": None,
-            "signed_credentials": None,
-            "signed_at": None,
-            "status": "draft",
-        }
-
-    # ------------------------------------------------------------------
-    # Default path — produce M, F, and a 50/50 blended composite
-    # ------------------------------------------------------------------
-    genders = scenario.get("genders", [scenario.get("gender", "M")])
-
-    male_sub, male_mc, male_comp = _score_for_gender(
-        product_spec, methodology, "M", cohort_tco_drags,
+    sub_scores, mc_summary, comp = _score_blended(
+        product_spec, methodology, cohort_tco_drags,
     )
-    if "F" in genders:
-        female_sub, female_mc, female_comp = _score_for_gender(
-            product_spec, methodology, "F", cohort_tco_drags,
-        )
-    else:
-        # Methodology asks for male-only; mirror male into female for shape stability.
-        female_sub, female_mc, female_comp = male_sub, male_mc, male_comp
-
-    blended_sub = _blend_sub_scores(male_sub, female_sub)
-    blended_mc = _blend_monte_carlo(male_mc, female_mc)
-    blended_composite = round(
-        (male_comp["composite"] + female_comp["composite"]) / 2.0, 1
-    )
-    blended_letter = composite_to_letter(
-        blended_composite, methodology["letter_bands"]
-    )
-
-    # Carrier feature snapshot — surfaced on the index so advisors can compare
-    # contract terms without opening every product. Pure spec lookup; no engine.
     feature_snapshot = _carrier_feature_snapshot(product_spec)
-
-    # Historical regime backtests — supplementary detail, NOT in composite.
     regimes = compute_regime_outcomes(product_spec, methodology)
-
     narrative = draft_narrative(
-        product_spec, blended_sub, blended_composite, blended_letter
+        product_spec, sub_scores, comp["composite"], comp["letter"],
+        methodology_version=methodology["version"],
     )
 
     return {
@@ -808,26 +673,15 @@ def compute_rating(
             "horizon_years": scenario["horizon_years"],
             "age": scenario["age"],
             "gender": "blend",
-            "gender_blend": True,
-            "genders_blended": list(genders),
         },
-        "monte_carlo": blended_mc,
-        "monte_carlo_male": male_mc,
-        "monte_carlo_female": female_mc,
-        "sub_scores": blended_sub,
-        "male_scores": male_sub,
-        "female_scores": female_sub,
-        "blended_scores": blended_sub,
-        "male_composite": male_comp["composite"],
-        "female_composite": female_comp["composite"],
-        "male_letter_grade": male_comp["letter"],
-        "female_letter_grade": female_comp["letter"],
-        "composite": blended_composite,
-        "letter_grade": blended_letter,
+        "monte_carlo": mc_summary,
+        "sub_scores": sub_scores,
+        "composite": comp["composite"],
+        "letter_grade": comp["letter"],
         "feature_snapshot": feature_snapshot,
         "regimes": regimes,
         "narrative": narrative,
-        "verdict": _build_verdict(blended_sub),
+        "verdict": _build_verdict(sub_scores),
         "signed_by": None,
         "signed_credentials": None,
         "signed_at": None,

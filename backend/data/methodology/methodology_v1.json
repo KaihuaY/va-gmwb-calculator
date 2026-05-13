@@ -1,5 +1,5 @@
 {
-  "version": "v1.2.0",
+  "version": "v1.3.0",
   "effective_date": "2026-05-12",
   "weights": {
     "tco": 0.20,
@@ -10,8 +10,7 @@
   },
   "scoring_scenario": {
     "age": 60,
-    "gender": "M",
-    "genders": ["M", "F"],
+    "gender": "blend",
     "premium": 250000,
     "horizon_years": 30,
     "election_age": 65,
@@ -23,7 +22,6 @@
     "dynamic_lapse": true,
     "lapse_sensitivity": 0.5,
     "lapse_min_multiplier": 0.10,
-    "lapse_gender_multiplier": {"M": 1.00, "F": 0.93},
     "num_scenarios": 5000,
     "seed": 42
   },
@@ -49,13 +47,30 @@
     "ic":  "Insurer Credit: AM Best rating mapped to a base score, with deductions for PE ownership (-10) and high Level 3 asset concentration (-5 over 15%, -10 over 25%).",
     "bf":  "Behavioral Fairness: historical cap-rate cut frequency, illustration-vs-actual delta, NAIC complaint index, and regulatory fines in the prior 5 years. Defaults to 70 when public data is sparse."
   },
+  "mortality": {
+    "table": "2012iam",
+    "improvement": "Scale G2 projected from 2012 base year",
+    "cohort": "50/50 blended-gender qx (single scoring run, no M/F split). Mortality differential between sexes at typical annuity ages is small (≤5% of qx) and largely washes out under the PV(claims)/PV(fees) ratio that defines GV; using a blended cohort avoids gender-based scoring concerns that arise in some US states (Montana, Title VII / Norris 1983 for single-life pricing) without materially changing the composite."
+  },
+  "buffer_value_pricing": {
+    "rationale": "Buffer / floor absorption on indexed RILA segments is an embedded put-spread (buffer) or deep put (floor). Both have non-zero expected value under any real-world equity model with sigma > 0, so non-rider RILAs whose only guarantee is the buffer must have that value monetised — otherwise the Guarantee Value sub-score is a placeholder. Closed-form lognormal integration is used (NOT a separate Monte Carlo) for speed and byte-reproducibility; the integrand has an analytical form in terms of the standard normal CDF.",
+    "method": "closed_form_lognormal",
+    "mu_source": "scoring_scenario.mu",
+    "sigma_source": "scoring_scenario.sigma",
+    "discount_rate_source": "scoring_scenario.discount_rate",
+    "horizon_source": "scoring_scenario.horizon_years",
+    "buffer_payoff": "min(max(-R, 0), b) per segment-period, with R = exp((mu - 0.5 sigma^2) T + sigma sqrt(T) Z) - 1",
+    "floor_payoff":  "max(-R - f, 0) per segment-period; insurer absorbs all loss beyond -f",
+    "cost_base": "PV(M&E annual rate × premium) + PV(cap-spread drag × premium), continuously discounted at scoring_scenario.discount_rate",
+    "mapping": "score = clamp(50 × PV(absorption) / PV(cost_base), 0, 100); same shape as the rider-PV path"
+  },
   "regimes": [
     {
       "key": "bull_1985_1999",
       "display_name": "Secular bull (1985-1999)",
       "start_month": "1985-02",
       "years": 15,
-      "description": "Post-Volcker disinflation through dot-com peak. High equity returns, moderate volatility. Pre-1973 stagflation data is unavailable in sp500_monthly_returns.json (history starts 1985-02); this regime is the closest available high-return analogue."
+      "description": "Post-Volcker disinflation through dot-com peak. High equity returns, moderate volatility."
     },
     {
       "key": "lost_decade_2000_2009",
@@ -86,24 +101,19 @@
       "description": "Fed tightening, 2022 equity drawdown, 2023-24 recovery. Tests buffer mechanics in a moderate drawdown plus rapid recovery."
     }
   ],
-  "buffer_value_pricing": {
-    "rationale": "Buffer / floor absorption on indexed RILA segments is an embedded put-spread (buffer) or deep put (floor). Both have non-zero expected value under any real-world equity model with sigma > 0, so non-rider RILAs whose only guarantee is the buffer must have that value monetised — otherwise the Guarantee Value sub-score is a placeholder. Closed-form lognormal integration is used (NOT a separate Monte Carlo) for speed and byte-reproducibility; the integrand has an analytical form in terms of the standard normal CDF.",
-    "method": "closed_form_lognormal",
-    "mu_source": "scoring_scenario.mu",
-    "sigma_source": "scoring_scenario.sigma",
-    "discount_rate_source": "scoring_scenario.discount_rate",
-    "horizon_source": "scoring_scenario.horizon_years",
-    "buffer_payoff": "min(max(-R, 0), b) per segment-period, with R = exp((mu - 0.5 sigma^2) T + sigma sqrt(T) Z) - 1",
-    "floor_payoff":  "max(-R - f, 0) per segment-period; insurer absorbs all loss beyond -f",
-    "cost_base": "PV(M&E annual rate × premium) + PV(cap-spread drag × premium), continuously discounted at scoring_scenario.discount_rate",
-    "mapping": "score = clamp(50 × PV(absorption) / PV(cost_base), 0, 100); same shape as the rider-PV path"
-  },
-  "regime_scoring": {
-    "rationale": "Per-regime score (0-100) maps terminal AV to premium: AV >= 2x premium = 100; AV <= 0.5x premium = 0; linear in between. Heuristic — surfaces regime-dependent product behavior without claiming actuarial precision. Reported alongside the rating but NOT included in the composite score (which remains the 5 equal-weighted sub-scores).",
+  "regime_role": {
+    "use_in_composite": false,
+    "rationale": "Historical regimes are SUPPLEMENTARY HISTORICAL CONTEXT, not scoring inputs. The composite score depends only on the 5 sub-scores (TCO, GV, SF, IC, BF), each computed against the forward-looking standardized scoring scenario above. Per-product regime outcomes are reported alongside the rating so advisors can see how the contract would have behaved in past market environments; they do NOT enter the composite. Each regime also powers an interactive backtest scenario (see scenario_backtest below) where the user can replay any product through a chosen regime with normalized starting AV = $100.",
     "av_floor_score": 100,
     "av_ceiling_score": 0,
     "av_floor_multiple_of_premium": 0.5,
     "av_ceiling_multiple_of_premium": 2.0
   },
-  "notes": "Methodology v1.2.0 — two backward-compatible upgrades to the rating engine. CHANGE 1: monetises buffer / floor absorption inside the Guarantee Value (GV) sub-score. Previously, RILAs without a GLWB / GMDB rider defaulted GV to a placeholder 50. Buffer / floor PV is now computed via closed-form lognormal integration (no additional Monte Carlo) using the scoring scenario's mu, sigma, and discount_rate (see buffer_value_pricing). When a product has BOTH a rider and a buffer / floor, GV becomes a PV-weighted blend of the two ratios. CHANGE 2: makes the M/F-blended composite more defensible. Mortality tables are assertion-checked to publish both gender columns (no silent fallback). A `lapse_gender_multiplier` scales `base_lapse` by gender before computing persistency — female persistency is set 7% higher than male (F multiplier 0.93), consistent with the direction of public life-insurance persistency experience (SOA / LIMRA 2019-2021 Variable Annuity Contract Owner Behavior Experience Study, https://www.soa.org/resources/experience-studies/2023/19-21-va/ — segments behavior by age and contract features but does not publish a public gender split; the SOA / LIMRA 2015-2021 Universal Life Lapse Study reports female lapse rates slightly lower than male). The multiplier is a calibrated rule-of-thumb pending a carrier-specific gender split. Optional product-spec field `rider.withdrawal_rate_by_age_female` overrides the male withdrawal curve when scoring F; defaults to male curve when absent so existing specs are unchanged. v1.1.0 added the `regimes` block (supplementary detail, not in composite); regimes are unchanged in v1.2.0. COMPOSITE WEIGHTS, scoring scenario, letter bands, and the four other sub-scores are UNCHANGED from v1.1.0 — the composite shape is backward-compatible, although individual non-rider product GV (and therefore composite) values shift to reflect the newly-monetised guarantee. Rating output is byte-reproducible from (product spec hash, methodology version, seed)."
+  "scenario_backtest": {
+    "enabled": true,
+    "purpose": "User-facing what-if tool. Pick any product + any regime, replay the contract deterministically against actual S&P 500 monthly returns, view the AV trajectory normalized to a starting value of $100. Independent of scoring — does NOT affect the composite score.",
+    "normalized_starting_av": 100.0,
+    "output": "Monthly AV path, terminal AV, max drawdown, fees-paid total, claim-PV total."
+  },
+  "notes": "Methodology v1.3.0 is the current published methodology. It defines an FSA-signed composite rating for registered index-linked annuities (RILAs) built from 5 equal-weighted sub-scores (TCO / GV / SF / IC / BF). Scoring runs once against a 50/50 blended-gender mortality cohort at age 60, $250K premium, 30-year horizon, election age 65, μ=7%, σ=18%, 4% discount, 2012 IAM (Scale G2 projection), 5,000 Monte Carlo paths, seed=42. Buffer / floor protection on non-rider products is monetised via closed-form lognormal integration (see buffer_value_pricing). Historical regime outcomes and the interactive backtest scenario are supplementary context, NOT composite inputs. Rating output is byte-reproducible from (product spec hash, methodology version, seed)."
 }

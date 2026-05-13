@@ -2,39 +2,18 @@
   "product_slug": "brighthouse_shield_pay_plus",
   "product_name": "Shield Level Pay Plus",
   "carrier": "Brighthouse",
-  "methodology_version": "v1.2.0",
+  "methodology_version": "v1.3.0",
   "product_spec_hash": "b16c1a0b37f378a0348880062af97015eb3224119d0b4fec25a4cc71198fe4c4",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
     "age": 60,
-    "gender": "blend",
-    "gender_blend": true,
-    "genders_blended": [
-      "M",
-      "F"
-    ]
+    "gender": "blend"
   },
   "monte_carlo": {
-    "fees_pv_mean": 51605.37,
-    "glwb_pv_mean": 31886.68,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 0.0,
-    "av_end_p50": 0.0,
-    "av_end_p95": 0.0
-  },
-  "monte_carlo_male": {
-    "fees_pv_mean": 50479.78,
-    "glwb_pv_mean": 30140.27,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 0.0,
-    "av_end_p50": 0.0,
-    "av_end_p95": 0.0
-  },
-  "monte_carlo_female": {
-    "fees_pv_mean": 52730.96,
-    "glwb_pv_mean": 33633.08,
+    "fees_pv_mean": 51012.27,
+    "glwb_pv_mean": 31087.44,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 0.0,
     "av_end_p50": 0.0,
@@ -46,30 +25,8 @@
       "rationale": "Annualised fee + cap-spread drag: 1.50%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 74.8,
-      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.38x ($30,140 / $78,750). Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100. PV-weighted blend (30% rider / 70% buffer). (male) / GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.43x ($33,633 / $78,750). Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100. PV-weighted blend (33% rider / 67% buffer). (female)"
-    },
-    "sf": {
-      "score": 70.0,
-      "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83.0,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
-    },
-    "bf": {
-      "score": 79.0,
-      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_scores": {
-    "tco": {
-      "score": 46.9,
-      "rationale": "Annualised fee + cap-spread drag: 1.50%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 75.4,
-      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.38x ($30,140 / $78,750). Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100. PV-weighted blend (30% rider / 70% buffer)."
+      "score": 75.1,
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.39x ($31,087 / $78,750). Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100. PV-weighted blend (31% rider / 69% buffer)."
     },
     "sf": {
       "score": 70.0,
@@ -84,54 +41,6 @@
       "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
     }
   },
-  "female_scores": {
-    "tco": {
-      "score": 46.9,
-      "rationale": "Annualised fee + cap-spread drag: 1.50%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 74.2,
-      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.43x ($33,633 / $78,750). Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100. PV-weighted blend (33% rider / 67% buffer)."
-    },
-    "sf": {
-      "score": 70.0,
-      "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
-    },
-    "bf": {
-      "score": 79.0,
-      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
-    }
-  },
-  "blended_scores": {
-    "tco": {
-      "score": 46.9,
-      "rationale": "Annualised fee + cap-spread drag: 1.50%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 74.8,
-      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.38x ($30,140 / $78,750). Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100. PV-weighted blend (30% rider / 70% buffer). (male) / GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.43x ($33,633 / $78,750). Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100. PV-weighted blend (33% rider / 67% buffer). (female)"
-    },
-    "sf": {
-      "score": 70.0,
-      "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83.0,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
-    },
-    "bf": {
-      "score": 79.0,
-      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_composite": 70.9,
-  "female_composite": 70.6,
-  "male_letter_grade": "B-",
-  "female_letter_grade": "B-",
   "composite": 70.8,
   "letter_grade": "B-",
   "feature_snapshot": {
@@ -229,7 +138,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Brighthouse's Shield Level Pay Plus earns a composite score of 70.8, which maps to a letter grade of B- under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (83). Areas where this product scores below cohort median: Total Cost of Ownership (47). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Brighthouse's Shield Level Pay Plus earns a composite score of 70.8, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (83). Areas where this product scores below cohort median: Total Cost of Ownership (47). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (83) offset by high fee drag (47).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

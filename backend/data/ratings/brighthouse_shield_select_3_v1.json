@@ -2,37 +2,16 @@
   "product_slug": "brighthouse_shield_select_3",
   "product_name": "Shield Level Select 3",
   "carrier": "Brighthouse",
-  "methodology_version": "v1.2.0",
+  "methodology_version": "v1.3.0",
   "product_spec_hash": "399c0457a8e5ec92cdc21d08c9c7275453304e76e120e0b57a9d2585ad565fa2",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
     "age": 60,
-    "gender": "blend",
-    "gender_blend": true,
-    "genders_blended": [
-      "M",
-      "F"
-    ]
+    "gender": "blend"
   },
   "monte_carlo": {
-    "fees_pv_mean": 0.0,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 118987.17,
-    "av_end_p50": 295877.07,
-    "av_end_p95": 665752.73
-  },
-  "monte_carlo_male": {
-    "fees_pv_mean": 0.0,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 118987.17,
-    "av_end_p50": 295877.07,
-    "av_end_p95": 665752.73
-  },
-  "monte_carlo_female": {
     "fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
@@ -47,28 +26,6 @@
     },
     "gv": {
       "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $33,997 with zero cost base \u2014 capped at 100. (male) / Closed-form PV(buffer absorption) $33,997 with zero cost base \u2014 capped at 100. (female)"
-    },
-    "sf": {
-      "score": 85.0,
-      "rationale": "3-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83.0,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
-    },
-    "bf": {
-      "score": 90.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_scores": {
-    "tco": {
-      "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 100.0,
       "rationale": "Closed-form PV(buffer absorption) $33,997 with zero cost base \u2014 capped at 100."
     },
     "sf": {
@@ -84,54 +41,6 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "female_scores": {
-    "tco": {
-      "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $33,997 with zero cost base \u2014 capped at 100."
-    },
-    "sf": {
-      "score": 85.0,
-      "rationale": "3-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
-    },
-    "bf": {
-      "score": 90.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
-    }
-  },
-  "blended_scores": {
-    "tco": {
-      "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $33,997 with zero cost base \u2014 capped at 100. (male) / Closed-form PV(buffer absorption) $33,997 with zero cost base \u2014 capped at 100. (female)"
-    },
-    "sf": {
-      "score": 85.0,
-      "rationale": "3-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83.0,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
-    },
-    "bf": {
-      "score": 90.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_composite": 91.6,
-  "female_composite": 91.6,
-  "male_letter_grade": "A",
-  "female_letter_grade": "A",
   "composite": 91.6,
   "letter_grade": "A",
   "feature_snapshot": {
@@ -229,7 +138,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Brighthouse's Shield Level Select 3 earns a composite score of 91.6, which maps to a letter grade of A under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Surrender Flexibility (85), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Brighthouse's Shield Level Select 3 earns a composite score of 91.6, which maps to a letter grade of A under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Surrender Flexibility (85), Insurer Credit (83), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Solid across the board \u2014 top-ranked area is low fees (100).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

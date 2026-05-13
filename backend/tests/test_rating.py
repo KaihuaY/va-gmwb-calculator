@@ -8,11 +8,11 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from engine.mortality import _get_base_table
+from engine.mortality import _get_base_table, get_qx
 from engine.rating import (
     composite_to_letter, sf_score, ic_score, bf_score, _tco_drag,
     compute_rating, compute_regime_outcomes, _regime_score_from_terminal_av,
-    _score_for_gender, product_spec_to_rila, gv_score,
+    product_spec_to_rila, gv_score,
 )
 from engine.buffer_value import (
     buffer_value_pv, buffer_value_score, expected_buffer_absorption,
@@ -272,66 +272,14 @@ def test_mortality_gender_coverage():
                 )
 
 
-def test_lapse_gender_multiplier_lowers_female_persistency(methodology):
-    """F cohort with multiplier 0.93 → lower lapse → higher persistency →
-    higher PV(rider claims) than the same product scored with M-cohort lapse.
-
-    We compare M and F monte-carlo glwb_pv_mean on an income product; F
-    should be strictly higher when only the gender lever is moved (mortality
-    table differences also push F higher in the same direction, so the
-    combined effect is monotone).
-    """
-    assert "lapse_gender_multiplier" in methodology["scoring_scenario"]
-    mult = methodology["scoring_scenario"]["lapse_gender_multiplier"]
-    assert mult["M"] == 1.0
-    assert 0.0 < mult["F"] < 1.0, "F multiplier must lower female lapse"
-
-    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "equitable_scs_income.json"
-    spec = json.loads(spec_path.read_text())
-    _, m_mc, _ = _score_for_gender(spec, methodology, "M", [0.02, 0.03, 0.04])
-    _, f_mc, _ = _score_for_gender(spec, methodology, "F", [0.02, 0.03, 0.04])
-    # Lower female lapse + lighter female mortality both raise PV(GLWB claims)
-    assert f_mc["glwb_pv_mean"] > m_mc["glwb_pv_mean"], (
-        f"Expected F glwb_pv ({f_mc['glwb_pv_mean']}) > M glwb_pv "
-        f"({m_mc['glwb_pv_mean']}) when female lapse multiplier < 1.0"
-    )
-
-
-def test_female_withdrawal_override_applied():
-    """When `rider.withdrawal_rate_by_age_female` is present, the F-cohort
-    RILA adapter must pick up the override; M-cohort must keep the unisex curve.
-    Existing 25 specs (no override) must keep identical M and F withdrawal rates.
-    """
-    spec_with_override = {
-        "name": "Test", "carrier": "Test",
-        "slug": "test", "product_type": "rila",
-        "segments_available": [{
-            "term_years": 1, "index": "sp500", "crediting_method": "cap",
-            "protection_type": "buffer", "protection_level": 0.10, "cap_rate": 0.09,
-        }],
-        "default_allocation_pcts": [1.0],
-        "base": {"me_fee_annual": 0.0125, "surrender_schedule": [0.05]},
-        "rider": {
-            "type": "glwb",
-            "rider_fee_annual": 0.013,
-            "withdrawal_rate_by_age":        {"65+": 0.055},
-            "withdrawal_rate_by_age_female": {"65+": 0.050},
-        },
-    }
-    m_rila = product_spec_to_rila(spec_with_override, 250_000, gender="M")
-    f_rila = product_spec_to_rila(spec_with_override, 250_000, gender="F")
-    assert m_rila.glwb_withdrawal_rate == pytest.approx(0.055)
-    assert f_rila.glwb_withdrawal_rate == pytest.approx(0.050)
-
-    # Existing-style spec without the override: both genders identical.
-    spec_no_override = dict(spec_with_override)
-    spec_no_override["rider"] = {
-        "type": "glwb", "rider_fee_annual": 0.013,
-        "withdrawal_rate_by_age": {"65+": 0.055},
-    }
-    m2 = product_spec_to_rila(spec_no_override, 250_000, gender="M")
-    f2 = product_spec_to_rila(spec_no_override, 250_000, gender="F")
-    assert m2.glwb_withdrawal_rate == f2.glwb_withdrawal_rate == pytest.approx(0.055)
+def test_blended_qx_is_midpoint_of_male_and_female():
+    """Blended-gender qx must equal the 50/50 average of male and female qx."""
+    age, year = 65, 2026
+    m = get_qx(age, "male", year)
+    f = get_qx(age, "female", year)
+    b = get_qx(age, "blend", year)
+    assert b == pytest.approx((m + f) / 2.0, rel=1e-9)
+    assert f < b < m  # female qx lower than male; blend sits between
 
 
 def test_compute_rating_includes_regimes_field(methodology):
@@ -358,9 +306,9 @@ def test_compute_rating_includes_regimes_field(methodology):
 # Buffer-value pricing (v1.2.0)
 # ---------------------------------------------------------------------------
 
-def test_methodology_is_v1_2_0(methodology):
-    """Methodology must be bumped to v1.2.0 with buffer_value_pricing block."""
-    assert methodology["version"] == "v1.2.0"
+def test_methodology_current_version(methodology):
+    """Methodology is at v1.3.0 with buffer_value_pricing block."""
+    assert methodology["version"] == "v1.3.0"
     assert "buffer_value_pricing" in methodology
     bvp = methodology["buffer_value_pricing"]
     assert bvp["method"] == "closed_form_lognormal"

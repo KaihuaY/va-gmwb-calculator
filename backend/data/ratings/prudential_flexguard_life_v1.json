@@ -2,38 +2,17 @@
   "product_slug": "prudential_flexguard_life",
   "product_name": "FlexGuard Life",
   "carrier": "Prudential",
-  "methodology_version": "v1.2.0",
+  "methodology_version": "v1.3.0",
   "product_spec_hash": "bb2fbfadae395649f510dde70c082760fdecfa75d155bb54696d77c8aff53b95",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
     "age": 60,
-    "gender": "blend",
-    "gender_blend": true,
-    "genders_blended": [
-      "M",
-      "F"
-    ]
+    "gender": "blend"
   },
   "monte_carlo": {
-    "fees_pv_mean": 38519.39,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 138890.27,
-    "av_end_p50": 294879.28,
-    "av_end_p95": 583379.8
-  },
-  "monte_carlo_male": {
-    "fees_pv_mean": 37669.87,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 138890.27,
-    "av_end_p50": 294879.28,
-    "av_end_p95": 583379.8
-  },
-  "monte_carlo_female": {
-    "fees_pv_mean": 39368.9,
+    "fees_pv_mean": 38075.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 138890.27,
@@ -47,28 +26,6 @@
     },
     "gv": {
       "score": 63.3,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
-    },
-    "sf": {
-      "score": 80.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness, disability."
-    },
-    "ic": {
-      "score": 90.0,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
-    },
-    "bf": {
-      "score": 90.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_scores": {
-    "tco": {
-      "score": 55.8,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 63.3,
       "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
@@ -84,54 +41,6 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
     }
   },
-  "female_scores": {
-    "tco": {
-      "score": 55.8,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 63.3,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
-    },
-    "sf": {
-      "score": 80.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness, disability."
-    },
-    "ic": {
-      "score": 90,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
-    },
-    "bf": {
-      "score": 90.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
-    }
-  },
-  "blended_scores": {
-    "tco": {
-      "score": 55.8,
-      "rationale": "Annualised fee + cap-spread drag: 1.25%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 63.3,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.27x. Buffer PV $69,080; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
-    },
-    "sf": {
-      "score": 80.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness, disability."
-    },
-    "ic": {
-      "score": 90.0,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
-    },
-    "bf": {
-      "score": 90.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_composite": 75.8,
-  "female_composite": 75.8,
-  "male_letter_grade": "B",
-  "female_letter_grade": "B",
   "composite": 75.8,
   "letter_grade": "B",
   "feature_snapshot": {
@@ -230,7 +139,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Prudential's FlexGuard Life earns a composite score of 75.8, which maps to a letter grade of B under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Surrender Flexibility (80), Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Prudential's FlexGuard Life earns a composite score of 75.8, which maps to a letter grade of B under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Surrender Flexibility (80), Insurer Credit (90), Behavioral Fairness (90). Areas where this product scores below cohort median: Total Cost of Ownership (56). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (56).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

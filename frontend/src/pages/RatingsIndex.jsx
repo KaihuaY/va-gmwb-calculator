@@ -47,25 +47,6 @@ function pct(v, digits = 2) {
   return `${(v * 100).toFixed(digits)}%`;
 }
 
-// Resolve composite + letter for the active gender view ("blend" | "M" | "F")
-function pickGenderView(item, genderView) {
-  if (genderView === 'M' && item.male_composite != null) {
-    return {
-      composite: item.male_composite,
-      letter: item.male_letter_grade || item.letter_grade,
-      sub: item.male_scores || item.sub_scores,
-    };
-  }
-  if (genderView === 'F' && item.female_composite != null) {
-    return {
-      composite: item.female_composite,
-      letter: item.female_letter_grade || item.letter_grade,
-      sub: item.female_scores || item.sub_scores,
-    };
-  }
-  return { composite: item.composite, letter: item.letter_grade, sub: item.sub_scores };
-}
-
 // Lens → list of carrier-feature columns. Letter grade column is rendered
 // independently so it is always visible (principle 3).
 const LENS_COLUMNS = {
@@ -104,7 +85,6 @@ export default function RatingsIndex() {
   const [minGrade, setMinGrade] = useState('');
   const [hasGlwbOnly, setHasGlwbOnly] = useState(false);
   const [lens, setLens] = useState('costs');
-  const [genderView, setGenderView] = useState('blend');
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [sortKey, setSortKey] = useState('composite');
   const [sortDesc, setSortDesc] = useState(true);
@@ -121,17 +101,14 @@ export default function RatingsIndex() {
     [items],
   );
 
-  // Project items through the active gender view + lens snapshot before filter/sort.
-  const projected = useMemo(() => items.map((i) => {
-    const g = pickGenderView(i, genderView);
-    return {
-      ...i,
-      _composite: g.composite,
-      _letter: g.letter,
-      _sub: g.sub,
-      _snap: i.feature_snapshot || {},
-    };
-  }), [items, genderView]);
+  // Project items with lens snapshot before filter/sort.
+  const projected = useMemo(() => items.map((i) => ({
+    ...i,
+    _composite: i.composite,
+    _letter: i.letter_grade,
+    _sub: i.sub_scores,
+    _snap: i.feature_snapshot || {},
+  })), [items]);
 
   const filtered = useMemo(() => {
     let arr = projected.slice();
@@ -197,19 +174,6 @@ export default function RatingsIndex() {
       {/* Lens tabs — drive which carrier-feature columns are visible */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 14 }}>
         <LensTabs value={lens} onChange={setLens} />
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8, alignItems: 'center' }}>
-          <span style={{ fontSize: 13, color: '#4b5563' }}>Gender:</span>
-          <select
-            value={genderView}
-            onChange={(e) => setGenderView(e.target.value)}
-            data-testid="filter-gender"
-            style={selectStyle}
-          >
-            <option value="blend">Blended (50/50)</option>
-            <option value="M">Male only</option>
-            <option value="F">Female only</option>
-          </select>
-        </div>
       </div>
 
       <div style={filterRow}>
@@ -338,8 +302,7 @@ export default function RatingsIndex() {
           constitute a recommendation, and do not create a fiduciary
           relationship. Ratings reflect data available as of the rating date and
           may change. The default grade is a 50/50 blend of male and female
-          standardized scenarios; toggle the gender selector to view either
-          single-gender perspective.
+          standardized scenario.
         </p>
       </footer>
     </div>

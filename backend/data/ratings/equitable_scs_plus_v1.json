@@ -2,38 +2,17 @@
   "product_slug": "equitable_scs_plus",
   "product_name": "SCS Plus",
   "carrier": "Equitable",
-  "methodology_version": "v1.2.0",
+  "methodology_version": "v1.3.0",
   "product_spec_hash": "52750bad7cac26ed62f5c5d9489593afa5c7d4d62b57f3356dc454af921abbc0",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
     "age": 60,
-    "gender": "blend",
-    "gender_blend": true,
-    "genders_blended": [
-      "M",
-      "F"
-    ]
+    "gender": "blend"
   },
   "monte_carlo": {
-    "fees_pv_mean": 47786.15,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 173098.89,
-    "av_end_p50": 387817.19,
-    "av_end_p95": 807621.07
-  },
-  "monte_carlo_male": {
-    "fees_pv_mean": 46661.26,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 173098.89,
-    "av_end_p50": 387817.19,
-    "av_end_p95": 807621.07
-  },
-  "monte_carlo_female": {
-    "fees_pv_mean": 48911.05,
+    "fees_pv_mean": 47204.2,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 173098.89,
@@ -47,28 +26,6 @@
     },
     "gv": {
       "score": 58.1,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.16x. Buffer PV $71,035; floor PV $0; cost-base PV $61,146. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.16x. Buffer PV $71,035; floor PV $0; cost-base PV $61,146. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
-    },
-    "sf": {
-      "score": 65.0,
-      "rationale": "7-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 90.0,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 18%."
-    },
-    "bf": {
-      "score": 88.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_scores": {
-    "tco": {
-      "score": 50.4,
-      "rationale": "Annualised fee + cap-spread drag: 1.40%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 58.1,
       "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.16x. Buffer PV $71,035; floor PV $0; cost-base PV $61,146. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
     },
     "sf": {
@@ -84,54 +41,6 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
     }
   },
-  "female_scores": {
-    "tco": {
-      "score": 50.4,
-      "rationale": "Annualised fee + cap-spread drag: 1.40%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 58.1,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.16x. Buffer PV $71,035; floor PV $0; cost-base PV $61,146. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%)."
-    },
-    "sf": {
-      "score": 65.0,
-      "rationale": "7-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 90,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 18%."
-    },
-    "bf": {
-      "score": 88.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
-    }
-  },
-  "blended_scores": {
-    "tco": {
-      "score": 50.4,
-      "rationale": "Annualised fee + cap-spread drag: 1.40%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 58.1,
-      "rationale": "PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.16x. Buffer PV $71,035; floor PV $0; cost-base PV $61,146. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (male) / PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.16x. Buffer PV $71,035; floor PV $0; cost-base PV $61,146. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). (female)"
-    },
-    "sf": {
-      "score": 65.0,
-      "rationale": "7-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 90.0,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 18%."
-    },
-    "bf": {
-      "score": 88.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_composite": 70.3,
-  "female_composite": 70.3,
-  "male_letter_grade": "B-",
-  "female_letter_grade": "B-",
   "composite": 70.3,
   "letter_grade": "B-",
   "feature_snapshot": {
@@ -229,7 +138,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Equitable's SCS Plus earns a composite score of 70.3, which maps to a letter grade of B- under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (50), Guarantee Value (58). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Equitable's SCS Plus earns a composite score of 70.3, which maps to a letter grade of B- under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (88). Areas where this product scores below cohort median: Total Cost of Ownership (50), Guarantee Value (58). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (50).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

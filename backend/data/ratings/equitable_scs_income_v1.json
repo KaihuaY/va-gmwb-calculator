@@ -2,39 +2,18 @@
   "product_slug": "equitable_scs_income",
   "product_name": "SCS Income",
   "carrier": "Equitable",
-  "methodology_version": "v1.2.0",
+  "methodology_version": "v1.3.0",
   "product_spec_hash": "a1164d8d849c944d240d6cb85ab9d0601b00442a004c6e62027fa15c0ba10f1f",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
     "age": 60,
-    "gender": "blend",
-    "gender_blend": true,
-    "genders_blended": [
-      "M",
-      "F"
-    ]
+    "gender": "blend"
   },
   "monte_carlo": {
-    "fees_pv_mean": 75720.77,
-    "glwb_pv_mean": 46329.65,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 0.0,
-    "av_end_p50": 0.0,
-    "av_end_p95": 0.0
-  },
-  "monte_carlo_male": {
-    "fees_pv_mean": 74330.01,
-    "glwb_pv_mean": 43981.27,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 0.0,
-    "av_end_p50": 0.0,
-    "av_end_p95": 0.0
-  },
-  "monte_carlo_female": {
-    "fees_pv_mean": 77111.54,
-    "glwb_pv_mean": 48678.04,
+    "fees_pv_mean": 74968.69,
+    "glwb_pv_mean": 45232.46,
     "gmdb_pv_mean": 0.0,
     "av_end_p5": 0.0,
     "av_end_p50": 0.0,
@@ -46,30 +25,8 @@
       "rationale": "Annualised fee + cap-spread drag: 2.75%. Cohort best: 0.00%; cohort worst: 2.83%."
     },
     "gv": {
-      "score": 51.0,
-      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.56x ($43,981 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (38% rider / 62% buffer). (male) / GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.62x ($48,678 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (41% rider / 59% buffer). (female)"
-    },
-    "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 90.0,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 18%."
-    },
-    "bf": {
-      "score": 83.0,
-      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_scores": {
-    "tco": {
-      "score": 2.7,
-      "rationale": "Annualised fee + cap-spread drag: 2.75%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
       "score": 50.9,
-      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.56x ($43,981 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (38% rider / 62% buffer)."
+      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.57x ($45,232 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (39% rider / 61% buffer)."
     },
     "sf": {
       "score": 75.0,
@@ -84,54 +41,6 @@
       "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
     }
   },
-  "female_scores": {
-    "tco": {
-      "score": 2.7,
-      "rationale": "Annualised fee + cap-spread drag: 2.75%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 51.2,
-      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.62x ($48,678 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (41% rider / 59% buffer)."
-    },
-    "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 90,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 18%."
-    },
-    "bf": {
-      "score": 83.0,
-      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
-    }
-  },
-  "blended_scores": {
-    "tco": {
-      "score": 2.7,
-      "rationale": "Annualised fee + cap-spread drag: 2.75%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 51.0,
-      "rationale": "GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.56x ($43,981 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (38% rider / 62% buffer). (male) / GV combines rider and buffer guarantees. Rider: PV(claims)/PV(rider fees) = 0.62x ($48,678 / $78,750). PV(buffer+floor absorption) / PV(M&E+cap-drag) = 1.30x. Buffer PV $71,035; floor PV $0; cost-base PV $54,594. Closed-form lognormal (\u03bc=7.00%, \u03c3=18.00%, r=4.00%). PV-weighted blend (41% rider / 59% buffer). (female)"
-    },
-    "sf": {
-      "score": 75.0,
-      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 90.0,
-      "rationale": "AM Best A+; not PE-owned; Level 3 assets 18%."
-    },
-    "bf": {
-      "score": 83.0,
-      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.60; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_composite": 60.3,
-  "female_composite": 60.4,
-  "male_letter_grade": "C",
-  "female_letter_grade": "C",
   "composite": 60.3,
   "letter_grade": "C",
   "feature_snapshot": {
@@ -229,7 +138,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Equitable's SCS Income earns a composite score of 60.3, which maps to a letter grade of C under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (83). Areas where this product scores below cohort median: Total Cost of Ownership (3), Guarantee Value (51). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Equitable's SCS Income earns a composite score of 60.3, which maps to a letter grade of C under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (83). Areas where this product scores below cohort median: Total Cost of Ownership (3), Guarantee Value (51). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Strong insurer credit (90) offset by high fee drag (3).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",

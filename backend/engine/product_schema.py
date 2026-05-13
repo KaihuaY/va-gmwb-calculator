@@ -43,12 +43,6 @@ class RiderSpec(BaseModel):
     rider_fee_annual:     float = 0.0
     rollup_rate:          float = 0.0
     withdrawal_rate_by_age: dict[str, float] = Field(default_factory=dict)
-    # Optional gender-specific override for the female cohort. When absent,
-    # the F cohort uses `withdrawal_rate_by_age` (the male/unisex curve).
-    # Carriers that publish gender-distinct rate bands (e.g. joint-life pricing
-    # with a higher female rate, or single-life rates priced for longer female
-    # life expectancy) can populate this field; existing specs are unaffected.
-    withdrawal_rate_by_age_female: Optional[dict[str, float]] = None
     step_up:              bool = False
 
 

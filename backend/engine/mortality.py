@@ -75,6 +75,22 @@ def get_qx(
     age_key = str(min(max(int(age), 40), 120))
     gender_key = gender.lower()
 
+    # Blended gender — 50/50 average of male and female qx at the qx level.
+    # Used by the rating-publication scoring path so a single rating reflects
+    # an unbiased reference cohort (avoids gender-specific pricing concerns
+    # that arise in some US states; mortality differential is small at typical
+    # annuity ages and washes out under the PV(claims)/PV(fees) ratio).
+    if gender_key in ("blend", "blended", "unisex"):
+        years_from_base = max(0, calendar_year - 2012)
+        out = 0.0
+        for g in ("male", "female"):
+            base_qx = table["base"][g].get(age_key, 1.0)
+            imp = 0.0
+            if "improvement" in table:
+                imp = table["improvement"][g].get(age_key, 0.0)
+            out += 0.5 * base_qx * math.pow(1.0 - imp, years_from_base)
+        return min(out * multiplier, 1.0)
+
     base_qx: float = table["base"][gender_key].get(age_key, 1.0)
 
     # Scale G2 improvement (only embedded in 2012 IAM table)

@@ -2,37 +2,16 @@
   "product_slug": "jackson_market_link_pro_advisory",
   "product_name": "Market Link Pro Advisory",
   "carrier": "Jackson",
-  "methodology_version": "v1.2.0",
+  "methodology_version": "v1.3.0",
   "product_spec_hash": "b870342ddd46f2e05542310c05bdac55a344a0cab8d1c5e48efa723ea7f808d7",
   "scored_at": "2026-05-12T00:00:00Z",
   "scoring_inputs": {
     "premium": 250000,
     "horizon_years": 30,
     "age": 60,
-    "gender": "blend",
-    "gender_blend": true,
-    "genders_blended": [
-      "M",
-      "F"
-    ]
+    "gender": "blend"
   },
   "monte_carlo": {
-    "fees_pv_mean": 0.0,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 226786.58,
-    "av_end_p50": 496228.53,
-    "av_end_p95": 1000634.37
-  },
-  "monte_carlo_male": {
-    "fees_pv_mean": 0.0,
-    "glwb_pv_mean": 0.0,
-    "gmdb_pv_mean": 0.0,
-    "av_end_p5": 226786.58,
-    "av_end_p50": 496228.53,
-    "av_end_p95": 1000634.37
-  },
-  "monte_carlo_female": {
     "fees_pv_mean": 0.0,
     "glwb_pv_mean": 0.0,
     "gmdb_pv_mean": 0.0,
@@ -47,28 +26,6 @@
     },
     "gv": {
       "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100. (male) / Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100. (female)"
-    },
-    "sf": {
-      "score": 100.0,
-      "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83.0,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 20%."
-    },
-    "bf": {
-      "score": 86.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.70; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_scores": {
-    "tco": {
-      "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 100.0,
       "rationale": "Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100."
     },
     "sf": {
@@ -84,54 +41,6 @@
       "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.70; 0 regulatory fines in 5yr."
     }
   },
-  "female_scores": {
-    "tco": {
-      "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100."
-    },
-    "sf": {
-      "score": 100.0,
-      "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 20%."
-    },
-    "bf": {
-      "score": 86.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.70; 0 regulatory fines in 5yr."
-    }
-  },
-  "blended_scores": {
-    "tco": {
-      "score": 100.0,
-      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 2.83%."
-    },
-    "gv": {
-      "score": 100.0,
-      "rationale": "Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100. (male) / Closed-form PV(buffer absorption) $69,080 with zero cost base \u2014 capped at 100. (female)"
-    },
-    "sf": {
-      "score": 100.0,
-      "rationale": "0-yr surrender schedule (max 0.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
-    },
-    "ic": {
-      "score": 83.0,
-      "rationale": "AM Best A; not PE-owned; Level 3 assets 20%."
-    },
-    "bf": {
-      "score": 86.0,
-      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.70; 0 regulatory fines in 5yr."
-    }
-  },
-  "male_composite": 93.8,
-  "female_composite": 93.8,
-  "male_letter_grade": "A",
-  "female_letter_grade": "A",
   "composite": 93.8,
   "letter_grade": "A",
   "feature_snapshot": {
@@ -229,7 +138,7 @@
       "history_truncated": false
     }
   },
-  "narrative": "Jackson's Market Link Pro Advisory earns a composite score of 93.8, which maps to a letter grade of A under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "narrative": "Jackson's Market Link Pro Advisory earns a composite score of 93.8, which maps to a letter grade of A under AnnuityVoice Methodology v1.3.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Guarantee Value (100), Surrender Flexibility (100), Insurer Credit (83), Behavioral Fairness (86). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
   "verdict": "Solid across the board \u2014 top-ranked area is low fees (100).",
   "signed_by": "K Hu",
   "signed_credentials": "FSA, MAAA",
