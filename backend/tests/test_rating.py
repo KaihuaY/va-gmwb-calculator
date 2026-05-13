@@ -1,0 +1,265 @@
+"""Unit tests for the rating engine."""
+
+import json
+import sys
+from pathlib import Path
+
+import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from engine.rating import (
+    composite_to_letter, sf_score, ic_score, bf_score, _tco_drag,
+    compute_rating, compute_regime_outcomes, _regime_score_from_terminal_av,
+)
+
+
+METHODOLOGY_PATH = Path(__file__).resolve().parents[1] / "data" / "methodology" / "methodology_v1.json"
+
+
+@pytest.fixture(scope="module")
+def methodology():
+    return json.loads(METHODOLOGY_PATH.read_text())
+
+
+# ---------------------------------------------------------------------------
+# Letter mapping — boundary cases
+# ---------------------------------------------------------------------------
+
+def test_letter_boundaries(methodology):
+    bands = methodology["letter_bands"]
+    # Exactly on threshold → that band wins
+    assert composite_to_letter(95.0, bands) == "A+"
+    assert composite_to_letter(94.99, bands) == "A"
+    assert composite_to_letter(40.0, bands) == "D-"
+    assert composite_to_letter(39.99, bands) == "F"
+    assert composite_to_letter(0.0, bands) == "F"
+
+
+# ---------------------------------------------------------------------------
+# SF — surrender flexibility
+# ---------------------------------------------------------------------------
+
+def test_sf_perfect_product():
+    """No surrender, 20% free, all 3 waivers → high score."""
+    spec = {
+        "base": {
+            "surrender_schedule": [],
+            "free_withdrawal_pct": 0.20,
+            "nursing_home_waiver": True,
+            "terminal_illness_waiver": True,
+            "disability_waiver": True,
+        }
+    }
+    s, _ = sf_score(spec)
+    # 100 - 0 + 10 (free wd bonus) + 15 (waivers) = 125 → clamped 100
+    assert s == 100.0
+
+
+def test_sf_punitive_product():
+    spec = {
+        "base": {
+            "surrender_schedule": [0.09]*10,
+            "free_withdrawal_pct": 0.0,
+            "nursing_home_waiver": False,
+            "terminal_illness_waiver": False,
+            "disability_waiver": False,
+        }
+    }
+    s, _ = sf_score(spec)
+    # 100 - 50 (10yr surrender) - 20 (max 9%) - 10 (no free wd bonus) = 20
+    assert s < 30
+
+
+# ---------------------------------------------------------------------------
+# IC — insurer credit
+# ---------------------------------------------------------------------------
+
+def test_ic_top_carrier():
+    s, _ = ic_score({"insurer": {"am_best": "A++", "pe_owned": False, "level_3_pct_2024": 0.05}})
+    assert s == 100
+
+
+def test_ic_pe_owned_high_level3():
+    s, _ = ic_score({"insurer": {"am_best": "A", "pe_owned": True, "level_3_pct_2024": 0.30}})
+    # 88 - 10 (PE) - 10 (Level 3 > 25%) = 68
+    assert s == 68
+
+
+def test_ic_unknown_rating_defaults_to_50():
+    s, _ = ic_score({"insurer": {"am_best": "MysteryRating", "pe_owned": False, "level_3_pct_2024": 0.10}})
+    assert s == 50
+
+
+# ---------------------------------------------------------------------------
+# BF — behavioral fairness
+# ---------------------------------------------------------------------------
+
+def test_bf_missing_data_defaults_70():
+    s, _ = bf_score({})
+    assert s == 70
+
+
+def test_bf_history_with_cap_cuts():
+    spec = {
+        "behavioral_data": {
+            "cap_history": [
+                {"date": "2022-01-01", "cap": 0.10},
+                {"date": "2023-01-01", "cap": 0.07},   # -30% = major cut
+            ],
+            "naic_complaints_index": 0.5,
+            "regulatory_fines_5yr": 1,
+        }
+    }
+    s, _ = bf_score(spec)
+    # 100 - 10 (major cut) - 10 (complaints 2*0.5*10) - 5 (1 fine) = 75
+    assert s == pytest.approx(75.0)
+
+
+# ---------------------------------------------------------------------------
+# TCO drag
+# ---------------------------------------------------------------------------
+
+def test_tco_drag_explicit_only():
+    """Product with no segments (impossible IRL) — explicit fees only."""
+    spec = {
+        "base": {"me_fee_annual": 0.0125},
+        "rider": {"type": "none"},
+        "segments_available": [],
+        "default_allocation_pcts": [],
+    }
+    drag = _tco_drag(spec, {}, 250_000)
+    assert drag == pytest.approx(0.0125)
+
+
+def test_tco_drag_with_glwb_rider():
+    spec = {
+        "base": {"me_fee_annual": 0.0125},
+        "rider": {"type": "glwb", "rider_fee_annual": 0.015},
+        "segments_available": [],
+        "default_allocation_pcts": [],
+    }
+    drag = _tco_drag(spec, {}, 250_000)
+    assert drag == pytest.approx(0.0275)
+
+
+# ---------------------------------------------------------------------------
+# End-to-end: compute_rating reproducibility
+# ---------------------------------------------------------------------------
+
+def test_compute_rating_byte_reproducible(methodology):
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "equitable_scs.json"
+    spec = json.loads(spec_path.read_text())
+    r1 = compute_rating(spec, methodology, scored_at="2026-05-12T00:00:00Z")
+    r2 = compute_rating(spec, methodology, scored_at="2026-05-12T00:00:00Z")
+    assert json.dumps(r1, sort_keys=True) == json.dumps(r2, sort_keys=True)
+
+
+def test_compute_rating_has_all_subscores(methodology):
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "equitable_scs_income.json"
+    spec = json.loads(spec_path.read_text())
+    r = compute_rating(spec, methodology, scored_at="2026-05-12T00:00:00Z")
+    for key in ("tco", "gv", "sf", "ic", "bf"):
+        assert key in r["sub_scores"], f"missing sub-score: {key}"
+        assert 0 <= r["sub_scores"][key]["score"] <= 100
+    assert r["status"] == "draft"
+    assert r["signed_by"] is None
+
+
+def test_compute_rating_emits_spec_hash(methodology):
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "lincoln_level_advantage.json"
+    spec = json.loads(spec_path.read_text())
+    r = compute_rating(spec, methodology, scored_at="2026-05-12T00:00:00Z")
+    assert len(r["product_spec_hash"]) == 64
+    # Hash changes when spec changes
+    spec2 = dict(spec); spec2["name"] = "Renamed"
+    r2 = compute_rating(spec2, methodology, scored_at="2026-05-12T00:00:00Z")
+    assert r["product_spec_hash"] != r2["product_spec_hash"]
+
+
+# ---------------------------------------------------------------------------
+# Historical regime backtests (v1.1.0)
+# ---------------------------------------------------------------------------
+
+def test_regime_score_endpoints():
+    """Floor → 0; ceiling → 100; linear midpoint."""
+    premium = 250_000
+    # AV at floor (0.5x premium) → 0
+    assert _regime_score_from_terminal_av(125_000, premium) == 0.0
+    # AV at ceiling (2x premium) → 100
+    assert _regime_score_from_terminal_av(500_000, premium) == 100.0
+    # Midpoint (1.25x premium) → 50
+    mid = _regime_score_from_terminal_av(312_500, premium)
+    assert mid == pytest.approx(50.0, abs=0.5)
+    # Below floor → clamped 0
+    assert _regime_score_from_terminal_av(0.0, premium) == 0.0
+    # Above ceiling → clamped 100
+    assert _regime_score_from_terminal_av(1_000_000, premium) == 100.0
+
+
+def test_compute_regime_outcomes_shape(methodology):
+    """Regime output has one entry per methodology regime with required fields."""
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "equitable_scs.json"
+    spec = json.loads(spec_path.read_text())
+    regimes = compute_regime_outcomes(spec, methodology)
+    assert isinstance(regimes, dict)
+    assert len(regimes) == len(methodology["regimes"])
+    required_fields = {
+        "display_name", "start_month", "end_month", "years",
+        "av_end", "av_min", "fees_pv", "glwb_pv", "gmdb_pv",
+        "shortfall_probability", "regime_score", "history_truncated",
+    }
+    for key, r in regimes.items():
+        assert required_fields.issubset(r.keys()), f"regime {key} missing fields"
+        assert 0.0 <= r["regime_score"] <= 100.0
+        assert r["years"] >= 0
+        assert r["shortfall_probability"] in (0.0, 1.0)
+
+
+def test_compute_regime_outcomes_byte_reproducible(methodology):
+    """Same product + same methodology → byte-identical regime output."""
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "equitable_scs.json"
+    spec = json.loads(spec_path.read_text())
+    r1 = compute_regime_outcomes(spec, methodology)
+    r2 = compute_regime_outcomes(spec, methodology)
+    assert json.dumps(r1, sort_keys=True) == json.dumps(r2, sort_keys=True)
+
+
+def test_regime_post_gfc_bull_grows_av(methodology):
+    """
+    The post-GFC bull regime (2010-2021) had ~14% annualized S&P returns.
+    A buffer-cap RILA should at minimum preserve premium over 12 years,
+    confirming the regime backtest produces a non-trivial, plausible result.
+    """
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "equitable_scs.json"
+    spec = json.loads(spec_path.read_text())
+    regimes = compute_regime_outcomes(spec, methodology)
+    bull = regimes.get("post_gfc_bull_2010_2021")
+    assert bull is not None, "post_gfc_bull_2010_2021 regime missing"
+    # Over the post-GFC bull, a capped equity product should at least preserve premium
+    assert bull["av_end"] > methodology["scoring_scenario"]["premium"], (
+        f"post-GFC bull terminal AV ({bull['av_end']}) <= premium"
+        f" — regime backtest appears not to be running"
+    )
+    # And the regime score should be above the neutral midpoint
+    assert bull["regime_score"] > 50.0
+
+
+def test_compute_rating_includes_regimes_field(methodology):
+    """The top-level rating output exposes the regimes block."""
+    spec_path = Path(__file__).resolve().parents[1] / "data" / "products" / "equitable_scs.json"
+    spec = json.loads(spec_path.read_text())
+    r = compute_rating(spec, methodology, scored_at="2026-05-12T00:00:00Z")
+    assert "regimes" in r
+    assert isinstance(r["regimes"], dict)
+    assert len(r["regimes"]) == len(methodology["regimes"])
+    # Composite must NOT include regime score — verify by recomputing
+    weights = methodology["weights"]
+    expected_composite = (
+        weights["tco"] * r["sub_scores"]["tco"]["score"]
+        + weights["gv"] * r["sub_scores"]["gv"]["score"]
+        + weights["sf"] * r["sub_scores"]["sf"]["score"]
+        + weights["ic"] * r["sub_scores"]["ic"]["score"]
+        + weights["bf"] * r["sub_scores"]["bf"]["score"]
+    )
+    assert r["composite"] == pytest.approx(expected_composite, abs=0.15)

@@ -1,0 +1,58 @@
+{
+  "slug": "brighthouse_shield_select_3",
+  "name": "Shield Level Select 3",
+  "carrier": "Brighthouse",
+  "product_type": "rila",
+  "first_offered": "2022-01-01",
+  "data_provenance": "synthetic_v0",
+  "data_sources": [
+    {
+      "type": "synthetic_v0_anchor",
+      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+    }
+  ],
+  "base": {
+    "base_av_default": 250000,
+    "me_fee_annual": 0.0,
+    "surrender_schedule": [
+      0.07,
+      0.06,
+      0.05
+    ],
+    "free_withdrawal_pct": 0.1,
+    "nursing_home_waiver": true,
+    "terminal_illness_waiver": true,
+    "disability_waiver": false
+  },
+  "segments_available": [
+    {
+      "term_years": 3,
+      "index": "sp500",
+      "crediting_method": "cap",
+      "protection_type": "buffer",
+      "protection_level": 0.1,
+      "cap_rate": 0.25
+    }
+  ],
+  "default_allocation_pcts": [
+    1.0
+  ],
+  "rider": {
+    "type": "none"
+  },
+  "insurer": {
+    "am_best": "A",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.22
+  },
+  "behavioral_data": {
+    "initial_cap": 0.27,
+    "current_cap": 0.25,
+    "cap_history": [],
+    "illustration_actual_delta": 0.05,
+    "naic_complaints_index": 0.5,
+    "regulatory_fines_5yr": 0
+  },
+  "has_gmdb": false,
+  "gmdb_rider_fee": 0.0
+}

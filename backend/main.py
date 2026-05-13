@@ -13,7 +13,11 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from engine.projection import SimulationParams, run_simulation
+from engine.historical import run_historical, list_available_window
 from engine.session_store import save_session
+from engine.ratings_store import (
+    list_published_ratings, load_rating, load_product_spec, load_methodology,
+)
 
 app = FastAPI(
     title="VA GMWB Calculator API",
@@ -110,6 +114,12 @@ class RecordRequest(BaseModel):
     extra:   Optional[dict[str, Any]] = None   # future fields: product_name, company, notes…
 
 
+class RIAInterestRequest(BaseModel):
+    name:    str = Field(..., min_length=1, max_length=120)
+    email:   str = Field(..., min_length=3, max_length=254)
+    message: str = Field("", max_length=1000)
+
+
 class SensitivityRequest(BaseModel):
     """Runs baseline + ±shift simulations for each selected parameter."""
     base: SimulateRequest
@@ -146,6 +156,31 @@ def simulate(req: SimulateRequest):
     """Run Monte Carlo simulation and return aggregated results."""
     params = SimulationParams(**req.model_dump())
     return run_simulation(params)
+
+
+class BacktestRequest(SimulateRequest):
+    """Backtest the same contract against actual historical S&P 500 returns
+    starting at `start_month` (YYYY-MM)."""
+    start_month: str = Field(..., pattern=r"^\d{4}-\d{2}$",
+                             description="YYYY-MM month to start the historical replay")
+
+
+@app.get("/backtest/window")
+def backtest_window():
+    """Return the first/last month available in the historical returns dataset."""
+    return list_available_window()
+
+
+@app.post("/backtest")
+def backtest(req: BacktestRequest):
+    """Deterministic single-path projection using historical S&P 500 returns."""
+    payload = req.model_dump()
+    start_month = payload.pop("start_month")
+    params = SimulationParams(**payload)
+    try:
+        return run_historical(params, start_month)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @app.post("/sensitivity")
@@ -375,6 +410,72 @@ def auth_verify_otp(req: VerifyOtpRequest):
         raise HTTPException(status_code=400, detail=error)
 
     return {"verified": True, "email": email}
+
+
+@app.post("/ria-interest")
+def ria_interest(req: RIAInterestRequest):
+    """
+    Persist an RIA interest form submission and notify kai@annuityvoice.com.
+    Called by the landing page form — no auth required.
+    """
+    import re
+    from engine.session_store import save_ria_interest
+    from engine.auth import send_notification_email
+
+    email = req.email.strip().lower()
+    if not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", email):
+        raise HTTPException(status_code=400, detail="Invalid email address.")
+
+    save_ria_interest(req.name, email, req.message)
+
+    body = (
+        f"New RIA interest form submission:\n\n"
+        f"  Name:    {req.name}\n"
+        f"  Email:   {email}\n"
+        f"  Message: {req.message or '(none)'}\n"
+    )
+    send_notification_email(
+        "kai@annuityvoice.com",
+        f"New RIA lead: {req.name} <{email}>",
+        body,
+    )
+    return {"ok": True}
+
+
+# ---------------------------------------------------------------------------
+# Ratings — public, read-only publication endpoints
+# ---------------------------------------------------------------------------
+
+@app.get("/ratings")
+def ratings_index():
+    """List all published ratings (sorted by composite, descending)."""
+    items = list_published_ratings()
+    meth = load_methodology()
+    return {
+        "count": len(items),
+        "methodology_version": meth["version"],
+        "methodology_effective_date": meth["effective_date"],
+        "items": items,
+    }
+
+
+@app.get("/ratings/{slug}")
+def ratings_detail(slug: str):
+    """Return the published rating + product spec for one product."""
+    rating = load_rating(slug)
+    if rating is None:
+        raise HTTPException(status_code=404, detail=f"No published rating for '{slug}'")
+    spec = load_product_spec(slug)
+    return {"rating": rating, "product": spec}
+
+
+@app.get("/methodology")
+def methodology_get(version: str = "v1"):
+    """Return the methodology JSON used to score every product."""
+    try:
+        return load_methodology(version)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail=f"Methodology {version} not found")
 
 
 @app.post("/record")

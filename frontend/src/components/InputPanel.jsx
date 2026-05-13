@@ -298,7 +298,7 @@ function BandedRatesEditor({ bands, onChangeBands, currentAge = 0 }) {
               type="button"
               onClick={() => removeBand(idx)}
               disabled={sorted.length <= 1}
-              className="flex-shrink-0 w-6 text-center text-slate-500 hover:text-red-400 disabled:opacity-25 transition-colors text-base leading-none"
+              className="flex-shrink-0 w-6 text-center text-slate-500 hover:text-amber-500 disabled:opacity-25 transition-colors text-base leading-none"
               title="Remove band"
             >
               ×

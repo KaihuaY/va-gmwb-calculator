@@ -95,7 +95,7 @@ function EmailStep({ onCodeSent, onCancel }) {
               autoFocus
               disabled={sending}
             />
-            {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+            {error && <p className="text-xs text-amber-600 mt-1">{error}</p>}
           </div>
 
           <select
@@ -230,7 +230,7 @@ function CodeStep({ email, role, onVerified, onBack }) {
               className={inputCls + ' text-center text-xl tracking-[0.5em] font-mono'}
               disabled={verifying}
             />
-            {error && <p className="text-xs text-red-500 mt-1 text-center">{error}</p>}
+            {error && <p className="text-xs text-amber-600 mt-1 text-center">{error}</p>}
           </div>
 
           <button

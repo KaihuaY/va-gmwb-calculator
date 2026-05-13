@@ -53,7 +53,7 @@ export default function ProjectionTable({ results, onExport }) {
                 <td className="px-4 py-3 font-semibold text-slate-700 tabular-nums">{row.year}</td>
                 <td className="px-4 py-3 font-semibold text-slate-700 tabular-nums">{row.age}</td>
                 <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-800">{fmt(row.mean)}</td>
-                <td className="px-4 py-3 text-right font-mono tabular-nums text-red-500">{fmt(row.p5)}</td>
+                <td className="px-4 py-3 text-right font-mono tabular-nums text-amber-700">{fmt(row.p5)}</td>
                 <td className="px-4 py-3 text-right font-mono tabular-nums font-semibold text-slate-900">{fmt(row.median)}</td>
                 <td className="px-4 py-3 text-right font-mono tabular-nums text-green-600">{fmt(row.p95)}</td>
                 <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-500">{row.year < survival_probs.length ? pct(survival_probs[row.year]) : '—'}</td>

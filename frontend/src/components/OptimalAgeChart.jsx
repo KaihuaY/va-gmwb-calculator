@@ -81,7 +81,7 @@ export default function OptimalAgeChart({ data, currentElectionAge, onApplyAge, 
               </div>
               <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5">
                 <span className="text-xs text-slate-500 font-medium">vs. Current Age {current_election_age}</span>
-                <span className={`text-sm font-bold ${optimal_pv_gmwb > current_pv_gmwb ? 'text-emerald-600' : 'text-red-600'}`}>
+                <span className={`text-sm font-bold ${optimal_pv_gmwb > current_pv_gmwb ? 'text-emerald-600' : 'text-slate-600'}`}>
                   {optimal_pv_gmwb > current_pv_gmwb ? '+' : ''}{fmtDollar(optimal_pv_gmwb - current_pv_gmwb)}
                 </span>
               </div>

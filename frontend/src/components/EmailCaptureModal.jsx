@@ -48,7 +48,7 @@ export default function EmailCaptureModal({ onSubmit, onSkip }) {
               className={inputCls}
               autoFocus
             />
-            {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+            {error && <p className="text-xs text-amber-600 mt-1">{error}</p>}
           </div>
 
           <select

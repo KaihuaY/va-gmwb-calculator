@@ -28,6 +28,17 @@ export async function simulate(params) {
 }
 
 /**
+ * Run a historical-replay backtest against actual S&P 500 returns.
+ * @param {Object} params - SimulateRequest fields
+ * @param {string} startMonth - YYYY-MM (e.g. '2007-01')
+ * @returns {Promise<Object>} HistoricalResult — single AV path, PV figures, depletion info
+ */
+export async function backtest(params, startMonth) {
+  const { data } = await client.post('/backtest', { ...params, start_month: startMonth });
+  return data;
+}
+
+/**
  * Run sensitivity analysis (tornado chart data).
  * @param {Object} base - SimulateRequest fields
  * @param {number} shiftPct - relative shift, e.g. 0.10 for ±10%
@@ -83,5 +94,33 @@ export async function sendOtp(email) {
  */
 export async function verifyOtp(email, code) {
   const { data } = await client.post('/auth/verify-otp', { email, code });
+  return data;
+}
+
+/**
+ * List every published rating (composite-sorted desc).
+ * @returns {Promise<{ count, methodology_version, methodology_effective_date, items }>}
+ */
+export async function listRatings() {
+  const { data } = await client.get('/ratings');
+  return data;
+}
+
+/**
+ * Load one rating + its product spec by slug.
+ * @param {string} slug
+ * @returns {Promise<{ rating, product }>}
+ */
+export async function getRating(slug) {
+  const { data } = await client.get(`/ratings/${slug}`);
+  return data;
+}
+
+/**
+ * Load the methodology JSON.
+ * @returns {Promise<Object>} methodology doc
+ */
+export async function getMethodology() {
+  const { data } = await client.get('/methodology');
   return data;
 }

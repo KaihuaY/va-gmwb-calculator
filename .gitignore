@@ -7,3 +7,6 @@ __pycache__/
 .claude/
 backend/data/sessions.db
 tools/outreach_log.db
+backend/lambda_pkg/
+backend/lambda_deploy.zip
+tools/_*.py

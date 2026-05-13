@@ -1,0 +1,87 @@
+{
+  "slug": "allianz_index_advantage_income",
+  "name": "Index Advantage+ Income",
+  "carrier": "Allianz",
+  "product_type": "rila",
+  "first_offered": "2022-01-01",
+  "data_provenance": "synthetic_v0",
+  "data_sources": [
+    {
+      "type": "synthetic_v0_anchor",
+      "note": "Plausible from public carrier cap ranges; not prospectus-verified."
+    }
+  ],
+  "base": {
+    "base_av_default": 250000,
+    "me_fee_annual": 0.0125,
+    "surrender_schedule": [
+      0.06,
+      0.05,
+      0.04,
+      0.03,
+      0.02,
+      0.01
+    ],
+    "free_withdrawal_pct": 0.1,
+    "nursing_home_waiver": true,
+    "terminal_illness_waiver": true,
+    "disability_waiver": false
+  },
+  "segments_available": [
+    {
+      "term_years": 1,
+      "index": "sp500",
+      "crediting_method": "cap",
+      "protection_type": "buffer",
+      "protection_level": 0.1,
+      "cap_rate": 0.085
+    },
+    {
+      "term_years": 6,
+      "index": "sp500",
+      "crediting_method": "participation",
+      "protection_type": "buffer",
+      "protection_level": 0.2,
+      "participation_rate": 0.75
+    }
+  ],
+  "default_allocation_pcts": [
+    0.5,
+    0.5
+  ],
+  "rider": {
+    "type": "glwb",
+    "rider_fee_annual": 0.013,
+    "rollup_rate": 0.07,
+    "withdrawal_rate_by_age": {
+      "55-59": 0.04,
+      "60-64": 0.05,
+      "65+": 0.055
+    },
+    "step_up": true
+  },
+  "insurer": {
+    "am_best": "A+",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.2
+  },
+  "behavioral_data": {
+    "initial_cap": 0.09,
+    "current_cap": 0.085,
+    "cap_history": [
+      {
+        "date": "2022-01-01",
+        "cap": 0.09
+      },
+      {
+        "date": "2024-01-01",
+        "cap": 0.085
+      }
+    ],
+    "illustration_actual_delta": 0.05,
+    "naic_complaints_index": 0.5,
+    "regulatory_fines_5yr": 0
+  },
+  "has_gmdb": false,
+  "gmdb_rider_fee": 0.0
+}

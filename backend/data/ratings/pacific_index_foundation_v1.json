@@ -1,0 +1,238 @@
+{
+  "product_slug": "pacific_index_foundation",
+  "product_name": "Pacific Index Foundation",
+  "carrier": "Pacific Life",
+  "methodology_version": "v1.1.0",
+  "product_spec_hash": "1ecf46683ac4e8c3c0f388043e0eaea75dd804ee04496e1f3a21381aaa9f9c7f",
+  "scored_at": "2026-05-12T00:00:00Z",
+  "scoring_inputs": {
+    "premium": 250000,
+    "horizon_years": 30,
+    "age": 60,
+    "gender": "blend",
+    "gender_blend": true,
+    "genders_blended": [
+      "M",
+      "F"
+    ]
+  },
+  "monte_carlo": {
+    "fees_pv_mean": 0.0,
+    "glwb_pv_mean": 0.0,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 283023.76,
+    "av_end_p50": 559314.34,
+    "av_end_p95": 1006312.98
+  },
+  "monte_carlo_male": {
+    "fees_pv_mean": 0.0,
+    "glwb_pv_mean": 0.0,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 283023.76,
+    "av_end_p50": 559314.34,
+    "av_end_p95": 1006312.98
+  },
+  "monte_carlo_female": {
+    "fees_pv_mean": 0.0,
+    "glwb_pv_mean": 0.0,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 283023.76,
+    "av_end_p50": 559314.34,
+    "av_end_p95": 1006312.98
+  },
+  "sub_scores": {
+    "tco": {
+      "score": 100.0,
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 50.0,
+      "rationale": "No income rider \u2014 guarantee value is neutral (50). (male) / No income rider \u2014 guarantee value is neutral (50). (female)"
+    },
+    "sf": {
+      "score": 60.0,
+      "rationale": "7-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 95.0,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 15%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "male_scores": {
+    "tco": {
+      "score": 100.0,
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 50.0,
+      "rationale": "No income rider \u2014 guarantee value is neutral (50)."
+    },
+    "sf": {
+      "score": 60.0,
+      "rationale": "7-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 95,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 15%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "female_scores": {
+    "tco": {
+      "score": 100.0,
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 50.0,
+      "rationale": "No income rider \u2014 guarantee value is neutral (50)."
+    },
+    "sf": {
+      "score": 60.0,
+      "rationale": "7-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 95,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 15%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "blended_scores": {
+    "tco": {
+      "score": 100.0,
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 50.0,
+      "rationale": "No income rider \u2014 guarantee value is neutral (50). (male) / No income rider \u2014 guarantee value is neutral (50). (female)"
+    },
+    "sf": {
+      "score": 60.0,
+      "rationale": "7-yr surrender schedule (max 8.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 95.0,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 15%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "male_composite": 79.0,
+  "female_composite": 79.0,
+  "male_letter_grade": "B",
+  "female_letter_grade": "B",
+  "composite": 79.0,
+  "letter_grade": "B",
+  "feature_snapshot": {
+    "me_fee_annual": 0.0,
+    "rider_fee_annual": 0.0,
+    "rollup_rate": 0.0,
+    "withdrawal_rate_65": 0.0,
+    "surrender_years": 7,
+    "surrender_max_pct": 0.08,
+    "free_withdrawal_pct": 0.1,
+    "waivers": [
+      "nursing-home",
+      "terminal-illness"
+    ],
+    "waiver_count": 2,
+    "step_up": false,
+    "has_glwb": false,
+    "headline_cap": 0.085,
+    "am_best": "A+",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.15,
+    "cap_cut_count_5yr": 0,
+    "product_type": "rila",
+    "first_offered": "2022-01-01"
+  },
+  "regimes": {
+    "bull_1985_1999": {
+      "display_name": "Secular bull (1985-1999)",
+      "start_month": "1985-02",
+      "end_month": "2000-01",
+      "years": 15,
+      "av_end": 688008.65,
+      "av_min": 250000.0,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 100.0,
+      "history_truncated": false
+    },
+    "lost_decade_2000_2009": {
+      "display_name": "Lost decade (2000-2009)",
+      "start_month": "2000-01",
+      "end_month": "2009-12",
+      "years": 10,
+      "av_end": 221626.74,
+      "av_min": 204264.28,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 25.8,
+      "history_truncated": false
+    },
+    "gfc_2008_2010": {
+      "display_name": "GFC stress window (2008-2010)",
+      "start_month": "2008-01",
+      "end_month": "2010-12",
+      "years": 3,
+      "av_end": 210470.98,
+      "av_min": 178785.69,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 22.8,
+      "history_truncated": false
+    },
+    "post_gfc_bull_2010_2021": {
+      "display_name": "Post-GFC bull (2010-2021)",
+      "start_month": "2010-01",
+      "end_month": "2021-12",
+      "years": 12,
+      "av_end": 520963.93,
+      "av_min": 250000.0,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 100.0,
+      "history_truncated": false
+    },
+    "rate_hike_2022_2024": {
+      "display_name": "Rate-hike cycle (2022-2024)",
+      "start_month": "2022-01",
+      "end_month": "2024-12",
+      "years": 3,
+      "av_end": 266515.31,
+      "av_min": 226392.84,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 37.7,
+      "history_truncated": false
+    }
+  },
+  "narrative": "Pacific Life's Pacific Index Foundation earns a composite score of 79.0, which maps to a letter grade of B under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Insurer Credit (95), Behavioral Fairness (90). Areas where this product scores below cohort median: Guarantee Value (50). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Low fees (100) offset by weak guarantee value (50).",
+  "signed_by": "K Hu",
+  "signed_credentials": "FSA, MAAA",
+  "signed_at": "2026-05-12T00:00:00Z",
+  "status": "published"
+}

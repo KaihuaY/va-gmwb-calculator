@@ -52,7 +52,7 @@ function HowToReadThis({ netMean, num_scenarios }) {
           market scenarios. <strong>Total Fees</strong> are M&amp;E and rider fees paid over your lifetime.{' '}
           {netMean > 0
             ? <><strong className="text-emerald-700">Net Benefit is positive</strong>, meaning on average the guarantee pays back more than you pay in fees — the rider is expected to deliver value.</>
-            : <><strong className="text-red-700">Net Benefit is negative</strong>, meaning fees are expected to exceed guarantee payouts on average. This is common — the guarantee's value lies in the <em>protection against bad outcomes</em>, not the average case. See the shortfall risk above.</>
+            : <><strong className="text-slate-700">Net Benefit is negative</strong>, meaning fees are expected to exceed guarantee payouts on average. This is common — the guarantee's value lies in the <em>protection against bad outcomes</em>, not the average case. See the shortfall risk above.</>
           }
         </div>
       )}
@@ -100,7 +100,7 @@ function ShortfallCallout({ shortfall_stats, num_scenarios, simple }) {
   const isHigh   = prob >= 0.40;
   const isMedium = prob >= 0.15 && prob < 0.40;
   const colors = isHigh
-    ? { bg: 'bg-red-50',    border: 'border-red-200',   head: 'text-red-800',   body: 'text-red-700',   big: 'text-red-700'   }
+    ? { bg: 'bg-amber-100/60', border: 'border-amber-300', head: 'text-amber-900', body: 'text-amber-800', big: 'text-amber-800' }
     : isMedium
     ? { bg: 'bg-amber-50',  border: 'border-amber-200', head: 'text-amber-800', body: 'text-amber-700', big: 'text-amber-700' }
     : { bg: 'bg-blue-50',   border: 'border-blue-200',  head: 'text-blue-800',  body: 'text-blue-700',  big: 'text-blue-600'  };
@@ -237,7 +237,7 @@ function InsightCards({ results, runParams }) {
   if (gmwbEnabled && shortfallProb >= 0.40) {
     insights.push({
       icon: '⚠️',
-      color: 'red',
+      color: 'amber',
       text: `Your account runs out while you\'re still alive in ${Math.round(shortfallProb * 100)}% of scenarios — that\'s high. Consider reducing the annual withdrawal rate or deferring income to a later age.`,
     });
   } else if (gmwbEnabled && shortfallProb === 0) {
@@ -275,7 +275,6 @@ function InsightCards({ results, runParams }) {
   if (insights.length === 0) return null;
 
   const colorMap = {
-    red:     { bg: 'bg-red-50',    border: 'border-red-200',    icon: 'text-red-500',    text: 'text-red-800'    },
     emerald: { bg: 'bg-emerald-50', border: 'border-emerald-200', icon: 'text-emerald-600', text: 'text-emerald-800' },
     slate:   { bg: 'bg-slate-50',  border: 'border-slate-200',  icon: 'text-slate-500',  text: 'text-slate-700'  },
     amber:   { bg: 'bg-amber-50',  border: 'border-amber-200',  icon: 'text-amber-500',  text: 'text-amber-800'  },
@@ -308,6 +307,55 @@ function InsightCards({ results, runParams }) {
           })}
         </div>
       )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Verdict headline — plain-English one-liner above the metric strip
+// ---------------------------------------------------------------------------
+function Verdict({ results, runParams }) {
+  if (!results || !runParams) return null;
+  const shortfallProb = results.shortfall_stats?.prob ?? 0;
+  const netMean = results.net_stats?.mean ?? 0;
+  const gmwbEnabled = runParams.gmwb_enabled ?? true;
+
+  let tone, headline, sub;
+  if (!gmwbEnabled) {
+    tone = 'slate';
+    headline = 'No living-benefit rider selected';
+    sub = 'Turn on GMWB to see guarantee value.';
+  } else if (shortfallProb >= 0.40) {
+    tone = 'amber';
+    headline = `The guarantee earns its fees — your account runs out in ${Math.round(shortfallProb * 100)}% of scenarios`;
+    sub = 'Without this rider, income would stop when funds deplete. The guarantee keeps payments flowing for life.';
+  } else if (shortfallProb >= 0.15) {
+    tone = 'blue';
+    headline = `Meaningful downside protection — ${Math.round(shortfallProb * 100)}% chance your account is depleted while you\u2019re alive`;
+    sub = 'The guarantee is a safety net for the scenarios where markets underperform.';
+  } else if (shortfallProb > 0) {
+    tone = 'blue';
+    headline = `Tail-risk protection — only ${Math.round(shortfallProb * 100)}% of scenarios deplete your account`;
+    sub = netMean < 0
+      ? 'On average you pay more in fees than you collect in payouts; the value is in the bad-market cases.'
+      : 'The guarantee is inexpensive insurance against the worst outcomes.';
+  } else {
+    tone = 'emerald';
+    headline = 'Your account holds up in every simulated scenario';
+    sub = 'The guarantee was not needed in any path modeled — fees buy peace of mind more than expected payout.';
+  }
+
+  const colors = {
+    amber:   { bg: 'bg-amber-50',   border: 'border-amber-200',   head: 'text-amber-900',   body: 'text-amber-700' },
+    blue:    { bg: 'bg-blue-50',    border: 'border-blue-100',    head: 'text-blue-900',    body: 'text-blue-700'  },
+    emerald: { bg: 'bg-emerald-50', border: 'border-emerald-200', head: 'text-emerald-900', body: 'text-emerald-700' },
+    slate:   { bg: 'bg-slate-50',   border: 'border-slate-200',   head: 'text-slate-800',   body: 'text-slate-600' },
+  }[tone];
+
+  return (
+    <div className={`mb-3 rounded-xl border ${colors.border} ${colors.bg} px-4 py-3`}>
+      <div className={`text-sm sm:text-base font-bold ${colors.head} leading-snug`}>{headline}</div>
+      <div className={`text-xs ${colors.body} mt-1 leading-relaxed`}>{sub}</div>
     </div>
   );
 }
@@ -346,7 +394,9 @@ export default function ResultsSummary({ results, running, progress, viewMode = 
 
   const { claim_stats, gmdb_stats, fee_stats, net_stats, num_scenarios, projection_years, shortfall_stats } = results;
   const netMean = net_stats.mean;
-  const netColor = netMean > 0 ? '#dc2626' : '#059669';
+  const netColor = netMean > 0 ? '#059669' : '#475569';
+  const gmwbColor = '#1d4ed8';
+  const gmdbColor = '#d97706';
 
   const gmwbEnabled = runParams?.gmwb_enabled ?? true;
   const gmdbEnabled = runParams?.gmdb_enabled ?? false;
@@ -356,10 +406,10 @@ export default function ResultsSummary({ results, running, progress, viewMode = 
   if (viewMode === 'standard') {
     const stripItems = [];
     if (hasGmwb) {
-      stripItems.push({ label: 'Guarantee Value', value: fmt(claim_stats.mean), sub: `Median ${fmt(claim_stats.median)}`, color: '#dc2626', primary: true });
+      stripItems.push({ label: 'Guarantee Value', value: fmt(claim_stats.mean), sub: `Median ${fmt(claim_stats.median)}`, color: gmwbColor, primary: true });
     }
     if (hasGmdb) {
-      stripItems.push({ label: 'Death Benefit', value: fmt(gmdb_stats.mean), sub: `Median ${fmt(gmdb_stats.median)}`, color: '#ea580c', primary: true });
+      stripItems.push({ label: 'Death Benefit', value: fmt(gmdb_stats.mean), sub: `Median ${fmt(gmdb_stats.median)}`, color: gmdbColor, primary: true });
     }
     if (!hasGmwb && !hasGmdb) {
       stripItems.push({ label: 'Guarantee Value', value: '—', sub: 'No rider selected', color: '#94a3b8' });
@@ -369,6 +419,7 @@ export default function ResultsSummary({ results, running, progress, viewMode = 
 
     return (
       <div className="mb-6">
+        <Verdict results={results} runParams={runParams} />
         <StatStrip items={stripItems} />
         {shortfall_stats && hasGmwb && (
           <ShortfallCallout
@@ -411,14 +462,14 @@ export default function ResultsSummary({ results, running, progress, viewMode = 
     advCards.push(
       <MetricCard key="gmwb" title="PV(GMWB)"
         value={fmt(claim_stats.mean)} subtitle={`Median ${fmt(claim_stats.median)}`}
-        accentColor="#dc2626" />
+        accentColor={gmwbColor} />
     );
   }
   if (hasGmdb) {
     advCards.push(
       <MetricCard key="gmdb" title="PV(GMDB)"
         value={fmt(gmdb_stats.mean)} subtitle={`Median ${fmt(gmdb_stats.median)}`}
-        accentColor="#ea580c" />
+        accentColor={gmdbColor} />
     );
   }
   advCards.push(
@@ -444,6 +495,7 @@ export default function ResultsSummary({ results, running, progress, viewMode = 
 
   return (
     <div className="mb-6">
+      <Verdict results={results} runParams={runParams} />
       <div className={`grid ${advCols} gap-4`}>
         {advCards}
       </div>

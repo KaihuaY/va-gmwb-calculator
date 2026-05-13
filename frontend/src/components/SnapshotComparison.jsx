@@ -24,7 +24,7 @@ function Delta({ a, b, invert = false }) {
   const label = diff > 0 ? `+${fmt(diff)}` : fmt(diff);
   return (
     <span className={`ml-1.5 text-xs font-semibold px-1.5 py-0.5 rounded-full ${
-      positive ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'
+      positive ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
     }`}>
       {label}
     </span>
@@ -39,7 +39,7 @@ function DeltaPct({ a, b }) {
   const positive = diff < 0; // lower shortfall probability = better
   return (
     <span className={`ml-1.5 text-xs font-semibold px-1.5 py-0.5 rounded-full ${
-      positive ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'
+      positive ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
     }`}>
       {label}
     </span>
@@ -51,7 +51,7 @@ function ScenarioCard({ snapshot, index, isBaseline, onClear }) {
   const { claim_stats, gmdb_stats, fee_stats, net_stats, shortfall_stats, num_scenarios } = results;
   const gmwbEnabled = runParams?.gmwb_enabled ?? true;
   const gmdbEnabled = runParams?.gmdb_enabled ?? false;
-  const netColor = net_stats.mean > 0 ? 'text-red-600' : 'text-emerald-700';
+  const netColor = net_stats.mean > 0 ? 'text-emerald-700' : 'text-slate-700';
 
   return (
     <div className={`rounded-xl border ${isBaseline ? 'border-blue-300 bg-blue-50/30' : 'border-slate-200 bg-white'} overflow-hidden`}>
@@ -89,7 +89,7 @@ function ScenarioCard({ snapshot, index, isBaseline, onClear }) {
         {gmwbEnabled && (
           <div className="flex justify-between items-center">
             <span className="text-xs text-slate-500">Guarantee Value</span>
-            <span className="text-sm font-bold text-red-600 tabular-nums">{fmt(claim_stats.mean)}</span>
+            <span className="text-sm font-bold text-blue-700 tabular-nums">{fmt(claim_stats.mean)}</span>
           </div>
         )}
         {gmdbEnabled && gmdb_stats?.mean > 0 && (

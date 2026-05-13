@@ -2,34 +2,42 @@
 """
 AnnuityVoice RIA Outreach Agent
 --------------------------------
-Finds fee-only RIA firms via SEC IAPD API, scores each lead,
-uses Claude to draft personalized cold emails and (for high-potential
-leads, score >= 7) LinkedIn DM copy, then lets you review and optionally
-send via Gmail SMTP.
+Two-table architecture:
+  firms     -- persistent cache of every IAPD firm ever fetched (never re-fetched once stored)
+  outreach  -- firms we are actively contacting (subset of firms)
 
-Usage:
-    python tools/ria_outreach.py --state TX --max-leads 20 --dry-run
-    python tools/ria_outreach.py --state TX --max-leads 10 --send
-    python tools/ria_outreach.py --review
-    python tools/ria_outreach.py --stats
+Workflow:
+  1. python tools/ria_outreach.py --fetch                   # populate firms table (all US)
+     python tools/ria_outreach.py --fetch --state TX        # or one state
+  2. python tools/ria_outreach.py --enrich-firms --limit 500  # brochure PDF -> website/email
+  3. python tools/ria_outreach.py --analyze --top 100       # score + save outreach candidates
+  4. python tools/ria_outreach.py --draft --batch 10 [--yes] [--one-batch]
+  5. python tools/ria_outreach.py --review [--send]
+  6. python tools/ria_outreach.py --stats
 
-Setup (add to backend/.env):
+Setup (backend/.env):
     ANTHROPIC_API_KEY=sk-ant-...
-    SMTP_HOST=smtp.gmail.com
-    SMTP_PORT=587
-    SMTP_USER=you@gmail.com
-    SMTP_PASS=<gmail-app-password>
+    IMAP_HOST=imap.gmail.com  IMAP_PORT=993
+    IMAP_USER=kai@annuityvoice.com  IMAP_PASS=<app-password>
     FROM_EMAIL=kai@annuityvoice.com
+    SMTP_HOST=smtp.gmail.com  SMTP_PORT=587
+    SMTP_USER=kai@annuityvoice.com  SMTP_PASS=<app-password>
 """
 
 import argparse
+import email as _email_module
+import imaplib
+import io
 import json
 import os
+import random
 import re
 import smtplib
 import sqlite3
 import ssl
 import sys
+import time
+from collections import defaultdict
 from datetime import datetime, timezone
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -42,28 +50,95 @@ from dotenv import load_dotenv
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
-SCRIPT_DIR = Path(__file__).parent
-DB_PATH = SCRIPT_DIR / "outreach_log.db"
-ENV_PATH = SCRIPT_DIR.parent / "backend" / ".env"
+SCRIPT_DIR  = Path(__file__).parent
+DB_PATH     = SCRIPT_DIR / "outreach_log.db"
+ENV_PATH    = SCRIPT_DIR.parent / "backend" / ".env"
 
-LINKEDIN_SCORE_THRESHOLD = 7   # score >= this gets a LinkedIn DM draft
-SKIP_SCORE_THRESHOLD = 5       # score < this is skipped entirely
+LINKEDIN_SCORE_THRESHOLD = 7
+SKIP_SCORE_THRESHOLD     = 3   # low because IAPD gives no AUM; name/state signals enough
 
 TOP_VA_STATES = {"CA", "TX", "FL", "NY", "IL", "OH", "PA", "GA", "NJ", "NC"}
 
-# SEC IAPD public search -- no auth required
-IAPD_SEARCH_URL = "https://api.iapd.sec.gov/content/search/firms"
-# EDGAR full-text fallback
-EDGAR_SEARCH_URL = "https://efts.sec.gov/LATEST/search-index"
+US_STATES = [
+    "AL","AK","AZ","AR","CA","CO","CT","DC","DE","FL","GA",
+    "HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
+    "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+    "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+    "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
+]
+
+IAPD_SEARCH_URL = "https://api.adviserinfo.sec.gov/search/firm"
+IAPD_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept":  "application/json, text/plain, */*",
+    "Origin":  "https://adviserinfo.sec.gov",
+    "Referer": "https://adviserinfo.sec.gov/",
+}
+
+_BROCHURE_URL = (
+    "https://files.adviserinfo.sec.gov/IAPD/Content/Common/"
+    "crd_iapd_Brochure.aspx?BRCHR_VRSN_ID={bid}"
+)
+_BROCHURE_SKIP = re.compile(
+    r"(adviserinfo|sec\.gov|finra|brokercheck|bing|google|duckduckgo|"
+    r"linkedin|facebook|twitter|yelp|custhelp|rightnow|iapd)",
+    re.IGNORECASE,
+)
+_EMAIL_SKIP = re.compile(r"(noreply|no-reply|example\.com|sentry\.io|\.png|\.jpg)", re.I)
+
+_WEB_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,*/*;q=0.9",
+}
+_EMAIL_RE  = re.compile(r"\b[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}\b")
+_MAILTO_RE = re.compile(r"mailto:([A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,})", re.I)
+_VA_KEYWORDS = re.compile(
+    r"\b(variable annuit|annuit(y|ies)|gmwb|gmdb|glwb|gmib|income rider|"
+    r"deferred annuit|fixed annuit|indexed annuit|insurance product|"
+    r"surrender charge|benefit base|withdrawal benefit)\b",
+    re.IGNORECASE,
+)
+
+_GENERIC_LOCAL = re.compile(
+    r"^(info|noreply|no-reply|support|hello|admin|contact|mail|office|team|"
+    r"help|media|pr|marketing|privacy|legal|billing|compliance|webmaster|service)$",
+    re.I,
+)
 
 
 # ---------------------------------------------------------------------------
-# Database
+# Database  (two tables)
 # ---------------------------------------------------------------------------
 def get_db() -> sqlite3.Connection:
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
-    conn.execute("""
+    conn.executescript("""
+        CREATE TABLE IF NOT EXISTS firms (
+            crd           TEXT PRIMARY KEY,
+            firm_name     TEXT NOT NULL,
+            firm_state    TEXT,
+            firm_aum      REAL    DEFAULT 0.0,
+            client_count  INTEGER DEFAULT 0,
+            fee_only      INTEGER DEFAULT 1,
+            website       TEXT,
+            contact_email TEXT,
+            brochure_vid  INTEGER,
+            score         INTEGER DEFAULT 0,
+            fetched_at    TEXT,
+            enriched_at   TEXT,
+            va_relevant   INTEGER DEFAULT 0
+        );
+        CREATE TABLE IF NOT EXISTS fetch_log (
+            state       TEXT PRIMARY KEY,
+            fetched_at  TEXT NOT NULL,
+            firm_count  INTEGER DEFAULT 0
+        );
         CREATE TABLE IF NOT EXISTS outreach (
             id            INTEGER PRIMARY KEY,
             ts            TEXT NOT NULL,
@@ -73,60 +148,132 @@ def get_db() -> sqlite3.Connection:
             firm_state    TEXT,
             score         INTEGER,
             contact_email TEXT,
+            website       TEXT,
             subject       TEXT,
             body          TEXT,
             linkedin_dm   TEXT,
-            status        TEXT DEFAULT 'draft',
+            status        TEXT DEFAULT 'candidate',
             sent_at       TEXT,
             notes         TEXT
-        )
+        );
     """)
+    # Non-destructive migrations for older DB files
+    for tbl, col, defn in [
+        ("outreach", "website",      "TEXT"),
+        ("outreach", "contact_email","TEXT"),
+        ("firms",    "va_relevant",  "INTEGER DEFAULT 0"),
+    ]:
+        try:
+            conn.execute(f"ALTER TABLE {tbl} ADD COLUMN {col} {defn}")
+        except sqlite3.OperationalError:
+            pass
     conn.commit()
     return conn
 
 
-def already_contacted(conn: sqlite3.Connection, firm_crd: str) -> bool:
-    if not firm_crd:
+# firms helpers ---------------------------------------------------------------
+
+def upsert_firm(conn, *, crd: str, firm_name: str, firm_state: str, fee_only: bool = True):
+    """Insert a firm into the cache if not already present. Never overwrites existing rows."""
+    ts = datetime.now(timezone.utc).isoformat()
+    conn.execute(
+        "INSERT OR IGNORE INTO firms (crd, firm_name, firm_state, fee_only, fetched_at) "
+        "VALUES (?, ?, ?, ?, ?)",
+        (crd, firm_name, firm_state, 1 if fee_only else 0, ts),
+    )
+    conn.commit()
+
+
+def update_firm_enrichment(
+    conn, crd: str, *,
+    website: str | None = None,
+    contact_email: str | None = None,
+    brochure_vid: int | None = None,
+    va_relevant: bool = False,
+):
+    """Store brochure-derived data. Uses COALESCE so we never blank out existing good data."""
+    ts = datetime.now(timezone.utc).isoformat()
+    conn.execute(
+        "UPDATE firms SET "
+        "  website       = COALESCE(?, website), "
+        "  contact_email = COALESCE(?, contact_email), "
+        "  brochure_vid  = COALESCE(?, brochure_vid), "
+        "  va_relevant   = MAX(va_relevant, ?), "
+        "  enriched_at   = ? "
+        "WHERE crd = ?",
+        (website or None, contact_email or None, brochure_vid,
+         1 if va_relevant else 0, ts, crd),
+    )
+    conn.commit()
+
+
+def _first_name_from_email(email: str) -> str:
+    """
+    Extract a personal first name from the email local part.
+    e.g. brad@hartmanfinancialplanning.com  -> 'Brad'
+         info@firm.com                      -> ''
+         jdavis@firm.com                    -> '' (looks like initial+surname)
+    """
+    if not email or "@" not in email:
+        return ""
+    local = email.split("@")[0].lower()
+    if not local.isalpha() or not 3 <= len(local) <= 9:
+        return ""
+    if _GENERIC_LOCAL.match(local):
+        return ""
+    # Reject initials+surname patterns: single consonant start + 4+ more chars
+    _VOWELS = set("aeiou")
+    if local[0] not in _VOWELS and len(local) >= 5 and local[1] not in _VOWELS:
+        return ""
+    return local.capitalize()
+
+
+def firms_as_lead(f) -> dict:
+    """Convert a firms row to the lead dict used throughout the script."""
+    email = f["contact_email"] or ""
+    return {
+        "firm_name":     f["firm_name"],
+        "firm_crd":      f["crd"],
+        "firm_state":    f["firm_state"] or "",
+        "firm_aum":      f["firm_aum"] or 0.0,
+        "client_count":  f["client_count"] or 0,
+        "fee_only":      bool(f["fee_only"]),
+        "website":       f["website"] or "",
+        "contact_email": email,
+        "advisor_name":  _first_name_from_email(email),
+        "va_relevant":   bool(f["va_relevant"]) if "va_relevant" in f.keys() else False,
+    }
+
+
+# outreach helpers ------------------------------------------------------------
+
+def already_in_outreach(conn: sqlite3.Connection, crd: str) -> bool:
+    """True if this firm already has any outreach row (candidate / draft / sent)."""
+    if not crd:
         return False
-    row = conn.execute(
-        "SELECT id FROM outreach WHERE firm_crd = ?", (firm_crd,)
-    ).fetchone()
-    return row is not None
+    return conn.execute(
+        "SELECT 1 FROM outreach WHERE firm_crd = ?", (crd,)
+    ).fetchone() is not None
 
 
 def save_candidate(conn, *, firm_name, firm_crd, firm_aum, firm_state,
                    score, contact_email, website) -> int:
-    """Save a scored lead as 'candidate' -- no draft yet."""
     ts = datetime.now(timezone.utc).isoformat()
-    conn.execute("""
-        INSERT OR IGNORE INTO outreach
-            (ts, firm_name, firm_crd, firm_aum, firm_state, score,
-             contact_email, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, 'candidate')
-    """, (ts, firm_name, firm_crd, firm_aum, firm_state, score, contact_email))
-    conn.commit()
-    return conn.execute("SELECT last_insert_rowid()").fetchone()[0]
-
-
-def save_draft(conn, *, firm_name, firm_crd, firm_aum, firm_state,
-               score, contact_email, subject, body, linkedin_dm) -> int:
-    ts = datetime.now(timezone.utc).isoformat()
-    conn.execute("""
-        INSERT INTO outreach
-            (ts, firm_name, firm_crd, firm_aum, firm_state, score,
-             contact_email, subject, body, linkedin_dm, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft')
-    """, (ts, firm_name, firm_crd, firm_aum, firm_state, score,
-          contact_email, subject, body, linkedin_dm))
+    conn.execute(
+        "INSERT OR IGNORE INTO outreach "
+        "(ts, firm_name, firm_crd, firm_aum, firm_state, score, contact_email, website, status) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'candidate')",
+        (ts, firm_name, firm_crd, firm_aum, firm_state, score, contact_email, website),
+    )
     conn.commit()
     return conn.execute("SELECT last_insert_rowid()").fetchone()[0]
 
 
 def update_draft(conn, row_id: int, subject: str, body: str, linkedin_dm: str | None):
-    """Promote a candidate row to a full draft."""
-    conn.execute("""
-        UPDATE outreach SET subject=?, body=?, linkedin_dm=?, status='draft' WHERE id=?
-    """, (subject, body, linkedin_dm, row_id))
+    conn.execute(
+        "UPDATE outreach SET subject=?, body=?, linkedin_dm=?, status='draft' WHERE id=?",
+        (subject, body, linkedin_dm, row_id),
+    )
     conn.commit()
 
 
@@ -139,200 +286,378 @@ def mark_sent(conn: sqlite3.Connection, row_id: int):
 
 
 # ---------------------------------------------------------------------------
-# Lead sourcing -- SEC IAPD API
+# IAPD fetch  (state-by-state pagination)
 # ---------------------------------------------------------------------------
-def fetch_leads(state: str | None, max_leads: int) -> list[dict]:
+def _fetch_iapd_state_into(state: str, conn: sqlite3.Connection) -> int:
     """
-    Fetch RIA firm candidates from SEC IAPD.
-    Fetches 3x the requested max so scoring can filter down to the best leads.
-    Falls back to EDGAR ADV full-text search if IAPD is unavailable.
+    Fetch ALL active IA firms for `state` from IAPD and upsert into firms table.
+    Returns number of NEW rows inserted.
     """
-    fetch_n = min(max_leads * 3, 100)
-    params = {
-        "query": "retirement income planning fee-only",
-        "rows":  fetch_n,
-        "start": 0,
-    }
-    if state:
-        params["state"] = state.upper()
+    start     = 0
+    page_size = 100
+    total_api = 0
+    new_count = 0
 
-    leads = []
-    try:
-        resp = requests.get(IAPD_SEARCH_URL, params=params, timeout=15)
-        resp.raise_for_status()
-        data = resp.json()
-        # IAPD may return hits under different keys depending on version
-        firms = (
-            data.get("hits", {}).get("hits", [])
-            or data.get("firms", [])
-            or data.get("results", [])
-        )
-        for f in firms:
-            src = f.get("_source", f)
-            leads.append(_normalise_iapd(src))
-        print(f"  [IAPD] {len(leads)} firms returned")
-    except Exception as exc:
-        print(f"  [IAPD] unavailable ({exc}) -- trying EDGAR fallback...", file=sys.stderr)
-        leads = _fetch_edgar_fallback(state, fetch_n)
+    while True:
+        params = {
+            "query": "", "wt": "json", "hl": "false",
+            "nrows": str(page_size), "start": str(start),
+            "state": state.upper(), "sort": "score+desc",
+        }
+        try:
+            resp = requests.get(IAPD_SEARCH_URL, params=params,
+                                headers=IAPD_HEADERS, timeout=20)
+            resp.raise_for_status()
+            data  = resp.json()
+            hits  = data.get("hits", {}).get("hits", [])
+            total_api = data.get("hits", {}).get("total", 0)
+        except Exception as exc:
+            print(f"  [IAPD] {state} start={start}: {exc}", file=sys.stderr)
+            break
 
-    return leads
+        if not hits:
+            break
 
-
-def _normalise_iapd(src: dict) -> dict:
-    return {
-        "firm_name":    src.get("org_nm") or src.get("firm_name") or "",
-        "firm_crd":     str(src.get("org_crd") or src.get("crd_number") or ""),
-        "firm_aum":     _parse_aum(src.get("reg_assets_mgmt") or src.get("aum") or 0),
-        "firm_state":   (src.get("state_cd") or src.get("state") or "").upper(),
-        "client_count": int(src.get("num_clients") or src.get("client_count") or 0),
-        "website":      src.get("website_url") or src.get("website") or "",
-        "contact_email": src.get("email_addr") or src.get("contact_email") or "",
-        "fee_only":     _is_fee_only(src),
-    }
-
-
-def _fetch_edgar_fallback(state: str | None, n: int) -> list[dict]:
-    query = '"fee-only" "retirement" "income planning"'
-    if state:
-        query += f' "{state}"'
-    params = {
-        "q":         query,
-        "forms":     "ADV",
-        "dateRange": "custom",
-        "startdt":   "2023-01-01",
-        "enddt":     "2025-12-31",
-    }
-    try:
-        resp = requests.get(EDGAR_SEARCH_URL, params=params, timeout=15)
-        resp.raise_for_status()
-        hits = resp.json().get("hits", {}).get("hits", [])[:n]
-        results = []
         for h in hits:
             src = h.get("_source", {})
-            results.append({
-                "firm_name":     src.get("entity_name") or src.get("display_names", [""])[0],
-                "firm_crd":      src.get("file_num", "").replace("-", ""),
-                "firm_aum":      0.0,
-                "firm_state":    state or "",
-                "client_count":  0,
-                "website":       "",
-                "contact_email": "",
-                "fee_only":      True,
-            })
-        print(f"  [EDGAR] {len(results)} firms returned")
-        return results
-    except Exception as exc2:
-        print(f"  [EDGAR] also failed: {exc2}", file=sys.stderr)
-        return []
+            if src.get("firm_ia_scope") != "ACTIVE":
+                continue
+            crd = str(src.get("firm_source_id", "")).strip()
+            if not crd:
+                continue
+            name = src.get("firm_name", "").strip()
+            if not name:
+                continue
+            addr_raw = src.get("firm_ia_address_details", "")
+            firm_state = state.upper()
+            if addr_raw:
+                try:
+                    firm_state = (
+                        json.loads(addr_raw)
+                        .get("officeAddress", {})
+                        .get("state", state)
+                        .upper()
+                    )
+                except Exception:
+                    pass
+
+            before = conn.execute(
+                "SELECT 1 FROM firms WHERE crd=?", (crd,)
+            ).fetchone()
+            upsert_firm(conn, crd=crd, firm_name=name, firm_state=firm_state)
+            if not before:
+                new_count += 1
+
+        start += page_size
+        if start >= total_api:
+            break
+        time.sleep(0.08)
+
+    return new_count
 
 
-def _parse_aum(raw) -> float:
-    if not raw:
-        return 0.0
-    if isinstance(raw, (int, float)):
-        return float(raw)
-    s = str(raw).replace(",", "").replace("$", "").strip()
-    for suffix, mult in (("B", 1e9), ("M", 1e6), ("K", 1e3)):
-        if s.upper().endswith(suffix):
-            try:
-                return float(s[:-1]) * mult
-            except ValueError:
-                return 0.0
+# ---------------------------------------------------------------------------
+# Brochure PDF enrichment
+# ---------------------------------------------------------------------------
+def _get_brochure_version_id(crd: str) -> int | None:
     try:
-        return float(s)
-    except ValueError:
-        return 0.0
+        resp = requests.get(
+            f"{IAPD_SEARCH_URL}/{crd}",
+            params={"hl": "false", "nrows": "1", "query": "", "wt": "json"},
+            headers=IAPD_HEADERS, timeout=12,
+        )
+        resp.raise_for_status()
+        data    = resp.json()
+        hits    = data.get("hits", {}).get("hits", [])
+        if not hits:
+            return None
+        src     = hits[0].get("_source", hits[0])
+        iac_raw = src.get("iacontent", "{}")
+        iac     = json.loads(iac_raw) if isinstance(iac_raw, str) else (iac_raw or {})
+        details = iac.get("brochures", {}).get("brochuredetails", [])
+        return details[0]["brochureVersionID"] if details else None
+    except Exception:
+        return None
 
 
-def _is_fee_only(src: dict) -> bool:
-    flag = src.get("fee_only_flag") or src.get("is_fee_only") or ""
-    return str(flag).upper() in ("Y", "YES", "TRUE", "1")
+def _parse_brochure_pdf(brochure_vid: int) -> tuple[str, str, bool]:
+    """Download ADV Part 2A PDF and extract (website, contact_email, va_relevant)."""
+    try:
+        import pdfplumber
+
+        url  = _BROCHURE_URL.format(bid=brochure_vid)
+        resp = requests.get(url, headers=_WEB_HEADERS, timeout=20)
+        if resp.status_code != 200:
+            return "", "", False
+
+        text = ""
+        with pdfplumber.open(io.BytesIO(resp.content)) as pdf:
+            for page in pdf.pages[:6]:   # extra pages for VA keyword coverage
+                text += (page.extract_text() or "") + "\n"
+
+        raw_urls   = re.findall(
+            r"(?:www\.|https?://)[A-Za-z0-9.\-]+\.[A-Za-z]{2,}(?:/[^\s)]*)?", text
+        )
+        raw_emails = _EMAIL_RE.findall(text)
+
+        website = next(
+            (u if u.startswith("http") else f"https://{u}"
+             for u in raw_urls if not _BROCHURE_SKIP.search(u)),
+            "",
+        )
+        email      = next((e for e in raw_emails if not _EMAIL_SKIP.search(e)), "")
+        va_relevant = bool(_VA_KEYWORDS.search(text))
+        return website, email, va_relevant
+    except ImportError:
+        return "", "", False
+    except Exception:
+        return "", "", False
+
+
+def _scrape_website_email(website_url: str) -> str:
+    """Scrape homepage → /contact → /about for a mailto: address."""
+    if not website_url or not website_url.startswith("http"):
+        return ""
+    base   = website_url.rstrip("/")
+    pages  = [base, f"{base}/contact", f"{base}/contact-us", f"{base}/about"]
+    found: list[str] = []
+    for url in pages:
+        try:
+            r = requests.get(url, headers=_WEB_HEADERS, timeout=8,
+                             allow_redirects=True)
+            if r.status_code != 200:
+                continue
+            html = r.text[:150_000]
+            for m in _MAILTO_RE.finditer(html):
+                e = m.group(1).lower()
+                if e not in found:
+                    found.append(e)
+            for m in _EMAIL_RE.finditer(html):
+                e = m.group(0).lower()
+                if e not in found:
+                    found.append(e)
+        except Exception:
+            continue
+        if found:
+            break
+
+    personal = [e for e in found if not _GENERIC_LOCAL.match(e.split("@")[0])]
+    return personal[0] if personal else (found[0] if found else "")
 
 
 # ---------------------------------------------------------------------------
 # Lead scoring
 # ---------------------------------------------------------------------------
+_RETAIL_NAME = re.compile(
+    r"\b(wealth\s+(advisor|management|planner|partner)|financial\s+(planning|advisor|services)|"
+    r"retirement\s+(planning|advisor|income)|fee.only|investment\s+advisor|"
+    r"estate\s+planning|fiduciary|cfp|independent\s+advisor)\b",
+    re.IGNORECASE,
+)
+_INSTITUTIONAL_NAME = re.compile(
+    r"\b(fund\s+[igp]+|venture|private\s+equity|hedge|quantitative|algo|energy\s+partner|"
+    r"maritime|crypto|arbitrage|bitcoin)\b",
+    re.IGNORECASE,
+)
+
+
 def score_lead(lead: dict) -> int:
     score = 0
-    aum = lead.get("firm_aum", 0)
+
+    aum = lead.get("firm_aum", 0) or 0
     if 100_000_000 <= aum <= 500_000_000:
         score += 3
     elif 50_000_000 <= aum < 100_000_000:
         score += 2
 
-    clients = lead.get("client_count", 0)
+    clients = lead.get("client_count", 0) or 0
     if 100 <= clients <= 500:
         score += 2
 
     if lead.get("fee_only"):
         score += 2
 
-    if lead.get("firm_state", "").upper() in TOP_VA_STATES:
+    if (lead.get("firm_state") or "").upper() in TOP_VA_STATES:
         score += 1
 
-    website = (lead.get("website") or "").lower()
-    if any(kw in website for kw in ("retirement", "annuity", "income", "planning")):
+    ws = (lead.get("website") or "").lower()
+    if any(kw in ws for kw in ("retirement", "annuity", "income", "planning")):
         score += 1
+
+    name = lead.get("firm_name", "")
+    if _RETAIL_NAME.search(name):
+        score += 1
+    if _INSTITUTIONAL_NAME.search(name):
+        score = max(0, score - 1)
 
     return min(score, 10)
 
 
 # ---------------------------------------------------------------------------
+# Gmail IMAP
+# ---------------------------------------------------------------------------
+def _imap_connect():
+    host     = os.getenv("IMAP_HOST", "imap.gmail.com")
+    port     = int(os.getenv("IMAP_PORT", "993"))
+    user     = os.getenv("IMAP_USER", os.getenv("FROM_EMAIL", ""))
+    password = os.getenv("IMAP_PASS", "")
+    if not user or not password:
+        return None, "IMAP_USER or IMAP_PASS not set in backend/.env"
+    try:
+        imap = imaplib.IMAP4_SSL(host, port)
+        imap.login(user, password)
+        return imap, None
+    except Exception as exc:
+        return None, str(exc)
+
+
+def read_sent_style(n: int = 4) -> str:
+    imap, err = _imap_connect()
+    if imap is None:
+        print(f"  [Gmail] Skipping sent-mail style read: {err}")
+        return ""
+    try:
+        for folder in ('"[Gmail]/Sent Mail"', '"[Google Mail]/Sent Mail"', "Sent"):
+            status, _ = imap.select(folder, readonly=True)
+            if status == "OK":
+                break
+        else:
+            return ""
+        _, data = imap.search(None, "ALL")
+        ids = data[0].split()
+        if not ids:
+            return ""
+        samples: list[str] = []
+        for mid in ids[-n:]:
+            _, msg_data = imap.fetch(mid, "(RFC822)")
+            raw = msg_data[0][1]
+            msg = _email_module.message_from_bytes(raw)
+            subject = msg.get("Subject", "(no subject)")
+            body    = ""
+            if msg.is_multipart():
+                for part in msg.walk():
+                    if part.get_content_type() == "text/plain":
+                        body = part.get_payload(decode=True).decode("utf-8", errors="replace")
+                        break
+            else:
+                p = msg.get_payload(decode=True)
+                if p:
+                    body = p.decode("utf-8", errors="replace")
+            samples.append(f"Subject: {subject}\n\n{body.strip()}")
+        print(f"  [Gmail] Loaded {len(samples)} sent emails as style reference.")
+        return "\n\n---\n\n".join(samples)
+    except Exception as exc:
+        print(f"  [Gmail] Read sent error: {exc}")
+        return ""
+    finally:
+        try:
+            imap.logout()
+        except Exception:
+            pass
+
+
+def save_gmail_draft(to_email: str, subject: str, body: str) -> bool:
+    from_email = os.getenv("FROM_EMAIL", os.getenv("IMAP_USER", "kai@annuityvoice.com"))
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"]    = f"AnnuityVoice <{from_email}>"
+    if to_email:
+        msg["To"] = to_email
+    msg.attach(MIMEText(body, "plain", "utf-8"))
+
+    imap, err = _imap_connect()
+    if imap is None:
+        print(f"  [Gmail] Cannot save draft: {err}")
+        return False
+    try:
+        for folder in ('"[Gmail]/Drafts"', '"[Google Mail]/Drafts"', "Drafts"):
+            try:
+                imap.append(folder, "\\Draft",
+                            imaplib.Time2Internaldate(time.time()), msg.as_bytes())
+                return True
+            except Exception:
+                continue
+        return False
+    except Exception as exc:
+        print(f"  [Gmail] Save draft error: {exc}")
+        return False
+    finally:
+        try:
+            imap.logout()
+        except Exception:
+            pass
+
+
+# ---------------------------------------------------------------------------
 # Claude drafting
 # ---------------------------------------------------------------------------
-def draft_outreach(client: Anthropic, lead: dict, score: int) -> tuple[str, str, str | None]:
-    """Returns (subject, body, linkedin_dm_or_None)."""
+def draft_outreach(
+    client: Anthropic, lead: dict, score: int, style_ref: str = ""
+) -> tuple[str, str, str | None]:
     include_linkedin = score >= LINKEDIN_SCORE_THRESHOLD
-    aum_fmt = _fmt_aum(lead["firm_aum"])
-    clients = lead.get("client_count") or "unknown"
 
-    # Infer client type from AUM per client
-    if lead["firm_aum"] and lead.get("client_count"):
-        aum_per = lead["firm_aum"] / lead["client_count"]
-        client_type = "high-net-worth" if aum_per > 1_000_000 else "mass-affluent retail"
-    else:
-        client_type = "retail"
+    style_section = ""
+    if style_ref:
+        style_section = (
+            "\n\nSTYLE REFERENCE — your own sent emails. Match this tone and length exactly:\n"
+            "---\n" + style_ref[:1600] + "\n---"
+        )
 
     linkedin_block = (
         "\n3. LINKEDIN DM: Exactly 2 sentences. "
-        "One specific hook referencing their practice, then a link to annuityvoice.com. "
-        "No pleasantries, no sign-off.\n"
+        "One specific hook, then CTA. No pleasantries.\n"
         "Format: LINKEDIN:\n<dm text>"
         if include_linkedin else ""
     )
 
-    prompt = f"""You are drafting cold outreach for AnnuityVoice (annuityvoice.com).
-AnnuityVoice is a free Monte Carlo calculator for variable annuity GMWB riders -- \
-built by an FSA with 15+ years experience. It runs 1,000 scenarios with real \
-mortality tables and shows the actuarial value of the income guarantee vs. fees.
+    greeting   = (f"Hi {lead['advisor_name']},"
+                  if lead.get("advisor_name")
+                  else f"Hi {lead['firm_name'].title()} Team,")
+    va_context = (
+        "Their ADV brochure explicitly mentions annuity products — "
+        "they already work with clients who hold these contracts."
+        if lead.get("va_relevant") else
+        "Fee-only RIAs often inherit clients who hold legacy annuities "
+        "from before they switched advisors."
+    )
 
-Goal: get this RIA to email kai@annuityvoice.com for a free white-label analysis report.
+    prompt = f"""You are drafting a cold outreach email for Kai at AnnuityVoice.
+
+When a carrier designs a variable annuity income rider, they use a team of actuaries \
+working in the carrier's favour. The clients who buy those contracts rarely have anyone \
+running the same math on their side. AnnuityVoice does exactly that — actuarial \
+analysis on the policyholder's side, delivered as white-label PDF reports that RIAs \
+can use in client meetings. The calculator at annuityvoice.com is the starting point; \
+a full PDF analysis follows for specific client contracts.
+
+Goal: one reply expressing interest.
+{style_section}
 
 FIRM:
-  Name:         {lead["firm_name"]}
-  State:        {lead["firm_state"]}
-  AUM:          {aum_fmt}
-  Clients:      {clients} ({client_type})
-  Website:      {lead["website"] or "not available"}
-  Fee-only:     {lead["fee_only"]}
+  Name:      {lead["firm_name"]}
+  State:     {lead["firm_state"]}
+  Website:   {lead.get("website") or "not found"}
+  Context:   {va_context}
 
-Write:
-1. EMAIL SUBJECT: Under 60 chars. Reference the firm's location or inferred client type.
-2. EMAIL BODY: 3 short paragraphs.
-   - Para 1 (1 sentence): Show you understand their practice. Use AUM + client count to infer \
-who they serve. Be specific -- not generic ("I noticed you work with clients").
-   - Para 2 (2–3 sentences): Concrete scenario. Many {client_type} clients hold GMWB riders \
-(Jackson National, Equitable, etc.) that go unanalyzed. Reference the live Jackson example: \
-annuityvoice.com/jackson-national-gmwb-calculator. One specific thing the tool shows.
-   - Para 3 (1 sentence): Low-friction CTA -- reply to this email or visit annuityvoice.com. \
-No forms, no calls, no demos.
-   Sign off: Kai / AnnuityVoice{linkedin_block}
+STRUCTURE (strictly follow this order):
+1. Greeting: {greeting}
+2. ONE sentence — the advocacy hook: the carrier had actuaries; the client didn't. \
+   Frame it as a peer observation. Vary the wording — never repeat the same phrasing.
+3. ONE sentence — what AnnuityVoice does in plain English. \
+   No acronyms, no "Monte Carlo", no "GMWB", no "mortality tables". \
+   Weave in annuityvoice.com naturally.
+4. ONE sentence — two-step CTA: try the calculator on any contract they already know; \
+   if they have a client situation in mind, we can take it further with a full PDF report.
+5. Sign-off: Kai, FSA / Founder, AnnuityVoice
 
-Hard rules:
-- Peer-to-peer tone. Not salesy.
-- Never use: "excited", "thrilled", "fiduciary", "holistic", "synergy", "game-changer".
-- No subject line with "Quick question" or "Following up".
-- Body under 120 words total.
+RULES:
+- Body strictly under 70 words — count them
+- Never mention cost, "free", or "no commitment"
+- No "Quick question", "I noticed", "excited", "thrilled", "fiduciary", "holistic"
+- Peer-to-peer tone throughout — Kai is an FSA writing to a fellow professional
+- Subject: specific to this firm's state or practice, under 55 chars. \
+  Do NOT use the phrase "legacy annuities" — vary the angle every call.
+{linkedin_block}
 
 Format exactly:
 SUBJECT: <subject>
@@ -342,7 +667,7 @@ BODY:
 
     response = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=600,
+        max_tokens=500,
         messages=[{"role": "user", "content": prompt}],
     )
     raw = response.content[0].text.strip()
@@ -350,23 +675,22 @@ BODY:
 
 
 def _parse_claude_response(text: str, include_linkedin: bool) -> tuple[str, str, str | None]:
-    subject = ""
-    body = ""
+    subject = body = ""
     linkedin = None
 
-    m = re.search(r"SUBJECT:\s*(.+?)(?:\n|$)", text, re.IGNORECASE)
+    m = re.search(r"SUBJECT:\s*(.+?)(?:\n|$)", text, re.I)
     if m:
         subject = m.group(1).strip()
 
     if include_linkedin:
-        m = re.search(r"BODY:\s*\n(.*?)\nLINKEDIN:", text, re.IGNORECASE | re.DOTALL)
+        m = re.search(r"BODY:\s*\n(.*?)\nLINKEDIN:", text, re.I | re.DOTALL)
     else:
-        m = re.search(r"BODY:\s*\n(.*)", text, re.IGNORECASE | re.DOTALL)
+        m = re.search(r"BODY:\s*\n(.*)", text, re.I | re.DOTALL)
     if m:
         body = m.group(1).strip()
 
     if include_linkedin:
-        m = re.search(r"LINKEDIN:\s*\n(.*)", text, re.IGNORECASE | re.DOTALL)
+        m = re.search(r"LINKEDIN:\s*\n(.*)", text, re.I | re.DOTALL)
         if m:
             linkedin = m.group(1).strip()
 
@@ -374,13 +698,13 @@ def _parse_claude_response(text: str, include_linkedin: bool) -> tuple[str, str,
 
 
 # ---------------------------------------------------------------------------
-# SMTP sending -- pattern from backend/engine/auth.py
+# SMTP sending
 # ---------------------------------------------------------------------------
 def send_email(to_email: str, subject: str, body: str):
-    host     = os.getenv("SMTP_HOST", "")
-    port     = int(os.getenv("SMTP_PORT", "587"))
-    user     = os.getenv("SMTP_USER", "")
-    password = os.getenv("SMTP_PASS", "")
+    host       = os.getenv("SMTP_HOST", "")
+    port       = int(os.getenv("SMTP_PORT", "587"))
+    user       = os.getenv("SMTP_USER", "")
+    password   = os.getenv("SMTP_PASS", "")
     from_email = os.getenv("FROM_EMAIL") or user or "kai@annuityvoice.com"
 
     msg = MIMEMultipart("alternative")
@@ -389,19 +713,19 @@ def send_email(to_email: str, subject: str, body: str):
     msg["To"]      = to_email
     msg.attach(MIMEText(body, "plain"))
 
-    context = ssl.create_default_context()
+    ctx = ssl.create_default_context()
     with smtplib.SMTP(host, port) as smtp:
         smtp.ehlo()
-        smtp.starttls(context=context)
+        smtp.starttls(context=ctx)
         if user and password:
             smtp.login(user, password)
         smtp.sendmail(from_email, to_email, msg.as_string())
 
 
 # ---------------------------------------------------------------------------
-# Terminal display
+# Display helpers
 # ---------------------------------------------------------------------------
-SEP = "-" * 58
+SEP = "-" * 62
 
 def _fmt_aum(aum: float) -> str:
     if not aum:
@@ -413,67 +737,360 @@ def _fmt_aum(aum: float) -> str:
     return f"${aum:,.0f}"
 
 
-def print_draft(lead: dict, score: int, subject: str, body: str, linkedin: str | None):
-    star = "  * High-potential" if score >= LINKEDIN_SCORE_THRESHOLD else ""
-    print(f"\n{SEP}")
-    print(f"FIRM:  {lead['firm_name']}  --  {lead['firm_state']}  "
-          f"({_fmt_aum(lead['firm_aum'])}, {lead.get('client_count') or '?'} clients)")
-    print(f"CRD:   {lead['firm_crd'] or 'n/a'}  |  Score: {score}/10{star}")
-    if lead.get("contact_email"):
-        print(f"TO:    {lead['contact_email']}")
-    else:
-        print("TO:    (no email in IAPD -- LinkedIn or manual lookup needed)")
-    print(f"\nSUBJECT:\n  {subject}")
-    print(f"\nEMAIL BODY:\n{_indent(body)}")
-    if linkedin:
-        print(f"\nLINKEDIN DM:\n{_indent(linkedin)}")
-    else:
-        print(f"\n(No LinkedIn DM -- score {score} below threshold {LINKEDIN_SCORE_THRESHOLD})")
-    print(SEP)
-
-
 def _indent(text: str, prefix: str = "  ") -> str:
     return "\n".join(prefix + line for line in text.splitlines())
 
 
-def prompt_action() -> str:
-    while True:
-        raw = input("\n  [S]end email  [k]Skip  [q]Quit  > ").strip().lower()
-        if raw in ("s", "", "k", "q"):
-            return raw or "s"
-        print("  Enter S, K, or Q.")
+def print_draft(lead: dict, score: int, subject: str, body: str, linkedin: str | None):
+    star = "  * High-potential" if score >= LINKEDIN_SCORE_THRESHOLD else ""
+    print(f"\n{SEP}")
+    print(
+        f"FIRM:  {lead['firm_name']}  --  {lead['firm_state']}  "
+        f"({_fmt_aum(lead['firm_aum'])}, {lead.get('client_count') or '?'} clients)"
+    )
+    print(f"CRD:   {lead['firm_crd'] or 'n/a'}  |  Score: {score}/10{star}")
+    email = lead.get("contact_email", "")
+    print(f"TO:    {email or '(no email found)'}")
+    if lead.get("website"):
+        print(f"WEB:   {lead['website']}")
+    print(f"\nSUBJECT:\n  {subject}")
+    print(f"\nEMAIL BODY:\n{_indent(body)}")
+    if linkedin:
+        print(f"\nLINKEDIN DM:\n{_indent(linkedin)}")
+    print(SEP)
 
 
 # ---------------------------------------------------------------------------
-# Stats view
+# run_fetch  -- populate firms table from IAPD
 # ---------------------------------------------------------------------------
-def show_stats(conn: sqlite3.Connection):
-    rows = conn.execute(
-        "SELECT status, COUNT(*) as n FROM outreach GROUP BY status ORDER BY n DESC"
-    ).fetchall()
-    total = conn.execute("SELECT COUNT(*) FROM outreach").fetchone()[0]
-    high  = conn.execute(
-        "SELECT COUNT(*) FROM outreach WHERE score >= ?", (LINKEDIN_SCORE_THRESHOLD,)
-    ).fetchone()[0]
-    sent  = conn.execute(
-        "SELECT COUNT(*) FROM outreach WHERE status = 'sent'"
-    ).fetchone()[0]
+def run_fetch(states: list[str] | None = None):
+    """
+    Fetch all active IA firms for the given states (default: all 50 US states + DC)
+    and store in the firms cache table. Skips states already fully fetched.
+    Safe to re-run — existing rows are never overwritten.
+    """
+    conn         = get_db()
+    target       = [s.upper() for s in states] if states else US_STATES
+    grand_total  = 0
 
-    print(f"\n{'-'*42}")
-    print("  AnnuityVoice -- RIA Outreach Funnel")
-    print(f"{'-'*42}")
+    for state in target:
+        already = conn.execute(
+            "SELECT firm_count FROM fetch_log WHERE state=?", (state,)
+        ).fetchone()
+        if already:
+            print(f"  {state}: fully fetched ({already[0]} firms) — skipping")
+            continue
+
+        new = _fetch_iapd_state_into(state, conn)
+        grand_total += new
+        ts = datetime.now(timezone.utc).isoformat()
+        conn.execute(
+            "INSERT OR REPLACE INTO fetch_log (state, fetched_at, firm_count) VALUES (?,?,?)",
+            (state, ts, new),
+        )
+        conn.commit()
+        print(f"  {state}: +{new} new firms")
+        time.sleep(0.15)
+
+    total_db = conn.execute("SELECT COUNT(*) FROM firms").fetchone()[0]
+    conn.close()
+    print(f"\nDone. {grand_total} new firms added. Firms table total: {total_db}")
+
+
+# ---------------------------------------------------------------------------
+# run_enrich_firms  -- brochure PDF -> website + email
+# ---------------------------------------------------------------------------
+def run_enrich_firms(limit: int = 300, state: str | None = None):
+    """
+    Enrich up to `limit` unenriched firms with brochure data.
+    Sampling is stratified by state (proportional) then randomised within each state,
+    so the enriched set is geographically distributed rather than CA-heavy.
+    Safe to re-run — COALESCE prevents overwriting already-found data.
+    """
+    conn = get_db()
+
+    query = "SELECT * FROM firms WHERE enriched_at IS NULL"
+    if state:
+        query += f" AND firm_state='{state.upper()}'"
+    rows = conn.execute(query).fetchall()
+
+    # Stratified sampling: group by state, shuffle within each, then interleave
+    buckets: dict[str, list] = defaultdict(list)
     for r in rows:
-        print(f"  {r['status']:<14}  {r['n']}")
-    print(f"{'-'*42}")
-    print(f"  total          {total}")
-    print(f"  high-potential (score>={LINKEDIN_SCORE_THRESHOLD})  {high}")
-    if total:
-        print(f"  send rate      {sent/total*100:.0f}%")
-    print()
+        buckets[r["firm_state"] or "XX"].append(r)
+    for st in buckets:
+        random.shuffle(buckets[st])
+
+    # Round-robin across states so every state contributes proportionally
+    target: list = []
+    iters = {st: iter(firms) for st, firms in buckets.items()}
+    active = list(iters.keys())
+    while len(target) < limit and active:
+        for st in list(active):
+            try:
+                target.append(next(iters[st]))
+            except StopIteration:
+                active.remove(st)
+            if len(target) >= limit:
+                break
+
+    # Show state distribution of selected firms
+    dist: dict[str, int] = defaultdict(int)
+    for r in target:
+        dist[r["firm_state"] or "XX"] += 1
+    top_states = sorted(dist.items(), key=lambda x: x[1], reverse=True)[:10]
+    print(f"\nEnriching {len(target)} firms (of {len(rows)} unenriched).")
+    print(f"Top states in sample: " +
+          ", ".join(f"{s}:{n}" for s, n in top_states))
+
+    for i, firm in enumerate(target):
+        crd = firm["crd"]
+        bid = _get_brochure_version_id(crd)
+        time.sleep(0.15)
+
+        if bid:
+            ws, em, va = _parse_brochure_pdf(bid)
+        else:
+            ws, em, va = "", "", False
+
+        # If brochure gave a website but no email, try scraping the site
+        if ws and not em:
+            em = _scrape_website_email(ws)
+
+        update_firm_enrichment(conn, crd,
+                               website=ws or None,
+                               contact_email=em or None,
+                               brochure_vid=bid,
+                               va_relevant=va)
+
+        if (i + 1) % 50 == 0 or (i + 1) == len(target):
+            with_email = conn.execute(
+                "SELECT COUNT(*) FROM firms WHERE contact_email IS NOT NULL"
+            ).fetchone()[0]
+            va_count = conn.execute(
+                "SELECT COUNT(*) FROM firms WHERE va_relevant=1"
+            ).fetchone()[0]
+            print(f"  {i+1}/{len(target)} enriched  "
+                  f"| emails: {with_email}  | VA-relevant: {va_count}")
+
+    total    = conn.execute("SELECT COUNT(*) FROM firms").fetchone()[0]
+    enriched = conn.execute("SELECT COUNT(*) FROM firms WHERE enriched_at IS NOT NULL").fetchone()[0]
+    with_email = conn.execute("SELECT COUNT(*) FROM firms WHERE contact_email IS NOT NULL").fetchone()[0]
+    va_count = conn.execute("SELECT COUNT(*) FROM firms WHERE va_relevant=1").fetchone()[0]
+    conn.close()
+    print(f"\nFirms: {total} total | {enriched} enriched | {with_email} with email | {va_count} VA-relevant")
 
 
 # ---------------------------------------------------------------------------
-# Review pending drafts
+# run_analyze  -- score firms table, save top-N to outreach
+# ---------------------------------------------------------------------------
+def run_analyze(state: str | None, top_n: int, va_only: bool = False):
+    """
+    Score all firms in the cache, exclude already-contacted ones, save top-N
+    to outreach as candidates. Auto-fetches IAPD if the cache is empty.
+    """
+    conn = get_db()
+
+    # Auto-fetch if cache is empty
+    count_q = "SELECT COUNT(*) FROM firms"
+    if state:
+        count_q += f" WHERE firm_state='{state.upper()}'"
+    if conn.execute(count_q).fetchone()[0] == 0:
+        print(f"  firms cache empty for {state or 'all states'} — fetching from IAPD...")
+        conn.close()
+        run_fetch(states=[state] if state else None)
+        conn = get_db()
+
+    conditions = []
+    if state:
+        conditions.append(f"firm_state='{state.upper()}'")
+    if va_only:
+        conditions.append("va_relevant=1")
+    fq = "SELECT * FROM firms"
+    if conditions:
+        fq += " WHERE " + " AND ".join(conditions)
+    firms = conn.execute(fq).fetchall()
+    if va_only:
+        print(f"  --va-only: filtering to VA-relevant firms ({len(firms)} in cache)")
+
+    scored: list[tuple[int, dict]] = []
+    for f in firms:
+        if already_in_outreach(conn, f["crd"]):
+            continue
+        lead = firms_as_lead(f)
+        scored.append((score_lead(lead), lead))
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    top = scored[:top_n]
+
+    if not top:
+        print("No new qualifying leads found.")
+        conn.close()
+        return
+
+    # Print ranked table
+    print(f"\n{'Rank':<5} {'Score':<7} {'Firm':<36} {'St':<4} {'AUM':<10} {'Email'}")
+    print("-" * 82)
+    for rank, (score, lead) in enumerate(top, 1):
+        star  = "*" if score >= LINKEDIN_SCORE_THRESHOLD else " "
+        email = (lead.get("contact_email") or "")[:28]
+        print(
+            f"{rank:<5} {score}{star:<6} {lead['firm_name'][:35]:<36} "
+            f"{lead['firm_state']:<4} {_fmt_aum(lead['firm_aum']):<10} {email}"
+        )
+    print(f"\n* = score >= {LINKEDIN_SCORE_THRESHOLD} (will get LinkedIn DM draft)")
+    print(f"\nSaving {len(top)} candidates to outreach table...")
+
+    for _, lead in top:
+        save_candidate(
+            conn,
+            firm_name=lead["firm_name"],
+            firm_crd=lead["firm_crd"],
+            firm_aum=lead["firm_aum"],
+            firm_state=lead["firm_state"],
+            score=score_lead(lead),
+            contact_email=lead.get("contact_email", ""),
+            website=lead.get("website", ""),
+        )
+
+    conn.close()
+    print("Done. Run `--draft --batch 10` to start drafting.")
+
+
+# ---------------------------------------------------------------------------
+# run_batch_draft  -- Claude drafting + Gmail Drafts
+# ---------------------------------------------------------------------------
+def run_batch_draft(batch_size: int, auto_approve: bool = False, one_batch: bool = False):
+    """
+    Draft candidates in batches. Reads sent-mail style from Gmail.
+    Approved batches saved to both local DB and Gmail Drafts.
+    """
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        sys.exit("Error: ANTHROPIC_API_KEY not set in backend/.env")
+
+    claude = Anthropic(api_key=api_key)
+    conn   = get_db()
+
+    total = conn.execute(
+        "SELECT COUNT(*) FROM outreach WHERE status='candidate'"
+    ).fetchone()[0]
+    if total == 0:
+        print("No candidates queued. Run --analyze first.")
+        conn.close()
+        return
+
+    print("\n  Reading style reference from Gmail sent mail...")
+    style_ref = read_sent_style(n=4)
+    print(f"\n{total} candidates queued. Drafting in batches of {batch_size}.")
+
+    batch_num = 0
+    while True:
+        rows = conn.execute(
+            "SELECT * FROM outreach WHERE status='candidate' ORDER BY score DESC, id LIMIT ?",
+            (batch_size,),
+        ).fetchall()
+        if not rows:
+            print("\nAll candidates processed.")
+            break
+
+        batch_num += 1
+        print(f"\n{'='*62}")
+        print(f"  BATCH {batch_num}  --  {len(rows)} drafts")
+        print(f"{'='*62}")
+
+        batch_drafts = []
+        for row in rows:
+            # Pull latest data from firms cache (enriched since analyze may have added email/name)
+            firm_row = conn.execute(
+                "SELECT * FROM firms WHERE crd=?", (row["firm_crd"],)
+            ).fetchone()
+            if firm_row:
+                lead = firms_as_lead(firm_row)
+                # outreach row may have email if firms cache was empty at analyze time
+                if not lead["contact_email"] and row["contact_email"]:
+                    lead["contact_email"] = row["contact_email"]
+                    lead["advisor_name"]  = _first_name_from_email(row["contact_email"])
+            else:
+                email = row["contact_email"] or ""
+                lead = {
+                    "firm_name":    row["firm_name"],
+                    "firm_crd":     row["firm_crd"] or "",
+                    "firm_aum":     row["firm_aum"] or 0.0,
+                    "firm_state":   row["firm_state"] or "",
+                    "client_count": 0,
+                    "contact_email": email,
+                    "website":      row["website"] or "",
+                    "fee_only":     True,
+                    "advisor_name": _first_name_from_email(email),
+                    "va_relevant":  False,
+                }
+            score = row["score"]
+            print(f"  Drafting: {lead['firm_name']} (score {score}/10)...")
+            try:
+                subject, body, linkedin = draft_outreach(claude, lead, score, style_ref)
+                batch_drafts.append((row["id"], lead, score, subject, body, linkedin))
+            except Exception as exc:
+                print(f"  Claude error for {lead['firm_name']}: {exc}")
+
+        if not batch_drafts:
+            for row in rows:
+                conn.execute(
+                    "UPDATE outreach SET status='skipped' WHERE id=?", (row["id"],)
+                )
+            conn.commit()
+            continue
+
+        print(f"\n{'-'*62}  REVIEW BATCH {batch_num}  {'-'*62}")
+        for _, lead, score, subject, body, linkedin in batch_drafts:
+            print_draft(lead, score, subject, body, linkedin)
+
+        print(f"\n{'='*62}")
+        print(f"  Batch {batch_num}: {len(batch_drafts)} drafts above.")
+
+        if auto_approve:
+            choice = "a"
+            print("  [auto-approve] Saving to Gmail Drafts...")
+        else:
+            while True:
+                choice = input(
+                    "  [A]pprove all & save to Gmail Drafts  [s]Skip  [q]Quit  > "
+                ).strip().lower()
+                if choice in ("a", "", "s", "q"):
+                    break
+
+        if choice == "q":
+            print("  Stopping. Drafts NOT saved.")
+            break
+
+        if choice in ("a", ""):
+            saved_db = saved_gmail = 0
+            for row_id, lead, score, subject, body, linkedin in batch_drafts:
+                update_draft(conn, row_id, subject, body, linkedin)
+                saved_db += 1
+                if save_gmail_draft(lead.get("contact_email", ""), subject, body):
+                    saved_gmail += 1
+            print(
+                f"  v {saved_db} saved to outreach DB, "
+                f"{saved_gmail} saved to Gmail Drafts."
+            )
+            if one_batch:
+                break
+        else:
+            for row_id, *_ in batch_drafts:
+                conn.execute(
+                    "UPDATE outreach SET status='skipped' WHERE id=?", (row_id,)
+                )
+            conn.commit()
+            print("  Batch skipped.")
+            if one_batch:
+                break
+
+    conn.close()
+
+
+# ---------------------------------------------------------------------------
+# review_pending
 # ---------------------------------------------------------------------------
 def review_pending(conn: sqlite3.Connection, auto_send: bool = False):
     rows = conn.execute(
@@ -486,21 +1103,17 @@ def review_pending(conn: sqlite3.Connection, auto_send: bool = False):
     print(f"\n{len(rows)} pending drafts (highest score first):")
     for row in rows:
         lead = {
-            "firm_name":    row["firm_name"],
-            "firm_crd":     row["firm_crd"],
-            "firm_aum":     row["firm_aum"] or 0.0,
-            "firm_state":   row["firm_state"] or "",
-            "client_count": 0,
+            "firm_name":     row["firm_name"],
+            "firm_crd":      row["firm_crd"],
+            "firm_aum":      row["firm_aum"] or 0.0,
+            "firm_state":    row["firm_state"] or "",
+            "client_count":  0,
             "contact_email": row["contact_email"] or "",
-            "website":      "",
+            "website":       row["website"] or "",
         }
         print_draft(lead, row["score"], row["subject"], row["body"], row["linkedin_dm"])
 
-        if auto_send:
-            action = "s"
-        else:
-            action = prompt_action()
-
+        action = "s" if auto_send else _prompt_action()
         if action == "q":
             break
         if action == "s":
@@ -512,347 +1125,151 @@ def review_pending(conn: sqlite3.Connection, auto_send: bool = False):
                 except Exception as exc:
                     print(f"  x Send failed: {exc}")
             else:
-                print("  (skipped send -- no email address on record)")
+                print("  (no email address — skipping send)")
+
+
+def _prompt_action() -> str:
+    while True:
+        raw = input("\n  [S]end  [k]Skip  [q]Quit  > ").strip().lower()
+        if raw in ("s", "", "k", "q"):
+            return raw or "s"
+        print("  Enter S, K, or Q.")
 
 
 # ---------------------------------------------------------------------------
-# Analyze mode -- score and rank leads, save as candidates, no Claude calls
+# stats
 # ---------------------------------------------------------------------------
-def run_analyze(state: str | None, top_n: int):
-    """
-    Fetch ~3x top_n firms, score all, print ranked table, save as candidates.
-    No Claude calls. Run this first to build your shortlist.
-    """
-    conn = get_db()
-    print(f"\nFetching leads for analysis (state={state or 'all'}, target top {top_n})...")
-    raw = fetch_leads(state=state, max_leads=top_n)
-
-    scored = []
-    for lead in raw:
-        crd = lead.get("firm_crd", "")
-        if already_contacted(conn, crd):
-            continue
-        score = score_lead(lead)
-        if score >= SKIP_SCORE_THRESHOLD:
-            scored.append((score, lead))
-
-    # Sort highest score first, take top N
-    scored.sort(key=lambda x: x[0], reverse=True)
-    top = scored[:top_n]
-
-    if not top:
-        print("No qualifying leads found.")
-        conn.close()
-        return
-
-    # Print ranked table
-    print(f"\n{'Rank':<5} {'Score':<7} {'Firm':<36} {'St':<4} {'AUM':<10} {'Clients':<8} {'Email'}")
-    print("-" * 90)
-    for rank, (score, lead) in enumerate(top, 1):
-        star = "*" if score >= LINKEDIN_SCORE_THRESHOLD else " "
-        email = (lead.get("contact_email") or "")[:24]
-        print(
-            f"{rank:<5} {score}{star:<6} {lead['firm_name'][:35]:<36} "
-            f"{lead['firm_state']:<4} {_fmt_aum(lead['firm_aum']):<10} "
-            f"{str(lead.get('client_count') or '?'):<8} {email}"
-        )
-    print(f"\n* = score >= {LINKEDIN_SCORE_THRESHOLD} (will get LinkedIn DM draft)")
-    print(f"\nSaving {len(top)} candidates to outreach_log.db...")
-
-    for _, lead in top:
-        save_candidate(
-            conn,
-            firm_name=lead["firm_name"],
-            firm_crd=lead.get("firm_crd", ""),
-            firm_aum=lead["firm_aum"],
-            firm_state=lead["firm_state"],
-            score=score_lead(lead),
-            contact_email=lead.get("contact_email", ""),
-            website=lead.get("website", ""),
-        )
-
-    conn.close()
-    print(f"Done. Run `--draft --batch 10` to start drafting the top candidates.")
-
-
-# ---------------------------------------------------------------------------
-# Batch draft mode -- draft N at a time, review batch before continuing
-# ---------------------------------------------------------------------------
-def run_batch_draft(batch_size: int):
-    """
-    Drafts `batch_size` candidates at a time using Claude.
-    Shows all drafts in the batch, then asks for approval before the next batch.
-    """
-    api_key = os.getenv("ANTHROPIC_API_KEY")
-    if not api_key:
-        sys.exit("Error: ANTHROPIC_API_KEY not set in backend/.env")
-
-    claude = Anthropic(api_key=api_key)
-    conn   = get_db()
-
-    total_candidates = conn.execute(
-        "SELECT COUNT(*) FROM outreach WHERE status='candidate'"
+def show_stats(conn: sqlite3.Connection):
+    # firms cache summary
+    total_firms = conn.execute("SELECT COUNT(*) FROM firms").fetchone()[0]
+    enriched    = conn.execute(
+        "SELECT COUNT(*) FROM firms WHERE enriched_at IS NOT NULL"
+    ).fetchone()[0]
+    with_email  = conn.execute(
+        "SELECT COUNT(*) FROM firms WHERE contact_email IS NOT NULL"
+    ).fetchone()[0]
+    va_relevant = conn.execute(
+        "SELECT COUNT(*) FROM firms WHERE va_relevant=1"
     ).fetchone()[0]
 
-    if total_candidates == 0:
-        print("No candidates found. Run --analyze first to build your shortlist.")
-        conn.close()
-        return
+    # outreach funnel
+    rows  = conn.execute(
+        "SELECT status, COUNT(*) n FROM outreach GROUP BY status ORDER BY n DESC"
+    ).fetchall()
+    total = conn.execute("SELECT COUNT(*) FROM outreach").fetchone()[0]
+    sent  = conn.execute(
+        "SELECT COUNT(*) FROM outreach WHERE status='sent'"
+    ).fetchone()[0]
 
-    print(f"\n{total_candidates} candidates queued. Drafting in batches of {batch_size}.")
-    batch_num = 0
-
-    while True:
-        # Fetch next batch of unprocessed candidates (highest score first)
-        rows = conn.execute("""
-            SELECT * FROM outreach
-            WHERE status = 'candidate'
-            ORDER BY score DESC, id
-            LIMIT ?
-        """, (batch_size,)).fetchall()
-
-        if not rows:
-            print("\nAll candidates processed.")
-            break
-
-        batch_num += 1
-        print(f"\n{'='*58}")
-        print(f"  BATCH {batch_num}  --  {len(rows)} drafts  (press Q after reviewing to stop)")
-        print(f"{'='*58}")
-
-        # Draft all in this batch first, then display
-        batch_drafts = []
-        for row in rows:
-            lead = {
-                "firm_name":    row["firm_name"],
-                "firm_crd":     row["firm_crd"] or "",
-                "firm_aum":     row["firm_aum"] or 0.0,
-                "firm_state":   row["firm_state"] or "",
-                "client_count": 0,
-                "contact_email": row["contact_email"] or "",
-                "website":      "",
-                "fee_only":     True,
-            }
-            score = row["score"]
-            print(f"  Drafting: {lead['firm_name']} (score {score}/10)...")
-            try:
-                subject, body, linkedin = draft_outreach(claude, lead, score)
-                batch_drafts.append((row["id"], lead, score, subject, body, linkedin))
-            except Exception as exc:
-                print(f"  Claude error for {lead['firm_name']}: {exc}")
-
-        if not batch_drafts:
-            # Mark these rows as skipped so we don't loop forever
-            for row in rows:
-                conn.execute("UPDATE outreach SET status='skipped' WHERE id=?", (row["id"],))
-            conn.commit()
-            continue
-
-        # Display all drafts in this batch
-        print(f"\n{'-'*58}  REVIEW BATCH {batch_num}  {'-'*58}")
-        for _, lead, score, subject, body, linkedin in batch_drafts:
-            print_draft(lead, score, subject, body, linkedin)
-
-        # Single approval prompt for the whole batch
-        print(f"\n{'='*58}")
-        print(f"  Batch {batch_num}: {len(batch_drafts)} drafts above.")
-        while True:
-            choice = input(
-                "  [A]pprove all & continue  [s]Skip batch  [q]Quit  > "
-            ).strip().lower()
-            if choice in ("a", "", "s", "q"):
-                break
-
-        if choice == "q":
-            print("  Stopping. Drafts NOT saved.")
-            break
-
-        if choice in ("a", ""):
-            # Save all approved drafts to DB
-            for row_id, lead, score, subject, body, linkedin in batch_drafts:
-                update_draft(conn, row_id, subject, body, linkedin)
-            print(f"  v {len(batch_drafts)} drafts saved. Run --review to send them.")
-        else:
-            # Mark as skipped so next --draft run skips them
-            for row_id, *_ in batch_drafts:
-                conn.execute(
-                    "UPDATE outreach SET status='skipped' WHERE id=?", (row_id,)
-                )
-            conn.commit()
-            print("  Batch skipped.")
-
-    conn.close()
-
-
-# ---------------------------------------------------------------------------
-# Main pipeline
-# ---------------------------------------------------------------------------
-def run_pipeline(state: str | None, max_leads: int, auto_send: bool):
-    api_key = os.getenv("ANTHROPIC_API_KEY")
-    if not api_key:
-        sys.exit("Error: ANTHROPIC_API_KEY not set in backend/.env")
-
-    claude = Anthropic(api_key=api_key)
-    conn   = get_db()
-
-    print(f"\nFetching RIA leads (state={state or 'all'}, max={max_leads})...")
-    raw = fetch_leads(state=state, max_leads=max_leads)
-
-    if not raw:
-        print("No leads returned -- check IAPD/EDGAR connectivity.")
-        conn.close()
-        return
-
-    drafted = 0
-    for lead in raw:
-        if drafted >= max_leads:
-            break
-
-        crd = lead.get("firm_crd", "")
-        if already_contacted(conn, crd):
-            print(f"  skip (already contacted): {lead['firm_name']}")
-            continue
-
-        score = score_lead(lead)
-        if score < SKIP_SCORE_THRESHOLD:
-            print(f"  skip (score {score}/10 < {SKIP_SCORE_THRESHOLD}): {lead['firm_name']}")
-            continue
-
-        print(f"\n  Drafting for {lead['firm_name']} -- score {score}/10"
-              + (" *" if score >= LINKEDIN_SCORE_THRESHOLD else "") + " ...")
-
-        try:
-            subject, body, linkedin = draft_outreach(claude, lead, score)
-        except Exception as exc:
-            print(f"  Claude error: {exc}")
-            continue
-
-        if not subject or not body:
-            print("  Empty draft returned -- skipping.")
-            continue
-
-        row_id = save_draft(
-            conn,
-            firm_name=lead["firm_name"],
-            firm_crd=crd,
-            firm_aum=lead["firm_aum"],
-            firm_state=lead["firm_state"],
-            score=score,
-            contact_email=lead.get("contact_email", ""),
-            subject=subject,
-            body=body,
-            linkedin_dm=linkedin,
-        )
-
-        print_draft(lead, score, subject, body, linkedin)
-
-        if auto_send:
-            action = "s"
-        else:
-            action = prompt_action()
-
-        if action == "q":
-            break
-        if action == "s":
-            if lead.get("contact_email"):
-                try:
-                    send_email(lead["contact_email"], subject, body)
-                    mark_sent(conn, row_id)
-                    print(f"  v Sent to {lead['contact_email']}")
-                except Exception as exc:
-                    print(f"  x Send failed: {exc}")
-            else:
-                print("  (draft saved -- no email address from IAPD; use LinkedIn DM or manual lookup)")
-
-        drafted += 1
-
-    conn.close()
-    print(f"\nDone. {drafted} leads processed.")
+    print(f"\n{'-'*46}")
+    print("  Firms cache")
+    print(f"{'-'*46}")
+    print(f"  total fetched    {total_firms}")
+    print(f"  enriched         {enriched}")
+    print(f"  with email       {with_email}")
+    print(f"  VA-relevant      {va_relevant}")
+    print(f"\n{'-'*46}")
+    print("  Outreach funnel")
+    print(f"{'-'*46}")
+    for r in rows:
+        print(f"  {r['status']:<16} {r['n']}")
+    print(f"{'-'*46}")
+    print(f"  total            {total}")
+    if total:
+        print(f"  send rate        {sent/total*100:.0f}%")
+    print()
 
 
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 def main():
-    parser = argparse.ArgumentParser(
+    p = argparse.ArgumentParser(
         description="AnnuityVoice RIA Outreach Agent",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
-Recommended workflow:
-  1. python tools/ria_outreach.py --state TX --analyze --top 100
-       Fetch & score leads, show ranked table, save as candidates.
-
-  2. python tools/ria_outreach.py --draft --batch 10
-       Draft 10 at a time. Review each batch, approve to continue.
-
-  3. python tools/ria_outreach.py --review --send
-       Review saved drafts and send approved emails.
-
-  4. python tools/ria_outreach.py --stats
-       Check the outreach funnel.
+Workflow:
+  1.  --fetch                          Populate firms cache (all 50 states)
+      --fetch --state TX               One state only
+  2.  --enrich-firms [--limit N]       Brochure PDF -> website + email (default 300)
+  3.  --analyze [--top N]              Score cache, save top-N as outreach candidates
+  4.  --draft --batch 10 [--yes]       Draft + Gmail Drafts (--yes to auto-approve)
+  5.  --review [--send]                Review drafts, send approved
+  6.  --stats                          Funnel summary
         """,
     )
-    parser.add_argument("--state",   metavar="XX",
-                        help="Filter by US state code (e.g. TX)")
 
-    # Step 1: Analyze / build shortlist
-    parser.add_argument("--analyze",  action="store_true",
-                        help="Score & rank leads, save as candidates (no Claude calls)")
-    parser.add_argument("--top",      type=int, default=100, metavar="N",
-                        help="Number of top candidates to keep (default 100)")
+    p.add_argument("--state",   metavar="XX",
+                   help="Limit to one US state (2-letter code)")
 
-    # Step 2: Batch drafting
-    parser.add_argument("--draft",    action="store_true",
-                        help="Draft emails for queued candidates (uses Claude)")
-    parser.add_argument("--batch",    type=int, default=10, metavar="N",
-                        help="Drafts per batch before review prompt (default 10)")
+    p.add_argument("--fetch",        action="store_true",
+                   help="Populate firms cache from IAPD (skips states already cached)")
 
-    # Step 3: Review / send
-    parser.add_argument("--review",   action="store_true",
-                        help="Review saved drafts interactively")
-    parser.add_argument("--send",     action="store_true",
-                        help="Send approved emails via SMTP during --review")
+    p.add_argument("--enrich-firms", action="store_true",
+                   help="Enrich unenriched firms with brochure data (website + email)")
+    p.add_argument("--limit",        type=int, default=300, metavar="N",
+                   help="Max firms to enrich per run (default 300)")
 
-    # Legacy / quick mode
-    parser.add_argument("--max-leads", type=int, default=10, metavar="N",
-                        help="(legacy) Draft N leads in one pass without --analyze first")
-    parser.add_argument("--dry-run",   action="store_true",
-                        help="Draft and display only -- no sending")
+    p.add_argument("--analyze",  action="store_true",
+                   help="Score firms cache, save top-N to outreach candidates")
+    p.add_argument("--top",      type=int, default=100, metavar="N",
+                   help="Candidates to save per --analyze run (default 100)")
+    p.add_argument("--va-only",  action="store_true",
+                   help="Restrict --analyze to VA-relevant firms only")
 
-    parser.add_argument("--stats",    action="store_true",
-                        help="Show outreach funnel summary")
-    args = parser.parse_args()
+    p.add_argument("--draft",    action="store_true",
+                   help="Draft emails for queued candidates via Claude")
+    p.add_argument("--batch",    type=int, default=10, metavar="N",
+                   help="Drafts per batch (default 10)")
+    p.add_argument("--yes",      action="store_true",
+                   help="Auto-approve all batches without prompt")
+    p.add_argument("--one-batch", action="store_true",
+                   help="Stop after first batch (use with --yes for exactly N drafts)")
 
+    p.add_argument("--review",   action="store_true",
+                   help="Review saved drafts interactively")
+    p.add_argument("--send",     action="store_true",
+                   help="Send approved emails via SMTP during --review")
+
+    p.add_argument("--stats",    action="store_true",
+                   help="Show firms cache + outreach funnel summary")
+
+    args = p.parse_args()
     load_dotenv(ENV_PATH)
-    conn = get_db()
 
     if args.stats:
+        conn = get_db()
         show_stats(conn)
         conn.close()
         return
 
+    if args.fetch:
+        run_fetch(states=[args.state] if args.state else None)
+        return
+
+    if args.enrich_firms:
+        run_enrich_firms(limit=args.limit, state=args.state)
+        return
+
     if args.analyze:
-        conn.close()
-        run_analyze(state=args.state, top_n=args.top)
+        run_analyze(state=args.state, top_n=args.top, va_only=args.va_only)
         return
 
     if args.draft:
-        conn.close()
-        run_batch_draft(batch_size=args.batch)
+        run_batch_draft(
+            batch_size=args.batch,
+            auto_approve=args.yes,
+            one_batch=args.one_batch,
+        )
         return
 
     if args.review:
-        review_pending(conn, auto_send=args.send and not args.dry_run)
+        conn = get_db()
+        review_pending(conn, auto_send=args.send)
         conn.close()
         return
 
-    conn.close()
-    # Legacy single-pass mode
-    run_pipeline(
-        state=args.state,
-        max_leads=args.max_leads,
-        auto_send=args.send and not args.dry_run,
-    )
+    p.print_help()
 
 
 if __name__ == "__main__":

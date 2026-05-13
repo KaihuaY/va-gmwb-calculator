@@ -2,8 +2,10 @@ import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import InputPanel from './components/InputPanel';
 import SnapshotComparison from './components/SnapshotComparison';
+import CarrierComparison from './components/CarrierComparison';
 import ResultsSummary from './components/ResultsSummary';
 import AVFanChart from './components/AVFanChart';
+import HistoricalChart from './components/HistoricalChart';
 import CumulativeWithdrawalChart from './components/CumulativeWithdrawalChart';
 import DeathBenefitChart from './components/DeathBenefitChart';
 import ClaimHistogram from './components/ClaimHistogram';
@@ -12,7 +14,7 @@ import ProjectionTable from './components/ProjectionTable';
 import SensitivityChart from './components/SensitivityChart';
 import Methodology from './components/Methodology';
 import OptimalAgeChart from './components/OptimalAgeChart';
-import { simulate, sensitivity, recordSession, optimalElectionAge } from './api/client';
+import { simulate, sensitivity, recordSession, optimalElectionAge, backtest } from './api/client';
 import AdvancedGateModal from './components/AdvancedGateModal';
 
 // ---------------------------------------------------------------------------
@@ -116,6 +118,7 @@ export const PRODUCT_PRESETS = [
     id: 'jackson',
     label: 'Jackson National — LifeGuard Freedom Flex',
     description: '#1 issuer (2024) · 7% compound roll-up · 5% WD at 65 · 1.50% rider fee · 10-yr deferral',
+    marketingTagline: '7% guaranteed annual roll-up · Lifetime income you can’t outlive',
     params: {
       ...DEFAULT_PARAMS,
       current_age: 60, election_age: 70,
@@ -132,6 +135,7 @@ export const PRODUCT_PRESETS = [
     id: 'equitable',
     label: 'Equitable — Retirement Cornerstone Series B',
     description: '#2 issuer (2024) · 7% roll-up · 5% WD · 1.40% rider fee · 7-yr lock-in',
+    marketingTagline: '7% deferral roll-up · Annual step-ups lock in market highs',
     params: {
       ...DEFAULT_PARAMS,
       current_age: 62, election_age: 72,
@@ -148,6 +152,7 @@ export const PRODUCT_PRESETS = [
     id: 'tiaa',
     label: 'TIAA — CREF Variable Annuity (GLWB)',
     description: '#3 issuer (2024) · Ultra-low fees · 5.9% payout · 0.15% M&E · institutional/educator market',
+    marketingTagline: '0.15% M&E — lowest in the industry · 5.9% lifetime payout at 65',
     params: {
       ...DEFAULT_PARAMS,
       current_age: 65, election_age: 65,
@@ -164,6 +169,7 @@ export const PRODUCT_PRESETS = [
     id: 'nationwide',
     label: 'Nationwide — Lifetime Income Track (L.inc+)',
     description: '#4 issuer (2024) · Step-up only, no roll-up · 5% WD · 1.30% rider fee',
+    marketingTagline: 'Annual step-ups capture market gains · 5% guaranteed for life',
     params: {
       ...DEFAULT_PARAMS,
       current_age: 65, election_age: 65,
@@ -180,6 +186,7 @@ export const PRODUCT_PRESETS = [
     id: 'lincoln',
     label: 'Lincoln — ChoicePlus Assurance',
     description: '#5 issuer (2024) · 6% simple roll-up · 5.5% WD · 1.00% rider fee · step-up on',
+    marketingTagline: '6% guaranteed roll-up during deferral · Step-up on market gains',
     params: {
       ...DEFAULT_PARAMS,
       current_age: 60, election_age: 70,
@@ -200,6 +207,7 @@ export const PRODUCT_PRESETS = [
     // Product fee (M&E equivalent) estimated at 1.25% — verify against current prospectus.
     // No benefit-base roll-up; Allianz uses annual income-percentage step-ups instead.
     description: 'RILA · 6.5% WD at 65 · 0.70% rider fee · annual step-up · no roll-up · SEC filing sourced',
+    marketingTagline: 'Income percentage rises 0.10%/yr while you defer · Up to 7.5% lifetime',
     params: {
       ...DEFAULT_PARAMS,
       current_age: 58, election_age: 65,
@@ -256,12 +264,14 @@ function getStoredEmail() {
   );
 }
 
+let loadedFromHash = false;
 function loadInitialParams() {
   // URL hash takes highest priority — shared link
   const fromHash = decodeParamsFromHash();
   if (fromHash) {
     // Remove hash from URL so refresh doesn't re-load the shared state
     history.replaceState(null, '', window.location.pathname + window.location.search);
+    loadedFromHash = true;
     return { ...DEFAULT_PARAMS, ...fromHash };
   }
   // Then check saved session (only for verified/returning users)
@@ -357,8 +367,8 @@ const ALL_TABS = [
   { id: 'methodology', label: 'Methodology' },
 ];
 
-// Standard (free) mode only shows Charts + Methodology
-const STANDARD_TABS = ALL_TABS.filter(t => t.id === 'charts' || t.id === 'table');
+// Standard (free) mode only shows Charts (Projection Table is Advanced-only)
+const STANDARD_TABS = ALL_TABS.filter(t => t.id === 'charts');
 
 // ---------------------------------------------------------------------------
 // CSV export helper
@@ -436,6 +446,10 @@ export default function App() {
     }
   }, []);
   const [chartView, setChartView] = useState('av'); // standard mode chart selector
+  const [engineMode, setEngineMode] = useState('monte_carlo'); // 'monte_carlo' | 'historical'
+  const [historicalStartMonth, setHistoricalStartMonth] = useState('2007-01');
+  const [historicalResult, setHistoricalResult] = useState(null);
+  const [historicalRunning, setHistoricalRunning] = useState(false);
   const [runParams, setRunParams] = useState(null); // params snapshot from the last completed run
 
   // Median life expectancy age — age where survival_probs first drops below 50%
@@ -542,6 +556,41 @@ export default function App() {
     }
   }, [params, viewMode]);
 
+  // Auto-run once on mount if params were loaded from a share-link hash (e.g. /calculator/jackson)
+  useEffect(() => {
+    if (loadedFromHash) {
+      loadedFromHash = false;
+      handleRun();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleHistorical = useCallback(async (startMonth) => {
+    setHistoricalRunning(true);
+    setError(null);
+    try {
+      const simParams = sanitizeParams(
+        viewMode === 'standard'
+          ? { ...params, num_scenarios: 500, frequency: 'annual', ...STD_LOCKED_PARAMS }
+          : params
+      );
+      const res = await backtest(simParams, startMonth);
+      setHistoricalResult(res);
+    } catch (err) {
+      setError(err?.response?.data?.detail || err.message || 'Historical replay failed.');
+    } finally {
+      setHistoricalRunning(false);
+    }
+  }, [params, viewMode]);
+
+  // Auto-fire backtest when in Historical mode and any input changes
+  useEffect(() => {
+    if (engineMode === 'historical') {
+      handleHistorical(historicalStartMonth);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [engineMode, historicalStartMonth, handleHistorical]);
+
   const [activePresetId, setActivePresetId] = useState(null);
 
   // Scenario snapshots — up to 3, stored in sessionStorage
@@ -597,12 +646,11 @@ export default function App() {
     if (!preset) return;
     setParams(preset.params);
     setActivePresetId(presetId);
-    setResults(null);
-    setRunParams(null);
     setSensitivityData(null);
     setOptimalAgeData(null);
     setError(null);
-  }, []);
+    handleRun(preset.params);
+  }, [handleRun]);
 
   // Clear preset badge whenever the user manually edits any parameter
   const setParam = useCallback((key, value) => {
@@ -761,9 +809,9 @@ export default function App() {
 
           {/* Error banner */}
           {error && error !== '__backend_offline__' && (
-            <div className="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700 flex items-start justify-between">
+            <div className="mb-4 rounded-lg bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-800 flex items-start justify-between">
               <span>{error}</span>
-              <button onClick={() => setError(null)} className="ml-4 text-red-400 hover:text-red-600"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
+              <button onClick={() => setError(null)} className="ml-4 text-amber-500 hover:text-amber-700"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
             </div>
           )}
           {error === '__backend_offline__' && (
@@ -780,6 +828,50 @@ export default function App() {
             onSaveSnapshot={results && !running ? saveSnapshot : null}
             snapshots={snapshots}
           />
+
+          {/* Carrier-illustration vs. independent-valuation accordion (Standard mode only, preset loaded) */}
+          {viewMode === 'standard' && results && activePresetId && (
+            <CarrierComparison
+              results={results}
+              runParams={runParams}
+              preset={PRODUCT_PRESETS.find(p => p.id === activePresetId)}
+            />
+          )}
+
+          {/* Print-only contract summary — hidden on screen, rendered in PDF */}
+          {results && runParams && (
+            <div data-print-only className="hidden mb-5 rounded-xl border border-slate-200 bg-white p-4">
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Contract & Assumptions</div>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 text-xs text-slate-700">
+                {activePresetId && (
+                  <div className="col-span-2 pb-1.5 mb-1 border-b border-slate-100">
+                    <span className="font-semibold text-slate-500">Preset:</span>{' '}
+                    <span className="font-bold">{PRODUCT_PRESETS.find(p => p.id === activePresetId)?.label ?? activePresetId}</span>
+                  </div>
+                )}
+                <div><span className="text-slate-500">Age / Gender:</span> <span className="font-semibold tabular-nums">{runParams.current_age} {runParams.gender === 'F' ? 'Female' : 'Male'}</span></div>
+                <div><span className="text-slate-500">Projection To:</span> <span className="font-semibold tabular-nums">Age {runParams.max_age}</span></div>
+                <div><span className="text-slate-500">Account Value:</span> <span className="font-semibold tabular-nums">${runParams.account_value.toLocaleString()}</span></div>
+                <div><span className="text-slate-500">Benefit Base:</span> <span className="font-semibold tabular-nums">${runParams.benefit_base.toLocaleString()}</span></div>
+                <div><span className="text-slate-500">Election Age:</span> <span className="font-semibold tabular-nums">{runParams.election_age}</span></div>
+                <div><span className="text-slate-500">Withdrawal Rate:</span> <span className="font-semibold tabular-nums">{(runParams.withdrawal_rate * 100).toFixed(2)}%</span></div>
+                <div><span className="text-slate-500">Rider Fee:</span> <span className="font-semibold tabular-nums">{(runParams.rider_fee * 100).toFixed(2)}%</span></div>
+                <div><span className="text-slate-500">M&amp;E + Admin:</span> <span className="font-semibold tabular-nums">{(runParams.me_fee * 100).toFixed(2)}%</span></div>
+                <div><span className="text-slate-500">Roll-up Rate:</span> <span className="font-semibold tabular-nums">{(runParams.rollup_rate * 100).toFixed(2)}%</span></div>
+                <div><span className="text-slate-500">Step-up:</span> <span className="font-semibold">{runParams.step_up ? 'On' : 'Off'}</span></div>
+                <div><span className="text-slate-500">GMDB:</span> <span className="font-semibold">{runParams.gmdb_enabled ? 'On' : 'Off'}</span></div>
+                <div><span className="text-slate-500">Expected Return:</span> <span className="font-semibold tabular-nums">{(runParams.mu * 100).toFixed(1)}%</span></div>
+                <div><span className="text-slate-500">Volatility:</span> <span className="font-semibold tabular-nums">{(runParams.sigma * 100).toFixed(1)}%</span></div>
+                <div><span className="text-slate-500">Discount Rate:</span> <span className="font-semibold tabular-nums">{(runParams.discount_rate * 100).toFixed(1)}%</span></div>
+                <div><span className="text-slate-500">Mortality Table:</span> <span className="font-semibold">{runParams.mortality_table === 'annuity2000' ? 'Annuity 2000' : '2012 IAM Basic'}</span></div>
+                <div><span className="text-slate-500">Mortality Multiplier:</span> <span className="font-semibold tabular-nums">{runParams.mort_multiplier.toFixed(2)}×</span></div>
+                <div><span className="text-slate-500">Lapse Rate:</span> <span className="font-semibold tabular-nums">{(runParams.lapse_rate * 100).toFixed(1)}%{runParams.dynamic_lapse ? ' (dynamic)' : ''}</span></div>
+                <div><span className="text-slate-500">Benefit Utilization:</span> <span className="font-semibold tabular-nums">{(runParams.benefit_utilization * 100).toFixed(0)}%</span></div>
+                <div><span className="text-slate-500">Scenarios:</span> <span className="font-semibold tabular-nums">{runParams.num_scenarios.toLocaleString()}</span></div>
+                <div><span className="text-slate-500">Frequency:</span> <span className="font-semibold capitalize">{runParams.frequency}</span></div>
+              </div>
+            </div>
+          )}
 
           {/* First-visit onboarding callout — shown once, dismissed to localStorage */}
           {showOnboarding && results && (
@@ -802,7 +894,7 @@ export default function App() {
             </div>
           )}
 
-          {/* Standard mode footnote — subtle disclosure of locked assumptions */}
+          {/* Standard mode footnote — collapsed by default, click to expand */}
           {viewMode === 'standard' && (() => {
             const diffs = [];
             if (params.lapse_rate !== STD_LOCKED_PARAMS.lapse_rate)
@@ -812,12 +904,16 @@ export default function App() {
             if (params.benefit_utilization < STD_LOCKED_PARAMS.benefit_utilization)
               diffs.push(`utilization ${(params.benefit_utilization * 100).toFixed(0)}% → 100%`);
             return (
-              <p className="text-xs text-slate-400 -mt-3 mb-5 pl-1">
-                {diffs.length > 0
-                  ? <>* Standard mode: 0% lapse, 100% utilization applied — <span className="text-amber-600">differs from your Advanced settings ({diffs.join(', ')})</span></>
-                  : '* Standard mode: 0% lapse, 100% withdrawal utilization assumed'
-                }
-              </p>
+              <details className="text-[11px] text-slate-400 -mt-3 mb-5 pl-1 group">
+                <summary className="cursor-pointer hover:text-slate-600 list-none inline-flex items-center gap-1 select-none">
+                  <span className="underline decoration-dotted underline-offset-2">Standard-mode assumptions</span>
+                  <svg className="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </summary>
+                <p className="mt-1 pl-1 leading-relaxed">
+                  0% lapse and 100% withdrawal utilization are applied in Standard mode for a clearer headline result.
+                  {diffs.length > 0 && <> Your Advanced settings ({diffs.join(', ')}) are overridden here; switch to Advanced to use them.</>}
+                </p>
+              </details>
             );
           })()}
 
@@ -921,31 +1017,74 @@ export default function App() {
               ...(rp.gmwb_enabled ? [{ id: 'cw', label: 'Income Received' }] : []),
               ...(rp.gmdb_enabled ? [{ id: 'db', label: 'Death Benefit' }] : []),
             ];
-            // If the current chartView is no longer valid (rider toggled off), fall back to 'av'
             const activeChartView = chartTabs.find(t => t.id === chartView) ? chartView : 'av';
+            const isHistorical = engineMode === 'historical';
             return (
               <div>
-                {/* Chart selector — only show tabs when there are multiple options */}
-                {chartTabs.length > 1 && (
-                  <div className="flex gap-1 mb-4 bg-slate-100 rounded-lg p-1 w-fit">
-                    {chartTabs.map(t => (
-                      <button
-                        key={t.id}
-                        onClick={() => setChartView(t.id)}
-                        className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-colors ${
-                          activeChartView === t.id
-                            ? 'bg-white text-slate-800 shadow-sm'
-                            : 'text-slate-500 hover:text-slate-700'
-                        }`}
-                      >
-                        {t.label}
-                      </button>
-                    ))}
+                {/* Engine sub-tab: Monte Carlo vs Historical */}
+                <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                  <div className="flex gap-1 bg-slate-100 rounded-lg p-1 w-fit">
+                    <button
+                      onClick={() => setEngineMode('monte_carlo')}
+                      className={`px-3 py-1 rounded-md text-xs font-semibold transition-colors ${
+                        !isHistorical ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+                      }`}
+                      title="Probabilistic — 1,000 simulated market paths"
+                    >Monte Carlo</button>
+                    <button
+                      onClick={() => setEngineMode('historical')}
+                      className={`px-3 py-1 rounded-md text-xs font-semibold transition-colors ${
+                        isHistorical ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+                      }`}
+                      title="Deterministic replay against actual S&P 500 history"
+                    >Historical replay</button>
                   </div>
+                  {isHistorical && (
+                    <select
+                      value={historicalStartMonth}
+                      onChange={e => setHistoricalStartMonth(e.target.value)}
+                      className="text-xs px-2 py-1 border border-slate-300 rounded-md bg-white text-slate-700"
+                    >
+                      <option value="2007-01">GFC era (2007–)</option>
+                      <option value="2000-01">Lost Decade (2000–)</option>
+                      <option value="2020-01">COVID era (2020–)</option>
+                      <option value="1990-01">Post-1990 (long bull)</option>
+                      <option value="1995-01">Late-90s boom (1995–)</option>
+                      <option value="1985-02">Earliest available (1985–)</option>
+                    </select>
+                  )}
+                </div>
+
+                {isHistorical ? (
+                  historicalRunning ? (
+                    <div className="bg-white rounded-xl p-8 shadow-sm border border-slate-100 text-center text-sm text-slate-400">
+                      Running historical replay…
+                    </div>
+                  ) : (
+                    <HistoricalChart result={historicalResult} runParams={runParams ?? params} />
+                  )
+                ) : (
+                  <>
+                    {chartTabs.length > 1 && (
+                      <div className="flex gap-1 mb-4 bg-slate-100 rounded-lg p-1 w-fit">
+                        {chartTabs.map(t => (
+                          <button
+                            key={t.id}
+                            onClick={() => setChartView(t.id)}
+                            className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-colors ${
+                              activeChartView === t.id
+                                ? 'bg-white text-slate-800 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                            }`}
+                          >{t.label}</button>
+                        ))}
+                      </div>
+                    )}
+                    {activeChartView === 'av' && <AVFanChart data={results.av_bands} simple lifeExpectancyAge={lifeExpectancyAge} />}
+                    {activeChartView === 'cw' && rp.gmwb_enabled && results.cw_bands && <CumulativeWithdrawalChart data={results.cw_bands} simple />}
+                    {activeChartView === 'db' && rp.gmdb_enabled && results.gmdb_bb_bands && <DeathBenefitChart avBands={results.av_bands} gmdbBands={results.gmdb_bb_bands} simple lifeExpectancyAge={lifeExpectancyAge} />}
+                  </>
                 )}
-                {activeChartView === 'av' && <AVFanChart data={results.av_bands} simple lifeExpectancyAge={lifeExpectancyAge} />}
-                {activeChartView === 'cw' && rp.gmwb_enabled && results.cw_bands && <CumulativeWithdrawalChart data={results.cw_bands} simple />}
-                {activeChartView === 'db' && rp.gmdb_enabled && results.gmdb_bb_bands && <DeathBenefitChart avBands={results.av_bands} gmdbBands={results.gmdb_bb_bands} simple lifeExpectancyAge={lifeExpectancyAge} />}
               </div>
             );
           })()}
@@ -966,8 +1105,28 @@ export default function App() {
           )}
 
           {activeTab === 'charts' && !results && !running && (
-            <div className="text-sm text-slate-500 text-center py-16">
-              Run the simulation to see charts.
+            <div className="text-center py-16 px-4">
+              <div className="text-sm text-slate-400 mb-5">
+                Try a real contract to see the actuarial math in action:
+              </div>
+              <div className="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto">
+                {PRODUCT_PRESETS.map(p => {
+                  const short = p.label.split(/\s+[—-]\s+/)[0];
+                  return (
+                    <button
+                      key={p.id}
+                      onClick={() => loadPreset(p.id)}
+                      title={p.description}
+                      className="px-4 py-2 rounded-full text-sm bg-slate-800 border border-slate-700 text-slate-200 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition-colors"
+                    >
+                      {short}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="text-xs text-slate-500 mt-5">
+                Or edit inputs and click <span className="text-slate-400 font-medium">Run</span>.
+              </div>
             </div>
           )}
 
@@ -986,7 +1145,7 @@ export default function App() {
             </div>
           )}
 
-          {activeTab === 'table' && (
+          {activeTab === 'table' && viewMode === 'advanced' && (
             <ProjectionTable results={results} onExport={() => results && exportCSV(results)} />
           )}
 

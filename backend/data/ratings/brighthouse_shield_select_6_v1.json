@@ -1,0 +1,238 @@
+{
+  "product_slug": "brighthouse_shield_select_6",
+  "product_name": "Shield Level Select 6",
+  "carrier": "Brighthouse",
+  "methodology_version": "v1.1.0",
+  "product_spec_hash": "2806394e770a51b79c47ea1eb9aa27dcf0dfd6e04b779daab82f680e9c17eccf",
+  "scored_at": "2026-05-12T00:00:00Z",
+  "scoring_inputs": {
+    "premium": 250000,
+    "horizon_years": 30,
+    "age": 60,
+    "gender": "blend",
+    "gender_blend": true,
+    "genders_blended": [
+      "M",
+      "F"
+    ]
+  },
+  "monte_carlo": {
+    "fees_pv_mean": 0.0,
+    "glwb_pv_mean": 0.0,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 89819.06,
+    "av_end_p50": 240399.71,
+    "av_end_p95": 579419.45
+  },
+  "monte_carlo_male": {
+    "fees_pv_mean": 0.0,
+    "glwb_pv_mean": 0.0,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 89819.06,
+    "av_end_p50": 240399.71,
+    "av_end_p95": 579419.45
+  },
+  "monte_carlo_female": {
+    "fees_pv_mean": 0.0,
+    "glwb_pv_mean": 0.0,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 89819.06,
+    "av_end_p50": 240399.71,
+    "av_end_p95": 579419.45
+  },
+  "sub_scores": {
+    "tco": {
+      "score": 100.0,
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 50.0,
+      "rationale": "No income rider \u2014 guarantee value is neutral (50). (male) / No income rider \u2014 guarantee value is neutral (50). (female)"
+    },
+    "sf": {
+      "score": 70.0,
+      "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 83.0,
+      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "male_scores": {
+    "tco": {
+      "score": 100.0,
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 50.0,
+      "rationale": "No income rider \u2014 guarantee value is neutral (50)."
+    },
+    "sf": {
+      "score": 70.0,
+      "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 83,
+      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "female_scores": {
+    "tco": {
+      "score": 100.0,
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 50.0,
+      "rationale": "No income rider \u2014 guarantee value is neutral (50)."
+    },
+    "sf": {
+      "score": 70.0,
+      "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 83,
+      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "blended_scores": {
+    "tco": {
+      "score": 100.0,
+      "rationale": "Annualised fee + cap-spread drag: 0.00%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 50.0,
+      "rationale": "No income rider \u2014 guarantee value is neutral (50). (male) / No income rider \u2014 guarantee value is neutral (50). (female)"
+    },
+    "sf": {
+      "score": 70.0,
+      "rationale": "6-yr surrender schedule (max 7.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 83.0,
+      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "male_composite": 78.6,
+  "female_composite": 78.6,
+  "male_letter_grade": "B",
+  "female_letter_grade": "B",
+  "composite": 78.6,
+  "letter_grade": "B",
+  "feature_snapshot": {
+    "me_fee_annual": 0.0,
+    "rider_fee_annual": 0.0,
+    "rollup_rate": 0.0,
+    "withdrawal_rate_65": 0.0,
+    "surrender_years": 6,
+    "surrender_max_pct": 0.07,
+    "free_withdrawal_pct": 0.1,
+    "waivers": [
+      "nursing-home",
+      "terminal-illness"
+    ],
+    "waiver_count": 2,
+    "step_up": false,
+    "has_glwb": false,
+    "headline_cap": 0.55,
+    "am_best": "A",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.22,
+    "cap_cut_count_5yr": 1,
+    "product_type": "rila",
+    "first_offered": "2022-01-01"
+  },
+  "regimes": {
+    "bull_1985_1999": {
+      "display_name": "Secular bull (1985-1999)",
+      "start_month": "1985-02",
+      "end_month": "2000-01",
+      "years": 15,
+      "av_end": 594880.67,
+      "av_min": 250000.0,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 100.0,
+      "history_truncated": false
+    },
+    "lost_decade_2000_2009": {
+      "display_name": "Lost decade (2000-2009)",
+      "start_month": "2000-01",
+      "end_month": "2009-12",
+      "years": 10,
+      "av_end": 143820.57,
+      "av_min": 133690.04,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 5.0,
+      "history_truncated": false
+    },
+    "gfc_2008_2010": {
+      "display_name": "GFC stress window (2008-2010)",
+      "start_month": "2008-01",
+      "end_month": "2010-12",
+      "years": 3,
+      "av_end": 183011.53,
+      "av_min": 158137.39,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 15.5,
+      "history_truncated": false
+    },
+    "post_gfc_bull_2010_2021": {
+      "display_name": "Post-GFC bull (2010-2021)",
+      "start_month": "2010-01",
+      "end_month": "2021-12",
+      "years": 12,
+      "av_end": 460740.82,
+      "av_min": 250000.0,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 89.5,
+      "history_truncated": false
+    },
+    "rate_hike_2022_2024": {
+      "display_name": "Rate-hike cycle (2022-2024)",
+      "start_month": "2022-01",
+      "end_month": "2024-12",
+      "years": 3,
+      "av_end": 238107.03,
+      "av_min": 205744.54,
+      "fees_pv": 0.0,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 30.2,
+      "history_truncated": false
+    }
+  },
+  "narrative": "Brighthouse's Shield Level Select 6 earns a composite score of 78.6, which maps to a letter grade of B under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Total Cost of Ownership (100), Insurer Credit (83), Behavioral Fairness (90). Areas where this product scores below cohort median: Guarantee Value (50). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Low fees (100) offset by weak guarantee value (50).",
+  "signed_by": "K Hu",
+  "signed_credentials": "FSA, MAAA",
+  "signed_at": "2026-05-12T00:00:00Z",
+  "status": "published"
+}

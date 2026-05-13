@@ -243,12 +243,12 @@ export default function SensitivityChart({ data, loading, selectedFields, onFiel
                 <Tooltip formatter={(v, name) => [fmt(v), name === 'up' ? 'Param +10%' : 'Param −10%']} />
                 <Bar dataKey="up" name="up" radius={[0, 3, 3, 0]}>
                   {chartData.map((d, i) => (
-                    <Cell key={`up-${i}`} fill={d.up >= 0 ? '#fca5a5' : '#6ee7b7'} />
+                    <Cell key={`up-${i}`} fill={d.up >= 0 ? '#fcd34d' : '#6ee7b7'} />
                   ))}
                 </Bar>
                 <Bar dataKey="down" name="down" radius={[0, 3, 3, 0]}>
                   {chartData.map((d, i) => (
-                    <Cell key={`dn-${i}`} fill={d.down >= 0 ? '#fca5a5' : '#6ee7b7'} />
+                    <Cell key={`dn-${i}`} fill={d.down >= 0 ? '#fcd34d' : '#6ee7b7'} />
                   ))}
                 </Bar>
               </BarChart>
@@ -281,10 +281,10 @@ export default function SensitivityChart({ data, loading, selectedFields, onFiel
                       <td className="py-1 text-right font-mono text-slate-600">
                         {s.base_value < 0.1 ? (s.base_value * 100).toFixed(2) + '%' : s.base_value.toFixed(4)}
                       </td>
-                      <td className={`py-1 text-right font-mono ${s.impact_up >= 0 ? 'text-red-600' : 'text-emerald-600'}`}>
+                      <td className={`py-1 text-right font-mono ${s.impact_up >= 0 ? 'text-amber-700' : 'text-emerald-600'}`}>
                         {fmt(s.impact_up)}
                       </td>
-                      <td className={`py-1 text-right font-mono ${s.impact_down >= 0 ? 'text-red-600' : 'text-emerald-600'}`}>
+                      <td className={`py-1 text-right font-mono ${s.impact_down >= 0 ? 'text-amber-700' : 'text-emerald-600'}`}>
                         {fmt(s.impact_down)}
                       </td>
                     </tr>

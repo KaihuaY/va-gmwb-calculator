@@ -57,6 +57,15 @@ def send_otp_email(to_email: str, otp: str) -> None:
     )
 
 
+def send_notification_email(to: str, subject: str, body: str) -> None:
+    """Send a plain notification email via the configured SMTP transport."""
+    smtp_host = os.getenv("SMTP_HOST")
+    if smtp_host:
+        _send_via_smtp(to, subject, body)
+    else:
+        print(f"[AnnuityVoice NOTIFY] To: {to} | Subject: {subject}", file=sys.stderr)
+
+
 def verify_otp_safe(user_input: str, stored_code: str) -> bool:
     """Timing-safe string comparison to prevent timing attacks."""
     return hmac.compare_digest(user_input.strip(), stored_code)

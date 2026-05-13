@@ -1,0 +1,238 @@
+{
+  "product_slug": "prudential_flexguard_income",
+  "product_name": "FlexGuard Income",
+  "carrier": "Prudential",
+  "methodology_version": "v1.1.0",
+  "product_spec_hash": "4282f2bf030cc2d8e37c04c0a744f6f9382d59c4f408305b404c18b1792f860f",
+  "scored_at": "2026-05-12T00:00:00Z",
+  "scoring_inputs": {
+    "premium": 250000,
+    "horizon_years": 30,
+    "age": 60,
+    "gender": "blend",
+    "gender_blend": true,
+    "genders_blended": [
+      "M",
+      "F"
+    ]
+  },
+  "monte_carlo": {
+    "fees_pv_mean": 67290.54,
+    "glwb_pv_mean": 91401.24,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 0.0,
+    "av_end_p50": 0.0,
+    "av_end_p95": 0.0
+  },
+  "monte_carlo_male": {
+    "fees_pv_mean": 66377.82,
+    "glwb_pv_mean": 88601.68,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 0.0,
+    "av_end_p50": 0.0,
+    "av_end_p95": 0.0
+  },
+  "monte_carlo_female": {
+    "fees_pv_mean": 68203.25,
+    "glwb_pv_mean": 94200.81,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 0.0,
+    "av_end_p50": 0.0,
+    "av_end_p95": 0.0
+  },
+  "sub_scores": {
+    "tco": {
+      "score": 62.0,
+      "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 67.0,
+      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.30x. GLWB PV $88,602; rider fee PV $68,250. (male) / PV(GLWB claims) / PV(rider fees) \u2248 1.38x. GLWB PV $94,201; rider fee PV $68,250. (female)"
+    },
+    "sf": {
+      "score": 75.0,
+      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 90.0,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "male_scores": {
+    "tco": {
+      "score": 62.0,
+      "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 64.9,
+      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.30x. GLWB PV $88,602; rider fee PV $68,250."
+    },
+    "sf": {
+      "score": 75.0,
+      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 90,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "female_scores": {
+    "tco": {
+      "score": 62.0,
+      "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 69.0,
+      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.38x. GLWB PV $94,201; rider fee PV $68,250."
+    },
+    "sf": {
+      "score": 75.0,
+      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 90,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "blended_scores": {
+    "tco": {
+      "score": 62.0,
+      "rationale": "Annualised fee + cap-spread drag: 1.30%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 67.0,
+      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.30x. GLWB PV $88,602; rider fee PV $68,250. (male) / PV(GLWB claims) / PV(rider fees) \u2248 1.38x. GLWB PV $94,201; rider fee PV $68,250. (female)"
+    },
+    "sf": {
+      "score": 75.0,
+      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 90.0,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 17%."
+    },
+    "bf": {
+      "score": 90.0,
+      "rationale": "0 major / 0 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "male_composite": 76.4,
+  "female_composite": 77.2,
+  "male_letter_grade": "B",
+  "female_letter_grade": "B",
+  "composite": 76.8,
+  "letter_grade": "B",
+  "feature_snapshot": {
+    "me_fee_annual": 0.0,
+    "rider_fee_annual": 0.013,
+    "rollup_rate": 0.07,
+    "withdrawal_rate_65": 0.06,
+    "surrender_years": 6,
+    "surrender_max_pct": 0.06,
+    "free_withdrawal_pct": 0.1,
+    "waivers": [
+      "nursing-home",
+      "terminal-illness"
+    ],
+    "waiver_count": 2,
+    "step_up": true,
+    "has_glwb": true,
+    "headline_cap": 0.085,
+    "am_best": "A+",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.17,
+    "cap_cut_count_5yr": 0,
+    "product_type": "rila",
+    "first_offered": "2022-01-01"
+  },
+  "regimes": {
+    "bull_1985_1999": {
+      "display_name": "Secular bull (1985-1999)",
+      "start_month": "1985-02",
+      "end_month": "2000-01",
+      "years": 15,
+      "av_end": 251169.26,
+      "av_min": 250000.0,
+      "fees_pv": 45094.57,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 33.6,
+      "history_truncated": false
+    },
+    "lost_decade_2000_2009": {
+      "display_name": "Lost decade (2000-2009)",
+      "start_month": "2000-01",
+      "end_month": "2009-12",
+      "years": 10,
+      "av_end": 60182.39,
+      "av_min": 60182.39,
+      "fees_pv": 32423.18,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 0.0,
+      "history_truncated": false
+    },
+    "gfc_2008_2010": {
+      "display_name": "GFC stress window (2008-2010)",
+      "start_month": "2008-01",
+      "end_month": "2010-12",
+      "years": 3,
+      "av_end": 188230.51,
+      "av_min": 167599.13,
+      "fees_pv": 9576.73,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 16.9,
+      "history_truncated": false
+    },
+    "post_gfc_bull_2010_2021": {
+      "display_name": "Post-GFC bull (2010-2021)",
+      "start_month": "2010-01",
+      "end_month": "2021-12",
+      "years": 12,
+      "av_end": 245331.04,
+      "av_min": 245331.04,
+      "fees_pv": 37870.86,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 32.1,
+      "history_truncated": false
+    },
+    "rate_hike_2022_2024": {
+      "display_name": "Rate-hike cycle (2022-2024)",
+      "start_month": "2022-01",
+      "end_month": "2024-12",
+      "years": 3,
+      "av_end": 243800.92,
+      "av_min": 215206.28,
+      "fees_pv": 9576.73,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 31.7,
+      "history_truncated": false
+    }
+  },
+  "narrative": "Prudential's FlexGuard Income earns a composite score of 76.8, which maps to a letter grade of B under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (90). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Mostly solid; strongest in strong insurer credit (90), softest in high fee drag (62).",
+  "signed_by": "K Hu",
+  "signed_credentials": "FSA, MAAA",
+  "signed_at": "2026-05-12T00:00:00Z",
+  "status": "published"
+}

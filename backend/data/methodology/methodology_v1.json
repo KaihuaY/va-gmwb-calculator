@@ -1,0 +1,96 @@
+{
+  "version": "v1.1.0",
+  "effective_date": "2026-05-12",
+  "weights": {
+    "tco": 0.20,
+    "gv":  0.20,
+    "sf":  0.20,
+    "ic":  0.20,
+    "bf":  0.20
+  },
+  "scoring_scenario": {
+    "age": 60,
+    "gender": "M",
+    "genders": ["M", "F"],
+    "premium": 250000,
+    "horizon_years": 30,
+    "election_age": 65,
+    "mu": 0.07,
+    "sigma": 0.18,
+    "discount_rate": 0.04,
+    "mortality_table": "2012iam",
+    "base_lapse": 0.03,
+    "dynamic_lapse": true,
+    "lapse_sensitivity": 0.5,
+    "lapse_min_multiplier": 0.10,
+    "num_scenarios": 5000,
+    "seed": 42
+  },
+  "letter_bands": [
+    {"min": 95, "grade": "A+"},
+    {"min": 90, "grade": "A"},
+    {"min": 85, "grade": "A-"},
+    {"min": 80, "grade": "B+"},
+    {"min": 75, "grade": "B"},
+    {"min": 70, "grade": "B-"},
+    {"min": 65, "grade": "C+"},
+    {"min": 60, "grade": "C"},
+    {"min": 55, "grade": "C-"},
+    {"min": 50, "grade": "D+"},
+    {"min": 45, "grade": "D"},
+    {"min": 40, "grade": "D-"},
+    {"min":  0, "grade": "F"}
+  ],
+  "sub_score_definitions": {
+    "tco": "Total Cost of Ownership: explicit annual fees (M&E + rider) plus an estimate of cap-spread drag from constrained equity exposure. Scored 100 at cohort-best drag, 0 at cohort-worst (clamped).",
+    "gv":  "Guarantee Value: Monte Carlo PV of GLWB/GMDB claims divided by PV of rider fees. 50 = neutral (1.0x ratio); 100 = 2.0x or higher. Products without riders default to 50.",
+    "sf":  "Surrender Flexibility: rule-based deduction from 100 for surrender period years, max surrender %, low free-withdrawal corridor, and missing hardship waivers (nursing-home, terminal-illness, disability).",
+    "ic":  "Insurer Credit: AM Best rating mapped to a base score, with deductions for PE ownership (-10) and high Level 3 asset concentration (-5 over 15%, -10 over 25%).",
+    "bf":  "Behavioral Fairness: historical cap-rate cut frequency, illustration-vs-actual delta, NAIC complaint index, and regulatory fines in the prior 5 years. Defaults to 70 when public data is sparse."
+  },
+  "regimes": [
+    {
+      "key": "bull_1985_1999",
+      "display_name": "Secular bull (1985-1999)",
+      "start_month": "1985-02",
+      "years": 15,
+      "description": "Post-Volcker disinflation through dot-com peak. High equity returns, moderate volatility. Pre-1973 stagflation data is unavailable in sp500_monthly_returns.json (history starts 1985-02); this regime is the closest available high-return analogue."
+    },
+    {
+      "key": "lost_decade_2000_2009",
+      "display_name": "Lost decade (2000-2009)",
+      "start_month": "2000-01",
+      "years": 10,
+      "description": "Dot-com bust + Global Financial Crisis. Flat-to-negative cumulative returns, two major drawdowns."
+    },
+    {
+      "key": "gfc_2008_2010",
+      "display_name": "GFC stress window (2008-2010)",
+      "start_month": "2008-01",
+      "years": 3,
+      "description": "Acute peak-to-trough GFC stress and early recovery. Tests buffer / floor mechanics in a single-regime drawdown."
+    },
+    {
+      "key": "post_gfc_bull_2010_2021",
+      "display_name": "Post-GFC bull (2010-2021)",
+      "start_month": "2010-01",
+      "years": 12,
+      "description": "Low-rate, low-vol bull market. Cap-constrained RILAs may underperform vs uncapped exposure in this regime."
+    },
+    {
+      "key": "rate_hike_2022_2024",
+      "display_name": "Rate-hike cycle (2022-2024)",
+      "start_month": "2022-01",
+      "years": 3,
+      "description": "Fed tightening, 2022 equity drawdown, 2023-24 recovery. Tests buffer mechanics in a moderate drawdown plus rapid recovery."
+    }
+  ],
+  "regime_scoring": {
+    "rationale": "Per-regime score (0-100) maps terminal AV to premium: AV >= 2x premium = 100; AV <= 0.5x premium = 0; linear in between. Heuristic — surfaces regime-dependent product behavior without claiming actuarial precision. Reported alongside the rating but NOT included in the composite score (which remains the 5 equal-weighted sub-scores).",
+    "av_floor_score": 100,
+    "av_ceiling_score": 0,
+    "av_floor_multiple_of_premium": 0.5,
+    "av_ceiling_multiple_of_premium": 2.0
+  },
+  "notes": "Methodology v1.1.0 adds the `regimes` block, which evaluates each product against 5 historical equity regimes (deterministic single-path backtests against actual S&P 500 monthly returns). Regime outcomes are SUPPLEMENTARY DETAIL — they do NOT enter the composite score. The 5 sub-score weights, scoring scenario, and letter bands are unchanged from v1.0.0; the composite is fully backward-compatible. Any change to a weight, sub-score formula, or scoring scenario bumps the major version. Rating output is byte-reproducible from (product spec hash, methodology version, seed)."
+}

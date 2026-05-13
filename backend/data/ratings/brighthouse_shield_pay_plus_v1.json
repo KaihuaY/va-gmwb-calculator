@@ -1,0 +1,238 @@
+{
+  "product_slug": "brighthouse_shield_pay_plus",
+  "product_name": "Shield Level Pay Plus",
+  "carrier": "Brighthouse",
+  "methodology_version": "v1.1.0",
+  "product_spec_hash": "668476f23c4273927ce6fd31c145c43e8344ac08c4e8eadeed87d2b0c0000db4",
+  "scored_at": "2026-05-12T00:00:00Z",
+  "scoring_inputs": {
+    "premium": 250000,
+    "horizon_years": 30,
+    "age": 60,
+    "gender": "blend",
+    "gender_blend": true,
+    "genders_blended": [
+      "M",
+      "F"
+    ]
+  },
+  "monte_carlo": {
+    "fees_pv_mean": 91407.78,
+    "glwb_pv_mean": 59230.68,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 0.0,
+    "av_end_p50": 0.0,
+    "av_end_p95": 0.0
+  },
+  "monte_carlo_male": {
+    "fees_pv_mean": 90429.77,
+    "glwb_pv_mean": 57331.39,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 0.0,
+    "av_end_p50": 0.0,
+    "av_end_p95": 0.0
+  },
+  "monte_carlo_female": {
+    "fees_pv_mean": 92385.79,
+    "glwb_pv_mean": 61129.96,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 0.0,
+    "av_end_p50": 0.0,
+    "av_end_p95": 0.0
+  },
+  "sub_scores": {
+    "tco": {
+      "score": 22.6,
+      "rationale": "Annualised fee + cap-spread drag: 2.65%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 40.3,
+      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 0.78x. GLWB PV $57,331; rider fee PV $73,500. (male) / PV(GLWB claims) / PV(rider fees) \u2248 0.83x. GLWB PV $61,130; rider fee PV $73,500. (female)"
+    },
+    "sf": {
+      "score": 75.0,
+      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 83.0,
+      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+    },
+    "bf": {
+      "score": 79.0,
+      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
+    }
+  },
+  "male_scores": {
+    "tco": {
+      "score": 22.6,
+      "rationale": "Annualised fee + cap-spread drag: 2.65%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 39.0,
+      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 0.78x. GLWB PV $57,331; rider fee PV $73,500."
+    },
+    "sf": {
+      "score": 75.0,
+      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 83,
+      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+    },
+    "bf": {
+      "score": 79.0,
+      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
+    }
+  },
+  "female_scores": {
+    "tco": {
+      "score": 22.6,
+      "rationale": "Annualised fee + cap-spread drag: 2.65%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 41.6,
+      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 0.83x. GLWB PV $61,130; rider fee PV $73,500."
+    },
+    "sf": {
+      "score": 75.0,
+      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 83,
+      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+    },
+    "bf": {
+      "score": 79.0,
+      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
+    }
+  },
+  "blended_scores": {
+    "tco": {
+      "score": 22.6,
+      "rationale": "Annualised fee + cap-spread drag: 2.65%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 40.3,
+      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 0.78x. GLWB PV $57,331; rider fee PV $73,500. (male) / PV(GLWB claims) / PV(rider fees) \u2248 0.83x. GLWB PV $61,130; rider fee PV $73,500. (female)"
+    },
+    "sf": {
+      "score": 75.0,
+      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 83.0,
+      "rationale": "AM Best A; not PE-owned; Level 3 assets 22%."
+    },
+    "bf": {
+      "score": 79.0,
+      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.80; 0 regulatory fines in 5yr."
+    }
+  },
+  "male_composite": 59.7,
+  "female_composite": 60.2,
+  "male_letter_grade": "C-",
+  "female_letter_grade": "C",
+  "composite": 60.0,
+  "letter_grade": "C",
+  "feature_snapshot": {
+    "me_fee_annual": 0.0125,
+    "rider_fee_annual": 0.014,
+    "rollup_rate": 0.04,
+    "withdrawal_rate_65": 0.05,
+    "surrender_years": 6,
+    "surrender_max_pct": 0.06,
+    "free_withdrawal_pct": 0.1,
+    "waivers": [
+      "nursing-home",
+      "terminal-illness"
+    ],
+    "waiver_count": 2,
+    "step_up": false,
+    "has_glwb": true,
+    "headline_cap": 0.08,
+    "am_best": "A",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.22,
+    "cap_cut_count_5yr": 2,
+    "product_type": "rila",
+    "first_offered": "2022-01-01"
+  },
+  "regimes": {
+    "bull_1985_1999": {
+      "display_name": "Secular bull (1985-1999)",
+      "start_month": "1985-02",
+      "end_month": "2000-01",
+      "years": 15,
+      "av_end": 221756.15,
+      "av_min": 221756.15,
+      "fees_pv": 80530.17,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 25.8,
+      "history_truncated": false
+    },
+    "lost_decade_2000_2009": {
+      "display_name": "Lost decade (2000-2009)",
+      "start_month": "2000-01",
+      "end_month": "2009-12",
+      "years": 10,
+      "av_end": 62433.86,
+      "av_min": 62433.86,
+      "fees_pv": 49248.98,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 0.0,
+      "history_truncated": false
+    },
+    "gfc_2008_2010": {
+      "display_name": "GFC stress window (2008-2010)",
+      "start_month": "2008-01",
+      "end_month": "2010-12",
+      "years": 3,
+      "av_end": 177252.69,
+      "av_min": 164005.73,
+      "fees_pv": 16091.57,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 13.9,
+      "history_truncated": false
+    },
+    "post_gfc_bull_2010_2021": {
+      "display_name": "Post-GFC bull (2010-2021)",
+      "start_month": "2010-01",
+      "end_month": "2021-12",
+      "years": 12,
+      "av_end": 220622.23,
+      "av_min": 220622.23,
+      "fees_pv": 67894.64,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 25.5,
+      "history_truncated": false
+    },
+    "rate_hike_2022_2024": {
+      "display_name": "Rate-hike cycle (2022-2024)",
+      "start_month": "2022-01",
+      "end_month": "2024-12",
+      "years": 3,
+      "av_end": 230228.83,
+      "av_min": 211017.79,
+      "fees_pv": 17831.05,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 28.1,
+      "history_truncated": false
+    }
+  },
+  "narrative": "Brighthouse's Shield Level Pay Plus earns a composite score of 60.0, which maps to a letter grade of C under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (83). Areas where this product scores below cohort median: Total Cost of Ownership (23), Guarantee Value (40). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Strong insurer credit (83) offset by high fee drag (23).",
+  "signed_by": "K Hu",
+  "signed_credentials": "FSA, MAAA",
+  "signed_at": "2026-05-12T00:00:00Z",
+  "status": "published"
+}

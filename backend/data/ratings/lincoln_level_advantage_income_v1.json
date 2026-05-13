@@ -1,0 +1,238 @@
+{
+  "product_slug": "lincoln_level_advantage_income",
+  "product_name": "Level Advantage Income",
+  "carrier": "Lincoln",
+  "methodology_version": "v1.1.0",
+  "product_spec_hash": "2e8772d0837b24c05db5541327775b3f81081de9e2767544d0a84e1536ec5667",
+  "scored_at": "2026-05-12T00:00:00Z",
+  "scoring_inputs": {
+    "premium": 250000,
+    "horizon_years": 30,
+    "age": 60,
+    "gender": "blend",
+    "gender_blend": true,
+    "genders_blended": [
+      "M",
+      "F"
+    ]
+  },
+  "monte_carlo": {
+    "fees_pv_mean": 59669.15,
+    "glwb_pv_mean": 74457.05,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 0.0,
+    "av_end_p50": 0.0,
+    "av_end_p95": 0.0
+  },
+  "monte_carlo_male": {
+    "fees_pv_mean": 58864.84,
+    "glwb_pv_mean": 72107.89,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 0.0,
+    "av_end_p50": 0.0,
+    "av_end_p95": 0.0
+  },
+  "monte_carlo_female": {
+    "fees_pv_mean": 60473.47,
+    "glwb_pv_mean": 76806.21,
+    "gmdb_pv_mean": 0.0,
+    "av_end_p5": 0.0,
+    "av_end_p50": 0.0,
+    "av_end_p95": 0.0
+  },
+  "sub_scores": {
+    "tco": {
+      "score": 65.0,
+      "rationale": "Annualised fee + cap-spread drag: 1.20%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 59.1,
+      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.14x. GLWB PV $72,108; rider fee PV $63,000. (male) / PV(GLWB claims) / PV(rider fees) \u2248 1.22x. GLWB PV $76,806; rider fee PV $63,000. (female)"
+    },
+    "sf": {
+      "score": 75.0,
+      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 90.0,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 16%."
+    },
+    "bf": {
+      "score": 85.0,
+      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "male_scores": {
+    "tco": {
+      "score": 65.0,
+      "rationale": "Annualised fee + cap-spread drag: 1.20%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 57.2,
+      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.14x. GLWB PV $72,108; rider fee PV $63,000."
+    },
+    "sf": {
+      "score": 75.0,
+      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 90,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 16%."
+    },
+    "bf": {
+      "score": 85.0,
+      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "female_scores": {
+    "tco": {
+      "score": 65.0,
+      "rationale": "Annualised fee + cap-spread drag: 1.20%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 61.0,
+      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.22x. GLWB PV $76,806; rider fee PV $63,000."
+    },
+    "sf": {
+      "score": 75.0,
+      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 90,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 16%."
+    },
+    "bf": {
+      "score": 85.0,
+      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "blended_scores": {
+    "tco": {
+      "score": 65.0,
+      "rationale": "Annualised fee + cap-spread drag: 1.20%. Cohort best: 0.00%; cohort worst: 3.43%."
+    },
+    "gv": {
+      "score": 59.1,
+      "rationale": "PV(GLWB claims) / PV(rider fees) \u2248 1.14x. GLWB PV $72,108; rider fee PV $63,000. (male) / PV(GLWB claims) / PV(rider fees) \u2248 1.22x. GLWB PV $76,806; rider fee PV $63,000. (female)"
+    },
+    "sf": {
+      "score": 75.0,
+      "rationale": "6-yr surrender schedule (max 6.0%); 10% free withdrawal; waivers: nursing-home, terminal-illness."
+    },
+    "ic": {
+      "score": 90.0,
+      "rationale": "AM Best A+; not PE-owned; Level 3 assets 16%."
+    },
+    "bf": {
+      "score": 85.0,
+      "rationale": "0 major / 1 minor cap-rate cuts in 5yr; NAIC complaints index 0.50; 0 regulatory fines in 5yr."
+    }
+  },
+  "male_composite": 74.4,
+  "female_composite": 75.2,
+  "male_letter_grade": "B-",
+  "female_letter_grade": "B",
+  "composite": 74.8,
+  "letter_grade": "B-",
+  "feature_snapshot": {
+    "me_fee_annual": 0.0,
+    "rider_fee_annual": 0.012,
+    "rollup_rate": 0.06,
+    "withdrawal_rate_65": 0.055,
+    "surrender_years": 6,
+    "surrender_max_pct": 0.06,
+    "free_withdrawal_pct": 0.1,
+    "waivers": [
+      "nursing-home",
+      "terminal-illness"
+    ],
+    "waiver_count": 2,
+    "step_up": true,
+    "has_glwb": true,
+    "headline_cap": 0.075,
+    "am_best": "A+",
+    "pe_owned": false,
+    "level_3_pct_2024": 0.16,
+    "cap_cut_count_5yr": 1,
+    "product_type": "rila",
+    "first_offered": "2022-01-01"
+  },
+  "regimes": {
+    "bull_1985_1999": {
+      "display_name": "Secular bull (1985-1999)",
+      "start_month": "1985-02",
+      "end_month": "2000-01",
+      "years": 15,
+      "av_end": 239045.48,
+      "av_min": 239045.48,
+      "fees_pv": 40122.82,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 30.4,
+      "history_truncated": false
+    },
+    "lost_decade_2000_2009": {
+      "display_name": "Lost decade (2000-2009)",
+      "start_month": "2000-01",
+      "end_month": "2009-12",
+      "years": 10,
+      "av_end": 63605.84,
+      "av_min": 63605.84,
+      "fees_pv": 28962.61,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 0.0,
+      "history_truncated": false
+    },
+    "gfc_2008_2010": {
+      "display_name": "GFC stress window (2008-2010)",
+      "start_month": "2008-01",
+      "end_month": "2010-12",
+      "years": 3,
+      "av_end": 182592.4,
+      "av_min": 165461.54,
+      "fees_pv": 8756.36,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 15.4,
+      "history_truncated": false
+    },
+    "post_gfc_bull_2010_2021": {
+      "display_name": "Post-GFC bull (2010-2021)",
+      "start_month": "2010-01",
+      "end_month": "2021-12",
+      "years": 12,
+      "av_end": 236273.63,
+      "av_min": 236273.63,
+      "fees_pv": 33760.6,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 29.7,
+      "history_truncated": false
+    },
+    "rate_hike_2022_2024": {
+      "display_name": "Rate-hike cycle (2022-2024)",
+      "start_month": "2022-01",
+      "end_month": "2024-12",
+      "years": 3,
+      "av_end": 237043.23,
+      "av_min": 213068.69,
+      "fees_pv": 8756.36,
+      "glwb_pv": 0.0,
+      "gmdb_pv": 0.0,
+      "shortfall_probability": 0.0,
+      "regime_score": 29.9,
+      "history_truncated": false
+    }
+  },
+  "narrative": "Lincoln's Level Advantage Income earns a composite score of 74.8, which maps to a letter grade of B- under AnnuityVoice Methodology v1.0.0. Relative strengths versus the cohort include Insurer Credit (90), Behavioral Fairness (85). Areas where this product scores below cohort median: Guarantee Value (59). This rating reflects the standardized scoring scenario (60-year-old male, $250,000 premium, income election at 65, 30-year horizon, 7% / 18% equity drift / vol, 4% discount rate). Contract terms vary; consult the product prospectus and a qualified advisor before purchase.",
+  "verdict": "Strong insurer credit (90) offset by weak guarantee value (59).",
+  "signed_by": "K Hu",
+  "signed_credentials": "FSA, MAAA",
+  "signed_at": "2026-05-12T00:00:00Z",
+  "status": "published"
+}
