@@ -1,71 +1,52 @@
 # Ratings UI screenshots
 
-Latest captured 2026-05-13 from `localhost:5173` on the `ratings-mvp` branch
-([commit 178c391](https://github.com/KaihuaY/va-gmwb-calculator/tree/ratings-mvp)).
+Latest captured **2026-05-14** from `localhost:5173` on the `ratings-mvp`
+branch. This branch stays **orphan** — separate from `ratings-mvp` and
+`master` so binary attachments don't pollute the code branches.
 
-## v1.3.1 update (2026-05-13)
-
-- **Methodology bumped to v1.3.1** — four math audit fixes landed:
-  - μ now read from `methodology.scoring_scenario.mu` everywhere (no hardcoded 0.07)
-  - `me_fees_pv` separated from `rider_fees_pv` in Monte Carlo accumulation
-  - Buffer PV persistency-weighted on the same basis as rider PV
-  - Buffer cost base uses real `av_paths_p50` trajectory instead of flat AV
-- **Cap-rate freshness scaffold** — `cap_rate_last_verified` + `cap_rate_source_url`
-  per segment, `GET /ratings/{slug}/freshness` endpoint, `FreshnessBadge` UI
-  pill (green ≤30d, yellow ≤90d, red >90d/unverified), `tools/fetch_cap_rates.py`
-  + `tools/apply_rate_proposals.py` for K-owned review workflow.
-- `ratings_detail_freshness.png` is the new screenshot showing the badge in
-  the Flexibility lens segment list.
-
-Methodology **v1.3.1**. 37 RILA products rated, FSA-signed by K Hu.
-
-Older context retained below for reference.
-
----
-
-Methodology **v1.3.0**. 37 RILA products rated (~86% of 2025 US RILA premium
-per LIMRA), 50/50 blended-gender mortality, FSA-signed by K Hu.
+## 2026-05-14 update
 
 | Screenshot | Page |
 |---|---|
-| `ratings_index.png` | `/ratings` — sortable, filterable index with search + lens columns + compare checkboxes |
-| `ratings_detail.png` | `/ratings/pacific_index_advisory` (top-rated A+) — hero, contract terms, **new historical-regime backtest panel**, narrative with glossary tooltips, scoring scenario, collapsed score breakdown |
-| `ratings_compare.png` | `/ratings/compare?slugs=equitable_scs_income,jackson_market_link_pro` — side-by-side with all 5 sub-scores uncollapsed + all 4 lens panels |
-| `methodology.png` | `/methodology` — sub-score definitions, scoring scenario, letter bands, reproducibility, glossary list (14 terms) |
+| `landing.png` | `/` — marketing landing page, now with a **RILA Ratings** section + nav/footer links alongside the calculator |
+| `ratings_index.png` | `/ratings` — index with the new **verified-coverage banner** (15 of 66 segments verified), "Compare" column (was "Cmp"), no Stress column, lens-driven feature columns |
+| `ratings_index_mobile.png` | `/ratings` at 390px width — phone layout |
+| `ratings_detail.png` | `/ratings/jackson_market_link_pro` — hero, contract terms, **merged "Allocation choice & historical performance" section** (3 allocation cards now drive the regime chart), narrative, scoring scenario |
+| `ratings_detail_allianz.png` | `/ratings/allianz_index_advantage_plus` — a product with PDF-verified caps applied (1-yr cap 22.5%, 6-yr participation 110%) |
+| `ratings_compare.png` | `/ratings/compare?slugs=...` — **rebuilt** row-aligned comparison: each attribute is one row, best-in-class value tinted green, lens switcher, sub-score toggle |
+| `methodology.png` | `/methodology` — sub-score definitions, scoring scenario, letter bands, glossary |
 
-## What's new in this round
+## What changed since the last screenshot round
 
-- **Methodology v1.3.0** simplified to 50/50 blended-gender mortality (no
-  M/F toggle). Cleaner doc, no version history clutter. Title VII / Norris
-  justifies it; mortality differential at typical annuity ages is small and
-  washes out under the GV ratio.
-- **Historical regime backtest panel** on every detail page — pick any of
-  the 5 regimes, see the deterministic AV trajectory starting at $100. NOT
-  a composite input (explicitly supplementary).
-- **Search + compare**: live text search on `/ratings`; check 2-3 products
-  then click the sticky CTA to compare side-by-side.
-- **Glossary tooltips**: 14 actuarial terms (GLWB, GMDB, M&E, buffer, floor,
-  cap rate, etc.) get inline tooltips wherever they appear; full list at
-  the bottom of `/methodology`.
-- **Coverage 25 -> 37 products**, 29 of them now `prospectus_v1` with SEC /
-  carrier-page citations. New carriers: Corebridge, Pacific Life
-  (Protective Growth variant), MassMutual Ascend, Principal, Midland
-  National, Aspida (plus several new variants of existing carriers).
-- **`sitemap.xml`** generated automatically as part of `build:ssg` - 41
-  URLs total.
+- **Stress removed from the index** — every product scored F under stress, so
+  the column carried no signal. Stress detail also dropped from the product
+  page; the regime backtest chart (which defaults to each product's worst
+  regime) is the real signal.
+- **Allocation + regime merged** — one "Allocation choice & historical
+  performance" section. The 3 allocation cards (conservative / balanced /
+  growth) are the same control that drives the regime replay chart.
+- **Non-RILA products excluded** — Pacific Index Advisory/Foundation and
+  Prudential FlexGuard Life (FIA / indexed VUL) no longer appear in listings.
+  34 RILA products remain.
+- **Cap-rate backfill round 1** — server-side PDF fetcher unlocked 9 carrier
+  rate sheets WebFetch couldn't reach; 15 of 66 segments now verified against
+  carrier-official PDFs / SEC filings. Coverage banner makes the gap honest.
+- **Comparison page rebuilt** — row-aligned with best-in-class highlighting.
+- **Landing page** now reflects the ratings publication, not just the
+  calculator.
 
-## Known item to flag for K
+Note: `ratings_detail_allocations.png` and `ratings_detail_freshness.png` from
+the prior round are now stale (the allocation panel was merged into the regime
+section) — retained only for historical reference.
 
-- `pacific_index_advisory` and `pacific_index_foundation` are flagged in
-  their product specs as **FIA misclassifications** (the rating engine
-  catalogue is RILA-only). Verification-notes field surfaces this so the
-  catalogue can be cleaned up in a future refresh.
+## Coverage status (see `RATINGS_COVERAGE.md` on `ratings-mvp`)
+
+- 34 RILA products rated, FSA-signed by K Hu, methodology v1.4.0
+- Features verified: 29 / 34 at `prospectus_v1`
+- Rates verified: 15 / 66 segments (22.7%) against carrier-official sources
 
 ## Test status
 
-- 55 backend pytest assertions pass
-- 33 Playwright UI assertions pass
-- byte-reproducibility holds for all 37 ratings at fixed `scored_at`
-
-This branch stays **orphan** - separate from `ratings-mvp` and `master` so
-binary attachments don't pollute the code branches.
+- 62 backend pytest assertions pass
+- 53 Playwright QA-probe assertions pass
+- `build:ssg` prerender: 36 / 36 routes
